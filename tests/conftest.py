@@ -14,6 +14,11 @@ for name in [
 ]:
     os.environ.setdefault(name, "test-value")
 
+# supabase-py validates the key format, so use a JWT shaped placeholder.
+os.environ["SUPABASE_ANON_KEY"] = os.environ["SUPABASE_SERVICE_KEY"] = (
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiJ9.c2lnbmF0dXJl"
+)
+
 # The Supabase client checks that the url looks like a url.
 os.environ["SUPABASE_URL"] = "https://example.supabase.co"
 
