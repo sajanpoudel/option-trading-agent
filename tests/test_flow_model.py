@@ -16,3 +16,7 @@ def test_unusual_score_rises_with_volume(predictor):
     quiet = predictor._calculate_unusual_activity_score({"volume_ratio": 1.0})
     busy = predictor._calculate_unusual_activity_score({"volume_ratio": 4.0})
     assert busy > quiet
+
+
+def test_volume_part_of_the_score_is_capped(predictor):
+    assert predictor._calculate_unusual_activity_score({"volume_ratio": 100.0}) == pytest.approx(0.4)
