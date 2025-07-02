@@ -20,3 +20,8 @@ def test_unusual_score_rises_with_volume(predictor):
 
 def test_volume_part_of_the_score_is_capped(predictor):
     assert predictor._calculate_unusual_activity_score({"volume_ratio": 100.0}) == pytest.approx(0.4)
+
+
+def test_large_trades_add_up_to_point_three(predictor):
+    assert predictor._calculate_unusual_activity_score({"large_trade_count": 1}) == pytest.approx(0.1)
+    assert predictor._calculate_unusual_activity_score({"large_trade_count": 50}) == pytest.approx(0.3)
