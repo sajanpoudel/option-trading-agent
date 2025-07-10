@@ -25,3 +25,9 @@ def test_volume_part_of_the_score_is_capped(predictor):
 def test_large_trades_add_up_to_point_three(predictor):
     assert predictor._calculate_unusual_activity_score({"large_trade_count": 1}) == pytest.approx(0.1)
     assert predictor._calculate_unusual_activity_score({"large_trade_count": 50}) == pytest.approx(0.3)
+
+
+def test_extreme_iv_rank_adds_point_two(predictor):
+    assert predictor._calculate_unusual_activity_score({"iv_rank": 95}) == pytest.approx(0.2)
+    assert predictor._calculate_unusual_activity_score({"iv_rank": 5}) == pytest.approx(0.2)
+    assert predictor._calculate_unusual_activity_score({"iv_rank": 50}) == 0.0
