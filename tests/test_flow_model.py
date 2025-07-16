@@ -31,3 +31,8 @@ def test_extreme_iv_rank_adds_point_two(predictor):
     assert predictor._calculate_unusual_activity_score({"iv_rank": 95}) == pytest.approx(0.2)
     assert predictor._calculate_unusual_activity_score({"iv_rank": 5}) == pytest.approx(0.2)
     assert predictor._calculate_unusual_activity_score({"iv_rank": 50}) == 0.0
+
+
+def test_extreme_put_call_ratio_adds_point_one(predictor):
+    assert predictor._calculate_unusual_activity_score({"put_call_ratio": 2.5}) == pytest.approx(0.1)
+    assert predictor._calculate_unusual_activity_score({"put_call_ratio": 0.2}) == pytest.approx(0.1)
