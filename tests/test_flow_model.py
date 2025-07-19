@@ -36,3 +36,8 @@ def test_extreme_iv_rank_adds_point_two(predictor):
 def test_extreme_put_call_ratio_adds_point_one(predictor):
     assert predictor._calculate_unusual_activity_score({"put_call_ratio": 2.5}) == pytest.approx(0.1)
     assert predictor._calculate_unusual_activity_score({"put_call_ratio": 0.2}) == pytest.approx(0.1)
+
+
+def test_unusual_score_never_exceeds_one(predictor):
+    features = {"volume_ratio": 50, "large_trade_count": 99, "iv_rank": 99, "put_call_ratio": 5}
+    assert predictor._calculate_unusual_activity_score(features) <= 1.0
