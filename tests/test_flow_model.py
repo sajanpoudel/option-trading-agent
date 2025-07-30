@@ -41,3 +41,11 @@ def test_extreme_put_call_ratio_adds_point_one(predictor):
 def test_unusual_score_never_exceeds_one(predictor):
     features = {"volume_ratio": 50, "large_trade_count": 99, "iv_rank": 99, "put_call_ratio": 5}
     assert predictor._calculate_unusual_activity_score(features) <= 1.0
+
+
+@pytest.mark.parametrize(
+    "unusual, confidence, expected",
+    [(0.9, 0.1, "high"), (0.5, 0.5, "medium"), (0.0, 1.0, "low")],
+)
+def test_risk_level_combines_unusual_activity_and_doubt(predictor, unusual, confidence, expected):
+    assert predictor._assess_risk_level(unusual, confidence) == expected
