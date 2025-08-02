@@ -49,3 +49,7 @@ def test_unusual_score_never_exceeds_one(predictor):
 )
 def test_risk_level_combines_unusual_activity_and_doubt(predictor, unusual, confidence, expected):
     assert predictor._assess_risk_level(unusual, confidence) == expected
+
+
+def test_itm_otm_ratio_is_one_without_strikes(predictor):
+    assert predictor._calculate_itm_otm_ratio([], 100) == 1.0
