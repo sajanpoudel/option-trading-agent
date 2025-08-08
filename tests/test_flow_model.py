@@ -53,3 +53,8 @@ def test_risk_level_combines_unusual_activity_and_doubt(predictor, unusual, conf
 
 def test_itm_otm_ratio_is_one_without_strikes(predictor):
     assert predictor._calculate_itm_otm_ratio([], 100) == 1.0
+
+
+def test_calls_below_the_price_are_in_the_money(predictor):
+    strikes = [{"strike": 90, "type": "call"}, {"strike": 95, "type": "call"}, {"strike": 110, "type": "call"}]
+    assert predictor._calculate_itm_otm_ratio(strikes, 100) == 2.0
