@@ -58,3 +58,8 @@ def test_itm_otm_ratio_is_one_without_strikes(predictor):
 def test_calls_below_the_price_are_in_the_money(predictor):
     strikes = [{"strike": 90, "type": "call"}, {"strike": 95, "type": "call"}, {"strike": 110, "type": "call"}]
     assert predictor._calculate_itm_otm_ratio(strikes, 100) == 2.0
+
+
+def test_puts_above_the_price_are_in_the_money(predictor):
+    strikes = [{"strike": 110, "type": "put"}, {"strike": 90, "type": "put"}]
+    assert predictor._calculate_itm_otm_ratio(strikes, 100) == 1.0
