@@ -68,3 +68,8 @@ def test_puts_above_the_price_are_in_the_money(predictor):
 def test_itm_otm_ratio_does_not_divide_by_zero(predictor):
     strikes = [{"strike": 90, "type": "call"}, {"strike": 91, "type": "call"}]
     assert predictor._calculate_itm_otm_ratio(strikes, 100) == 2.0
+
+
+def test_days_to_expiry_defaults_to_thirty(predictor):
+    assert predictor._calculate_avg_days_to_expiry({}) == 30.0
+    assert predictor._calculate_avg_days_to_expiry({"expirations": []}) == 30.0
