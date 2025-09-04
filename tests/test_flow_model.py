@@ -77,3 +77,8 @@ def test_days_to_expiry_defaults_to_thirty(predictor):
 
 def test_days_to_expiry_ignores_bad_dates(predictor):
     assert predictor._calculate_avg_days_to_expiry({"expirations": [{"date": "not a date"}]}) == 30.0
+
+
+def test_past_expirations_count_as_zero_days(predictor):
+    result = predictor._calculate_avg_days_to_expiry({"expirations": [{"date": "2001-01-01"}]})
+    assert result == 0
