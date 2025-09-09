@@ -82,3 +82,10 @@ def test_days_to_expiry_ignores_bad_dates(predictor):
 def test_past_expirations_count_as_zero_days(predictor):
     result = predictor._calculate_avg_days_to_expiry({"expirations": [{"date": "2001-01-01"}]})
     assert result == 0
+
+
+def test_default_features_are_neutral(predictor):
+    features = predictor._get_default_features()
+    assert features["put_call_ratio"] == 1.0
+    assert features["call_volume_pct"] == features["put_volume_pct"] == 0.5
+    assert features["iv_rank"] == 50.0
