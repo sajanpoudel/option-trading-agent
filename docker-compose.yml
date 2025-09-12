@@ -1,0 +1,65 @@
+# Neural Options Oracle++ Docker Compose Configuration
+
+version: '3.8'
+
+services:
+  api:
+    build: .
+    container_name: neural_oracle_api
+    ports:
+      - "8080:8080"
+    environment:
+      - APP_ENV=development
+      - APP_DEBUG=true
+      - APP_HOST=0.0.0.0
+      - APP_PORT=8080
+      - LOG_LEVEL=INFO
+    env_file:
+      - .env
+    volumes:
+      - ./logs:/app/logs
+      - .:/app
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - neural_oracle_network
+
+  # Optional: Redis for caching (if needed later)
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: neural_oracle_redis
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - redis_data:/data
+  #   restart: unless-stopped
+  #   networks:
+  #     - neural_oracle_network
+
+  # Optional: Nginx reverse proxy for production
+  # nginx:
+  #   image: nginx:alpine
+  #   container_name: neural_oracle_nginx
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./nginx.conf:/etc/nginx/nginx.conf
+  #     - ./ssl:/etc/ssl
+  #   depends_on:
+  #     - api
+  #   restart: unless-stopped
+  #   networks:
+  #     - neural_oracle_network
+
+volumes:
+  redis_data:
+
+networks:
+  neural_oracle_network:
+    driver: bridge
