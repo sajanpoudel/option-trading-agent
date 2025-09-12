@@ -1,0 +1,30 @@
+2025-09-12 18:36:50,284 - src.data.real_data_sources - INFO - Retrieved options data for SPY
+2025-09-12 18:36:51,571 - src.data.real_data_sources - INFO - Retrieved options data for AAPL
+2025-09-12 18:36:51,760 - src.data.real_data_sources - INFO - Retrieved options data for TSLA
+2025-09-12 18:36:51,899 - src.data.real_data_sources - ERROR - StockTwits API error: 403
+2025-09-12 18:36:52,270 - src.data.real_data_sources - INFO - Retrieved options data for SPY
+2025-09-12 18:36:52,300 - src.data.real_data_sources - ERROR - Error getting comprehensive data for SPY: object of type 'NoneType' has no len()
+2025-09-12 18:36:52,389 - src.data.real_data_sources - ERROR - StockTwits API error: 403
+2025-09-12 18:36:52,525 - src.data.real_data_sources - INFO - Retrieved options data for AAPL
+2025-09-12 18:36:52,536 - src.data.real_data_sources - ERROR - Error getting comprehensive data for AAPL: object of type 'NoneType' has no len()
+2025-09-12 18:36:52,536 - src.core.real_data_orchestrator - INFO - Real Data Orchestrator initialized with real data sources only
+2025-09-12 18:36:52,536 - src.core.real_data_orchestrator - INFO - Starting real data analysis for SPY
+2025-09-12 18:36:52,619 - src.data.real_data_sources - ERROR - StockTwits API error: 403
+2025-09-12 18:36:52,884 - src.data.real_data_sources - INFO - Retrieved options data for SPY
+2025-09-12 18:36:52,909 - src.data.real_data_sources - ERROR - Error getting comprehensive data for SPY: object of type 'NoneType' has no len()
+2025-09-12 18:36:52,913 - src.core.real_data_orchestrator - ERROR - Error in real data analysis for SPY: 'NoneType' object has no attribute 'get'
+2025-09-12 18:44:52,920 - src.data.real_data_sources - INFO - Retrieved options data for SPY
+2025-09-12 18:44:53,073 - src.data.real_data_sources - INFO - Retrieved options data for AAPL
+2025-09-12 18:44:53,259 - src.data.real_data_sources - INFO - Retrieved options data for TSLA
+2025-09-12 18:44:53,272 - src.data.real_data_sources - ERROR - Error getting StockTwits sentiment via web search for SPY: 'SocialSentimentCollector' object has no attribute 'openai_client'
+2025-09-12 18:44:53,719 - src.data.real_data_sources - INFO - Retrieved options data for SPY
+2025-09-12 18:44:53,742 - src.data.real_data_sources - ERROR - Error getting comprehensive data for SPY: object of type 'NoneType' has no len()
+2025-09-12 18:44:53,747 - src.data.real_data_sources - ERROR - Error getting StockTwits sentiment via web search for AAPL: 'SocialSentimentCollector' object has no attribute 'openai_client'
+2025-09-12 18:44:53,935 - src.data.real_data_sources - INFO - Retrieved options data for AAPL
+2025-09-12 18:44:53,942 - src.data.real_data_sources - ERROR - Error getting comprehensive data for AAPL: object of type 'NoneType' has no len()
+2025-09-12 18:44:53,942 - src.core.real_data_orchestrator - INFO - Real Data Orchestrator initialized with real data sources only
+2025-09-12 18:44:53,942 - src.core.real_data_orchestrator - INFO - Starting real data analysis for SPY
+2025-09-12 18:44:53,943 - src.data.real_data_sources - ERROR - Error getting StockTwits sentiment via web search for SPY: 'SocialSentimentCollector' object has no attribute 'openai_client'
+2025-09-12 18:44:54,266 - src.data.real_data_sources - INFO - Retrieved options data for SPY
+2025-09-12 18:44:54,289 - src.data.real_data_sources - ERROR - Error getting comprehensive data for SPY: object of type 'NoneType' has no len()
+2025-09-12 18:44:54,291 - src.core.real_data_orchestrator - ERROR - Error in real data analysis for SPY: 'NoneType' object has no attribute 'get'

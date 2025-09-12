@@ -1,0 +1,8 @@
+2025-09-12 17:31:06.841 | INFO     | config.database:__init__:26 - Supabase client initialized
+[32m2025-09-12 17:31:06.999[0m | [1mINFO    [0m | [36mconfig.logging[0m:[36msetup_logging[0m:[36m74[0m | [1mLogging configuration initialized[0m
+[32m2025-09-12 17:31:07.000[0m | [1mINFO    [0m | [36m__main__[0m:[36mmain[0m:[36m60[0m | [1m============================================================[0m
+[32m2025-09-12 17:31:07.000[0m | [1mINFO    [0m | [36m__main__[0m:[36mmain[0m:[36m61[0m | [1m🧠 NEURAL OPTIONS ORACLE++ STARTING[0m
+[32m2025-09-12 17:31:07.000[0m | [1mINFO    [0m | [36m__main__[0m:[36mmain[0m:[36m62[0m | [1m============================================================[0m
+[32m2025-09-12 17:31:07.000[0m | [31m[1mERROR   [0m | [36m__main__[0m:[36mcheck_environment[0m:[36m44[0m | [31m[1mMissing required environment variables: ['SUPABASE_URL', 'SUPABASE_SERVICE_KEY', 'OPENAI_API_KEY'][0m
+[32m2025-09-12 17:31:07.000[0m | [31m[1mERROR   [0m | [36m__main__[0m:[36mcheck_environment[0m:[36m45[0m | [31m[1mPlease copy .env.example to .env and configure your API keys[0m
+[32m2025-09-12 17:31:07.001[0m | [31m[1mERROR   [0m | [36m__main__[0m:[36mmain[0m:[36m66[0m | [31m[1mEnvironment check failed. Exiting.[0m

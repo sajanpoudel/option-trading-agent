@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
 Neural Options Oracle++ Main Application Entry Point
+Real Data Sources Only - No Mock Data
 """
 import os
 import sys
@@ -12,6 +13,7 @@ project_root = Path(__file__).parent
 sys.path.insert(0, str(project_root))
 
 from src.api.main import app
+from src.core.real_data_orchestrator import RealDataOrchestrator
 from config.settings import settings
 from config.logging import setup_logging, get_core_logger
 import uvicorn
@@ -27,29 +29,83 @@ def create_logs_directory():
 
 
 def check_environment():
-    """Check that required environment variables are set"""
+    """Check that required environment variables are set for real data sources"""
     
+    # Core required variables
     required_env_vars = [
         "SUPABASE_URL",
-        "SUPABASE_SERVICE_KEY", 
-        "OPENAI_API_KEY"
+        "SUPABASE_SERVICE_KEY"
     ]
     
-    missing_vars = []
-    for var in required_env_vars:
-        if not os.getenv(var):
-            missing_vars.append(var)
+    # Optional but recommended for enhanced functionality
+    optional_env_vars = [
+        "OPENAI_API_KEY",  # For web search agents
+        "JIGSAWSTACK_API_KEY",  # For advanced scraping
+        "ALPACA_API_KEY",  # For real trading data
+        "ALPACA_SECRET_KEY"  # For real trading data
+    ]
     
-    if missing_vars:
-        logger.error(f"Missing required environment variables: {missing_vars}")
+    missing_required = []
+    missing_optional = []
+    
+    # Check required settings using the settings object
+    if not settings.supabase_url or not settings.supabase_service_key:
+        missing_required.extend(["SUPABASE_URL", "SUPABASE_SERVICE_KEY"])
+    
+    # Check optional settings
+    if not settings.openai_api_key:
+        missing_optional.append("OPENAI_API_KEY")
+    if not settings.jigsawstack_api_key:
+        missing_optional.append("JIGSAWSTACK_API_KEY")
+    if not settings.alpaca_api_key:
+        missing_optional.append("ALPACA_API_KEY")
+    if not settings.alpaca_secret_key:
+        missing_optional.append("ALPACA_SECRET_KEY")
+    
+    if missing_required:
+        logger.error(f"Missing required environment variables: {missing_required}")
         logger.error("Please copy .env.example to .env and configure your API keys")
         return False
+    
+    if missing_optional:
+        logger.warning(f"Missing optional environment variables (reduced functionality): {missing_optional}")
+        logger.warning("Consider adding these for enhanced real-time data collection")
     
     return True
 
 
+async def initialize_real_data_sources():
+    """Initialize real data sources orchestrator"""
+    try:
+        logger.info("Initializing Real Data Sources Orchestrator...")
+        
+        # Get API keys from environment
+        openai_key = os.getenv("OPENAI_API_KEY")
+        jigsawstack_key = os.getenv("JIGSAWSTACK_API_KEY")
+        
+        # Initialize orchestrator with real data sources only
+        orchestrator = RealDataOrchestrator(
+            openai_api_key=openai_key,
+            jigsawstack_api_key=jigsawstack_key
+        )
+        
+        logger.info("✅ Real Data Sources Orchestrator initialized")
+        logger.info("📊 Data Sources Available:")
+        logger.info("  - OptionsProfitCalculator.com API (Options Data)")
+        logger.info("  - Web Search APIs (News & Sentiment)")
+        if openai_key:
+            logger.info("  - OpenAI GPT Models (Web Search Agents)")
+        if jigsawstack_key:
+            logger.info("  - JigsawStack (Advanced Scraping & OCR)")
+        
+        return orchestrator
+        
+    except Exception as e:
+        logger.error(f"Failed to initialize real data sources: {e}")
+        return None
+
 def main():
-    """Main application entry point"""
+    """Main application entry point with real data sources only"""
     
     # Create logs directory
     create_logs_directory()
@@ -59,6 +115,7 @@ def main():
     
     logger.info("=" * 60)
     logger.info("🧠 NEURAL OPTIONS ORACLE++ STARTING")
+    logger.info("📊 REAL DATA SOURCES ONLY - NO MOCK DATA")
     logger.info("=" * 60)
     
     # Check environment
@@ -72,12 +129,22 @@ def main():
     logger.info(f"Port: {settings.app_port}")
     logger.info(f"Log Level: {settings.log_level}")
     
+    # Initialize real data sources
+    try:
+        orchestrator = asyncio.run(initialize_real_data_sources())
+        if not orchestrator:
+            logger.error("Failed to initialize real data sources. Exiting.")
+            sys.exit(1)
+    except Exception as e:
+        logger.error(f"Error initializing real data sources: {e}")
+        sys.exit(1)
+    
     # Start the server
-    logger.info("Starting FastAPI server...")
+    logger.info("Starting FastAPI server with real data sources...")
     
     try:
         uvicorn.run(
-            app,
+            "src.api.main:app",
             host=settings.app_host,
             port=settings.app_port,
             reload=settings.app_debug,

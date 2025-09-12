@@ -1,0 +1,9 @@
+2025-09-12 17:31:07.000 | ERROR    | __main__:check_environment:44 | Missing required environment variables: ['SUPABASE_URL', 'SUPABASE_SERVICE_KEY', 'OPENAI_API_KEY']
+2025-09-12 17:31:07.000 | ERROR    | __main__:check_environment:45 | Please copy .env.example to .env and configure your API keys
+2025-09-12 17:31:07.001 | ERROR    | __main__:main:66 | Environment check failed. Exiting.
+2025-09-12 18:34:02.303 | ERROR    | __main__:check_environment:60 | Missing required environment variables: ['SUPABASE_URL', 'SUPABASE_SERVICE_KEY']
+2025-09-12 18:34:02.303 | ERROR    | __main__:check_environment:61 | Please copy .env.example to .env and configure your API keys
+2025-09-12 18:34:02.303 | ERROR    | __main__:main:117 | Environment check failed. Exiting.
+2025-09-12 18:34:38.804 | ERROR    | __main__:check_environment:60 | Missing required environment variables: ['SUPABASE_URL', 'SUPABASE_SERVICE_KEY']
+2025-09-12 18:34:38.805 | ERROR    | __main__:check_environment:61 | Please copy .env.example to .env and configure your API keys
+2025-09-12 18:34:38.805 | ERROR    | __main__:main:117 | Environment check failed. Exiting.

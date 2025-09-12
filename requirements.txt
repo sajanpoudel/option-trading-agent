@@ -1,4 +1,5 @@
 # Neural Options Oracle++ Backend Dependencies
+# Real Data Sources Only - No Mock Data
 
 # Core Framework
 fastapi==0.104.1
@@ -11,47 +12,75 @@ supabase==2.1.1
 asyncpg==0.29.0
 sqlalchemy==2.0.23
 
-# AI & ML Models
+# AI & ML Models (Real Data Processing)
 openai==1.3.5
 google-generativeai==0.3.2
-lightgbm==4.1.0
-scikit-learn==1.3.2
-pandas==2.1.4
-numpy==1.25.2
+lightgbm==4.2.0
+scikit-learn==1.5.2
+pandas==2.3.2
+numpy==2.3.3
 
-# Financial Data & Trading
+# Real Financial Data Sources
 alpaca-py==0.10.0
 yfinance==0.2.28
 ta-lib==0.4.28
 ccxt==4.1.18
 
-# JigsawStack Integration
+# Real Web Data Collection
 requests==2.31.0
 httpx==0.25.2
 aiohttp==3.9.1
+beautifulsoup4==4.12.2
+lxml==4.9.3
 
-# Data Processing
+# JigsawStack Integration (Real Scraping & OCR)
+Pillow==11.0.0
+selenium==4.15.2
+webdriver-manager==4.0.1
+
+# Real Options Data Processing
+scipy==1.11.4
+matplotlib==3.8.2
+plotly==5.17.0
+
+# Data Processing & Validation
 pydantic-settings==2.1.0
 python-multipart==0.0.6
 websockets==12.0
+jsonschema==4.20.0
 
-# Testing
+# Real-time Data Streaming
+redis==5.0.1
+celery==5.3.4
+kombu==5.3.4
+
+# Testing (Real Data Tests)
 pytest==7.4.3
 pytest-asyncio==0.21.1
 pytest-mock==3.12.0
+pytest-httpx==0.25.0
 
 # Monitoring & Logging
 loguru==0.7.2
 prometheus-client==0.19.0
+structlog==23.2.0
 
-# Development
+# Development Tools
 black==23.11.0
 isort==5.12.0
 flake8==6.1.0
 mypy==1.7.1
 
-# Additional utilities
+# Additional utilities for real data processing
 pytz==2023.3
 python-dateutil==2.8.2
-redis==5.0.1
-celery==5.3.4
+cryptography==41.0.8
+urllib3==2.1.0
+
+# Real-time market data
+websocket-client==1.6.4
+tornado==6.4
+
+# Financial calculations
+quantlib==1.32
+py_vollib==1.0.1

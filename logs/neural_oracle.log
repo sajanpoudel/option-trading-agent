@@ -1,0 +1,285 @@
+2025-09-12 17:31:06.999 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 17:31:07.000 | INFO     | __main__:main:60 | ============================================================
+2025-09-12 17:31:07.000 | INFO     | __main__:main:61 | 🧠 NEURAL OPTIONS ORACLE++ STARTING
+2025-09-12 17:31:07.000 | INFO     | __main__:main:62 | ============================================================
+2025-09-12 17:31:07.000 | ERROR    | __main__:check_environment:44 | Missing required environment variables: ['SUPABASE_URL', 'SUPABASE_SERVICE_KEY', 'OPENAI_API_KEY']
+2025-09-12 17:31:07.000 | ERROR    | __main__:check_environment:45 | Please copy .env.example to .env and configure your API keys
+2025-09-12 17:31:07.001 | ERROR    | __main__:main:66 | Environment check failed. Exiting.
+2025-09-12 18:34:02.301 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 18:34:02.302 | INFO     | __main__:main:110 | ============================================================
+2025-09-12 18:34:02.302 | INFO     | __main__:main:111 | 🧠 NEURAL OPTIONS ORACLE++ STARTING
+2025-09-12 18:34:02.302 | INFO     | __main__:main:112 | 📊 REAL DATA SOURCES ONLY - NO MOCK DATA
+2025-09-12 18:34:02.303 | INFO     | __main__:main:113 | ============================================================
+2025-09-12 18:34:02.303 | ERROR    | __main__:check_environment:60 | Missing required environment variables: ['SUPABASE_URL', 'SUPABASE_SERVICE_KEY']
+2025-09-12 18:34:02.303 | ERROR    | __main__:check_environment:61 | Please copy .env.example to .env and configure your API keys
+2025-09-12 18:34:02.303 | ERROR    | __main__:main:117 | Environment check failed. Exiting.
+2025-09-12 18:34:38.803 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 18:34:38.804 | INFO     | __main__:main:110 | ============================================================
+2025-09-12 18:34:38.804 | INFO     | __main__:main:111 | 🧠 NEURAL OPTIONS ORACLE++ STARTING
+2025-09-12 18:34:38.804 | INFO     | __main__:main:112 | 📊 REAL DATA SOURCES ONLY - NO MOCK DATA
+2025-09-12 18:34:38.804 | INFO     | __main__:main:113 | ============================================================
+2025-09-12 18:34:38.804 | ERROR    | __main__:check_environment:60 | Missing required environment variables: ['SUPABASE_URL', 'SUPABASE_SERVICE_KEY']
+2025-09-12 18:34:38.805 | ERROR    | __main__:check_environment:61 | Please copy .env.example to .env and configure your API keys
+2025-09-12 18:34:38.805 | ERROR    | __main__:main:117 | Environment check failed. Exiting.
+2025-09-12 18:35:22.238 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 18:35:22.239 | INFO     | __main__:main:116 | ============================================================
+2025-09-12 18:35:22.239 | INFO     | __main__:main:117 | 🧠 NEURAL OPTIONS ORACLE++ STARTING
+2025-09-12 18:35:22.239 | INFO     | __main__:main:118 | 📊 REAL DATA SOURCES ONLY - NO MOCK DATA
+2025-09-12 18:35:22.240 | INFO     | __main__:main:119 | ============================================================
+2025-09-12 18:35:22.240 | INFO     | __main__:main:126 | Environment: development
+2025-09-12 18:35:22.240 | INFO     | __main__:main:127 | Debug Mode: True
+2025-09-12 18:35:22.240 | INFO     | __main__:main:128 | Host: 0.0.0.0
+2025-09-12 18:35:22.240 | INFO     | __main__:main:129 | Port: 8080
+2025-09-12 18:35:22.241 | INFO     | __main__:main:130 | Log Level: INFO
+2025-09-12 18:35:22.242 | INFO     | __main__:initialize_real_data_sources:80 | Initializing Real Data Sources Orchestrator...
+2025-09-12 18:35:22.243 | INFO     | __main__:initialize_real_data_sources:92 | ✅ Real Data Sources Orchestrator initialized
+2025-09-12 18:35:22.243 | INFO     | __main__:initialize_real_data_sources:93 | 📊 Data Sources Available:
+2025-09-12 18:35:22.243 | INFO     | __main__:initialize_real_data_sources:94 |   - OptionsProfitCalculator.com API (Options Data)
+2025-09-12 18:35:22.243 | INFO     | __main__:initialize_real_data_sources:95 |   - Web Search APIs (News & Sentiment)
+2025-09-12 18:35:22.244 | INFO     | __main__:main:143 | Starting FastAPI server with real data sources...
+2025-09-12 18:35:22.247 | INFO     | __main__:main:162 | Neural Options Oracle++ shutting down
+2025-09-12 18:35:42.239 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 18:35:42.240 | INFO     | __main__:main:116 | ============================================================
+2025-09-12 18:35:42.240 | INFO     | __main__:main:117 | 🧠 NEURAL OPTIONS ORACLE++ STARTING
+2025-09-12 18:35:42.240 | INFO     | __main__:main:118 | 📊 REAL DATA SOURCES ONLY - NO MOCK DATA
+2025-09-12 18:35:42.240 | INFO     | __main__:main:119 | ============================================================
+2025-09-12 18:35:42.240 | INFO     | __main__:main:126 | Environment: development
+2025-09-12 18:35:42.240 | INFO     | __main__:main:127 | Debug Mode: True
+2025-09-12 18:35:42.240 | INFO     | __main__:main:128 | Host: 0.0.0.0
+2025-09-12 18:35:42.240 | INFO     | __main__:main:129 | Port: 8080
+2025-09-12 18:35:42.240 | INFO     | __main__:main:130 | Log Level: INFO
+2025-09-12 18:35:42.241 | INFO     | __main__:initialize_real_data_sources:80 | Initializing Real Data Sources Orchestrator...
+2025-09-12 18:35:42.241 | INFO     | __main__:initialize_real_data_sources:92 | ✅ Real Data Sources Orchestrator initialized
+2025-09-12 18:35:42.241 | INFO     | __main__:initialize_real_data_sources:93 | 📊 Data Sources Available:
+2025-09-12 18:35:42.241 | INFO     | __main__:initialize_real_data_sources:94 |   - OptionsProfitCalculator.com API (Options Data)
+2025-09-12 18:35:42.241 | INFO     | __main__:initialize_real_data_sources:95 |   - Web Search APIs (News & Sentiment)
+2025-09-12 18:35:42.242 | INFO     | __main__:main:143 | Starting FastAPI server with real data sources...
+2025-09-12 18:35:42.243 | INFO     | __main__:main:162 | Neural Options Oracle++ shutting down
+2025-09-12 18:35:55.344 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 18:35:55.344 | INFO     | __main__:main:116 | ============================================================
+2025-09-12 18:35:55.344 | INFO     | __main__:main:117 | 🧠 NEURAL OPTIONS ORACLE++ STARTING
+2025-09-12 18:35:55.345 | INFO     | __main__:main:118 | 📊 REAL DATA SOURCES ONLY - NO MOCK DATA
+2025-09-12 18:35:55.345 | INFO     | __main__:main:119 | ============================================================
+2025-09-12 18:35:55.345 | INFO     | __main__:main:126 | Environment: development
+2025-09-12 18:35:55.345 | INFO     | __main__:main:127 | Debug Mode: True
+2025-09-12 18:35:55.345 | INFO     | __main__:main:128 | Host: 0.0.0.0
+2025-09-12 18:35:55.345 | INFO     | __main__:main:129 | Port: 8080
+2025-09-12 18:35:55.345 | INFO     | __main__:main:130 | Log Level: INFO
+2025-09-12 18:35:55.346 | INFO     | __main__:initialize_real_data_sources:80 | Initializing Real Data Sources Orchestrator...
+2025-09-12 18:35:55.347 | INFO     | __main__:initialize_real_data_sources:92 | ✅ Real Data Sources Orchestrator initialized
+2025-09-12 18:35:55.347 | INFO     | __main__:initialize_real_data_sources:93 | 📊 Data Sources Available:
+2025-09-12 18:35:55.347 | INFO     | __main__:initialize_real_data_sources:94 |   - OptionsProfitCalculator.com API (Options Data)
+2025-09-12 18:35:55.347 | INFO     | __main__:initialize_real_data_sources:95 |   - Web Search APIs (News & Sentiment)
+2025-09-12 18:35:55.348 | INFO     | __main__:main:143 | Starting FastAPI server with real data sources...
+2025-09-12 18:35:55.349 | INFO     | __main__:main:162 | Neural Options Oracle++ shutting down
+2025-09-12 18:36:17.723 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 18:36:17.723 | INFO     | __main__:main:116 | ============================================================
+2025-09-12 18:36:17.723 | INFO     | __main__:main:117 | 🧠 NEURAL OPTIONS ORACLE++ STARTING
+2025-09-12 18:36:17.723 | INFO     | __main__:main:118 | 📊 REAL DATA SOURCES ONLY - NO MOCK DATA
+2025-09-12 18:36:17.723 | INFO     | __main__:main:119 | ============================================================
+2025-09-12 18:36:17.724 | INFO     | __main__:main:126 | Environment: development
+2025-09-12 18:36:17.724 | INFO     | __main__:main:127 | Debug Mode: True
+2025-09-12 18:36:17.724 | INFO     | __main__:main:128 | Host: 0.0.0.0
+2025-09-12 18:36:17.724 | INFO     | __main__:main:129 | Port: 8080
+2025-09-12 18:36:17.724 | INFO     | __main__:main:130 | Log Level: INFO
+2025-09-12 18:36:17.724 | INFO     | __main__:initialize_real_data_sources:80 | Initializing Real Data Sources Orchestrator...
+2025-09-12 18:36:17.724 | INFO     | __main__:initialize_real_data_sources:92 | ✅ Real Data Sources Orchestrator initialized
+2025-09-12 18:36:17.724 | INFO     | __main__:initialize_real_data_sources:93 | 📊 Data Sources Available:
+2025-09-12 18:36:17.724 | INFO     | __main__:initialize_real_data_sources:94 |   - OptionsProfitCalculator.com API (Options Data)
+2025-09-12 18:36:17.724 | INFO     | __main__:initialize_real_data_sources:95 |   - Web Search APIs (News & Sentiment)
+2025-09-12 18:36:17.725 | INFO     | __main__:main:143 | Starting FastAPI server with real data sources...
+2025-09-12 18:36:21.555 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 18:36:22.336 | INFO     | src.api.main:lifespan:38 | Database connection established
+2025-09-12 18:36:22.336 | INFO     | src.api.main:lifespan:39 | Neural Options Oracle++ API Server started successfully
+2025-09-12 18:36:24.374 | INFO     | config.logging:log_api_access:130 | GET /health 200 0.102s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 18:36:45.742 | INFO     | config.logging:log_api_access:130 | GET /health 200 0.178s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:45.745 | INFO     | config.logging:log_api_access:130 | GET /docs 200 0.001s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:45.751 | INFO     | config.logging:log_api_access:130 | GET /redoc 200 0.001s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:45.810 | INFO     | config.logging:log_api_access:130 | GET /openapi.json 200 0.055s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:45.815 | INFO     | config.logging:log_api_access:130 | GET /api/v1/options/chain 404 0.001s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:45.819 | INFO     | config.logging:log_api_access:130 | POST /api/v1/options/analysis 404 0.001s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:45.821 | INFO     | config.logging:log_api_access:130 | GET /api/v1/options/flow 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:45.823 | INFO     | config.logging:log_api_access:130 | GET /api/v1/options/greeks 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:45.825 | INFO     | config.logging:log_api_access:130 | POST /api/v1/analysis/real-time 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:45.827 | INFO     | config.logging:log_api_access:130 | POST /api/v1/analysis/technical 404 0.001s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:45.831 | INFO     | config.logging:log_api_access:130 | POST /api/v1/analysis/sentiment 404 0.001s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:45.835 | INFO     | config.logging:log_api_access:130 | POST /api/v1/analysis/market 404 0.001s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:45.837 | INFO     | config.logging:log_api_access:130 | GET /api/v1/trading/signals 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:45.839 | INFO     | config.logging:log_api_access:130 | POST /api/v1/trading/recommendations 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:45.841 | INFO     | config.logging:log_api_access:130 | GET /api/v1/trading/portfolio 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:45.843 | INFO     | config.logging:log_api_access:130 | GET /api/v1/trading/risk 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:45.845 | INFO     | config.logging:log_api_access:130 | GET /api/v1/education/lessons 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:45.851 | INFO     | src.api.dependencies:get_current_session:31 | No session token provided, creating temporary session
+2025-09-12 18:36:45.853 | INFO     | config.logging:log_api_access:130 | POST /api/v1/education/quiz 200 0.005s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:45.855 | INFO     | src.api.dependencies:get_current_session:31 | No session token provided, creating temporary session
+2025-09-12 18:36:45.857 | INFO     | config.logging:log_api_access:130 | POST /api/v1/education/explain 422 0.002s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:52.920 | INFO     | config.logging:log_api_access:130 | GET /api/v1/options/chain 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:52.922 | INFO     | config.logging:log_api_access:130 | GET /api/v1/options/chain 404 0.001s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:52.924 | INFO     | config.logging:log_api_access:130 | GET /api/v1/options/chain 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:52.926 | INFO     | config.logging:log_api_access:130 | GET /api/v1/options/chain 404 0.001s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:52.929 | INFO     | config.logging:log_api_access:130 | GET /api/v1/options/chain 404 0.001s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:52.933 | INFO     | config.logging:log_api_access:130 | POST /api/v1/analysis/real-time 404 0.001s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:52.936 | INFO     | config.logging:log_api_access:130 | POST /api/v1/analysis/real-time 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:52.938 | INFO     | config.logging:log_api_access:130 | POST /api/v1/analysis/real-time 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:52.940 | INFO     | config.logging:log_api_access:130 | POST /api/v1/analysis/real-time 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:52.942 | INFO     | config.logging:log_api_access:130 | POST /api/v1/analysis/real-time 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:52.944 | INFO     | config.logging:log_api_access:130 | GET /api/v1/trading/signals 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:52.946 | INFO     | config.logging:log_api_access:130 | GET /api/v1/trading/signals 404 0.001s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:52.950 | INFO     | config.logging:log_api_access:130 | GET /api/v1/trading/signals 404 0.001s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:52.953 | INFO     | config.logging:log_api_access:130 | GET /api/v1/trading/signals 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:52.955 | INFO     | config.logging:log_api_access:130 | GET /api/v1/trading/signals 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:52.956 | INFO     | config.logging:log_api_access:130 | GET /api/v1/options/chain 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:52.958 | INFO     | config.logging:log_api_access:130 | POST /api/v1/analysis/real-time 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:52.963 | INFO     | config.logging:log_api_access:130 | GET /api/v1/options/chain 404 0.001s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:36:52.968 | INFO     | config.logging:log_api_access:130 | GET /api/v1/nonexistent/endpoint 404 0.001s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:37:21.143 | INFO     | src.api.main:lifespan:44 | Shutting down Neural Options Oracle++ API Server
+2025-09-12 18:37:23.095 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 18:37:23.252 | INFO     | src.api.main:lifespan:38 | Database connection established
+2025-09-12 18:37:23.252 | INFO     | src.api.main:lifespan:39 | Neural Options Oracle++ API Server started successfully
+2025-09-12 18:42:36.032 | INFO     | src.api.main:lifespan:44 | Shutting down Neural Options Oracle++ API Server
+2025-09-12 18:42:39.999 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 18:42:40.283 | INFO     | src.api.main:lifespan:38 | Database connection established
+2025-09-12 18:42:40.284 | INFO     | src.api.main:lifespan:39 | Neural Options Oracle++ API Server started successfully
+2025-09-12 18:43:03.717 | INFO     | src.api.main:lifespan:44 | Shutting down Neural Options Oracle++ API Server
+2025-09-12 18:43:06.826 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 18:43:06.973 | INFO     | src.api.main:lifespan:38 | Database connection established
+2025-09-12 18:43:06.973 | INFO     | src.api.main:lifespan:39 | Neural Options Oracle++ API Server started successfully
+2025-09-12 18:43:22.725 | INFO     | src.api.main:lifespan:44 | Shutting down Neural Options Oracle++ API Server
+2025-09-12 18:43:25.937 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 18:43:26.178 | INFO     | src.api.main:lifespan:38 | Database connection established
+2025-09-12 18:43:26.179 | INFO     | src.api.main:lifespan:39 | Neural Options Oracle++ API Server started successfully
+2025-09-12 18:44:02.709 | INFO     | src.api.main:lifespan:44 | Shutting down Neural Options Oracle++ API Server
+2025-09-12 18:44:07.207 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 18:44:07.404 | INFO     | src.api.main:lifespan:38 | Database connection established
+2025-09-12 18:44:07.404 | INFO     | src.api.main:lifespan:39 | Neural Options Oracle++ API Server started successfully
+2025-09-12 18:44:52.015 | INFO     | config.logging:log_api_access:130 | GET /health 200 0.278s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:52.028 | INFO     | config.logging:log_api_access:130 | GET /docs 200 0.003s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:52.033 | INFO     | config.logging:log_api_access:130 | GET /redoc 200 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:52.326 | INFO     | config.logging:log_api_access:130 | GET /openapi.json 200 0.288s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:52.331 | INFO     | config.logging:log_api_access:130 | GET /api/v1/options/chain 404 0.001s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:52.335 | INFO     | config.logging:log_api_access:130 | POST /api/v1/options/analysis 404 0.001s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:52.339 | INFO     | config.logging:log_api_access:130 | GET /api/v1/options/flow 404 0.001s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:52.343 | INFO     | config.logging:log_api_access:130 | GET /api/v1/options/greeks 404 0.001s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:52.349 | INFO     | config.logging:log_api_access:130 | POST /api/v1/analysis/real-time 404 0.001s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:52.357 | INFO     | config.logging:log_api_access:130 | POST /api/v1/analysis/technical 404 0.004s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:52.361 | INFO     | config.logging:log_api_access:130 | POST /api/v1/analysis/sentiment 404 0.001s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:52.364 | INFO     | config.logging:log_api_access:130 | POST /api/v1/analysis/market 404 0.001s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:52.367 | INFO     | config.logging:log_api_access:130 | GET /api/v1/trading/signals 404 0.001s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:52.371 | INFO     | config.logging:log_api_access:130 | POST /api/v1/trading/recommendations 404 0.001s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:52.374 | INFO     | config.logging:log_api_access:130 | GET /api/v1/trading/portfolio 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:52.376 | INFO     | config.logging:log_api_access:130 | GET /api/v1/trading/risk 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:52.378 | INFO     | config.logging:log_api_access:130 | GET /api/v1/education/lessons 404 0.001s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:52.385 | INFO     | src.api.dependencies:get_current_session:31 | No session token provided, creating temporary session
+2025-09-12 18:44:52.387 | INFO     | config.logging:log_api_access:130 | POST /api/v1/education/quiz 200 0.006s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:52.390 | INFO     | src.api.dependencies:get_current_session:31 | No session token provided, creating temporary session
+2025-09-12 18:44:52.392 | INFO     | config.logging:log_api_access:130 | POST /api/v1/education/explain 422 0.002s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:54.292 | INFO     | config.logging:log_api_access:130 | GET /api/v1/options/chain 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:54.294 | INFO     | config.logging:log_api_access:130 | GET /api/v1/options/chain 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:54.296 | INFO     | config.logging:log_api_access:130 | GET /api/v1/options/chain 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:54.297 | INFO     | config.logging:log_api_access:130 | GET /api/v1/options/chain 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:54.298 | INFO     | config.logging:log_api_access:130 | GET /api/v1/options/chain 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:54.300 | INFO     | config.logging:log_api_access:130 | POST /api/v1/analysis/real-time 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:54.301 | INFO     | config.logging:log_api_access:130 | POST /api/v1/analysis/real-time 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:54.303 | INFO     | config.logging:log_api_access:130 | POST /api/v1/analysis/real-time 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:54.304 | INFO     | config.logging:log_api_access:130 | POST /api/v1/analysis/real-time 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:54.306 | INFO     | config.logging:log_api_access:130 | POST /api/v1/analysis/real-time 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:54.308 | INFO     | config.logging:log_api_access:130 | GET /api/v1/trading/signals 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:54.310 | INFO     | config.logging:log_api_access:130 | GET /api/v1/trading/signals 404 0.001s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:54.314 | INFO     | config.logging:log_api_access:130 | GET /api/v1/trading/signals 404 0.001s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:54.316 | INFO     | config.logging:log_api_access:130 | GET /api/v1/trading/signals 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:54.318 | INFO     | config.logging:log_api_access:130 | GET /api/v1/trading/signals 404 0.001s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:54.321 | INFO     | config.logging:log_api_access:130 | GET /api/v1/options/chain 404 0.001s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:54.324 | INFO     | config.logging:log_api_access:130 | POST /api/v1/analysis/real-time 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:54.326 | INFO     | config.logging:log_api_access:130 | GET /api/v1/options/chain 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:44:54.329 | INFO     | config.logging:log_api_access:130 | GET /api/v1/nonexistent/endpoint 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 18:45:01.649 | INFO     | src.api.main:lifespan:44 | Shutting down Neural Options Oracle++ API Server
+2025-09-12 18:45:05.158 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 18:45:05.372 | INFO     | src.api.main:lifespan:38 | Database connection established
+2025-09-12 18:45:05.373 | INFO     | src.api.main:lifespan:39 | Neural Options Oracle++ API Server started successfully
+2025-09-12 18:45:09.501 | INFO     | src.api.main:lifespan:44 | Shutting down Neural Options Oracle++ API Server
+2025-09-12 18:45:12.204 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 18:45:12.393 | INFO     | src.api.main:lifespan:38 | Database connection established
+2025-09-12 18:45:12.394 | INFO     | src.api.main:lifespan:39 | Neural Options Oracle++ API Server started successfully
+2025-09-12 18:45:15.448 | INFO     | src.api.main:lifespan:44 | Shutting down Neural Options Oracle++ API Server
+2025-09-12 18:45:17.914 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 18:45:18.118 | INFO     | src.api.main:lifespan:38 | Database connection established
+2025-09-12 18:45:18.119 | INFO     | src.api.main:lifespan:39 | Neural Options Oracle++ API Server started successfully
+2025-09-12 18:45:42.857 | INFO     | src.api.main:lifespan:44 | Shutting down Neural Options Oracle++ API Server
+2025-09-12 18:45:46.023 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 18:45:46.208 | INFO     | src.api.main:lifespan:38 | Database connection established
+2025-09-12 18:45:46.209 | INFO     | src.api.main:lifespan:39 | Neural Options Oracle++ API Server started successfully
+2025-09-12 18:46:48.798 | INFO     | src.api.main:lifespan:44 | Shutting down Neural Options Oracle++ API Server
+2025-09-12 18:46:52.439 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 18:46:52.639 | INFO     | src.api.main:lifespan:38 | Database connection established
+2025-09-12 18:46:52.639 | INFO     | src.api.main:lifespan:39 | Neural Options Oracle++ API Server started successfully
+2025-09-12 18:54:13.006 | INFO     | src.api.main:lifespan:44 | Shutting down Neural Options Oracle++ API Server
+2025-09-12 18:54:17.578 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 18:54:18.035 | INFO     | src.api.main:lifespan:38 | Database connection established
+2025-09-12 18:54:18.036 | INFO     | src.api.main:lifespan:39 | Neural Options Oracle++ API Server started successfully
+2025-09-12 18:57:50.253 | INFO     | src.api.main:lifespan:44 | Shutting down Neural Options Oracle++ API Server
+2025-09-12 18:57:54.180 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 18:57:54.408 | INFO     | src.api.main:lifespan:38 | Database connection established
+2025-09-12 18:57:54.408 | INFO     | src.api.main:lifespan:39 | Neural Options Oracle++ API Server started successfully
+2025-09-12 18:57:57.142 | INFO     | src.api.main:lifespan:44 | Shutting down Neural Options Oracle++ API Server
+2025-09-12 18:58:01.153 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 18:58:01.345 | INFO     | src.api.main:lifespan:38 | Database connection established
+2025-09-12 18:58:01.346 | INFO     | src.api.main:lifespan:39 | Neural Options Oracle++ API Server started successfully
+2025-09-12 18:58:06.360 | INFO     | src.api.main:lifespan:44 | Shutting down Neural Options Oracle++ API Server
+2025-09-12 18:58:09.936 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 18:58:10.124 | INFO     | src.api.main:lifespan:38 | Database connection established
+2025-09-12 18:58:10.125 | INFO     | src.api.main:lifespan:39 | Neural Options Oracle++ API Server started successfully
+2025-09-12 18:58:23.665 | INFO     | src.api.main:lifespan:44 | Shutting down Neural Options Oracle++ API Server
+2025-09-12 18:58:28.139 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 18:58:28.323 | INFO     | src.api.main:lifespan:38 | Database connection established
+2025-09-12 18:58:28.324 | INFO     | src.api.main:lifespan:39 | Neural Options Oracle++ API Server started successfully
+2025-09-12 18:58:41.173 | INFO     | src.api.main:lifespan:44 | Shutting down Neural Options Oracle++ API Server
+2025-09-12 18:58:45.237 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 18:58:45.430 | INFO     | src.api.main:lifespan:38 | Database connection established
+2025-09-12 18:58:45.430 | INFO     | src.api.main:lifespan:39 | Neural Options Oracle++ API Server started successfully
+2025-09-12 18:58:54.006 | INFO     | src.api.main:lifespan:44 | Shutting down Neural Options Oracle++ API Server
+2025-09-12 18:58:57.219 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 18:58:57.411 | INFO     | src.api.main:lifespan:38 | Database connection established
+2025-09-12 18:58:57.411 | INFO     | src.api.main:lifespan:39 | Neural Options Oracle++ API Server started successfully
+2025-09-12 18:58:59.065 | INFO     | src.api.main:lifespan:44 | Shutting down Neural Options Oracle++ API Server
+2025-09-12 18:59:02.495 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 18:59:02.693 | INFO     | src.api.main:lifespan:38 | Database connection established
+2025-09-12 18:59:02.693 | INFO     | src.api.main:lifespan:39 | Neural Options Oracle++ API Server started successfully
+2025-09-12 19:00:38.627 | INFO     | src.api.main:lifespan:44 | Shutting down Neural Options Oracle++ API Server
+2025-09-12 19:00:41.560 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 19:00:41.801 | INFO     | src.api.main:lifespan:38 | Database connection established
+2025-09-12 19:00:41.801 | INFO     | src.api.main:lifespan:39 | Neural Options Oracle++ API Server started successfully
+2025-09-12 19:06:41.906 | INFO     | src.api.main:lifespan:44 | Shutting down Neural Options Oracle++ API Server
+2025-09-12 19:06:54.839 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 19:06:55.262 | INFO     | src.api.main:lifespan:38 | Database connection established
+2025-09-12 19:06:55.262 | INFO     | src.api.main:lifespan:39 | Neural Options Oracle++ API Server started successfully
+2025-09-12 19:06:59.045 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 19:06:59.298 | INFO     | src.api.main:lifespan:38 | Database connection established
+2025-09-12 19:06:59.298 | INFO     | src.api.main:lifespan:39 | Neural Options Oracle++ API Server started successfully
+2025-09-12 19:08:14.827 | INFO     | src.api.main:lifespan:44 | Shutting down Neural Options Oracle++ API Server
+2025-09-12 19:08:20.368 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 19:08:20.558 | INFO     | src.api.main:lifespan:38 | Database connection established
+2025-09-12 19:08:20.558 | INFO     | src.api.main:lifespan:39 | Neural Options Oracle++ API Server started successfully
+2025-09-12 19:08:38.485 | INFO     | src.api.main:lifespan:44 | Shutting down Neural Options Oracle++ API Server
+2025-09-12 19:08:41.102 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 19:08:41.343 | INFO     | src.api.main:lifespan:38 | Database connection established
+2025-09-12 19:08:41.344 | INFO     | src.api.main:lifespan:39 | Neural Options Oracle++ API Server started successfully
+2025-09-12 19:11:14.414 | INFO     | src.api.main:lifespan:44 | Shutting down Neural Options Oracle++ API Server
+2025-09-12 19:11:20.460 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 19:11:20.746 | INFO     | src.api.main:lifespan:38 | Database connection established
+2025-09-12 19:11:20.746 | INFO     | src.api.main:lifespan:39 | Neural Options Oracle++ API Server started successfully
+2025-09-12 19:19:33.231 | INFO     | src.api.main:lifespan:44 | Shutting down Neural Options Oracle++ API Server
+2025-09-12 19:19:36.442 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 19:19:36.744 | INFO     | src.api.main:lifespan:38 | Database connection established
+2025-09-12 19:19:36.744 | INFO     | src.api.main:lifespan:39 | Neural Options Oracle++ API Server started successfully
+2025-09-12 19:21:04.501 | INFO     | src.api.main:lifespan:44 | Shutting down Neural Options Oracle++ API Server
+2025-09-12 19:21:07.183 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 19:21:07.389 | INFO     | src.api.main:lifespan:38 | Database connection established
+2025-09-12 19:21:07.389 | INFO     | src.api.main:lifespan:39 | Neural Options Oracle++ API Server started successfully
+2025-09-12 19:21:26.470 | INFO     | src.api.main:lifespan:44 | Shutting down Neural Options Oracle++ API Server
+2025-09-12 19:21:29.593 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 19:21:29.835 | INFO     | src.api.main:lifespan:38 | Database connection established
+2025-09-12 19:21:29.835 | INFO     | src.api.main:lifespan:39 | Neural Options Oracle++ API Server started successfully
+2025-09-12 19:21:46.371 | INFO     | src.api.main:lifespan:44 | Shutting down Neural Options Oracle++ API Server
+2025-09-12 19:21:49.456 | INFO     | config.logging:setup_logging:74 | Logging configuration initialized
+2025-09-12 19:21:49.666 | INFO     | src.api.main:lifespan:38 | Database connection established
+2025-09-12 19:21:49.666 | INFO     | src.api.main:lifespan:39 | Neural Options Oracle++ API Server started successfully

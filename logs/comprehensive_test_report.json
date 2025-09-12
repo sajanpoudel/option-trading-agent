@@ -1,0 +1,198 @@
+{
+  "timestamp": "2025-09-12T18:44:54.330180",
+  "summary": {
+    "total_tests": 33,
+    "successful_tests": 16,
+    "failed_tests": 17,
+    "success_rate": 48.484848484848484
+  },
+  "detailed_results": {
+    "server_health": {
+      "success": true,
+      "data": {
+        "status": "healthy",
+        "components": {
+          "api": "healthy",
+          "database": "healthy",
+          "timestamp": 1757717092.013791
+        },
+        "database_details": {
+          "status": "healthy",
+          "connection": "active",
+          "timestamp": "2025-09-12T18:44:52.013768",
+          "config_count": 4
+        }
+      }
+    },
+    "api_documentation": {
+      "/docs": {
+        "success": true,
+        "status": 200
+      },
+      "/redoc": {
+        "success": true,
+        "status": 200
+      },
+      "/openapi.json": {
+        "success": true,
+        "status": 200
+      }
+    },
+    "options_endpoints": {
+      "Get options chain": {
+        "success": false,
+        "status": 404,
+        "error": "{\"detail\":\"Not Found\"}"
+      },
+      "Options analysis": {
+        "success": false,
+        "status": 404,
+        "error": "{\"detail\":\"Not Found\"}"
+      },
+      "Options flow data": {
+        "success": false,
+        "status": 404,
+        "error": "{\"detail\":\"Not Found\"}"
+      },
+      "Options Greeks calculation": {
+        "success": false,
+        "status": 404,
+        "error": "{\"detail\":\"Not Found\"}"
+      }
+    },
+    "analysis_endpoints": {
+      "Real-time analysis": {
+        "success": false,
+        "status": 404,
+        "error": "{\"detail\":\"Not Found\"}"
+      },
+      "Technical analysis": {
+        "success": false,
+        "status": 404,
+        "error": "{\"detail\":\"Not Found\"}"
+      },
+      "Sentiment analysis": {
+        "success": false,
+        "status": 404,
+        "error": "{\"detail\":\"Not Found\"}"
+      },
+      "Market analysis": {
+        "success": false,
+        "status": 404,
+        "error": "{\"detail\":\"Not Found\"}"
+      }
+    },
+    "trading_endpoints": {
+      "Trading signals": {
+        "success": false,
+        "status": 404,
+        "error": "{\"detail\":\"Not Found\"}"
+      },
+      "Trading recommendations": {
+        "success": false,
+        "status": 404,
+        "error": "{\"detail\":\"Not Found\"}"
+      },
+      "Portfolio status": {
+        "success": false,
+        "status": 404,
+        "error": "{\"detail\":\"Not Found\"}"
+      },
+      "Risk assessment": {
+        "success": false,
+        "status": 404,
+        "error": "{\"detail\":\"Not Found\"}"
+      }
+    },
+    "education_endpoints": {
+      "Educational lessons": {
+        "success": false,
+        "status": 404,
+        "error": "{\"detail\":\"Not Found\"}"
+      },
+      "Educational quiz": {
+        "success": true,
+        "status": 200,
+        "response_size": 872,
+        "response_type": "dict"
+      },
+      "Concept explanation": {
+        "success": false,
+        "status": 422,
+        "error": "{\"detail\":[{\"type\":\"missing\",\"loc\":[\"query\",\"concept\"],\"msg\":\"Field required\",\"input\":null}]}"
+      }
+    },
+    "websocket": {
+      "success": false,
+      "error": "server rejected WebSocket connection: HTTP 403"
+    },
+    "real_data_sources": {
+      "options_SPY": {
+        "success": true,
+        "count": 10740
+      },
+      "options_AAPL": {
+        "success": true,
+        "count": 2462
+      },
+      "options_TSLA": {
+        "success": true,
+        "count": 4682
+      },
+      "comprehensive_SPY": {
+        "success": false,
+        "error": "No data"
+      },
+      "comprehensive_AAPL": {
+        "success": false,
+        "error": "No data"
+      },
+      "orchestrator": {
+        "success": true,
+        "confidence": 0.0,
+        "options_count": 0
+      }
+    },
+    "performance_benchmarks": {
+      "/api/v1/options/chain": {
+        "success": true,
+        "avg_response_time": 0.001545286178588867,
+        "min_response_time": 0.0014369487762451172,
+        "max_response_time": 0.0017888545989990234,
+        "performance_ok": true
+      },
+      "/api/v1/analysis/real-time": {
+        "success": true,
+        "avg_response_time": 0.0014920711517333984,
+        "min_response_time": 0.001397848129272461,
+        "max_response_time": 0.00168609619140625,
+        "performance_ok": true
+      },
+      "/api/v1/trading/signals": {
+        "success": true,
+        "avg_response_time": 0.0024800777435302736,
+        "min_response_time": 0.0019562244415283203,
+        "max_response_time": 0.0034041404724121094,
+        "performance_ok": true
+      }
+    },
+    "error_handling": {
+      "Invalid symbol": {
+        "success": true,
+        "status": 404
+      },
+      "Empty symbol": {
+        "success": true,
+        "status": 404
+      },
+      "Invalid parameters": {
+        "success": true,
+        "status": 404
+      },
+      "Non-existent endpoint": {
+        "success": true,
+        "status": 404
+      }
+    }
+  }
+}

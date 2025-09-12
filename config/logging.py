@@ -46,7 +46,6 @@ def setup_logging() -> None:
         level="DEBUG",
         rotation="10 MB",
         retention="7 days",
-        compression="gzip",
         backtrace=True,
         diagnose=True
     )
@@ -58,7 +57,6 @@ def setup_logging() -> None:
         level="ERROR",
         rotation="5 MB",
         retention="30 days",
-        compression="gzip",
         backtrace=True,
         diagnose=True
     )
@@ -70,7 +68,6 @@ def setup_logging() -> None:
         level="INFO",
         rotation="50 MB",
         retention="14 days",
-        compression="gzip",
         filter=lambda record: "API_ACCESS" in record["extra"]
     )
     

@@ -1,6 +1,6 @@
 """
 Market Data Manager
-Centralized market data coordination and caching
+Centralized market data coordination and caching with OpenAI intelligence
 """
 import asyncio
 from typing import Dict, Any, List, Optional
@@ -8,17 +8,20 @@ from datetime import datetime, timedelta
 import json
 
 from .alpaca_client import AlpacaMarketDataClient
+from .openai_only_orchestrator import OpenAIMarketIntelligence
 from config.database import db_manager
 from config.logging import get_data_logger
+from config.settings import settings
 
 logger = get_data_logger()
 
 
 class MarketDataManager:
-    """Centralized market data management with caching"""
+    """Centralized market data management with AI intelligence and caching"""
     
     def __init__(self):
         self.alpaca_client = AlpacaMarketDataClient()
+        self.ai_intelligence = OpenAIMarketIntelligence(settings.openai_api_key)
         self.cache_ttl = 300  # 5 minutes cache
         
     async def get_comprehensive_data(self, symbol: str) -> Dict[str, Any]:
@@ -61,6 +64,50 @@ class MarketDataManager:
         except Exception as e:
             logger.error(f"Failed to get comprehensive data for {symbol}: {e}")
             return self._get_fallback_comprehensive_data(symbol)
+    
+    async def get_comprehensive_ai_analysis(self, symbol: str) -> Dict[str, Any]:
+        """Get comprehensive AI-powered analysis with real options data"""
+        
+        try:
+            logger.info(f"Starting comprehensive AI analysis for {symbol}")
+            
+            # Check cache first for AI analysis
+            cached_analysis = await self._get_cached_ai_analysis(symbol)
+            if cached_analysis:
+                logger.info(f"Using cached AI analysis for {symbol}")
+                return cached_analysis
+            
+            # Get comprehensive AI intelligence
+            intelligence = await self.ai_intelligence.get_comprehensive_intelligence(symbol)
+            
+            # Get basic market data for context
+            basic_data = await self.get_comprehensive_data(symbol)
+            
+            # Combine everything
+            comprehensive_analysis = {
+                'symbol': symbol,
+                'timestamp': datetime.now().isoformat(),
+                'ai_intelligence': {
+                    'options_analysis': intelligence.options_analysis,
+                    'news_sentiment': intelligence.news_sentiment,
+                    'social_sentiment': intelligence.social_sentiment,
+                    'technical_signals': intelligence.technical_signals,
+                    'market_outlook': intelligence.market_outlook,
+                    'confidence_score': intelligence.confidence_score
+                },
+                'market_data': basic_data,
+                'analysis_type': 'openai_comprehensive'
+            }
+            
+            # Cache the AI analysis
+            await self._cache_ai_analysis(symbol, comprehensive_analysis)
+            
+            logger.info(f"Comprehensive AI analysis completed for {symbol} with {intelligence.confidence_score:.1%} confidence")
+            return comprehensive_analysis
+            
+        except Exception as e:
+            logger.error(f"Failed to get comprehensive AI analysis for {symbol}: {e}")
+            return self._get_fallback_ai_analysis(symbol)
     
     async def get_multiple_quotes(self, symbols: List[str]) -> Dict[str, Dict[str, Any]]:
         """Get quotes for multiple symbols"""
@@ -181,6 +228,69 @@ class MarketDataManager:
             
         except Exception as e:
             logger.warning(f"Failed to cache data for {symbol}: {e}")
+    
+    async def _get_cached_ai_analysis(self, symbol: str) -> Optional[Dict[str, Any]]:
+        """Get cached AI analysis"""
+        
+        try:
+            # Query database cache for AI analysis (longer TTL: 15 minutes)
+            result = await asyncio.create_task(
+                asyncio.to_thread(
+                    db_manager.client.table('ai_analysis_cache').select('*').eq('symbol', symbol).single().execute
+                )
+            )
+            
+            if result.data:
+                cache_time = datetime.fromisoformat(result.data['last_updated'].replace('Z', '+00:00'))
+                if datetime.now(cache_time.tzinfo) - cache_time < timedelta(seconds=900):  # 15 minutes
+                    return result.data['analysis_data']
+            
+        except Exception as e:
+            logger.debug(f"AI analysis cache read failed for {symbol}: {e}")
+        
+        return None
+    
+    async def _cache_ai_analysis(self, symbol: str, analysis: Dict[str, Any]) -> None:
+        """Cache AI analysis"""
+        
+        try:
+            cache_record = {
+                'symbol': symbol,
+                'analysis_data': analysis,
+                'confidence_score': analysis['ai_intelligence']['confidence_score'],
+                'last_updated': datetime.now().isoformat()
+            }
+            
+            # Upsert to database
+            await asyncio.create_task(
+                asyncio.to_thread(
+                    db_manager.client.table('ai_analysis_cache').upsert(cache_record).execute
+                )
+            )
+            
+            logger.debug(f"AI analysis cached for {symbol}")
+            
+        except Exception as e:
+            logger.warning(f"Failed to cache AI analysis for {symbol}: {e}")
+    
+    def _get_fallback_ai_analysis(self, symbol: str) -> Dict[str, Any]:
+        """Fallback AI analysis when intelligence fails"""
+        
+        return {
+            'symbol': symbol,
+            'timestamp': datetime.now().isoformat(),
+            'ai_intelligence': {
+                'options_analysis': {'flow_sentiment': 'neutral', 'confidence': 0.0},
+                'news_sentiment': {'sentiment_score': 0.0, 'confidence': 0.0},
+                'social_sentiment': {'overall_sentiment': 0.0, 'confidence': 0.0},
+                'technical_signals': {'trend_direction': 'neutral', 'confidence': 0.0},
+                'market_outlook': {'price_target_consensus': 0.0, 'confidence': 0.0},
+                'confidence_score': 0.0
+            },
+            'market_data': self._get_fallback_comprehensive_data(symbol),
+            'analysis_type': 'fallback_ai',
+            'error': 'AI analysis failed - using fallback data'
+        }
     
     def _get_fallback_comprehensive_data(self, symbol: str) -> Dict[str, Any]:
         """Fallback comprehensive data"""
