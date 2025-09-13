@@ -100,15 +100,76 @@ class StockTwitsWebScraperAgent:
             Focus on STOCKS only - no crypto, no commodities, just traditional equities.
             """
             
-            response = await asyncio.to_thread(
-                self.openai_client.chat.completions.create,
-                model="gpt-4o-mini",
-                messages=[{"role": "user", "content": prompt}],
-                temperature=0.1,
-                max_tokens=1500
-            )
-            
-            ai_response = response.choices[0].message.content.strip()
+            # Use OpenAI Web Search API (new format)
+            try:
+                response = await asyncio.to_thread(
+                    self.openai_client.responses.create,
+                    model="gpt-4o",
+                    tools=[{"type": "web_search"}],
+                    tool_choice="auto",
+                    input=prompt
+                )
+                
+                # Extract content from the new response format
+                ai_response = ""
+                if hasattr(response, 'output_text'):
+                    ai_response = response.output_text
+                elif hasattr(response, 'content') and response.content:
+                    for content in response.content:
+                        if hasattr(content, 'text'):
+                            ai_response += content.text
+                        elif hasattr(content, 'output_text'):
+                            ai_response += content.output_text
+                elif hasattr(response, 'choices') and response.choices:
+                    # Handle different response format
+                    for choice in response.choices:
+                        if hasattr(choice, 'message') and hasattr(choice.message, 'content'):
+                            ai_response += choice.message.content
+                
+                # If web search returns non-JSON text, ask AI to extract symbols
+                if ai_response and not ai_response.strip().startswith('{') and not ai_response.strip().startswith('['):
+                    logger.info("Web search returned text instead of JSON, processing with AI...")
+                    # Convert text response to JSON using AI
+                    extract_prompt = f"""
+The web search returned this text about trending stocks: 
+
+{ai_response[:2000]}
+
+Please extract trending STOCK symbols (NOT crypto) from this text and format as JSON:
+[
+  {{
+    "symbol": "AAPL",
+    "name": "Apple Inc",
+    "sentiment": "Bullish",
+    "sentiment_score": 0.75,
+    "mentions": 1234,
+    "trending": true
+  }}
+]
+
+Only return the JSON array, no other text.
+"""
+                    
+                    extract_response = await asyncio.to_thread(
+                        self.openai_client.chat.completions.create,
+                        model="gpt-4o-mini",
+                        messages=[{"role": "user", "content": extract_prompt}],
+                        temperature=0.1,
+                        max_tokens=1000
+                    )
+                    ai_response = extract_response.choices[0].message.content.strip()
+                
+            except Exception as web_search_error:
+                logger.warning(f"Web search API failed, falling back to chat: {web_search_error}")
+                # Fallback to regular chat completion
+                response = await asyncio.to_thread(
+                    self.openai_client.chat.completions.create,
+                    model="gpt-4o-mini",
+                    messages=[{"role": "user", "content": prompt}],
+                    temperature=0.1,
+                    max_tokens=1500
+                )
+                ai_response = response.choices[0].message.content.strip()
             logger.info(f"OpenAI web search response: {ai_response[:200]}...")
             
             # Parse JSON response

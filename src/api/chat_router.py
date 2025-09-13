@@ -7,8 +7,9 @@ from typing import Dict, Any, Optional, List
 import asyncio
 from datetime import datetime
 
-from src.core.text_router import text_router, RoutedRequest, IntentType
+from src.core.ai_intent_router import route_with_ai
 from src.api.intelligent_orchestrator import IntelligentOrchestrator
+from agents.orchestrator import OptionsOracleOrchestrator
 from config.logging import get_agents_logger
 
 logger = get_agents_logger()
@@ -35,126 +36,259 @@ class ChatResponse(BaseModel):
     timestamp: str
 
 
-class RoutedResponse(BaseModel):
-    """Response from routed request"""
-    routed_request: Dict[str, Any]
-    agent_response: Dict[str, Any]
-    formatted_response: str
-
-
-@router.post("/route", response_model=RoutedResponse)
-async def route_user_message(message_data: ChatMessage):
-    """
-    Route user message to appropriate agents and return structured response
-    """
-    try:
-        logger.info(f"🔄 Routing user message: '{message_data.message}'")
-        
-        # Route the text
-        routed_request = await text_router.route_text(
-            message_data.message, 
-            message_data.context or {}
-        )
-        
-        # Process with appropriate agents
-        orchestrator = IntelligentOrchestrator()
-        
-        # Prepare context for orchestrator
-        context = {
-            'selectedStock': routed_request.symbol,
-            'user_id': message_data.user_id,
-            'session_id': message_data.session_id,
-            **(message_data.context or {})
-        }
-        
-        # Get agent parameters
-        agent_params = text_router.get_agent_parameters(routed_request)
-        
-        # Process with orchestrator
-        agent_response = await orchestrator.process_user_query(
-            routed_request.formatted_query,
-            context
-        )
-        
-        # Format response based on intent
-        formatted_response = _format_response_for_intent(
-            routed_request, 
-            agent_response
-        )
-        
-        # Convert routed request to dict for response
-        routed_dict = {
-            'intent': routed_request.intent.value,
-            'symbol': routed_request.symbol,
-            'timeframe': routed_request.timeframe,
-            'parameters': routed_request.parameters,
-            'confidence': routed_request.confidence,
-            'original_text': routed_request.original_text,
-            'formatted_query': routed_request.formatted_query,
-            'api_endpoint': routed_request.api_endpoint,
-            'agent_methods': routed_request.agent_methods
-        }
-        
-        return RoutedResponse(
-            routed_request=routed_dict,
-            agent_response=agent_response,
-            formatted_response=formatted_response
-        )
-        
-    except Exception as e:
-        logger.error(f"❌ Chat routing error: {e}")
-        raise HTTPException(status_code=500, detail=f"Chat routing failed: {str(e)}")
 
 
 @router.post("/message", response_model=ChatResponse)
 async def send_chat_message(message_data: ChatMessage):
     """
-    Send chat message and get intelligent response
+    Send chat message and get intelligent response using AI-powered routing with tool calling
     """
     try:
         logger.info(f"💬 Processing chat message: '{message_data.message}'")
         
-        # Route the message
-        routed_request = await text_router.route_text(
-            message_data.message,
-            message_data.context or {}
-        )
-        
-        # Process with orchestrator
-        orchestrator = IntelligentOrchestrator()
-        
+        # Use AI Intent Router with tool calling
         context = {
-            'selectedStock': routed_request.symbol,
-            'user_id': message_data.user_id,
-            'session_id': message_data.session_id,
+            "user_id": message_data.user_id,
+            "session_id": message_data.session_id,
             **(message_data.context or {})
         }
         
-        # Get response from orchestrator
-        response = await orchestrator.process_user_query(
-            routed_request.formatted_query,
-            context
-        )
+        # Route and process with AI
+        result = await route_with_ai(message_data.message, context)
         
-        # Format the response text
-        response_text = _format_chat_response(routed_request, response)
+        # Extract info from AI result
+        intent = result.get("intent", "GENERAL_CHAT")
+        confidence = result.get("confidence", 0.5)
+        response_text = result.get("response", "I'm here to help!")
+        tools_called = result.get("tools_called", [])
         
-        # Generate suggestions
-        suggestions = _generate_suggestions(routed_request, response)
+        # Determine symbol from tools called
+        symbol = None
+        data = {}
+        
+        # Check if any analysis was performed
+        for tool_result in result.get("tool_results", []):
+            if tool_result.get("tool") == "analyze_stock":
+                symbol = tool_result.get("symbol")
+                if "analysis_result" in tool_result:
+                    data["analysis_result"] = tool_result["analysis_result"]
+                    data["stock_data"] = _extract_stock_data(tool_result["analysis_result"])
+        
+        # Generate suggestions based on intent and tools used
+        suggestions = _generate_ai_suggestions(intent, symbol, tools_called)
+        
+        logger.info(f"🎯 AI Intent: {intent} ({confidence:.2f}) -> Tools: {tools_called}")
         
         return ChatResponse(
             response=response_text,
-            intent=routed_request.intent.value,
-            symbol=routed_request.symbol,
-            confidence=routed_request.confidence,
-            data=response.get('frontend_data', {}),
+            intent=intent,
+            symbol=symbol,
+            confidence=confidence,
+            data=data,
             suggestions=suggestions,
             timestamp=datetime.now().isoformat()
         )
         
     except Exception as e:
+        logger.error(f"❌ AI Chat routing error: {e}")
+        # Fallback response
+        return ChatResponse(
+            response="I apologize, but I encountered an issue processing your request. Please try asking about a specific stock symbol or trading concept, and I'll do my best to help!",
+            intent="ERROR",
+            symbol=None,
+            confidence=0.0,
+            data={},
+            suggestions=[
+                "Analyze AAPL stock",
+                "What is delta in options?", 
+                "Show trending stocks",
+                "Portfolio overview"
+            ],
+            timestamp=datetime.now().isoformat()
+        )
+
+
+@router.post("/route")
+async def route_user_message_detailed(message_data: ChatMessage):
+    """
+    Analyze user message intent and provide detailed routing information
+    """
+    try:
+        logger.info(f"🔄 Analyzing message routing: '{message_data.message}'")
+        
+        # Get routing plan
+        routing_plan = await route_user_message(message_data.message)
+        
+        return {
+            "routing_plan": routing_plan,
+            "processing_time": datetime.now().isoformat(),
+            "message_analysis": {
+                "original_message": message_data.message,
+                "detected_intent": routing_plan['intent'],
+                "confidence_score": routing_plan['confidence'],
+                "agents_required": routing_plan['agents_to_call'],
+                "extracted_entities": routing_plan['extracted_data']
+            },
+            "recommendations": {
+                "should_process": len(routing_plan['agents_to_call']) > 0 or routing_plan['intent'] != 'GENERAL_CHAT',
+                "response_strategy": routing_plan['response_type'],
+                "suggested_followups": _generate_intent_suggestions(
+                    routing_plan['intent'], 
+                    routing_plan['extracted_data']['symbols']
+                )
+            }
+        }
+        
+    except Exception as e:
+        logger.error(f"❌ Message routing analysis error: {e}")
+        raise HTTPException(status_code=500, detail=f"Routing analysis failed: {str(e)}")
+
+
+@router.post("/message", response_model=ChatResponse)
+async def send_chat_message(message_data: ChatMessage):
+    """
+    Send chat message and get intelligent response with intent-based routing
+    """
+    try:
+        logger.info(f"💬 Processing chat message: '{message_data.message}'")
+        
+        # Step 1: Detect intent and get routing plan
+        routing_plan = await route_user_message(message_data.message)
+        
+        intent = routing_plan["intent"]
+        confidence = routing_plan["confidence"]
+        agents_to_call = routing_plan["agents_to_call"]
+        extracted_symbols = routing_plan["extracted_data"]["symbols"]
+        
+        logger.info(f"🎯 Intent: {intent} ({confidence:.2f}) -> Agents: {agents_to_call}")
+        
+        # Step 2: Handle different intent types
+        if intent == "GENERAL_CHAT":
+            # Generate casual response for non-trading conversation
+            response_text = await generate_casual_response(message_data.message)
+            
+            return ChatResponse(
+                response=response_text,
+                intent=intent,
+                symbol=None,
+                confidence=confidence,
+                data={},
+                suggestions=[
+                    "Analyze AAPL",
+                    "Show me trending stocks",
+                    "What are options?",
+                    "Portfolio overview"
+                ],
+                timestamp=datetime.now().isoformat()
+            )
+        
+        elif not agents_to_call:
+            # No agents needed - direct educational response
+            if intent == "OPTIONS_EDUCATION":
+                response_text = "I can help explain options concepts! Try asking about specific topics like 'What is delta?' or 'How do puts work?'"
+            else:
+                response_text = "I'd be happy to help! Could you be more specific about what you'd like to analyze?"
+            
+            return ChatResponse(
+                response=response_text,
+                intent=intent,
+                symbol=extracted_symbols[0] if extracted_symbols else None,
+                confidence=confidence,
+                data={},
+                suggestions=_generate_intent_suggestions(intent, extracted_symbols),
+                timestamp=datetime.now().isoformat()
+            )
+        
+        # Step 3: For trading-related intents, call appropriate agents
+        else:
+            # Use orchestrator for multi-agent analysis
+            orchestrator = OptionsOracleOrchestrator()
+            
+            # Ensure orchestrator is initialized
+            if not orchestrator.initialized:
+                await orchestrator.initialize()
+            
+            # Determine the stock symbol to analyze
+            symbol = None
+            if extracted_symbols:
+                symbol = extracted_symbols[0]
+            elif intent == "MARKET_TRENDS":
+                # For market trends, we'll analyze popular stocks
+                symbol = "AAPL"  # Default for demonstration
+            
+            if symbol and intent == "STOCK_ANALYSIS":
+                # Full stock analysis
+                user_risk_profile = {"risk_tolerance": "moderate", "experience": "beginner"}
+                analysis_result = await orchestrator.analyze_stock(symbol, user_risk_profile)
+                
+                response_text = _format_stock_analysis_response(symbol, analysis_result)
+                
+                return ChatResponse(
+                    response=response_text,
+                    intent=intent,
+                    symbol=symbol,
+                    confidence=confidence,
+                    data={
+                        "analysis_result": analysis_result,
+                        "stock_data": _extract_stock_data(analysis_result)
+                    },
+                    suggestions=[
+                        f"Technical analysis for {symbol}",
+                        f"Options strategies for {symbol}",
+                        f"Risk assessment for {symbol}",
+                        "Portfolio impact analysis"
+                    ],
+                    timestamp=datetime.now().isoformat()
+                )
+            
+            elif intent == "OPTIONS_EDUCATION":
+                # Educational content with context
+                if symbol:
+                    response_text = f"Let me explain options concepts in the context of {symbol}. What specifically would you like to learn about?"
+                else:
+                    response_text = "I can help you learn about options trading! What concept would you like me to explain?"
+                
+                return ChatResponse(
+                    response=response_text,
+                    intent=intent,
+                    symbol=symbol,
+                    confidence=confidence,
+                    data={},
+                    suggestions=[
+                        "What is delta?",
+                        "How do calls work?",
+                        "Explain put options",
+                        "Options Greeks overview"
+                    ],
+                    timestamp=datetime.now().isoformat()
+                )
+            
+            else:
+                # Fallback for other intents
+                response_text = f"I understand you're interested in {intent.lower().replace('_', ' ')}. Let me help you with that!"
+                
+                return ChatResponse(
+                    response=response_text,
+                    intent=intent,
+                    symbol=symbol,
+                    confidence=confidence,
+                    data={},
+                    suggestions=_generate_intent_suggestions(intent, extracted_symbols),
+                    timestamp=datetime.now().isoformat()
+                )
+        
+    except Exception as e:
         logger.error(f"❌ Chat message error: {e}")
-        raise HTTPException(status_code=500, detail=f"Chat processing failed: {str(e)}")
+        # Fallback response
+        return ChatResponse(
+            response="I'm sorry, I encountered an issue processing your request. Please try asking about a specific stock symbol or options concept.",
+            intent="GENERAL_CHAT",
+            symbol=None,
+            confidence=0.0,
+            data={},
+            suggestions=["Analyze AAPL", "What are options?", "Portfolio overview"],
+            timestamp=datetime.now().isoformat()
+        )
 
 
 @router.get("/intent/{text}")
@@ -163,16 +297,16 @@ async def analyze_intent(text: str):
     Analyze intent of text without processing
     """
     try:
-        routed_request = await text_router.route_text(text)
+        routing_plan = await route_user_message(text)
         
         return {
-            'intent': routed_request.intent.value,
-            'symbol': routed_request.symbol,
-            'confidence': routed_request.confidence,
-            'timeframe': routed_request.timeframe,
-            'parameters': routed_request.parameters,
-            'suggested_endpoint': routed_request.api_endpoint,
-            'agent_methods': routed_request.agent_methods
+            'intent': routing_plan['intent'],
+            'confidence': routing_plan['confidence'],
+            'agents_to_call': routing_plan['agents_to_call'],
+            'extracted_symbols': routing_plan['extracted_data']['symbols'],
+            'extracted_keywords': routing_plan['extracted_data']['keywords'],
+            'response_type': routing_plan['response_type'],
+            'timestamp': routing_plan['timestamp']
         }
         
     except Exception as e:
@@ -180,209 +314,150 @@ async def analyze_intent(text: str):
         raise HTTPException(status_code=500, detail=f"Intent analysis failed: {str(e)}")
 
 
-def _format_response_for_intent(routed_request: RoutedRequest, agent_response: Dict[str, Any]) -> str:
-    """Format response based on intent type"""
-    
-    if routed_request.intent == IntentType.TECHNICAL_ANALYSIS:
-        return _format_technical_response(routed_request, agent_response)
-    elif routed_request.intent == IntentType.SENTIMENT_ANALYSIS:
-        return _format_sentiment_response(routed_request, agent_response)
-    elif routed_request.intent == IntentType.OPTIONS_FLOW:
-        return _format_options_response(routed_request, agent_response)
-    elif routed_request.intent == IntentType.TRADING_SIGNALS:
-        return _format_trading_response(routed_request, agent_response)
-    elif routed_request.intent == IntentType.EDUCATION:
-        return _format_education_response(routed_request, agent_response)
-    else:
-        return _format_general_response(routed_request, agent_response)
+# Helper functions for AI-powered routing
 
-
-def _format_technical_response(routed_request: RoutedRequest, agent_response: Dict[str, Any]) -> str:
-    """Format technical analysis response"""
-    symbol = routed_request.symbol or "the stock"
+def _generate_ai_suggestions(intent: str, symbol: Optional[str], tools_called: List[str]) -> List[str]:
+    """Generate contextual suggestions based on AI analysis"""
+    base_suggestions = []
     
-    # Get technical data
-    frontend_data = agent_response.get('frontend_data', {})
-    technical_indicators = frontend_data.get('technical_indicators', {})
-    
-    response = f"📊 **Technical Analysis for {symbol}**\n\n"
-    
-    if technical_indicators:
-        # RSI
-        rsi = technical_indicators.get('rsi', {})
-        if rsi:
-            rsi_value = rsi.get('value', 50)
-            rsi_signal = rsi.get('signal', 'neutral')
-            response += f"**RSI**: {rsi_value:.1f} ({rsi_signal})\n"
-        
-        # MACD
-        macd = technical_indicators.get('macd', {})
-        if macd:
-            macd_value = macd.get('macd', 0)
-            signal_value = macd.get('signal', 0)
-            response += f"**MACD**: {macd_value:.3f} (Signal: {signal_value:.3f})\n"
-        
-        # Moving Averages
-        ma = technical_indicators.get('moving_averages', {})
-        if ma:
-            ma20 = ma.get('ma20', 0)
-            ma50 = ma.get('ma50', 0)
-            response += f"**Moving Averages**: MA20: ${ma20:.2f}, MA50: ${ma50:.2f}\n"
-    
-    # Add AI analysis
-    ai_response = agent_response.get('ai_response', '')
-    if ai_response:
-        response += f"\n**AI Analysis**: {ai_response}"
-    
-    return response
-
-
-def _format_sentiment_response(routed_request: RoutedRequest, agent_response: Dict[str, Any]) -> str:
-    """Format sentiment analysis response"""
-    symbol = routed_request.symbol or "the market"
-    
-    response = f"💭 **Sentiment Analysis for {symbol}**\n\n"
-    
-    # Get sentiment data
-    frontend_data = agent_response.get('frontend_data', {})
-    agent_analysis = frontend_data.get('agent_analysis', [])
-    
-    for agent in agent_analysis:
-        if agent.get('name') == 'Sentiment':
-            sentiment_score = agent.get('score', 50)
-            sentiment_scenario = agent.get('scenario', 'Neutral')
-            response += f"**Overall Sentiment**: {sentiment_scenario} ({sentiment_score}%)\n"
-            break
-    
-    # Add AI analysis
-    ai_response = agent_response.get('ai_response', '')
-    if ai_response:
-        response += f"\n**AI Analysis**: {ai_response}"
-    
-    return response
-
-
-def _format_options_response(routed_request: RoutedRequest, agent_response: Dict[str, Any]) -> str:
-    """Format options flow response"""
-    symbol = routed_request.symbol or "the stock"
-    
-    response = f"⚡ **Options Flow Analysis for {symbol}**\n\n"
-    
-    # Get flow data
-    frontend_data = agent_response.get('frontend_data', {})
-    agent_analysis = frontend_data.get('agent_analysis', [])
-    
-    for agent in agent_analysis:
-        if agent.get('name') == 'Flow':
-            flow_score = agent.get('score', 50)
-            flow_scenario = agent.get('scenario', 'Normal')
-            response += f"**Options Flow**: {flow_scenario} ({flow_score}%)\n"
-            break
-    
-    # Add AI analysis
-    ai_response = agent_response.get('ai_response', '')
-    if ai_response:
-        response += f"\n**AI Analysis**: {ai_response}"
-    
-    return response
-
-
-def _format_trading_response(routed_request: RoutedRequest, agent_response: Dict[str, Any]) -> str:
-    """Format trading signals response"""
-    symbol = routed_request.symbol or "the stock"
-    
-    response = f"🎯 **Trading Signals for {symbol}**\n\n"
-    
-    # Get trading signals
-    frontend_data = agent_response.get('frontend_data', {})
-    trading_signals = frontend_data.get('trading_signals', [])
-    
-    if trading_signals:
-        signal = trading_signals[0]  # Get first signal
-        direction = signal.get('direction', 'HOLD')
-        confidence = signal.get('confidence', 0)
-        reasoning = signal.get('reasoning', 'No reasoning provided')
-        
-        response += f"**Signal**: {direction}\n"
-        response += f"**Confidence**: {confidence}%\n"
-        response += f"**Reasoning**: {reasoning}\n"
-    else:
-        response += "No trading signals available at this time.\n"
-    
-    # Add AI analysis
-    ai_response = agent_response.get('ai_response', '')
-    if ai_response:
-        response += f"\n**AI Analysis**: {ai_response}"
-    
-    return response
-
-
-def _format_education_response(routed_request: RoutedRequest, agent_response: Dict[str, Any]) -> str:
-    """Format education response"""
-    response = "📚 **Educational Content**\n\n"
-    
-    # Get educational content
-    frontend_data = agent_response.get('frontend_data', {})
-    educational_content = frontend_data.get('educational_content', {})
-    
-    if educational_content:
-        content = educational_content.get('content', '')
-        response += content
-    else:
-        # Fallback to AI response
-        ai_response = agent_response.get('ai_response', '')
-        response += ai_response if ai_response else "Educational content not available."
-    
-    return response
-
-
-def _format_general_response(routed_request: RoutedRequest, agent_response: Dict[str, Any]) -> str:
-    """Format general response"""
-    ai_response = agent_response.get('ai_response', '')
-    
-    if ai_response:
-        return ai_response
-    else:
-        return f"I've analyzed your request about {routed_request.symbol or 'the market'}. Here's what I found: [Analysis results would be displayed here]"
-
-
-def _format_chat_response(routed_request: RoutedRequest, agent_response: Dict[str, Any]) -> str:
-    """Format response for chat interface"""
-    return _format_response_for_intent(routed_request, agent_response)
-
-
-def _generate_suggestions(routed_request: RoutedRequest, agent_response: Dict[str, Any]) -> List[str]:
-    """Generate follow-up suggestions based on intent and response"""
-    symbol = routed_request.symbol or "AAPL"
-    suggestions = []
-    
-    if routed_request.intent == IntentType.TECHNICAL_ANALYSIS:
-        suggestions = [
-            f"What's the sentiment for {symbol}?",
-            f"Show me options flow for {symbol}",
-            f"Generate trading signals for {symbol}",
-            f"Historical analysis of {symbol}"
-        ]
-    elif routed_request.intent == IntentType.SENTIMENT_ANALYSIS:
-        suggestions = [
+    if "analyze_stock" in tools_called and symbol:
+        base_suggestions.extend([
             f"Technical analysis for {symbol}",
-            f"Options flow for {symbol}",
-            f"Trading signals for {symbol}",
-            f"Risk assessment for {symbol}"
-        ]
-    elif routed_request.intent == IntentType.TRADING_SIGNALS:
-        suggestions = [
-            f"Portfolio analysis",
-            f"Risk management for {symbol}",
-            f"Educational content on options trading",
-            f"Historical performance of {symbol}"
-        ]
+            f"Options strategies for {symbol}",
+            f"Risk assessment for {symbol}",
+            f"Compare {symbol} to sector"
+        ])
+    elif intent == "OPTIONS_EDUCATION":
+        base_suggestions.extend([
+            "What is delta?",
+            "Explain call options",
+            "How do puts work?",
+            "Options Greeks overview"
+        ])
+    elif intent == "MARKET_TRENDS":
+        base_suggestions.extend([
+            "Sector performance",
+            "Top gainers today",
+            "Options flow analysis",
+            "Market sentiment overview"
+        ])
     else:
-        suggestions = [
-            f"Analyze {symbol}",
-            f"Trading signals for {symbol}",
-            f"Portfolio overview",
-            "Educational content"
-        ]
+        base_suggestions.extend([
+            "Analyze AAPL stock",
+            "What are options?",
+            "Show trending stocks", 
+            "Portfolio overview"
+        ])
     
-    return suggestions[:4]  # Return max 4 suggestions
+    return base_suggestions[:4]  # Return max 4 suggestions
+
+def _extract_stock_data(analysis_result: Dict[str, Any]) -> Dict[str, Any]:
+    """Extract stock data for frontend"""
+    return {
+        "symbol": analysis_result.get('symbol'),
+        "signal": analysis_result.get('signal', {}),
+        "confidence": analysis_result.get('confidence', 0),
+        "scenario": analysis_result.get('market_scenario'),
+        "timestamp": analysis_result.get('timestamp')
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def _generate_intent_suggestions(intent: str, symbols: List[str]) -> List[str]:
+    """Generate follow-up suggestions based on intent"""
+    symbol = symbols[0] if symbols else "AAPL"
+    
+    suggestions_map = {
+        "STOCK_ANALYSIS": [
+            f"Technical analysis for {symbol}",
+            f"Options strategies for {symbol}",
+            f"Sentiment analysis for {symbol}",
+            f"Risk assessment for {symbol}"
+        ],
+        "OPTIONS_EDUCATION": [
+            "What is delta?",
+            "Explain call options",
+            "How do puts work?",
+            "Options Greeks overview"
+        ],
+        "PORTFOLIO_MANAGEMENT": [
+            "Show my positions",
+            "Portfolio performance",
+            "Risk analysis",
+            "Rebalancing suggestions"
+        ],
+        "MARKET_TRENDS": [
+            "Trending stocks today",
+            "Market sentiment overview",
+            "Sector performance",
+            "Options flow analysis"
+        ],
+        "QUIZ_LEARNING": [
+            "Options basics quiz",
+            "Trading strategies test",
+            "Risk management questions",
+            "Market analysis practice"
+        ]
+    }
+    
+    return suggestions_map.get(intent, [
+        f"Analyze {symbol}",
+        "Show trending stocks",
+        "Options education",
+        "Portfolio overview"
+    ])[:4]
+
+def _format_stock_analysis_response(symbol: str, analysis_result: Dict[str, Any]) -> str:
+    """Format comprehensive stock analysis response"""
+    try:
+        signal = analysis_result.get('signal', {})
+        confidence = analysis_result.get('confidence', 0)
+        scenario = analysis_result.get('market_scenario', 'unknown')
+        
+        response = f"🔍 **Analysis for {symbol}**\n\n"
+        response += f"**Signal**: {signal.get('direction', 'HOLD')}\n"
+        response += f"**Confidence**: {confidence:.1%}\n"
+        response += f"**Market Scenario**: {scenario.title()}\n\n"
+        
+        # Add key insights
+        educational_content = analysis_result.get('educational_content', {})
+        if educational_content:
+            explanation = educational_content.get('explanation', {})
+            why_signal = explanation.get('why_this_signal', '')
+            if why_signal:
+                response += f"**Why this signal**: {why_signal}\n\n"
+        
+        # Add agent summary
+        agent_results = analysis_result.get('agent_results', {})
+        active_agents = [name for name, result in agent_results.items() if result.get('confidence', 0) > 0]
+        if active_agents:
+            response += f"**Analysis based on**: {', '.join(active_agents)} agents\n"
+        
+        return response
+        
+    except Exception as e:
+        logger.error(f"Error formatting analysis response: {e}")
+        return f"Analysis completed for {symbol}. See detailed results in the dashboard."
+
+def _extract_stock_data(analysis_result: Dict[str, Any]) -> Dict[str, Any]:
+    """Extract stock data for frontend"""
+    return {
+        "symbol": analysis_result.get('symbol'),
+        "signal": analysis_result.get('signal', {}),
+        "confidence": analysis_result.get('confidence', 0),
+        "scenario": analysis_result.get('market_scenario'),
+        "timestamp": analysis_result.get('timestamp')
+    }

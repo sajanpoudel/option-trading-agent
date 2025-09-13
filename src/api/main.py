@@ -351,8 +351,19 @@ async def get_hot_stocks():
         
         # Initialize web scraper agent with OpenAI
         openai_client = None
-        if os.getenv("OPENAI_API_KEY"):
-            openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        try:
+            from config.settings import settings
+            if hasattr(settings, 'openai_api_key') and settings.openai_api_key:
+                openai_client = OpenAI(api_key=settings.openai_api_key)
+                logger.info("✅ OpenAI client initialized for web scraping")
+            else:
+                logger.warning("⚠️ OpenAI API key not found in settings")
+        except Exception as e:
+            logger.error(f"Failed to initialize OpenAI client: {e}")
+            # Fallback to environment variable
+            if os.getenv("OPENAI_API_KEY"):
+                openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+                logger.info("✅ OpenAI client initialized from env variable")
         
         web_scraper = get_web_scraper_agent(openai_client)
         

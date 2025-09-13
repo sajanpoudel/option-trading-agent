@@ -398,3 +398,17 @@
 2025-09-13 01:46:02.334 | ERROR    | src.api.routes.analysis:analyze_stock:174 | Analysis failed for AAPL: 'direction'
 2025-09-13 02:15:15.439 | ERROR    | config.database:save_educational_content:337 | Failed to save educational content: {'message': 'duplicate key value violates unique constraint "educational_content_content_id_key"', 'code': '23505', 'hint': None, 'details': 'Key (content_id)=(edu_MSFT_1757744115) already exists.'}
 2025-09-13 02:19:25.305 | ERROR    | config.database:save_educational_content:337 | Failed to save educational content: {'message': 'duplicate key value violates unique constraint "educational_content_content_id_key"', 'code': '23505', 'hint': None, 'details': 'Key (content_id)=(edu_NVDA_1757744365) already exists.'}
+2025-09-13 02:55:36.383 | ERROR    | src.agents.web_scraper_agent:_analyze_stocktwits_with_openai:136 | Failed to parse OpenAI JSON response: Expecting value: line 1 column 1 (char 0)
+2025-09-13 02:55:46.393 | ERROR    | src.agents.web_scraper_agent:_analyze_stocktwits_with_openai:136 | Failed to parse OpenAI JSON response: Expecting value: line 1 column 1 (char 0)
+2025-09-13 02:56:46.725 | ERROR    | src.agents.web_scraper_agent:_analyze_stocktwits_with_openai:136 | Failed to parse OpenAI JSON response: Expecting value: line 1 column 1 (char 0)
+2025-09-13 02:56:54.515 | ERROR    | src.agents.web_scraper_agent:_analyze_stocktwits_with_openai:136 | Failed to parse OpenAI JSON response: Expecting value: line 1 column 1 (char 0)
+2025-09-13 02:57:04.216 | ERROR    | src.agents.web_scraper_agent:_analyze_stocktwits_with_openai:136 | Failed to parse OpenAI JSON response: Expecting value: line 1 column 1 (char 0)
+2025-09-13 02:57:11.338 | ERROR    | src.agents.web_scraper_agent:_analyze_stocktwits_with_openai:136 | Failed to parse OpenAI JSON response: Expecting value: line 1 column 1 (char 0)
+2025-09-13 02:57:48.653 | ERROR    | src.agents.web_scraper_agent:_analyze_stocktwits_with_openai:136 | Failed to parse OpenAI JSON response: Expecting value: line 1 column 1 (char 0)
+2025-09-13 02:57:59.040 | ERROR    | src.agents.web_scraper_agent:_analyze_stocktwits_with_openai:136 | Failed to parse OpenAI JSON response: Expecting value: line 1 column 1 (char 0)
+2025-09-13 02:58:20.513 | ERROR    | src.agents.web_scraper_agent:_analyze_stocktwits_with_openai:136 | Failed to parse OpenAI JSON response: Expecting value: line 1 column 1 (char 0)
+2025-09-13 02:58:27.590 | ERROR    | src.agents.web_scraper_agent:_analyze_stocktwits_with_openai:136 | Failed to parse OpenAI JSON response: Expecting value: line 1 column 1 (char 0)
+2025-09-13 03:12:05.459 | ERROR    | config.database:save_trading_signal:175 | Failed to save trading signal: {'message': 'insert or update on table "trading_signals" violates foreign key constraint "trading_signals_symbol_fkey"', 'code': '23503', 'hint': None, 'details': 'Key (symbol)=(HELL) is not present in table "stocks".'}
+2025-09-13 03:18:23.122 | ERROR    | src.agents.web_scraper_agent:_analyze_stocktwits_with_openai:159 | Failed to parse OpenAI JSON response: Expecting value: line 1 column 1 (char 0)
+2025-09-13 03:18:37.530 | ERROR    | src.agents.web_scraper_agent:_analyze_stocktwits_with_openai:159 | Failed to parse OpenAI JSON response: Expecting value: line 1 column 1 (char 0)
+2025-09-13 03:22:02.495 | ERROR    | src.agents.web_scraper_agent:_analyze_stocktwits_with_openai:159 | Failed to parse OpenAI JSON response: Expecting value: line 1 column 1 (char 0)
