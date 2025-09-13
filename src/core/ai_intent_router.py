@@ -176,7 +176,7 @@ class AIIntentRouter:
                             },
                             "budget": {
                                 "type": "number",
-                                "description": "Budget available for option purchase"
+                                "description": "Budget available for option purchase (default: 500 if not specified)"
                             },
                             "risk_tolerance": {
                                 "type": "string",
@@ -184,7 +184,7 @@ class AIIntentRouter:
                                 "description": "User's risk tolerance level"
                             }
                         },
-                        "required": ["symbol", "budget"]
+                        "required": ["symbol"]
                     }
                 }
             },
@@ -253,7 +253,11 @@ Instructions:
 - For quiz requests, call generate_quiz
 - For market trends, call get_market_trends
 
-IMPORTANT: When user mentions "budget", "buy option", "buy options", or asks to find profitable options, use the buy tools!
+IMPORTANT BUY REQUEST HANDLING:
+- If user wants to buy a specific option (e.g., "buy TSLA strike 425"), call buy_option with symbol and infer budget as $500 if not specified
+- If user asks for "most profitable option" or "best option with $X budget", call buy_multiple_options
+- Always assume a default budget of $500 for option purchases if not explicitly mentioned
+- For buy requests, ALWAYS extract: symbol, budget (default $500), risk_tolerance (default "moderate")
 
 Always choose the most appropriate tool(s) for the user's request.
 You can call multiple tools if needed.
@@ -301,6 +305,7 @@ You can call multiple tools if needed.
                     "response": final_response,
                     "intent": self._determine_intent_from_tools(message.tool_calls),
                     "tools_called": [tc.function.name for tc in message.tool_calls],
+                    "tool_results": tool_results,  # Include tool results for frontend
                     "confidence": 0.9,  # High confidence when using tools
                     "formatted": True,
                     "timestamp": datetime.now().isoformat()
@@ -488,7 +493,7 @@ You can call multiple tools if needed.
             from src.agents.buy_agent import analyze_option_buy
             
             symbol = args["symbol"].upper()
-            budget = float(args["budget"])
+            budget = float(args.get("budget", 500))  # Default to $500 if not specified
             risk_tolerance = args.get("risk_tolerance", "moderate")
             
             preferences = {
