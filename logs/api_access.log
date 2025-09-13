@@ -75,3 +75,491 @@
 2025-09-12 18:44:54.324 | POST /api/v1/analysis/real-time 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
 2025-09-12 18:44:54.326 | GET /api/v1/options/chain 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
 2025-09-12 18:44:54.329 | GET /api/v1/nonexistent/endpoint 404 0.000s UA: Python/3.13 aiohttp/3.12.15 IP: 127.0.0.1
+2025-09-12 21:39:17.783 | POST /api/v1/chat/message 200 2.632s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 21:47:39.061 | GET /api/v1/stocks/hot-stocks 200 10.694s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 22:06:12.180 | GET /api/v1/stocks/hot-stocks 200 8.902s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 22:13:03.731 | GET /api/v1/stocks/hot-stocks 200 8.670s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 22:23:08.691 | OPTIONS /api/v1/agents/AAPL 200 0.014s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:23:08.706 | OPTIONS /api/v1/signals/AAPL 200 0.029s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:23:08.713 | OPTIONS /api/v1/technical/AAPL 200 0.028s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:23:08.717 | OPTIONS /api/v1/agents/AAPL 200 0.032s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:23:08.720 | OPTIONS /api/v1/signals/AAPL 200 0.033s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:23:08.722 | OPTIONS /api/v1/technical/AAPL 200 0.034s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:23:08.737 | OPTIONS /api/v1/agents/AAPL 200 0.005s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:23:08.740 | OPTIONS /api/v1/signals/AAPL 200 0.007s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:23:08.811 | OPTIONS /api/v1/technical/AAPL 200 0.002s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:23:08.822 | OPTIONS /api/v1/agents/AAPL 200 0.002s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:23:08.830 | OPTIONS /api/v1/signals/AAPL 200 0.004s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:23:08.839 | OPTIONS /api/v1/technical/AAPL 200 0.009s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:23:09.312 | GET /api/v1/technical/AAPL 404 0.119s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:23:09.328 | GET /api/v1/technical/AAPL 404 0.005s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:23:09.367 | GET /api/v1/technical/AAPL 404 0.004s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:23:09.399 | GET /api/v1/technical/AAPL 404 0.004s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:23:32.321 | GET /api/v1/agents/AAPL 200 23.477s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:23:49.864 | GET /api/v1/agents/AAPL 200 32.938s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:24:12.783 | GET /api/v1/signals/AAPL 200 63.590s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:34:29.273 | OPTIONS /api/v1/stocks/hot-stocks 200 0.002s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:34:29.360 | OPTIONS /api/v1/stocks/hot-stocks 200 0.091s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:34:40.822 | GET /api/v1/stocks/hot-stocks 200 11.445s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:34:49.238 | GET /api/v1/stocks/hot-stocks 200 8.411s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:35:55.656 | GET /api/v1/stocks/hot-stocks 200 8.454s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:36:03.997 | GET /api/v1/stocks/hot-stocks 200 8.333s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:36:50.409 | GET /api/v1/stocks/hot-stocks 200 6.900s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 22:37:40.507 | GET /api/v1/stocks/hot-stocks 200 8.097s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 22:37:57.090 | GET /api/v1/stocks/hot-stocks 200 6.424s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 22:38:35.002 | GET /api/v1/stocks/hot-stocks 200 7.038s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:38:40.651 | GET /api/v1/stocks/hot-stocks 200 5.645s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:39:50.702 | GET /api/v1/stocks/hot-stocks 200 7.703s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 22:40:28.764 | GET /api/v1/stocks/hot-stocks 200 8.725s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 22:40:53.715 | GET /api/v1/stocks/hot-stocks 200 7.050s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 22:42:34.476 | GET /api/v1/stocks/hot-stocks 200 7.077s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 22:42:48.334 | GET /api/v1/stocks/hot-stocks 200 7.654s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 22:43:34.653 | GET /api/v1/stocks/hot-stocks 200 7.709s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:43:41.590 | GET /api/v1/stocks/hot-stocks 200 6.933s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:45:08.386 | GET /api/v1/stocks/hot-stocks 200 7.690s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 22:46:35.201 | OPTIONS /api/v1/stocks/hot-stocks 200 0.002s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:46:35.202 | OPTIONS /api/v1/stocks/hot-stocks 200 0.003s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:46:49.195 | GET /api/v1/stocks/hot-stocks 200 13.908s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:46:58.265 | GET /api/v1/stocks/hot-stocks 200 9.066s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:47:37.125 | GET /api/v1/stocks/hot-stocks 200 38.851s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:47:48.232 | GET /api/v1/stocks/hot-stocks 200 47.760s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:48:01.875 | GET /api/v1/stocks/hot-stocks 200 57.031s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:48:01.883 | GET /api/v1/stocks/hot-stocks 200 57.040s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:48:10.432 | GET /api/v1/stocks/hot-stocks 200 56.934s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:48:10.454 | GET /api/v1/stocks/hot-stocks 200 56.953s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:48:18.348 | GET /api/v1/stocks/hot-stocks 200 41.199s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:48:20.129 | GET /api/v1/stocks/hot-stocks 200 31.864s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:49:25.106 | GET /api/v1/stocks/hot-stocks 200 10.523s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 22:49:49.841 | OPTIONS /api/v1/agents/NVDA 200 0.002s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:49:49.842 | OPTIONS /api/v1/signals/NVDA 200 0.002s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:49:49.842 | OPTIONS /api/v1/technical/NVDA 200 0.003s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:49:49.843 | OPTIONS /api/v1/agents/AAPL 200 0.004s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:49:49.844 | OPTIONS /api/v1/signals/AAPL 200 0.004s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:49:49.845 | OPTIONS /api/v1/technical/AAPL 200 0.005s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:49:49.851 | OPTIONS /api/v1/agents/TSLA 200 0.000s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:49:49.856 | OPTIONS /api/v1/signals/TSLA 200 0.002s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:49:49.858 | OPTIONS /api/v1/technical/TSLA 200 0.003s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:49:49.859 | OPTIONS /api/v1/agents/MSFT 200 0.004s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:49:49.861 | OPTIONS /api/v1/signals/MSFT 200 0.005s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:49:49.862 | OPTIONS /api/v1/technical/MSFT 200 0.006s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:49:49.864 | OPTIONS /api/v1/agents/NVDA 200 0.008s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:49:49.870 | OPTIONS /api/v1/agents/AAPL 200 0.003s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:49:49.873 | OPTIONS /api/v1/signals/NVDA 200 0.004s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:49:49.874 | OPTIONS /api/v1/technical/NVDA 200 0.005s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:49:49.876 | OPTIONS /api/v1/agents/TSLA 200 0.005s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:49:49.878 | OPTIONS /api/v1/signals/AAPL 200 0.005s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:49:49.879 | OPTIONS /api/v1/technical/AAPL 200 0.006s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:49:49.884 | OPTIONS /api/v1/signals/TSLA 200 0.002s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:49:49.885 | OPTIONS /api/v1/technical/TSLA 200 0.002s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:49:49.888 | OPTIONS /api/v1/agents/MSFT 200 0.004s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:49:49.890 | OPTIONS /api/v1/signals/MSFT 200 0.005s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:49:49.891 | OPTIONS /api/v1/technical/MSFT 200 0.006s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:49:49.976 | GET /api/v1/technical/NVDA 404 0.039s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:49:50.065 | GET /api/v1/technical/AAPL 404 0.089s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:50:03.503 | GET /api/v1/agents/NVDA 200 13.615s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:50:07.068 | GET /api/v1/agents/AAPL 200 17.092s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:50:13.745 | GET /api/v1/agents/TSLA 200 23.675s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:50:14.553 | GET /api/v1/technical/TSLA 404 3.284s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:50:40.158 | GET /api/v1/technical/MSFT 404 23.445s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:50:53.250 | GET /api/v1/technical/NVDA 404 1.126s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:50:53.287 | GET /api/v1/agents/MSFT 200 40.663s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:50:53.289 | GET /api/v1/technical/AAPL 404 0.020s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:51:12.388 | GET /api/v1/agents/NVDA 200 15.416s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:51:12.389 | GET /api/v1/agents/AAPL 200 15.371s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:52:11.790 | GET /api/v1/signals/NVDA 200 141.852s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:52:11.794 | GET /api/v1/signals/AAPL 200 141.818s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:52:11.796 | GET /api/v1/signals/TSLA 200 141.684s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:52:13.466 | GET /api/v1/agents/TSLA 200 61.027s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:52:13.470 | GET /api/v1/technical/AAPL 404 1.661s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 22:52:14.375 | GET /api/v1/technical/TSLA 404 0.903s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:52:45.413 | GET /docs 200 17.920s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 22:52:46.483 | GET /api/v1/signals/MSFT 200 149.770s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:52:56.594 | GET /api/v1/technical/MSFT 404 3.554s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:52:56.658 | GET /api/v1/agents/MSFT 200 42.281s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:53:53.493 | GET /api/v1/signals/NVDA 200 161.095s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:54:17.111 | GET /api/v1/signals/TSLA 200 123.639s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:54:43.133 | GET /api/v1/signals/AAPL 200 149.662s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:54:43.134 | GET /api/v1/signals/MSFT 200 137.955s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:54:57.280 | GET /api/v1/technical/AAPL 200 2.647s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 22:56:07.587 | GET /api/v1/agents/AAPL 200 15.156s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:56:12.065 | GET /api/v1/technical/AAPL 200 19.493s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:56:12.066 | GET /api/v1/technical/NVDA 200 19.409s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:56:13.327 | GET /api/v1/agents/NVDA 200 20.755s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:56:45.124 | GET /api/v1/agents/MSFT 200 33.053s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:56:48.645 | GET /api/v1/technical/MSFT 200 35.317s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:56:50.479 | GET /api/v1/agents/TSLA 200 36.234s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:57:15.447 | GET /api/v1/technical/TSLA 200 26.639s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:57:15.470 | GET /api/v1/analysis/ 200 0.010s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 22:57:24.077 | GET /api/v1/agents/AAPL 200 30.252s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:57:44.947 | GET /api/v1/signals/NVDA 200 112.289s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:57:44.963 | GET /api/v1/trading/ 200 0.282s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 22:57:44.964 | GET /api/v1/technical/AAPL 200 29.495s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:57:52.390 | GET /api/v1/technical/NVDA 200 7.708s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:57:52.463 | GET /api/v1/agents/NVDA 200 7.422s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:58:55.917 | GET /api/v1/signals/MSFT 200 162.589s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:58:55.919 | GET /api/v1/signals/AAPL 200 183.487s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:58:55.922 | GET /api/v1/signals/TSLA 200 127.270s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:58:58.846 | GET /api/v1/agents/MSFT 200 66.376s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:59:31.999 | GET /api/v1/signals/AAPL 200 107.027s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 22:59:52.270 | GET /api/v1/signals/NVDA 200 119.860s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:00:09.306 | GET /api/v1/technical/TSLA 500 10.488s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:00:09.314 | GET /api/v1/agents/NVDA 200 10.496s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:00:21.789 | GET /api/v1/technical/AAPL 500 22.970s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 23:00:21.789 | GET /api/v1/technical/NVDA 500 22.971s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:01:15.786 | GET /api/v1/agents/MSFT 200 54.005s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:01:15.809 | GET /api/v1/technical/MSFT 500 52.326s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:01:36.021 | GET /api/v1/technical/AAPL 500 20.210s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 23:01:42.480 | GET /api/v1/agents/TSLA 200 26.669s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:02:37.989 | GET /api/v1/signals/TSLA 200 159.171s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:02:37.990 | GET /api/v1/signals/AAPL 200 159.172s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:02:37.991 | GET /api/v1/technical/TSLA 500 53.813s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:02:38.029 | GET /api/v1/technical/AAPL 500 42.824s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 23:02:38.040 | GET /api/v1/signals/NVDA 200 159.222s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:02:57.653 | GET /api/v1/signals/MSFT 200 155.872s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:03:01.875 | GET /api/v1/agents/NVDA 200 23.645s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:03:01.998 | GET /api/v1/technical/AAPL 500 23.943s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:03:03.698 | GET /api/v1/agents/AAPL 200 25.650s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:03:25.277 | GET /api/v1/technical/NVDA 500 23.278s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:03:25.379 | GET /api/v1/agents/MSFT 200 21.681s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:04:05.097 | GET /api/v1/technical/MSFT 500 39.719s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:04:18.757 | GET /api/v1/agents/TSLA 200 45.298s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:04:18.822 | GET /api/v1/signals/TSLA 200 182.817s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:04:33.682 | GET /api/v1/signals/AAPL 200 115.631s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:04:51.840 | GET /api/v1/signals/NVDA 200 109.945s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:05:06.141 | GET /api/v1/signals/MSFT 200 119.329s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:07:47.005 | GET /api/v1/technical/AAPL 500 17.574s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 23:07:55.673 | GET /api/v1/technical/TSLA 500 26.241s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:07:55.749 | GET /api/v1/technical/AAPL 500 26.318s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:07:55.901 | GET /api/v1/agents/TSLA 200 26.470s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:08:48.375 | GET /api/v1/technical/TSLA 500 50.438s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:08:48.392 | GET /api/v1/agents/TSLA 200 50.455s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:08:48.427 | GET /api/v1/technical/MSFT 500 48.170s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:08:52.271 | OPTIONS /api/v1/agents/TSLA 200 3.609s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:08:52.275 | OPTIONS /api/v1/signals/TSLA 200 3.612s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:08:55.153 | OPTIONS /api/v1/technical/TSLA 200 1.010s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:08:55.157 | OPTIONS /api/v1/agents/TSLA 200 1.015s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:08:55.194 | GET /api/v1/technical/AAPL 500 7.503s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 23:08:55.284 | OPTIONS /api/v1/signals/TSLA 200 0.021s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:08:55.290 | OPTIONS /api/v1/technical/TSLA 200 0.027s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:08:55.378 | OPTIONS /api/v1/agents/TSLA 200 0.065s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:08:55.412 | OPTIONS /api/v1/signals/TSLA 200 0.084s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:08:55.490 | GET /api/v1/agents/AAPL 200 7.025s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:08:55.496 | OPTIONS /api/v1/technical/TSLA 200 0.007s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:08:55.498 | OPTIONS /api/v1/agents/TSLA 200 0.008s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:08:55.830 | OPTIONS /api/v1/signals/TSLA 200 0.272s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:08:55.834 | OPTIONS /api/v1/technical/TSLA 200 0.276s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:09:02.381 | GET /api/v1/agents/TSLA 200 6.822s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:09:06.706 | GET /api/v1/technical/TSLA 500 10.838s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:09:22.907 | GET /api/v1/signals/TSLA 200 113.475s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:09:39.953 | GET /api/v1/signals/MSFT 200 130.522s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:10:02.522 | GET /api/v1/signals/TSLA 200 153.091s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:10:02.523 | GET /api/v1/agents/TSLA 200 55.814s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:10:02.525 | GET /api/v1/technical/TSLA 500 55.715s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:10:29.242 | GET /api/v1/signals/TSLA 200 93.375s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:11:03.826 | GET /api/v1/technical/TSLA 500 25.119s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:11:03.838 | GET /api/v1/agents/TSLA 200 25.133s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:11:03.874 | GET /api/v1/agents/TSLA 200 25.170s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:11:03.898 | GET /api/v1/technical/TSLA 500 25.193s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:12:05.798 | GET /api/v1/signals/TSLA 200 87.093s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:12:32.209 | GET /api/v1/signals/TSLA 200 113.504s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:14:06.990 | GET /api/v1/technical/AAPL 200 3.254s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 23:16:17.858 | GET /api/v1/technical/AAPL 500 17.952s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 23:16:45.251 | GET /api/v1/technical/AAPL 500 16.144s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 23:17:40.462 | GET /api/v1/technical/AAPL 200 15.179s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 23:18:09.588 | GET /api/v1/stocks/hot-stocks 200 6.850s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 23:19:01.484 | OPTIONS /api/v1/stocks/hot-stocks 200 0.002s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:19:01.487 | OPTIONS /api/v1/stocks/hot-stocks 200 0.005s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:19:08.944 | GET /api/v1/stocks/hot-stocks 200 7.452s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:19:15.113 | GET /api/v1/stocks/hot-stocks 200 6.168s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:19:21.373 | OPTIONS /api/v1/agents/TSLA 200 0.001s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:19:21.374 | OPTIONS /api/v1/signals/TSLA 200 0.001s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:19:21.375 | OPTIONS /api/v1/technical/TSLA 200 0.002s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:20:15.641 | GET /api/v1/agents/TSLA 200 54.263s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:20:15.646 | GET /api/v1/technical/TSLA 200 54.207s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:20:45.324 | GET /api/v1/signals/TSLA 200 83.885s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:21:26.286 | GET /api/v1/technical/TSLA 200 40.423s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:21:40.638 | GET /api/v1/agents/TSLA 200 55.290s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:23:46.763 | GET /api/v1/technical/TSLA 200 126.626s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:23:46.825 | GET /api/v1/agents/TSLA 200 120.800s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:23:46.826 | GET /api/v1/agents/TSLA 200 126.691s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:23:47.698 | GET /api/v1/signals/TSLA 200 181.837s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:24:41.816 | GET /api/v1/signals/TSLA 200 175.677s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:24:55.028 | GET /api/v1/signals/TSLA 200 194.892s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:25:48.909 | GET /api/v1/technical/TSLA 200 44.503s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: unknown
+2025-09-12 23:25:48.910 | GET /api/v1/agents/TSLA 200 44.504s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: unknown
+2025-09-12 23:26:35.348 | GET /api/v1/technical/TSLA 200 90.942s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: unknown
+2025-09-12 23:28:01.070 | GET /api/v1/signals/TSLA 200 176.664s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: unknown
+2025-09-12 23:28:18.578 | GET /api/v1/signals/TSLA 200 176.432s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 23:28:24.878 | GET /api/v1/stocks/hot-stocks 200 6.298s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:28:31.870 | GET /api/v1/stocks/hot-stocks 200 6.989s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:34:13.849 | POST /api/v1/chat/message 200 19.253s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 23:34:21.528 | GET /api/v1/chat/intent/Should I buy AAPL 200 1.000s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 23:34:50.868 | OPTIONS /api/v1/agents/TSLA 200 0.001s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:34:50.869 | OPTIONS /api/v1/signals/TSLA 200 0.002s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:34:50.870 | OPTIONS /api/v1/technical/TSLA 200 0.003s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:35:46.491 | GET /api/v1/agents/TSLA 200 55.619s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:35:58.512 | GET /api/v1/technical/TSLA 200 67.501s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:36:42.270 | GET /api/v1/signals/TSLA 200 111.322s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:37:52.273 | GET /api/v1/technical/TSLA 200 48.897s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:39:03.146 | GET /api/v1/agents/TSLA 200 119.772s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:39:03.148 | GET /api/v1/agents/TSLA 200 119.772s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:39:03.150 | GET /api/v1/technical/TSLA 200 119.775s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:40:01.399 | GET /api/v1/signals/TSLA 200 178.024s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:40:18.180 | GET /api/v1/signals/TSLA 200 194.805s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:41:31.341 | GET /api/v1/agents/TSLA 200 57.451s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:43:30.564 | GET /api/v1/technical/TSLA 200 176.675s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:43:30.568 | GET /api/v1/technical/TSLA 200 176.679s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:43:30.570 | GET /api/v1/agents/TSLA 200 176.681s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:43:30.572 | GET /api/v1/technical/TSLA 200 176.684s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 23:44:32.664 | GET /api/v1/signals/TSLA 200 238.774s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:44:50.051 | GET /api/v1/signals/TSLA 200 256.162s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:46:34.712 | GET /api/v1/technical/TSLA 200 18.739s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 23:47:00.893 | POST /api/v1/chat/message 200 17.866s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 23:47:24.208 | POST /api/v1/chat/message 200 18.099s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-12 23:47:59.027 | OPTIONS /api/v1/stocks/hot-stocks 200 0.003s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:47:59.030 | OPTIONS /api/v1/stocks/hot-stocks 200 0.006s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:48:07.768 | GET /api/v1/stocks/hot-stocks 200 8.583s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:48:14.353 | GET /api/v1/stocks/hot-stocks 200 6.579s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:48:25.797 | OPTIONS /api/v1/agents/MSFT 200 0.001s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:48:25.799 | OPTIONS /api/v1/signals/MSFT 200 0.001s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:48:25.801 | OPTIONS /api/v1/technical/MSFT 200 0.002s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:48:57.550 | GET /api/v1/agents/MSFT 200 31.747s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:49:31.649 | GET /api/v1/technical/MSFT 200 65.788s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:50:06.092 | GET /api/v1/signals/MSFT 200 100.174s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:50:33.766 | GET /api/v1/agents/MSFT 200 27.661s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:51:12.473 | GET /api/v1/technical/MSFT 200 66.244s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:52:08.338 | GET /api/v1/agents/MSFT 200 94.568s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:52:39.381 | GET /api/v1/technical/MSFT 200 125.608s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:52:42.183 | GET /api/v1/agents/MSFT 200 127.511s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:53:32.431 | GET /api/v1/signals/MSFT 200 206.203s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:54:32.139 | GET /api/v1/signals/MSFT 200 238.368s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-12 23:54:47.647 | GET /api/v1/signals/MSFT 200 215.163s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:03:29.779 | GET /api/v1/agents/MSFT 200 124.231s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:03:29.918 | GET /api/v1/technical/MSFT 200 124.373s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 00:03:29.921 | GET /api/v1/technical/MSFT 200 124.372s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:03:29.924 | GET /api/v1/technical/MSFT 200 124.377s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:03:29.925 | GET /api/v1/technical/MSFT 200 124.378s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:03:29.926 | GET /api/v1/technical/MSFT 200 124.377s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:04:10.130 | GET /api/v1/signals/MSFT 200 164.584s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:04:46.419 | OPTIONS /api/v1/stocks/hot-stocks 200 9.927s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:04:46.421 | OPTIONS /api/v1/stocks/hot-stocks 200 9.929s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:05:29.853 | GET /api/v1/agents/MSFT 200 71.735s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:06:16.237 | GET /api/v1/agents/MSFT 200 118.118s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:06:33.663 | GET /api/v1/stocks/hot-stocks 200 104.400s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:06:33.954 | GET /api/v1/stocks/hot-stocks 200 63.697s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:06:35.269 | GET /api/v1/stocks/hot-stocks 200 19.029s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:06:46.225 | GET /api/v1/stocks/hot-stocks 200 29.986s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:07:18.993 | OPTIONS /api/v1/agents/NVDA 200 0.005s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:07:18.994 | OPTIONS /api/v1/signals/NVDA 200 0.006s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:07:18.995 | OPTIONS /api/v1/technical/NVDA 200 0.007s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:07:48.562 | GET /api/v1/signals/MSFT 200 210.444s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:07:48.562 | GET /api/v1/signals/MSFT 200 210.444s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:08:16.830 | GET /api/v1/agents/NVDA 200 28.267s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:08:28.032 | GET /api/v1/technical/NVDA 200 39.469s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:13:04.276 | GET /api/v1/signals/NVDA 200 315.713s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:13:58.447 | GET /api/v1/agents/NVDA 200 54.130s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:14:36.403 | GET /api/v1/technical/NVDA 200 91.927s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:15:32.778 | GET /api/v1/agents/NVDA 200 125.579s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:15:32.780 | GET /api/v1/technical/NVDA 200 125.580s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:15:56.264 | GET /api/v1/agents/NVDA 200 117.154s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:17:19.549 | GET /api/v1/signals/NVDA 200 255.233s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:18:23.499 | GET /api/v1/signals/NVDA 200 296.300s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:18:23.522 | GET /api/v1/signals/NVDA 200 226.266s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:19:03.163 | GET /api/v1/technical/NVDA 200 34.221s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:19:28.411 | GET /api/v1/agents/NVDA 200 59.470s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:19:28.414 | GET /api/v1/technical/NVDA 200 59.472s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:20:38.943 | GET /api/v1/signals/NVDA 200 130.002s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:20:51.873 | POST /api/v1/chat/message 200 42.978s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 00:26:59.302 | POST /api/v1/chat/message 200 5.958s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 00:27:14.104 | POST /api/v1/chat/message 200 4.476s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 00:27:52.466 | GET /health 200 0.147s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 00:28:14.478 | POST /api/v1/chat/message 200 6.488s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 00:30:55.505 | POST /api/v1/chat/message 200 6.411s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 00:39:46.081 | POST /api/v1/chat/message 200 10.894s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 00:40:26.948 | OPTIONS /api/v1/stocks/hot-stocks 200 0.001s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:40:26.950 | OPTIONS /api/v1/stocks/hot-stocks 200 0.002s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:40:34.104 | GET /api/v1/stocks/hot-stocks 200 7.152s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:40:39.300 | GET /api/v1/stocks/hot-stocks 200 5.188s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:42:16.851 | GET /api/v1/stocks/hot-stocks 200 6.648s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 00:42:41.285 | OPTIONS /api/v1/agents/MSFT 200 0.002s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:42:41.286 | OPTIONS /api/v1/signals/MSFT 200 0.003s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:42:41.286 | OPTIONS /api/v1/technical/MSFT 200 0.003s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:43:03.329 | GET /api/v1/agents/MSFT 200 22.036s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:43:03.355 | GET /api/v1/technical/MSFT 200 21.926s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:43:57.946 | GET /api/v1/signals/MSFT 200 76.652s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:46:55.995 | POST /api/v1/chat/message 200 12.881s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 00:47:42.013 | GET /api/v1/stocks/hot-stocks 200 6.703s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:47:47.835 | GET /api/v1/stocks/hot-stocks 200 5.819s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:48:07.346 | GET /api/v1/agents/MSFT 200 15.203s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:48:21.502 | GET /api/v1/technical/MSFT 200 29.160s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:48:59.405 | GET /api/v1/signals/MSFT 200 67.143s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:49:48.248 | GET /api/v1/stocks/hot-stocks 200 6.008s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:49:54.469 | GET /api/v1/stocks/hot-stocks 200 6.217s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:50:18.117 | OPTIONS /api/v1/agents/AAPL 200 0.012s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:50:18.133 | OPTIONS /api/v1/signals/AAPL 200 0.009s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:50:18.144 | OPTIONS /api/v1/technical/AAPL 200 0.017s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:50:41.749 | OPTIONS /api/v1/stocks/hot-stocks 200 10.186s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:50:41.750 | OPTIONS /api/v1/stocks/hot-stocks 200 10.187s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:50:41.766 | GET /api/v1/agents/AAPL 200 23.610s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:50:56.192 | GET /api/v1/technical/AAPL 200 37.693s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:51:01.953 | GET /api/v1/stocks/hot-stocks 200 10.797s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:51:16.721 | GET /api/v1/stocks/hot-stocks 200 14.850s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:51:20.062 | GET /api/v1/stocks/hot-stocks 200 18.104s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:51:41.407 | GET /api/v1/stocks/hot-stocks 200 25.815s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:51:41.493 | GET /api/v1/stocks/hot-stocks 200 11.575s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:51:55.663 | GET /api/v1/signals/AAPL 200 97.343s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:51:55.666 | OPTIONS /api/v1/agents/NVDA 200 0.030s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:51:55.667 | OPTIONS /api/v1/signals/NVDA 200 0.031s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:51:55.671 | OPTIONS /api/v1/technical/NVDA 200 0.002s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:52:19.675 | GET /api/v1/stocks/hot-stocks 200 44.892s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:52:34.233 | GET /api/v1/agents/NVDA 200 38.559s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:52:57.534 | GET /api/v1/agents/AAPL 200 60.926s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:52:57.537 | GET /api/v1/technical/NVDA 200 60.928s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:53:21.332 | GET /api/v1/agents/AAPL 200 47.023s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:53:21.333 | GET /api/v1/technical/AAPL 200 47.097s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:53:46.223 | GET /api/v1/technical/AAPL 200 48.280s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:54:24.523 | GET /api/v1/signals/AAPL 200 147.914s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:54:44.060 | GET /api/v1/signals/NVDA 200 168.296s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:55:28.199 | GET /api/v1/agents/NVDA 200 44.119s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:55:28.202 | GET /api/v1/technical/NVDA 200 43.900s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:55:51.762 | GET /api/v1/signals/AAPL 200 173.820s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:56:17.658 | GET /api/v1/agents/NVDA 200 71.648s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:56:39.251 | GET /api/v1/agents/NVDA 200 55.846s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:56:39.253 | GET /api/v1/technical/NVDA 200 55.848s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:57:05.321 | GET /api/v1/technical/NVDA 200 37.949s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:57:25.284 | GET /api/v1/agents/NVDA 200 45.418s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:58:15.791 | GET /api/v1/technical/NVDA 200 65.471s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:59:19.003 | GET /api/v1/signals/NVDA 200 274.701s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:59:19.005 | GET /api/v1/signals/NVDA 200 205.908s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:59:19.031 | GET /api/v1/signals/NVDA 200 253.020s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 00:59:35.704 | GET /api/v1/signals/NVDA 200 175.775s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:00:18.957 | GET /api/v1/agents/NVDA 200 24.774s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:00:19.001 | GET /api/v1/technical/NVDA 200 24.625s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:01:10.177 | GET /api/v1/agents/NVDA 200 51.173s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:01:10.178 | GET /api/v1/technical/NVDA 200 51.173s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:02:16.191 | GET /api/v1/technical/NVDA 200 87.256s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:02:16.194 | GET /api/v1/agents/NVDA 200 87.259s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:02:16.195 | GET /api/v1/agents/NVDA 200 87.260s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:02:16.196 | OPTIONS /api/v1/stocks/hot-stocks 200 0.048s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:02:16.198 | OPTIONS /api/v1/stocks/hot-stocks 200 0.050s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:02:22.249 | GET /api/v1/stocks/hot-stocks 200 6.043s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:02:43.540 | GET /api/v1/signals/NVDA 200 144.535s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:03:04.481 | GET /api/v1/signals/NVDA 200 190.106s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:03:06.109 | GET /api/v1/stocks/hot-stocks 200 43.857s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:03:31.753 | GET /api/v1/signals/NVDA 200 162.818s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:04:29.480 | OPTIONS /api/v1/chat/message 200 0.002s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:04:39.205 | POST /api/v1/chat/message 200 9.716s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:04:39.310 | OPTIONS /api/v1/agents/AAPL 200 0.001s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:04:39.310 | OPTIONS /api/v1/signals/AAPL 200 0.002s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:04:39.311 | OPTIONS /api/v1/technical/AAPL 200 0.002s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:05:07.197 | GET /api/v1/agents/AAPL 200 27.883s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:05:14.249 | GET /api/v1/technical/AAPL 200 34.783s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:05:27.458 | POST /api/v1/chat/message 200 48.158s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:05:33.100 | POST /api/v1/chat/message 200 53.542s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:06:26.717 | GET /api/v1/signals/AAPL 200 107.325s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:06:43.809 | GET /api/v1/signals/AAPL 200 90.655s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:08:12.374 | GET /health 200 0.181s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 01:08:40.384 | POST /api/v1/chat/message 200 9.790s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 01:27:45.538 | GET /api/v1/stocks/hot-stocks 200 8.235s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 01:33:54.295 | GET /api/v1/agents/AAPL 200 9.425s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 01:35:03.398 | GET /api/v1/signals/AAPL 200 58.834s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 01:35:24.173 | GET /api/v1/technical/AAPL 200 8.450s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 01:35:37.467 | GET /api/v1/analysis/AAPL 404 0.000s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 01:37:11.057 | GET /api/v1/stocks/hot-stocks 200 5.949s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 01:37:11.423 | GET /api/v1/portfolio/summary 500 0.342s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 01:37:11.559 | GET /api/v1/portfolio/positions 200 0.115s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 01:38:03.457 | POST /api/v1/chat/message 200 51.883s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 01:38:15.292 | GET /api/v1/portfolio/summary 500 0.535s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 01:38:59.235 | GET /api/v1/portfolio/summary 500 0.467s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 01:43:27.483 | GET /api/v1/portfolio/summary 500 0.562s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 01:43:50.021 | OPTIONS /api/v1/stocks/hot-stocks 200 0.004s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:43:50.064 | OPTIONS /api/v1/portfolio/summary 200 0.041s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:43:50.067 | OPTIONS /api/v1/portfolio/positions 200 0.006s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:43:50.071 | OPTIONS /api/v1/stocks/hot-stocks 200 0.010s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:43:50.076 | OPTIONS /api/v1/portfolio/summary 200 0.014s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:43:50.078 | OPTIONS /api/v1/portfolio/positions 200 0.016s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:43:50.869 | GET /api/v1/portfolio/summary 500 0.450s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:43:50.871 | GET /api/v1/portfolio/positions 200 0.452s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:43:54.281 | GET /api/v1/portfolio/summary 500 0.457s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:43:54.282 | GET /api/v1/portfolio/positions 200 0.458s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:43:59.774 | GET /api/v1/stocks/hot-stocks 200 9.688s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:44:06.285 | GET /api/v1/stocks/hot-stocks 200 6.504s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:44:10.926 | OPTIONS /api/v1/chat/message 200 0.000s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:44:21.970 | POST /api/v1/chat/message 200 11.039s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:44:29.986 | GET /api/v1/portfolio/summary 200 0.363s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 01:44:46.810 | POST /api/v1/chat/message 200 17.187s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:44:59.318 | POST /api/v1/chat/message 200 29.695s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:45:13.432 | POST /api/v1/chat/message 200 43.809s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:45:13.441 | POST /api/v1/chat/message 200 43.819s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 01:45:13.448 | POST /api/v1/analysis/analyze/AAPL 500 0.004s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 01:46:01.730 | GET /api/v1/stocks/hot-stocks 200 7.243s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 01:46:02.085 | GET /api/v1/portfolio/summary 200 0.327s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 01:46:02.290 | GET /api/v1/portfolio/positions 200 0.178s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 01:46:02.334 | POST /api/v1/analysis/analyze/AAPL 500 0.006s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 01:47:51.334 | POST /api/v1/analysis/analyze/AAPL 200 0.176s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 01:49:07.210 | GET /api/v1/stocks/hot-stocks 200 9.058s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 01:49:07.564 | GET /api/v1/portfolio/summary 200 0.326s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 01:49:07.659 | GET /api/v1/portfolio/positions 200 0.064s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 01:49:07.762 | POST /api/v1/analysis/analyze/AAPL 200 0.072s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 01:49:18.422 | GET /api/v1/technical/AAPL 200 10.561s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 01:49:28.357 | GET /api/v1/agents/AAPL 200 9.914s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 01:52:14.269 | POST /api/v1/analysis/analyze/AAPL 200 0.181s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 01:57:18.456 | POST /api/v1/chat/message 200 10.109s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 01:57:34.006 | POST /api/v1/chat/message 200 8.932s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 02:01:13.283 | GET /api/v1/stocks/hot-stocks 200 6.766s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 02:01:13.708 | GET /api/v1/portfolio/summary 200 0.402s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 02:01:13.822 | GET /api/v1/portfolio/positions 200 0.092s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 02:01:13.943 | POST /api/v1/analysis/analyze/AAPL 200 0.104s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 02:01:23.134 | GET /api/v1/technical/AAPL 200 9.095s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 02:07:58.944 | OPTIONS /api/v1/stocks/hot-stocks 200 0.006s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:07:58.955 | OPTIONS /api/v1/portfolio/summary 200 0.018s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:07:58.956 | OPTIONS /api/v1/portfolio/positions 200 0.019s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:07:58.957 | OPTIONS /api/v1/stocks/hot-stocks 200 0.019s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:07:58.961 | OPTIONS /api/v1/portfolio/summary 200 0.023s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:07:58.962 | OPTIONS /api/v1/portfolio/positions 200 0.024s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:07:59.784 | GET /api/v1/portfolio/summary 200 0.637s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:07:59.786 | GET /api/v1/portfolio/positions 200 0.093s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:08:02.609 | GET /api/v1/portfolio/summary 200 1.032s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:08:02.613 | GET /api/v1/portfolio/positions 200 0.096s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:08:08.140 | GET /api/v1/stocks/hot-stocks 200 9.158s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:08:15.428 | GET /api/v1/stocks/hot-stocks 200 7.283s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:08:29.916 | OPTIONS /api/v1/chat/message 200 0.000s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:09:30.211 | POST /api/v1/chat/message 200 60.292s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:09:41.218 | POST /api/v1/chat/message 200 10.941s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:09:47.675 | POST /api/v1/chat/message 200 17.377s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:12:25.887 | POST /api/v1/analysis/analyze/MSFT 200 0.500s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 02:12:57.894 | GET /api/v1/stocks/hot-stocks 200 6.934s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:13:04.054 | GET /api/v1/stocks/hot-stocks 200 6.157s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:13:20.378 | POST /api/v1/analysis/analyze/MSFT 200 0.143s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 02:13:27.691 | POST /api/v1/analysis/analyze/MSFT 200 0.133s UA: curl/8.7.1 IP: 127.0.0.1
+2025-09-13 02:13:53.215 | GET /api/v1/stocks/hot-stocks 200 7.301s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:13:59.276 | GET /api/v1/stocks/hot-stocks 200 6.058s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:14:05.635 | GET /api/v1/stocks/hot-stocks 200 6.356s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:14:12.496 | GET /api/v1/stocks/hot-stocks 200 6.836s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:14:54.085 | GET /api/v1/portfolio/summary 200 0.526s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:14:54.086 | GET /api/v1/portfolio/positions 200 0.527s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:14:55.701 | GET /api/v1/portfolio/positions 200 0.388s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:14:55.702 | GET /api/v1/portfolio/summary 200 0.296s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:15:00.070 | GET /api/v1/stocks/hot-stocks 200 6.627s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:15:06.030 | GET /api/v1/stocks/hot-stocks 200 5.951s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:15:14.751 | POST /api/v1/chat/message 200 9.972s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:15:14.877 | OPTIONS /api/v1/analysis/analyze/MSFT 200 0.003s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:15:14.898 | OPTIONS /api/v1/analysis/analyze/MSFT 200 0.017s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:15:15.045 | POST /api/v1/analysis/analyze/MSFT 200 0.138s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:15:15.209 | POST /api/v1/analysis/analyze/MSFT 200 0.300s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:15:38.926 | POST /api/v1/chat/message 200 24.045s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:15:38.940 | POST /api/v1/chat/message 200 24.065s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:15:41.823 | GET /api/v1/stocks/hot-stocks 200 26.611s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:15:45.374 | GET /api/v1/stocks/hot-stocks 200 6.431s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:17:38.131 | GET /api/v1/stocks/hot-stocks 200 6.144s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:17:44.944 | GET /api/v1/stocks/hot-stocks 200 6.807s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:19:14.648 | OPTIONS /api/v1/chat/message 200 0.000s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:19:24.801 | POST /api/v1/chat/message 200 10.150s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:19:24.853 | OPTIONS /api/v1/analysis/analyze/NVDA 200 0.001s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:19:25.029 | POST /api/v1/analysis/analyze/NVDA 200 0.173s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:19:25.211 | POST /api/v1/analysis/analyze/NVDA 200 0.181s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:19:25.212 | OPTIONS /api/v1/stocks/hot-stocks 200 0.093s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:19:37.843 | POST /api/v1/chat/message 200 12.812s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:19:44.675 | POST /api/v1/chat/message 200 19.822s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:19:45.784 | GET /api/v1/stocks/hot-stocks 200 20.477s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1
+2025-09-13 02:19:53.353 | GET /api/v1/stocks/hot-stocks 200 7.650s UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 IP: 127.0.0.1

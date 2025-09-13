@@ -70,6 +70,82 @@ OUTPUT FORMAT (JSON):
 }
 """
     
+    def _get_response_schema(self) -> Dict[str, Any]:
+        """Get JSON Schema for risk management response"""
+        return {
+            "type": "object",
+            "properties": {
+                "risk_assessment": {
+                    "type": "object",
+                    "properties": {
+                        "overall_risk": {"type": "string", "enum": ["low", "medium", "high"]},
+                        "risk_score": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+                        "key_risks": {
+                            "type": "array",
+                            "items": {"type": "string"},
+                            "maxItems": 5
+                        }
+                    },
+                    "required": ["overall_risk", "risk_score", "key_risks"],
+                    "additionalProperties": False
+                },
+                "position_sizing": {
+                    "type": "object",
+                    "properties": {
+                        "recommended_contracts": {"type": "integer", "minimum": 1},
+                        "max_loss_dollar": {"type": "number", "minimum": 0.0},
+                        "max_loss_percent": {"type": "number", "minimum": 0.0, "maximum": 100.0},
+                        "risk_reward_ratio": {"type": "number", "minimum": 0.0}
+                    },
+                    "required": ["recommended_contracts", "max_loss_dollar", "max_loss_percent", "risk_reward_ratio"],
+                    "additionalProperties": False
+                },
+                "strike_recommendations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "strike": {"type": "number", "minimum": 0.0},
+                            "option_type": {"type": "string", "enum": ["call", "put"]},
+                            "expiration": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+                            "delta": {"type": "number", "minimum": -1.0, "maximum": 1.0},
+                            "probability_profit": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+                            "max_loss": {"type": "number", "minimum": 0.0},
+                            "max_gain": {"type": "number", "minimum": 0.0},
+                            "risk_level": {"type": "string", "enum": ["low", "medium", "high"]}
+                        },
+                        "required": ["strike", "option_type", "expiration", "delta", "probability_profit", "max_loss", "max_gain", "risk_level"],
+                        "additionalProperties": False
+                    },
+                    "minItems": 1,
+                    "maxItems": 5
+                },
+                "risk_mitigation": {
+                    "type": "object",
+                    "properties": {
+                        "stop_loss": {"type": "number", "minimum": 0.0},
+                        "take_profit": {"type": "number", "minimum": 0.0},
+                        "time_decay_warning": {"type": "boolean"},
+                        "volatility_risk": {"type": "string", "enum": ["low", "medium", "high"]}
+                    },
+                    "required": ["stop_loss", "take_profit", "time_decay_warning", "volatility_risk"],
+                    "additionalProperties": False
+                },
+                "portfolio_impact": {
+                    "type": "object",
+                    "properties": {
+                        "correlation_risk": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+                        "concentration_risk": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+                        "diversification_score": {"type": "number", "minimum": 0.0, "maximum": 1.0}
+                    },
+                    "required": ["correlation_risk", "concentration_risk", "diversification_score"],
+                    "additionalProperties": False
+                }
+            },
+            "required": ["risk_assessment", "position_sizing", "strike_recommendations", "risk_mitigation", "portfolio_impact"],
+            "additionalProperties": False
+        }
+    
     async def recommend_strikes(
         self, 
         signal: Dict[str, Any], 
@@ -111,7 +187,11 @@ Recommend 3-5 appropriate strikes with full risk analysis.
                 """}
             ]
             
-            response = await self._make_completion(messages, temperature=0.3)
+            response = await self._make_completion(
+                messages, 
+                temperature=0.3,
+                response_schema=self._get_response_schema()
+            )
             analysis = self._parse_json_response(response['content'])
             
             # Extract just the strike recommendations
@@ -193,18 +273,26 @@ Recommend 3-5 appropriate strikes with full risk analysis.
         validated = []
         for rec in recommendations:
             if isinstance(rec, dict):
-                # Ensure required fields
+                # Ensure required fields with safe float conversion
+                def safe_float(value, default):
+                    try:
+                        if isinstance(value, str) and value.lower() in ['unlimited', 'infinite', 'inf']:
+                            return 10000.0  # Use large number for unlimited
+                        return float(value)
+                    except (ValueError, TypeError):
+                        return default
+                
                 validated_rec = {
-                    'strike': float(rec.get('strike', 150.0)),
+                    'strike': safe_float(rec.get('strike'), 150.0),
                     'option_type': rec.get('option_type', 'call'),
                     'expiration': rec.get('expiration', (datetime.now() + timedelta(days=30)).strftime('%Y-%m-%d')),
-                    'delta': max(-1.0, min(1.0, float(rec.get('delta', 0.5)))),
-                    'probability_profit': max(0.0, min(1.0, float(rec.get('probability_profit', 0.5)))),
-                    'max_loss': abs(float(rec.get('max_loss', 500.0))),
-                    'max_gain': abs(float(rec.get('max_gain', 1000.0))),
+                    'delta': max(-1.0, min(1.0, safe_float(rec.get('delta'), 0.5))),
+                    'probability_profit': max(0.0, min(1.0, safe_float(rec.get('probability_profit'), 0.5))),
+                    'max_loss': abs(safe_float(rec.get('max_loss'), 500.0)),
+                    'max_gain': abs(safe_float(rec.get('max_gain'), 1000.0)),
                     'risk_level': rec.get('risk_level', 'medium'),
-                    'premium': abs(float(rec.get('premium', 5.0))),
-                    'contracts': int(rec.get('contracts', 1))
+                    'premium': abs(safe_float(rec.get('premium'), 5.0)),
+                    'contracts': max(1, int(rec.get('contracts', 1)))
                 }
                 validated.append(validated_rec)
         

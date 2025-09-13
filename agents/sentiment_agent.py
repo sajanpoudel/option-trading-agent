@@ -49,6 +49,81 @@ OUTPUT FORMAT (JSON):
 }
 """
     
+    def _get_response_schema(self) -> Dict[str, Any]:
+        """Get JSON Schema for sentiment analysis response"""
+        return {
+            "type": "object",
+            "properties": {
+                "aggregate_score": {
+                    "type": "number",
+                    "minimum": -1.0,
+                    "maximum": 1.0
+                },
+                "confidence": {
+                    "type": "number",
+                    "minimum": 0.0,
+                    "maximum": 1.0
+                },
+                "sources": {
+                    "type": "object",
+                    "properties": {
+                        "news_sentiment": {
+                            "type": "object",
+                            "properties": {
+                                "score": {"type": "number"},
+                                "article_count": {"type": "integer", "minimum": 0},
+                                "details": {"type": "string"}
+                            },
+                            "required": ["score", "article_count", "details"],
+                            "additionalProperties": False
+                        },
+                        "stocktwits_sentiment": {
+                            "type": "object",
+                            "properties": {
+                                "score": {"type": "number"},
+                                "message_count": {"type": "integer", "minimum": 0},
+                                "details": {"type": "string"}
+                            },
+                            "required": ["score", "message_count", "details"],
+                            "additionalProperties": False
+                        },
+                        "market_psychology": {
+                            "type": "object",
+                            "properties": {
+                                "score": {"type": "number"},
+                                "indicators": {"type": "string"},
+                                "details": {"type": "string"}
+                            },
+                            "required": ["score", "indicators", "details"],
+                            "additionalProperties": False
+                        }
+                    },
+                    "required": ["news_sentiment", "stocktwits_sentiment", "market_psychology"],
+                    "additionalProperties": False
+                },
+                "sentiment_trend": {
+                    "type": "string",
+                    "enum": ["improving", "deteriorating", "stable"]
+                },
+                "key_factors": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "maxItems": 5
+                },
+                "risk_factors": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "maxItems": 5
+                },
+                "data_freshness": {
+                    "type": "string",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}$"
+                }
+            },
+            "required": ["aggregate_score", "confidence", "sources", "sentiment_trend", "key_factors", "risk_factors", "data_freshness"],
+            "additionalProperties": False
+        }
+    
     async def analyze(self, symbol: str, **kwargs) -> Dict[str, Any]:
         """Analyze market sentiment for the symbol using real web search data"""
         
@@ -89,7 +164,7 @@ OUTPUT FORMAT (JSON):
             ]
             
             news_data, stocktwits_data, psychology_data = await asyncio.gather(*tasks, return_exceptions=True)
-            
+        
             return {
                 'news_sentiment': news_data if not isinstance(news_data, Exception) else {},
                 'stocktwits_sentiment': stocktwits_data if not isinstance(stocktwits_data, Exception) else {},
@@ -100,7 +175,14 @@ OUTPUT FORMAT (JSON):
             
         except Exception as e:
             logger.error(f"Error collecting real sentiment data for {symbol}: {e}")
-            return {}
+            return {
+                'news_sentiment': {},
+                'stocktwits_sentiment': {},
+                'market_psychology': {},
+                'search_date': current_date,
+                'symbol': symbol,
+                'error': str(e)
+            }
     
     async def _search_news_sentiment(self, symbol: str, current_date: str) -> Dict[str, Any]:
         """Search for real-time news sentiment"""

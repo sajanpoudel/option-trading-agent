@@ -59,8 +59,7 @@ KEY TECHNICAL INDICATORS TO ANALYZE:
 - Support/Resistance levels
 - Chart patterns
 
-OUTPUT REQUIREMENTS:
-Always respond with valid JSON in this exact format:
+CRITICAL: You must respond with valid JSON format only. Always return a JSON object with this exact structure:
 {
     "scenario": "scenario_name",
     "weighted_score": float_between_-1_and_1,
@@ -100,6 +99,133 @@ IMPORTANT CALCULATION RULES:
 Remember: You are the primary decision driver with 60% weight in the final system decision.
 """
     
+    def _get_response_schema(self) -> Dict[str, Any]:
+        """Get JSON Schema for technical analysis response"""
+        return {
+            "type": "object",
+            "properties": {
+                "scenario": {
+                    "type": "string",
+                    "enum": ["STRONG_UPTREND", "STRONG_DOWNTREND", "RANGE_BOUND", "BREAKOUT", "POTENTIAL_REVERSAL", "HIGH_VOLATILITY"]
+                },
+                "weighted_score": {
+                    "type": "number",
+                    "minimum": -1.0,
+                    "maximum": 1.0
+                },
+                "confidence": {
+                    "type": "number",
+                    "minimum": 0.0,
+                    "maximum": 1.0
+                },
+                "indicators": {
+                    "type": "object",
+                    "properties": {
+                        "ma": {
+                            "type": "object",
+                            "properties": {
+                                "signal": {"type": "number", "minimum": -1.0, "maximum": 1.0},
+                                "weight": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+                                "details": {"type": "string"}
+                            },
+                            "required": ["signal", "weight", "details"],
+                            "additionalProperties": False
+                        },
+                        "rsi": {
+                            "type": "object",
+                            "properties": {
+                                "signal": {"type": "number", "minimum": -1.0, "maximum": 1.0},
+                                "weight": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+                                "details": {"type": "string"}
+                            },
+                            "required": ["signal", "weight", "details"],
+                            "additionalProperties": False
+                        },
+                        "bb": {
+                            "type": "object",
+                            "properties": {
+                                "signal": {"type": "number", "minimum": -1.0, "maximum": 1.0},
+                                "weight": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+                                "details": {"type": "string"}
+                            },
+                            "required": ["signal", "weight", "details"],
+                            "additionalProperties": False
+                        },
+                        "macd": {
+                            "type": "object",
+                            "properties": {
+                                "signal": {"type": "number", "minimum": -1.0, "maximum": 1.0},
+                                "weight": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+                                "details": {"type": "string"}
+                            },
+                            "required": ["signal", "weight", "details"],
+                            "additionalProperties": False
+                        },
+                        "vwap": {
+                            "type": "object",
+                            "properties": {
+                                "signal": {"type": "number", "minimum": -1.0, "maximum": 1.0},
+                                "weight": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+                                "details": {"type": "string"}
+                            },
+                            "required": ["signal", "weight", "details"],
+                            "additionalProperties": False
+                        }
+                    },
+                    "required": ["ma", "rsi", "bb", "macd", "vwap"],
+                    "additionalProperties": False
+                },
+                "support_resistance": {
+                    "type": "object",
+                    "properties": {
+                        "support": {
+                            "type": "array",
+                            "items": {"type": "number"},
+                            "minItems": 2,
+                            "maxItems": 2
+                        },
+                        "resistance": {
+                            "type": "array",
+                            "items": {"type": "number"},
+                            "minItems": 2,
+                            "maxItems": 2
+                        }
+                    },
+                    "required": ["support", "resistance"],
+                    "additionalProperties": False
+                },
+                "volatility": {
+                    "type": "object",
+                    "properties": {
+                        "current": {"type": "number", "minimum": 0.0},
+                        "percentile": {"type": "number", "minimum": 0.0, "maximum": 100.0},
+                        "trend": {"type": "string", "enum": ["increasing", "decreasing", "stable"]}
+                    },
+                    "required": ["current", "percentile", "trend"],
+                    "additionalProperties": False
+                },
+                "volume_analysis": {
+                    "type": "object",
+                    "properties": {
+                        "relative_volume": {"type": "number", "minimum": 0.0},
+                        "volume_trend": {"type": "string"},
+                        "volume_score": {"type": "number", "minimum": -1.0, "maximum": 1.0}
+                    },
+                    "required": ["relative_volume", "volume_trend", "volume_score"],
+                    "additionalProperties": False
+                },
+                "key_insights": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "minItems": 1,
+                    "maxItems": 5
+                },
+                "options_strategy_suggestion": {"type": "string"}
+            },
+            "required": ["scenario", "weighted_score", "confidence", "indicators", "support_resistance", "volatility", "volume_analysis", "key_insights", "options_strategy_suggestion"],
+            "additionalProperties": False
+        }
+
     async def analyze(self, symbol: str, timeframe: str = "1d", **kwargs) -> Dict[str, Any]:
         """Analyze technical indicators for the given symbol"""
         
@@ -161,8 +287,12 @@ Please provide a comprehensive technical analysis with scenario detection and we
                 """}
             ]
             
-            # Get analysis from GPT-4
-            response = await self._make_completion(messages, temperature=0.3)
+            # Get analysis from GPT-4 with structured outputs
+            response = await self._make_completion(
+                messages, 
+                temperature=0.3,
+                response_schema=self._get_response_schema()
+            )
             
             # Parse the response
             analysis = self._parse_json_response(response['content'])

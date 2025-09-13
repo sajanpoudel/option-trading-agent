@@ -85,6 +85,9 @@ class TechnicalIndicatorsCalculator:
             indicators_data['timestamp'] = datetime.now().isoformat()
             indicators_data['data_points'] = len(quotes)
             
+            # Convert Decimal values to float for JSON serialization
+            indicators_data = self._convert_decimals_to_float(indicators_data)
+            
             logger.info(f"Professional indicators calculated successfully: {len(indicators_data)} metrics")
             return indicators_data
             
@@ -303,6 +306,9 @@ class TechnicalIndicatorsCalculator:
     def _calculate_volatility_indicators(self, quotes: List[Quote], df: pd.DataFrame) -> Dict[str, Any]:
         """Calculate volatility-based indicators"""
         
+        # Define column names for consistency
+        close_col = 'close' if 'close' in df.columns else 'Close'
+        
         vol_data = {}
         
         try:
@@ -311,12 +317,18 @@ class TechnicalIndicatorsCalculator:
                 bb_results = indicators.get_bollinger_bands(quotes, 20, 2)
                 if bb_results:
                     latest_bb = bb_results[-1]
+                    current_close = float(quotes[-1].close)
+                    upper_band = float(latest_bb.upper_band or current_close + 10)
+                    lower_band = float(latest_bb.lower_band or current_close - 10)
+                    sma = float(latest_bb.sma or current_close)
+                    width = float(latest_bb.width or 10)
+                    
                     vol_data.update({
-                        'bb_upper': float(latest_bb.upper_band or quotes[-1].close + 10),
-                        'bb_middle': float(latest_bb.sma or quotes[-1].close),
-                        'bb_lower': float(latest_bb.lower_band or quotes[-1].close - 10),
-                        'bb_width': float(latest_bb.width or 10),
-                        'bb_position': (quotes[-1].close - latest_bb.lower_band) / (latest_bb.upper_band - latest_bb.lower_band) if latest_bb.upper_band != latest_bb.lower_band else 0.5
+                        'bb_upper': upper_band,
+                        'bb_middle': sma,
+                        'bb_lower': lower_band,
+                        'bb_width': width,
+                        'bb_position': float((current_close - lower_band) / (upper_band - lower_band)) if upper_band != lower_band else 0.5
                     })
             
             # Average True Range (ATR)
@@ -327,30 +339,37 @@ class TechnicalIndicatorsCalculator:
             
             # Keltner Channels
             if len(quotes) >= 20:
-                keltner_results = indicators.get_keltner_channels(quotes, 20, 2.0)
+                keltner_results = indicators.get_keltner(quotes, 20, 2.0)
                 if keltner_results:
                     latest_keltner = keltner_results[-1]
+                    current_close = float(quotes[-1].close)
                     vol_data.update({
-                        'keltner_upper': float(latest_keltner.upper_band or quotes[-1].close + 5),
-                        'keltner_middle': float(latest_keltner.centerline or quotes[-1].close),
-                        'keltner_lower': float(latest_keltner.lower_band or quotes[-1].close - 5)
+                        'keltner_upper': float(latest_keltner.upper_band or current_close + 5),
+                        'keltner_middle': float(latest_keltner.center_line or current_close),
+                        'keltner_lower': float(latest_keltner.lower_band or current_close - 5)
                     })
             
             # Historical Volatility
             if len(df) >= 30:
-                returns = df['Close'].pct_change().dropna()
+                returns = df[close_col].pct_change().dropna()
                 vol_data['volatility'] = float(returns.std() * np.sqrt(252) * 100)  # Annualized
-                vol_data['volatility_percentile'] = float(
-                    (vol_data['volatility'] - returns.rolling(252).std().min() * 100) / 
-                    (returns.rolling(252).std().max() * 100 - returns.rolling(252).std().min() * 100)
-                ) if len(returns) > 252 else 0.5
+                if len(returns) > 252:
+                    rolling_std = returns.rolling(252).std()
+                    min_vol = float(rolling_std.min() * 100)
+                    max_vol = float(rolling_std.max() * 100)
+                    vol_data['volatility_percentile'] = float(
+                        (vol_data['volatility'] - min_vol) / (max_vol - min_vol)
+                    ) if max_vol > min_vol else 0.5
+                else:
+                    vol_data['volatility_percentile'] = 0.5
                 
         except Exception as e:
             logger.warning(f"Volatility indicators calculation failed: {e}")
+            current_close = float(quotes[-1].close)
             vol_data.update({
-                'bb_upper': quotes[-1].close + 5,
-                'bb_middle': quotes[-1].close,
-                'bb_lower': quotes[-1].close - 5,
+                'bb_upper': current_close + 5,
+                'bb_middle': current_close,
+                'bb_lower': current_close - 5,
                 'bb_position': 0.5,
                 'atr': 1.0,
                 'volatility': 25.0
@@ -413,16 +432,28 @@ class TechnicalIndicatorsCalculator:
         try:
             # Pivot Points
             if len(quotes) >= 3:
-                pivot_results = indicators.get_pivot_points(quotes)
-                if pivot_results:
-                    latest_pivot = pivot_results[-1]
-                    sr_data.update({
-                        'pivot_point': float(latest_pivot.pp or quotes[-1].close),
-                        'resistance_1': float(latest_pivot.r1 or quotes[-1].close + 5),
-                        'resistance_2': float(latest_pivot.r2 or quotes[-1].close + 10),
-                        'support_1': float(latest_pivot.s1 or quotes[-1].close - 5),
-                        'support_2': float(latest_pivot.s2 or quotes[-1].close - 10)
-                    })
+                try:
+                    # Try different window sizes to avoid the cs_value error
+                    for window_size in [3, 5, 7]:
+                        try:
+                            pivot_results = indicators.get_pivot_points(quotes, window_size=window_size)
+                            if pivot_results and len(pivot_results) > 0:
+                                latest_pivot = pivot_results[-1]
+                                # Safely access pivot point attributes
+                                sr_data.update({
+                                    'pivot_point': float(getattr(latest_pivot, 'pp', quotes[-1].close) or quotes[-1].close),
+                                    'resistance_1': float(getattr(latest_pivot, 'r1', quotes[-1].close + 5) or quotes[-1].close + 5),
+                                    'resistance_2': float(getattr(latest_pivot, 'r2', quotes[-1].close + 10) or quotes[-1].close + 10),
+                                    'support_1': float(getattr(latest_pivot, 's1', quotes[-1].close - 5) or quotes[-1].close - 5),
+                                    'support_2': float(getattr(latest_pivot, 's2', quotes[-1].close - 10) or quotes[-1].close - 10)
+                                })
+                                break  # Success, exit the loop
+                        except Exception as window_error:
+                            logger.debug(f"Pivot points failed with window_size={window_size}: {window_error}")
+                            continue
+                except Exception as pivot_error:
+                    logger.warning(f"Pivot points calculation failed completely: {pivot_error}")
+                    # Continue with simple support/resistance calculation
             
             # Simple high/low support/resistance
             highs = [q.high for q in quotes[-20:]]
@@ -497,7 +528,7 @@ class TechnicalIndicatorsCalculator:
             if len(quotes) >= 28:
                 uo_results = indicators.get_ultimate(quotes, 7, 14, 28)
                 if uo_results:
-                    advanced['ultimate_oscillator'] = float(uo_results[-1].uo or 50)
+                    advanced['ultimate_oscillator'] = float(getattr(uo_results[-1], 'uo', 50))
             
             # Choppiness Index
             if len(quotes) >= 14:
@@ -514,6 +545,31 @@ class TechnicalIndicatorsCalculator:
             })
         
         return advanced
+    
+    def _convert_decimals_to_float(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        """Convert Decimal values to float for JSON serialization"""
+        from decimal import Decimal
+        from datetime import datetime
+        import pandas as pd
+        
+        converted = {}
+        for key, value in data.items():
+            if isinstance(value, Decimal):
+                converted[key] = float(value)
+            elif isinstance(value, (pd.Timestamp, datetime)):
+                converted[key] = value.isoformat()
+            elif isinstance(value, dict):
+                converted[key] = self._convert_decimals_to_float(value)
+            elif isinstance(value, list):
+                converted[key] = [
+                    float(item) if isinstance(item, Decimal) else 
+                    item.isoformat() if isinstance(item, (pd.Timestamp, datetime)) else item
+                    for item in value
+                ]
+            else:
+                converted[key] = value
+        
+        return converted
     
     def _get_fallback_indicators(self) -> Dict[str, Any]:
         """Fallback indicators when calculation fails"""

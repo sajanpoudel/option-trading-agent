@@ -121,6 +121,30 @@ class SupabaseManager:
     # TRADING SIGNALS
     # ========================
     
+    def _normalize_scenario_for_db(self, scenario: str) -> str:
+        """Convert scenario format to match database enum"""
+        if not scenario:
+            return 'range_bound'
+        
+        scenario_mapping = {
+            'RANGE_BOUND': 'range_bound',
+            'STRONG_UPTREND': 'strong_uptrend', 
+            'STRONG_DOWNTREND': 'strong_downtrend',
+            'BREAKOUT': 'breakout',
+            'POTENTIAL_REVERSAL': 'potential_reversal',
+            'HIGH_VOLATILITY': 'high_volatility',
+            'LOW_VOLATILITY': 'low_volatility',
+            'range_bound': 'range_bound',
+            'strong_uptrend': 'strong_uptrend',
+            'strong_downtrend': 'strong_downtrend',
+            'breakout': 'breakout',
+            'potential_reversal': 'potential_reversal',
+            'high_volatility': 'high_volatility',
+            'low_volatility': 'low_volatility'
+        }
+        
+        return scenario_mapping.get(scenario, 'range_bound')
+
     async def save_trading_signal(self, signal_data: Dict) -> Optional[str]:
         """Save trading signal to database"""
         
@@ -130,7 +154,7 @@ class SupabaseManager:
             "direction": signal_data["direction"],
             "strength": signal_data["strength"],
             "confidence_score": signal_data["confidence_score"],
-            "market_scenario": signal_data.get("market_scenario"),
+            "market_scenario": self._normalize_scenario_for_db(signal_data.get("market_scenario")),
             "agent_weights": signal_data.get("agent_weights", {}),
             "technical_analysis": signal_data.get("technical_analysis", {}),
             "sentiment_analysis": signal_data.get("sentiment_analysis", {}),

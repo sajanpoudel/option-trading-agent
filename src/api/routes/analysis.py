@@ -154,8 +154,22 @@ async def analyze_stock(
             "processing_time": time.time() - start_time
         }
         
-        # Save analysis to database
-        signal_id = await db_manager.save_trading_signal(mock_analysis_result)
+        # Save analysis to database - flatten signal data for database storage
+        signal_data_for_db = {
+            **mock_analysis_result,
+            **mock_analysis_result["signal"],  # Flatten signal fields to top level
+            "agent_weights": {
+                "technical": 0.6,
+                "sentiment": 0.1, 
+                "flow": 0.1,
+                "history": 0.2
+            },
+            "technical_analysis": mock_analysis_result["agent_results"]["technical"],
+            "sentiment_analysis": mock_analysis_result["agent_results"]["sentiment"],
+            "flow_analysis": mock_analysis_result["agent_results"]["flow"],
+            "historical_analysis": mock_analysis_result["agent_results"]["history"]
+        }
+        signal_id = await db_manager.save_trading_signal(signal_data_for_db)
         mock_analysis_result["analysis_id"] = signal_id or mock_analysis_result["analysis_id"]
         
         # Add background task to generate educational content

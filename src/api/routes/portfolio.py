@@ -82,7 +82,10 @@ async def get_portfolio_summary(
     try:
         # Get real portfolio data from database
         analytics = await db_manager.get_system_analytics()
-        portfolio_data = analytics.get("portfolio_summary", {})
+        portfolio_summary_list = analytics.get("portfolio_summary", [])
+        
+        # Extract first item if list is not empty, otherwise use empty dict
+        portfolio_data = portfolio_summary_list[0] if portfolio_summary_list else {}
         
         # Mock data if database is empty
         if not portfolio_data or not portfolio_data.get("total_value"):

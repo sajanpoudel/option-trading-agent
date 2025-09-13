@@ -53,6 +53,62 @@ OUTPUT FORMAT (JSON):
 }
 """
     
+    def _get_response_schema(self) -> Dict[str, Any]:
+        """Get JSON Schema for options flow response"""
+        return {
+            "type": "object",
+            "properties": {
+                "flow_score": {"type": "number", "minimum": -1.0, "maximum": 1.0},
+                "confidence": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+                "unusual_activity": {"type": "boolean"},
+                "metrics": {
+                    "type": "object",
+                    "properties": {
+                        "put_call_ratio": {"type": "number", "minimum": 0.0},
+                        "call_volume": {"type": "integer", "minimum": 0},
+                        "put_volume": {"type": "integer", "minimum": 0},
+                        "total_volume": {"type": "integer", "minimum": 0},
+                        "avg_volume_ratio": {"type": "number", "minimum": 0.0}
+                    },
+                    "required": ["put_call_ratio", "call_volume", "put_volume", "total_volume", "avg_volume_ratio"],
+                    "additionalProperties": False
+                },
+                "gamma_exposure": {
+                    "type": "object",
+                    "properties": {
+                        "net_gamma": {"type": "number"},
+                        "gamma_level": {"type": "string", "enum": ["low", "medium", "high"]},
+                        "dealer_positioning": {"type": "string", "enum": ["long", "short", "neutral"]}
+                    },
+                    "required": ["net_gamma", "gamma_level", "dealer_positioning"],
+                    "additionalProperties": False
+                },
+                "large_trades": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "type": {"type": "string", "enum": ["call", "put"]},
+                            "strike": {"type": "number", "minimum": 0.0},
+                            "volume": {"type": "integer", "minimum": 0},
+                            "premium": {"type": "number", "minimum": 0.0}
+                        },
+                        "required": ["type", "strike", "volume", "premium"],
+                        "additionalProperties": False
+                    },
+                    "maxItems": 10
+                },
+                "flow_sentiment": {"type": "string", "enum": ["bullish", "bearish", "neutral"]},
+                "key_insights": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "maxItems": 5
+                }
+            },
+            "required": ["flow_score", "confidence", "unusual_activity", "metrics", "gamma_exposure", "large_trades", "flow_sentiment", "key_insights"],
+            "additionalProperties": False
+        }
+    
     async def analyze(self, symbol: str, **kwargs) -> Dict[str, Any]:
         """Analyze options flow for the symbol"""
         
@@ -100,7 +156,11 @@ Provide comprehensive flow analysis with this REAL options data.
             
             # Note: In production, this would use Gemini API
             # For now, using OpenAI as fallback
-            response = await self._make_completion(messages, temperature=0.3)
+            response = await self._make_completion(
+                messages, 
+                temperature=0.3,
+                response_schema=self._get_response_schema()
+            )
             analysis = self._parse_json_response(response['content'])
             
             analysis = self._validate_flow_analysis(analysis, symbol)

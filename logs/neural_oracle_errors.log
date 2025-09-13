@@ -7,3 +7,394 @@
 2025-09-12 18:34:38.804 | ERROR    | __main__:check_environment:60 | Missing required environment variables: ['SUPABASE_URL', 'SUPABASE_SERVICE_KEY']
 2025-09-12 18:34:38.805 | ERROR    | __main__:check_environment:61 | Please copy .env.example to .env and configure your API keys
 2025-09-12 18:34:38.805 | ERROR    | __main__:main:117 | Environment check failed. Exiting.
+2025-09-12 20:59:35.509 | ERROR    | __main__:initialize_real_data_sources:105 | Failed to initialize real data sources: name 'TechnicalCalculator' is not defined
+2025-09-12 20:59:35.521 | ERROR    | __main__:main:137 | Failed to initialize real data sources. Exiting.
+2025-09-12 21:12:59.971 | ERROR    | __main__:initialize_real_data_sources:104 | Failed to initialize real data sources: name 'IntelligentOrchestrator' is not defined
+2025-09-12 21:12:59.972 | ERROR    | __main__:main:136 | Failed to initialize real data sources. Exiting.
+2025-09-12 21:13:42.660 | ERROR    | __main__:initialize_real_data_sources:104 | Failed to initialize real data sources: name 'IntelligentOrchestrator' is not defined
+2025-09-12 21:13:42.661 | ERROR    | __main__:main:136 | Failed to initialize real data sources. Exiting.
+2025-09-12 21:39:17.777 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:337 | Technical agent error: 'TechnicalIndicatorsCalculator' object has no attribute 'calculate_all_indicators'
+2025-09-12 21:39:17.778 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:473 | Technical indicators generation error: 'TechnicalIndicatorsCalculator' object has no attribute 'calculate_all_indicators'
+2025-09-12 21:47:31.463 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:337 | Technical agent error: 'TechnicalIndicatorsCalculator' object has no attribute 'calculate_all_indicators'
+2025-09-12 21:47:31.464 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:473 | Technical indicators generation error: 'TechnicalIndicatorsCalculator' object has no attribute 'calculate_all_indicators'
+2025-09-12 21:47:34.170 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:337 | Technical agent error: 'TechnicalIndicatorsCalculator' object has no attribute 'calculate_all_indicators'
+2025-09-12 21:47:34.171 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:473 | Technical indicators generation error: 'TechnicalIndicatorsCalculator' object has no attribute 'calculate_all_indicators'
+2025-09-12 21:47:36.191 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:337 | Technical agent error: 'TechnicalIndicatorsCalculator' object has no attribute 'calculate_all_indicators'
+2025-09-12 21:47:36.193 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:473 | Technical indicators generation error: 'TechnicalIndicatorsCalculator' object has no attribute 'calculate_all_indicators'
+2025-09-12 21:47:37.627 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:337 | Technical agent error: 'TechnicalIndicatorsCalculator' object has no attribute 'calculate_all_indicators'
+2025-09-12 21:47:37.628 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:473 | Technical indicators generation error: 'TechnicalIndicatorsCalculator' object has no attribute 'calculate_all_indicators'
+2025-09-12 21:47:39.051 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:337 | Technical agent error: 'TechnicalIndicatorsCalculator' object has no attribute 'calculate_all_indicators'
+2025-09-12 21:47:39.052 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:473 | Technical indicators generation error: 'TechnicalIndicatorsCalculator' object has no attribute 'calculate_all_indicators'
+2025-09-12 22:06:06.303 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:337 | Technical agent error: 'TechnicalIndicatorsCalculator' object has no attribute 'calculate_all_indicators'
+2025-09-12 22:06:06.304 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:473 | Technical indicators generation error: 'TechnicalIndicatorsCalculator' object has no attribute 'calculate_all_indicators'
+2025-09-12 22:06:08.311 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:337 | Technical agent error: 'TechnicalIndicatorsCalculator' object has no attribute 'calculate_all_indicators'
+2025-09-12 22:06:08.312 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:473 | Technical indicators generation error: 'TechnicalIndicatorsCalculator' object has no attribute 'calculate_all_indicators'
+2025-09-12 22:06:09.627 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:337 | Technical agent error: 'TechnicalIndicatorsCalculator' object has no attribute 'calculate_all_indicators'
+2025-09-12 22:06:09.628 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:473 | Technical indicators generation error: 'TechnicalIndicatorsCalculator' object has no attribute 'calculate_all_indicators'
+2025-09-12 22:06:11.023 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:337 | Technical agent error: 'TechnicalIndicatorsCalculator' object has no attribute 'calculate_all_indicators'
+2025-09-12 22:06:11.023 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:473 | Technical indicators generation error: 'TechnicalIndicatorsCalculator' object has no attribute 'calculate_all_indicators'
+2025-09-12 22:06:12.173 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:337 | Technical agent error: 'TechnicalIndicatorsCalculator' object has no attribute 'calculate_all_indicators'
+2025-09-12 22:06:12.173 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:473 | Technical indicators generation error: 'TechnicalIndicatorsCalculator' object has no attribute 'calculate_all_indicators'
+2025-09-12 22:12:57.749 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:337 | Technical agent error: 'TechnicalIndicatorsCalculator' object has no attribute 'calculate_all_indicators'
+2025-09-12 22:12:57.749 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:473 | Technical indicators generation error: 'TechnicalIndicatorsCalculator' object has no attribute 'calculate_all_indicators'
+2025-09-12 22:12:59.559 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:337 | Technical agent error: 'TechnicalIndicatorsCalculator' object has no attribute 'calculate_all_indicators'
+2025-09-12 22:12:59.559 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:473 | Technical indicators generation error: 'TechnicalIndicatorsCalculator' object has no attribute 'calculate_all_indicators'
+2025-09-12 22:13:00.801 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:337 | Technical agent error: 'TechnicalIndicatorsCalculator' object has no attribute 'calculate_all_indicators'
+2025-09-12 22:13:00.801 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:473 | Technical indicators generation error: 'TechnicalIndicatorsCalculator' object has no attribute 'calculate_all_indicators'
+2025-09-12 22:13:02.408 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:337 | Technical agent error: 'TechnicalIndicatorsCalculator' object has no attribute 'calculate_all_indicators'
+2025-09-12 22:13:02.408 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:473 | Technical indicators generation error: 'TechnicalIndicatorsCalculator' object has no attribute 'calculate_all_indicators'
+2025-09-12 22:13:03.726 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:337 | Technical agent error: 'TechnicalIndicatorsCalculator' object has no attribute 'calculate_all_indicators'
+2025-09-12 22:13:03.726 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:473 | Technical indicators generation error: 'TechnicalIndicatorsCalculator' object has no attribute 'calculate_all_indicators'
+2025-09-12 22:23:19.053 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:23:19.054 | ERROR    | src.api.intelligent_orchestrator:_run_sentiment_agent:354 | Sentiment agent error: 'NoneType' object has no attribute 'analyze_market_sentiment'
+2025-09-12 22:23:19.054 | ERROR    | src.api.intelligent_orchestrator:_run_flow_agent:370 | Flow agent error: 'NoneType' object has no attribute 'analyze_options_flow'
+2025-09-12 22:23:19.056 | ERROR    | src.api.intelligent_orchestrator:_run_history_agent:386 | History agent error: 'NoneType' object has no attribute 'analyze_historical_patterns'
+2025-09-12 22:23:29.185 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:23:29.968 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:23:33.996 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:23:34.008 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:24:12.746 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: Object of type Decimal is not JSON serializable
+2025-09-12 22:24:12.759 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:34:33.911 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:34:33.914 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:34:36.710 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:34:36.712 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:34:38.204 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:34:38.205 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:34:39.540 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:34:39.540 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:34:40.809 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:34:40.810 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:34:42.875 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:34:42.878 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:34:44.458 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:34:44.459 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:34:46.271 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:34:46.272 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:34:47.825 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:34:47.827 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:34:49.220 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:34:49.221 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:35:49.029 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:35:49.031 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:35:50.787 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:35:50.789 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:35:52.436 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:35:52.437 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:35:54.045 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:35:54.047 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:35:55.644 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:35:55.646 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:35:57.601 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:35:57.601 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:35:58.997 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:35:58.999 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:36:01.082 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:36:01.084 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:36:02.938 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:36:02.940 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:36:03.984 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:36:03.986 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:36:45.191 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:36:45.192 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:36:46.791 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:36:46.792 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:36:47.911 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:36:47.912 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:36:49.040 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:36:49.042 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:36:50.399 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:36:50.401 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:50:00.305 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:50:00.307 | ERROR    | src.api.intelligent_orchestrator:_run_sentiment_agent:354 | Sentiment agent error: 'NoneType' object has no attribute 'analyze_market_sentiment'
+2025-09-12 22:50:00.307 | ERROR    | src.api.intelligent_orchestrator:_run_flow_agent:370 | Flow agent error: 'NoneType' object has no attribute 'analyze_options_flow'
+2025-09-12 22:50:00.308 | ERROR    | src.api.intelligent_orchestrator:_run_history_agent:386 | History agent error: 'NoneType' object has no attribute 'analyze_historical_patterns'
+2025-09-12 22:50:00.308 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:50:00.346 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:50:00.346 | ERROR    | src.api.intelligent_orchestrator:_run_sentiment_agent:354 | Sentiment agent error: 'NoneType' object has no attribute 'analyze_market_sentiment'
+2025-09-12 22:50:00.346 | ERROR    | src.api.intelligent_orchestrator:_run_flow_agent:370 | Flow agent error: 'NoneType' object has no attribute 'analyze_options_flow'
+2025-09-12 22:50:00.346 | ERROR    | src.api.intelligent_orchestrator:_run_history_agent:386 | History agent error: 'NoneType' object has no attribute 'analyze_historical_patterns'
+2025-09-12 22:50:00.347 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:50:00.352 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:50:03.459 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:50:03.459 | ERROR    | src.api.intelligent_orchestrator:_run_sentiment_agent:354 | Sentiment agent error: 'NoneType' object has no attribute 'analyze_market_sentiment'
+2025-09-12 22:50:03.460 | ERROR    | src.api.intelligent_orchestrator:_run_flow_agent:370 | Flow agent error: 'NoneType' object has no attribute 'analyze_options_flow'
+2025-09-12 22:50:03.460 | ERROR    | src.api.intelligent_orchestrator:_run_history_agent:386 | History agent error: 'NoneType' object has no attribute 'analyze_historical_patterns'
+2025-09-12 22:50:03.504 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:50:11.252 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:50:11.274 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:50:53.264 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:50:53.270 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:50:53.283 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:50:53.284 | ERROR    | src.api.intelligent_orchestrator:_run_sentiment_agent:354 | Sentiment agent error: 'NoneType' object has no attribute 'analyze_market_sentiment'
+2025-09-12 22:50:53.285 | ERROR    | src.api.intelligent_orchestrator:_run_flow_agent:370 | Flow agent error: 'NoneType' object has no attribute 'analyze_options_flow'
+2025-09-12 22:50:53.285 | ERROR    | src.api.intelligent_orchestrator:_run_history_agent:386 | History agent error: 'NoneType' object has no attribute 'analyze_historical_patterns'
+2025-09-12 22:51:12.367 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:51:12.368 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:51:12.373 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:51:12.379 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:51:15.049 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:51:15.050 | ERROR    | src.api.intelligent_orchestrator:_run_sentiment_agent:354 | Sentiment agent error: 'NoneType' object has no attribute 'analyze_market_sentiment'
+2025-09-12 22:51:15.050 | ERROR    | src.api.intelligent_orchestrator:_run_flow_agent:370 | Flow agent error: 'NoneType' object has no attribute 'analyze_options_flow'
+2025-09-12 22:51:15.050 | ERROR    | src.api.intelligent_orchestrator:_run_history_agent:386 | History agent error: 'NoneType' object has no attribute 'analyze_historical_patterns'
+2025-09-12 22:51:43.218 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: Object of type Decimal is not JSON serializable
+2025-09-12 22:51:58.103 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: Object of type Decimal is not JSON serializable
+2025-09-12 22:52:11.445 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: Object of type Decimal is not JSON serializable
+2025-09-12 22:52:11.490 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:52:11.527 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:52:11.709 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:52:11.757 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:52:11.811 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:52:43.530 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: Object of type Decimal is not JSON serializable
+2025-09-12 22:52:45.419 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:52:46.488 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:52:46.489 | ERROR    | src.api.intelligent_orchestrator:_run_sentiment_agent:354 | Sentiment agent error: 'NoneType' object has no attribute 'analyze_market_sentiment'
+2025-09-12 22:52:46.489 | ERROR    | src.api.intelligent_orchestrator:_run_flow_agent:370 | Flow agent error: 'NoneType' object has no attribute 'analyze_options_flow'
+2025-09-12 22:52:46.490 | ERROR    | src.api.intelligent_orchestrator:_run_history_agent:386 | History agent error: 'NoneType' object has no attribute 'analyze_historical_patterns'
+2025-09-12 22:52:46.491 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:52:46.491 | ERROR    | src.api.intelligent_orchestrator:_run_sentiment_agent:354 | Sentiment agent error: 'NoneType' object has no attribute 'analyze_market_sentiment'
+2025-09-12 22:52:46.492 | ERROR    | src.api.intelligent_orchestrator:_run_flow_agent:370 | Flow agent error: 'NoneType' object has no attribute 'analyze_options_flow'
+2025-09-12 22:52:46.492 | ERROR    | src.api.intelligent_orchestrator:_run_history_agent:386 | History agent error: 'NoneType' object has no attribute 'analyze_historical_patterns'
+2025-09-12 22:52:53.025 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:52:53.025 | ERROR    | src.api.intelligent_orchestrator:_run_sentiment_agent:354 | Sentiment agent error: 'NoneType' object has no attribute 'analyze_market_sentiment'
+2025-09-12 22:52:53.026 | ERROR    | src.api.intelligent_orchestrator:_run_flow_agent:370 | Flow agent error: 'NoneType' object has no attribute 'analyze_options_flow'
+2025-09-12 22:52:53.026 | ERROR    | src.api.intelligent_orchestrator:_run_history_agent:386 | History agent error: 'NoneType' object has no attribute 'analyze_historical_patterns'
+2025-09-12 22:52:53.086 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:52:56.615 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:53:36.840 | ERROR    | agents.sentiment_agent:_search_stocktwits_sentiment:203 | Error searching StockTwits sentiment for NVDA: Request timed out.
+2025-09-12 22:53:36.841 | ERROR    | agents.sentiment_agent:_search_news_sentiment:154 | Error searching news sentiment for NVDA: Request timed out.
+2025-09-12 22:53:36.841 | ERROR    | agents.sentiment_agent:_search_market_psychology:250 | Error searching market psychology for NVDA: Request timed out.
+2025-09-12 22:53:53.440 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: Object of type Decimal is not JSON serializable
+2025-09-12 22:53:53.464 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:54:17.090 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: Object of type Decimal is not JSON serializable
+2025-09-12 22:54:17.097 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:54:30.722 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: Object of type Decimal is not JSON serializable
+2025-09-12 22:54:43.100 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: Object of type Decimal is not JSON serializable
+2025-09-12 22:54:43.105 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:54:43.115 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:54:57.271 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:54:57.272 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:56:02.407 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:56:02.411 | ERROR    | src.api.intelligent_orchestrator:_run_sentiment_agent:354 | Sentiment agent error: 'NoneType' object has no attribute 'analyze_market_sentiment'
+2025-09-12 22:56:02.411 | ERROR    | src.api.intelligent_orchestrator:_run_flow_agent:370 | Flow agent error: 'NoneType' object has no attribute 'analyze_options_flow'
+2025-09-12 22:56:02.411 | ERROR    | src.api.intelligent_orchestrator:_run_history_agent:386 | History agent error: 'NoneType' object has no attribute 'analyze_historical_patterns'
+2025-09-12 22:56:02.412 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:56:02.448 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:56:07.571 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:56:07.573 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:56:07.575 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:56:07.575 | ERROR    | src.api.intelligent_orchestrator:_run_sentiment_agent:354 | Sentiment agent error: 'NoneType' object has no attribute 'analyze_market_sentiment'
+2025-09-12 22:56:07.576 | ERROR    | src.api.intelligent_orchestrator:_run_flow_agent:370 | Flow agent error: 'NoneType' object has no attribute 'analyze_options_flow'
+2025-09-12 22:56:07.576 | ERROR    | src.api.intelligent_orchestrator:_run_history_agent:386 | History agent error: 'NoneType' object has no attribute 'analyze_historical_patterns'
+2025-09-12 22:56:07.590 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:56:07.603 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:56:12.064 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:56:12.076 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:56:44.561 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:56:45.105 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:56:45.120 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:56:45.121 | ERROR    | src.api.intelligent_orchestrator:_run_sentiment_agent:354 | Sentiment agent error: 'NoneType' object has no attribute 'analyze_market_sentiment'
+2025-09-12 22:56:45.122 | ERROR    | src.api.intelligent_orchestrator:_run_flow_agent:370 | Flow agent error: 'NoneType' object has no attribute 'analyze_options_flow'
+2025-09-12 22:56:45.122 | ERROR    | src.api.intelligent_orchestrator:_run_history_agent:386 | History agent error: 'NoneType' object has no attribute 'analyze_historical_patterns'
+2025-09-12 22:56:45.123 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:56:45.194 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:56:48.806 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:56:48.870 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:57:05.895 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:57:05.895 | ERROR    | src.api.intelligent_orchestrator:_run_sentiment_agent:354 | Sentiment agent error: 'NoneType' object has no attribute 'analyze_market_sentiment'
+2025-09-12 22:57:05.895 | ERROR    | src.api.intelligent_orchestrator:_run_flow_agent:370 | Flow agent error: 'NoneType' object has no attribute 'analyze_options_flow'
+2025-09-12 22:57:05.896 | ERROR    | src.api.intelligent_orchestrator:_run_history_agent:386 | History agent error: 'NoneType' object has no attribute 'analyze_historical_patterns'
+2025-09-12 22:57:06.846 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:57:15.420 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:57:15.448 | ERROR    | agents.sentiment_agent:_search_market_psychology:250 | Error searching market psychology for AAPL: Request timed out.
+2025-09-12 22:57:15.449 | ERROR    | agents.sentiment_agent:_search_stocktwits_sentiment:203 | Error searching StockTwits sentiment for NVDA: Request timed out.
+2025-09-12 22:57:15.450 | ERROR    | agents.sentiment_agent:_search_news_sentiment:154 | Error searching news sentiment for NVDA: Request timed out.
+2025-09-12 22:57:15.452 | ERROR    | agents.sentiment_agent:_search_market_psychology:250 | Error searching market psychology for NVDA: Request timed out.
+2025-09-12 22:57:17.684 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:57:19.008 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:57:39.340 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: Object of type Decimal is not JSON serializable
+2025-09-12 22:57:44.665 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:57:44.669 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:57:44.943 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:57:49.313 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:57:49.315 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:57:49.316 | ERROR    | src.api.intelligent_orchestrator:_run_sentiment_agent:354 | Sentiment agent error: 'NoneType' object has no attribute 'analyze_market_sentiment'
+2025-09-12 22:57:49.316 | ERROR    | src.api.intelligent_orchestrator:_run_flow_agent:370 | Flow agent error: 'NoneType' object has no attribute 'analyze_options_flow'
+2025-09-12 22:57:49.316 | ERROR    | src.api.intelligent_orchestrator:_run_history_agent:386 | History agent error: 'NoneType' object has no attribute 'analyze_historical_patterns'
+2025-09-12 22:57:49.318 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:57:52.408 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:57:52.455 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:58:24.497 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: Object of type Decimal is not JSON serializable
+2025-09-12 22:58:40.708 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: Object of type Decimal is not JSON serializable
+2025-09-12 22:58:55.831 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: Object of type Decimal is not JSON serializable
+2025-09-12 22:58:55.838 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:58:55.838 | ERROR    | src.api.intelligent_orchestrator:_run_sentiment_agent:354 | Sentiment agent error: 'NoneType' object has no attribute 'analyze_market_sentiment'
+2025-09-12 22:58:55.839 | ERROR    | src.api.intelligent_orchestrator:_run_flow_agent:370 | Flow agent error: 'NoneType' object has no attribute 'analyze_options_flow'
+2025-09-12 22:58:55.839 | ERROR    | src.api.intelligent_orchestrator:_run_history_agent:386 | History agent error: 'NoneType' object has no attribute 'analyze_historical_patterns'
+2025-09-12 22:58:55.841 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:58:55.847 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:58:55.857 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:58:55.865 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:338 | Technical agent error: 'NoneType' object has no attribute 'analyze_technical_indicators'
+2025-09-12 22:58:58.802 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:59:25.155 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: Object of type Decimal is not JSON serializable
+2025-09-12 22:59:25.161 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 22:59:52.254 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: Object of type Decimal is not JSON serializable
+2025-09-12 22:59:52.258 | ERROR    | src.api.intelligent_orchestrator:_generate_technical_indicators:474 | Technical indicators generation error: 'float' object has no attribute 'get'
+2025-09-12 23:00:09.257 | ERROR    | src.api.main:get_technical_indicators:550 | ❌ Technical indicators error for TSLA: 'float' object has no attribute 'get'
+2025-09-12 23:00:09.259 | ERROR    | src.api.main:get_agent_analysis:511 | ❌ Agent analysis error for NVDA: 'float' object has no attribute 'get'
+2025-09-12 23:00:13.036 | ERROR    | src.api.main:get_technical_indicators:550 | ❌ Technical indicators error for AAPL: 'float' object has no attribute 'get'
+2025-09-12 23:00:13.038 | ERROR    | src.api.main:get_technical_indicators:550 | ❌ Technical indicators error for NVDA: 'float' object has no attribute 'get'
+2025-09-12 23:01:11.979 | ERROR    | src.api.main:get_agent_analysis:511 | ❌ Agent analysis error for MSFT: 'float' object has no attribute 'get'
+2025-09-12 23:01:15.796 | ERROR    | src.api.main:get_technical_indicators:550 | ❌ Technical indicators error for MSFT: 'float' object has no attribute 'get'
+2025-09-12 23:01:35.957 | ERROR    | src.api.main:get_technical_indicators:550 | ❌ Technical indicators error for AAPL: 'float' object has no attribute 'get'
+2025-09-12 23:01:40.158 | ERROR    | src.api.main:get_agent_analysis:511 | ❌ Agent analysis error for TSLA: 'float' object has no attribute 'get'
+2025-09-12 23:01:55.195 | ERROR    | agents.sentiment_agent:_search_stocktwits_sentiment:203 | Error searching StockTwits sentiment for TSLA: Request timed out.
+2025-09-12 23:01:55.197 | ERROR    | agents.sentiment_agent:_search_market_psychology:250 | Error searching market psychology for TSLA: Request timed out.
+2025-09-12 23:02:09.684 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: Object of type Decimal is not JSON serializable
+2025-09-12 23:02:26.062 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: Object of type Decimal is not JSON serializable
+2025-09-12 23:02:37.945 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: Object of type Decimal is not JSON serializable
+2025-09-12 23:02:37.952 | ERROR    | src.api.main:get_trading_signals:588 | ❌ Trading signals API error for TSLA: 'float' object has no attribute 'get'
+2025-09-12 23:02:37.962 | ERROR    | src.api.main:get_trading_signals:588 | ❌ Trading signals API error for AAPL: 'float' object has no attribute 'get'
+2025-09-12 23:02:37.974 | ERROR    | src.api.main:get_technical_indicators:550 | ❌ Technical indicators error for TSLA: 'float' object has no attribute 'get'
+2025-09-12 23:02:37.983 | ERROR    | agents.sentiment_agent:_search_news_sentiment:154 | Error searching news sentiment for MSFT: Request timed out.
+2025-09-12 23:02:37.985 | ERROR    | agents.sentiment_agent:_search_stocktwits_sentiment:203 | Error searching StockTwits sentiment for MSFT: Request timed out.
+2025-09-12 23:02:37.986 | ERROR    | agents.sentiment_agent:_search_market_psychology:250 | Error searching market psychology for MSFT: Request timed out.
+2025-09-12 23:02:37.989 | ERROR    | src.api.main:get_technical_indicators:550 | ❌ Technical indicators error for AAPL: 'float' object has no attribute 'get'
+2025-09-12 23:02:37.997 | ERROR    | src.api.main:get_trading_signals:588 | ❌ Trading signals API error for NVDA: 'float' object has no attribute 'get'
+2025-09-12 23:02:56.698 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: Object of type Decimal is not JSON serializable
+2025-09-12 23:02:57.601 | ERROR    | src.api.main:get_trading_signals:588 | ❌ Trading signals API error for MSFT: 'float' object has no attribute 'get'
+2025-09-12 23:02:57.649 | ERROR    | src.api.main:get_agent_analysis:511 | ❌ Agent analysis error for NVDA: 'float' object has no attribute 'get'
+2025-09-12 23:02:57.654 | ERROR    | agents.sentiment_agent:_search_market_psychology:250 | Error searching market psychology for TSLA: Request timed out.
+2025-09-12 23:02:57.655 | ERROR    | agents.sentiment_agent:_search_news_sentiment:154 | Error searching news sentiment for TSLA: Request timed out.
+2025-09-12 23:02:57.656 | ERROR    | agents.sentiment_agent:_search_stocktwits_sentiment:203 | Error searching StockTwits sentiment for TSLA: Request timed out.
+2025-09-12 23:03:01.894 | ERROR    | src.api.main:get_technical_indicators:550 | ❌ Technical indicators error for AAPL: 'float' object has no attribute 'get'
+2025-09-12 23:03:02.071 | ERROR    | src.api.main:get_agent_analysis:511 | ❌ Agent analysis error for AAPL: 'float' object has no attribute 'get'
+2025-09-12 23:03:20.578 | ERROR    | src.api.main:get_technical_indicators:550 | ❌ Technical indicators error for NVDA: 'float' object has no attribute 'get'
+2025-09-12 23:03:25.326 | ERROR    | src.api.main:get_agent_analysis:511 | ❌ Agent analysis error for MSFT: 'float' object has no attribute 'get'
+2025-09-12 23:04:05.094 | ERROR    | src.api.main:get_technical_indicators:550 | ❌ Technical indicators error for MSFT: 'float' object has no attribute 'get'
+2025-09-12 23:04:05.101 | ERROR    | agents.sentiment_agent:_search_stocktwits_sentiment:203 | Error searching StockTwits sentiment for AAPL: Request timed out.
+2025-09-12 23:04:05.101 | ERROR    | agents.sentiment_agent:_analyze_sentiment_with_gpt:293 | Error analyzing sentiment with GPT for TSLA: Request timed out.
+2025-09-12 23:04:05.103 | ERROR    | agents.sentiment_agent:_search_market_psychology:250 | Error searching market psychology for AAPL: Request timed out.
+2025-09-12 23:04:05.105 | ERROR    | agents.sentiment_agent:_search_news_sentiment:154 | Error searching news sentiment for AAPL: Request timed out.
+2025-09-12 23:04:18.633 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: Object of type Decimal is not JSON serializable
+2025-09-12 23:04:18.660 | ERROR    | src.api.main:get_agent_analysis:511 | ❌ Agent analysis error for TSLA: 'float' object has no attribute 'get'
+2025-09-12 23:04:18.774 | ERROR    | src.api.main:get_trading_signals:588 | ❌ Trading signals API error for TSLA: 'float' object has no attribute 'get'
+2025-09-12 23:04:33.652 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: Object of type Decimal is not JSON serializable
+2025-09-12 23:04:33.666 | ERROR    | src.api.main:get_trading_signals:588 | ❌ Trading signals API error for AAPL: 'float' object has no attribute 'get'
+2025-09-12 23:04:51.823 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: Object of type Decimal is not JSON serializable
+2025-09-12 23:04:51.828 | ERROR    | src.api.main:get_trading_signals:588 | ❌ Trading signals API error for NVDA: 'float' object has no attribute 'get'
+2025-09-12 23:05:06.124 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: Object of type Decimal is not JSON serializable
+2025-09-12 23:05:06.130 | ERROR    | src.api.main:get_trading_signals:588 | ❌ Trading signals API error for MSFT: 'float' object has no attribute 'get'
+2025-09-12 23:07:42.088 | ERROR    | src.api.main:get_technical_indicators:550 | ❌ Technical indicators error for AAPL: 'float' object has no attribute 'get'
+2025-09-12 23:07:47.041 | ERROR    | src.api.main:get_technical_indicators:550 | ❌ Technical indicators error for TSLA: 'float' object has no attribute 'get'
+2025-09-12 23:07:47.075 | ERROR    | src.api.main:get_technical_indicators:550 | ❌ Technical indicators error for AAPL: 'float' object has no attribute 'get'
+2025-09-12 23:07:55.837 | ERROR    | src.api.main:get_agent_analysis:511 | ❌ Agent analysis error for TSLA: 'float' object has no attribute 'get'
+2025-09-12 23:08:48.360 | ERROR    | src.api.main:get_technical_indicators:550 | ❌ Technical indicators error for TSLA: 'float' object has no attribute 'get'
+2025-09-12 23:08:48.370 | ERROR    | src.api.main:get_agent_analysis:511 | ❌ Agent analysis error for TSLA: 'float' object has no attribute 'get'
+2025-09-12 23:08:48.389 | ERROR    | src.api.main:get_technical_indicators:550 | ❌ Technical indicators error for MSFT: 'float' object has no attribute 'get'
+2025-09-12 23:08:55.175 | ERROR    | src.api.main:get_technical_indicators:550 | ❌ Technical indicators error for AAPL: 'float' object has no attribute 'get'
+2025-09-12 23:08:55.454 | ERROR    | src.api.main:get_agent_analysis:511 | ❌ Agent analysis error for AAPL: 'float' object has no attribute 'get'
+2025-09-12 23:09:02.360 | ERROR    | src.api.main:get_agent_analysis:511 | ❌ Agent analysis error for TSLA: 'float' object has no attribute 'get'
+2025-09-12 23:09:02.458 | ERROR    | src.api.main:get_technical_indicators:550 | ❌ Technical indicators error for TSLA: 'float' object has no attribute 'get'
+2025-09-12 23:09:19.702 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: Object of type Decimal is not JSON serializable
+2025-09-12 23:09:19.719 | ERROR    | src.api.main:get_trading_signals:588 | ❌ Trading signals API error for TSLA: 'float' object has no attribute 'get'
+2025-09-12 23:09:37.077 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: Object of type Decimal is not JSON serializable
+2025-09-12 23:09:39.471 | ERROR    | src.api.main:get_trading_signals:588 | ❌ Trading signals API error for MSFT: 'float' object has no attribute 'get'
+2025-09-12 23:09:55.525 | ERROR    | agents.risk_agent:recommend_strikes:127 | Strike recommendation failed: could not convert string to float: 'unlimited'
+2025-09-12 23:10:02.492 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: Object of type Decimal is not JSON serializable
+2025-09-12 23:10:02.499 | ERROR    | src.api.main:get_trading_signals:588 | ❌ Trading signals API error for TSLA: 'float' object has no attribute 'get'
+2025-09-12 23:10:02.512 | ERROR    | src.api.main:get_agent_analysis:511 | ❌ Agent analysis error for TSLA: 'float' object has no attribute 'get'
+2025-09-12 23:10:02.524 | ERROR    | src.api.main:get_technical_indicators:550 | ❌ Technical indicators error for TSLA: 'float' object has no attribute 'get'
+2025-09-12 23:10:29.227 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: Object of type Decimal is not JSON serializable
+2025-09-12 23:10:29.232 | ERROR    | src.api.main:get_trading_signals:588 | ❌ Trading signals API error for TSLA: 'float' object has no attribute 'get'
+2025-09-12 23:10:52.937 | ERROR    | src.api.main:get_technical_indicators:550 | ❌ Technical indicators error for TSLA: 'float' object has no attribute 'get'
+2025-09-12 23:10:52.992 | ERROR    | src.api.main:get_agent_analysis:511 | ❌ Agent analysis error for TSLA: 'float' object has no attribute 'get'
+2025-09-12 23:11:03.845 | ERROR    | src.api.main:get_agent_analysis:511 | ❌ Agent analysis error for TSLA: 'float' object has no attribute 'get'
+2025-09-12 23:11:03.857 | ERROR    | src.api.main:get_technical_indicators:550 | ❌ Technical indicators error for TSLA: 'float' object has no attribute 'get'
+2025-09-12 23:12:05.788 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: Object of type Decimal is not JSON serializable
+2025-09-12 23:12:05.792 | ERROR    | src.api.main:get_trading_signals:588 | ❌ Trading signals API error for TSLA: 'float' object has no attribute 'get'
+2025-09-12 23:12:32.193 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: Object of type Decimal is not JSON serializable
+2025-09-12 23:12:32.200 | ERROR    | src.api.main:get_trading_signals:588 | ❌ Trading signals API error for TSLA: 'float' object has no attribute 'get'
+2025-09-12 23:12:50.052 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: Object of type Decimal is not JSON serializable
+2025-09-12 23:14:06.968 | ERROR    | src.api.intelligent_orchestrator:_run_technical_agent:347 | Technical agent error: 'TechnicalAnalysisAgent' object has no attribute 'analyze_technical_indicators'
+2025-09-12 23:16:17.857 | ERROR    | src.api.main:get_technical_indicators:550 | ❌ Technical indicators error for AAPL: 'float' object has no attribute 'get'
+2025-09-12 23:16:45.250 | ERROR    | src.api.main:get_technical_indicators:550 | ❌ Technical indicators error for AAPL: 'float' object has no attribute 'get'
+2025-09-12 23:19:30.575 | ERROR    | src.api.intelligent_orchestrator:_run_sentiment_agent:371 | Sentiment agent error: 'SentimentAnalysisAgent' object has no attribute 'analyze_market_sentiment'
+2025-09-12 23:19:30.575 | ERROR    | src.api.intelligent_orchestrator:_run_flow_agent:395 | Flow agent error: 'OptionsFlowAgent' object has no attribute 'analyze_options_flow'
+2025-09-12 23:19:30.575 | ERROR    | src.api.intelligent_orchestrator:_run_history_agent:419 | History agent error: 'HistoricalPatternAgent' object has no attribute 'analyze_historical_patterns'
+2025-09-12 23:20:45.303 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: {'message': 'invalid input value for enum market_scenario_enum: "BREAKOUT"', 'code': '22P02', 'hint': None, 'details': None}
+2025-09-12 23:20:50.897 | ERROR    | src.api.intelligent_orchestrator:_run_sentiment_agent:371 | Sentiment agent error: 'SentimentAnalysisAgent' object has no attribute 'analyze_market_sentiment'
+2025-09-12 23:20:50.897 | ERROR    | src.api.intelligent_orchestrator:_run_flow_agent:395 | Flow agent error: 'OptionsFlowAgent' object has no attribute 'analyze_options_flow'
+2025-09-12 23:20:50.898 | ERROR    | src.api.intelligent_orchestrator:_run_history_agent:419 | History agent error: 'HistoricalPatternAgent' object has no attribute 'analyze_historical_patterns'
+2025-09-12 23:21:55.499 | ERROR    | src.api.intelligent_orchestrator:_run_sentiment_agent:371 | Sentiment agent error: 'SentimentAnalysisAgent' object has no attribute 'analyze_market_sentiment'
+2025-09-12 23:21:55.500 | ERROR    | src.api.intelligent_orchestrator:_run_flow_agent:395 | Flow agent error: 'OptionsFlowAgent' object has no attribute 'analyze_options_flow'
+2025-09-12 23:21:55.500 | ERROR    | src.api.intelligent_orchestrator:_run_history_agent:419 | History agent error: 'HistoricalPatternAgent' object has no attribute 'analyze_historical_patterns'
+2025-09-12 23:22:05.842 | ERROR    | src.api.intelligent_orchestrator:_run_sentiment_agent:371 | Sentiment agent error: 'SentimentAnalysisAgent' object has no attribute 'analyze_market_sentiment'
+2025-09-12 23:22:05.843 | ERROR    | src.api.intelligent_orchestrator:_run_flow_agent:395 | Flow agent error: 'OptionsFlowAgent' object has no attribute 'analyze_options_flow'
+2025-09-12 23:22:05.843 | ERROR    | src.api.intelligent_orchestrator:_run_history_agent:419 | History agent error: 'HistoricalPatternAgent' object has no attribute 'analyze_historical_patterns'
+2025-09-12 23:23:37.096 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: {'message': 'invalid input value for enum market_scenario_enum: "BREAKOUT"', 'code': '22P02', 'hint': None, 'details': None}
+2025-09-12 23:24:41.761 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: {'message': 'invalid input value for enum market_scenario_enum: "BREAKOUT"', 'code': '22P02', 'hint': None, 'details': None}
+2025-09-12 23:24:55.001 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: {'message': 'invalid input value for enum market_scenario_enum: "BREAKOUT"', 'code': '22P02', 'hint': None, 'details': None}
+2025-09-12 23:27:00.771 | ERROR    | agents.sentiment_agent:_search_market_psychology:257 | Error searching market psychology for TSLA: Request timed out.
+2025-09-12 23:27:00.772 | ERROR    | agents.sentiment_agent:_search_stocktwits_sentiment:210 | Error searching StockTwits sentiment for TSLA: Request timed out.
+2025-09-12 23:27:00.773 | ERROR    | agents.sentiment_agent:_search_news_sentiment:161 | Error searching news sentiment for TSLA: Request timed out.
+2025-09-12 23:28:01.038 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: {'message': 'invalid input value for enum market_scenario_enum: "BREAKOUT"', 'code': '22P02', 'hint': None, 'details': None}
+2025-09-12 23:28:18.560 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: {'message': 'invalid input value for enum market_scenario_enum: "BREAKOUT"', 'code': '22P02', 'hint': None, 'details': None}
+2025-09-12 23:36:42.238 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: {'message': 'invalid input value for enum market_scenario_enum: "STRONG_UPTREND"', 'code': '22P02', 'hint': None, 'details': None}
+2025-09-12 23:39:53.124 | ERROR    | agents.risk_agent:recommend_strikes:127 | Strike recommendation failed: could not convert string to float: 'unlimited'
+2025-09-12 23:40:01.346 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: {'message': 'invalid input value for enum market_scenario_enum: "BREAKOUT"', 'code': '22P02', 'hint': None, 'details': None}
+2025-09-12 23:40:09.754 | ERROR    | agents.risk_agent:recommend_strikes:127 | Strike recommendation failed: could not convert string to float: 'unlimited'
+2025-09-12 23:40:18.139 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: {'message': 'invalid input value for enum market_scenario_enum: "BREAKOUT"', 'code': '22P02', 'hint': None, 'details': None}
+2025-09-12 23:44:32.645 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: {'message': 'invalid input value for enum market_scenario_enum: "BREAKOUT"', 'code': '22P02', 'hint': None, 'details': None}
+2025-09-12 23:44:50.021 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: {'message': 'invalid input value for enum market_scenario_enum: "BREAKOUT"', 'code': '22P02', 'hint': None, 'details': None}
+2025-09-12 23:50:06.081 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: {'message': 'invalid input value for enum market_scenario_enum: "RANGE_BOUND"', 'code': '22P02', 'hint': None, 'details': None}
+2025-09-12 23:53:32.395 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: {'message': 'invalid input value for enum market_scenario_enum: "RANGE_BOUND"', 'code': '22P02', 'hint': None, 'details': None}
+2025-09-12 23:54:32.084 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: {'message': 'invalid input value for enum market_scenario_enum: "RANGE_BOUND"', 'code': '22P02', 'hint': None, 'details': None}
+2025-09-12 23:54:47.590 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: {'message': 'invalid input value for enum market_scenario_enum: "RANGE_BOUND"', 'code': '22P02', 'hint': None, 'details': None}
+2025-09-13 00:04:10.096 | ERROR    | config.database:save_trading_signal:151 | Failed to save trading signal: {'message': 'invalid input value for enum market_scenario_enum: "RANGE_BOUND"', 'code': '22P02', 'hint': None, 'details': None}
+2025-09-13 00:15:32.781 | ERROR    | agents.sentiment_agent:_search_market_psychology:257 | Error searching market psychology for NVDA: Request timed out.
+2025-09-13 00:15:32.782 | ERROR    | agents.sentiment_agent:_search_news_sentiment:161 | Error searching news sentiment for NVDA: Request timed out.
+2025-09-13 00:15:32.783 | ERROR    | agents.sentiment_agent:_search_stocktwits_sentiment:210 | Error searching StockTwits sentiment for NVDA: Request timed out.
+2025-09-13 00:18:45.905 | ERROR    | agents.base_agent:_parse_json_response:160 | Raw content length: 3119
+2025-09-13 00:18:45.906 | ERROR    | agents.base_agent:_parse_json_response:161 | Raw content (first 500 chars): 'Analyzing the historical patterns and recent performance of NVIDIA Corporation (NVDA), we can derive several insights:\n\n### Recent Performance:\n- **1-week return:** +5.0% indicates a short-term positive momentum.\n- **1-month return:** -11.0% suggests a significant decline, possibly driven by broader market conditions or company-specific news.\n- **3-month return:** -16.4% reflects a more extended period of underperformance, which might indicate underlying issues or market sentiment.\n- **YTD retur'
+2025-09-13 00:18:45.906 | ERROR    | agents.base_agent:_parse_json_response:163 | Raw content (last 200 chars): "nges in trend or external factors that could influence the stock's direction. Additionally, given the medium volatility, risk management strategies should be considered to mitigate potential downside."
+2025-09-13 00:19:01.834 | ERROR    | agents.base_agent:_parse_json_response:160 | Raw content length: 3523
+2025-09-13 00:19:01.834 | ERROR    | agents.base_agent:_parse_json_response:161 | Raw content (first 500 chars): "Analyzing the technical indicators for NVIDIA (NVDA) using the provided market data involves evaluating various aspects such as momentum, trend strength, volatility, and support/resistance levels. Here's a comprehensive analysis:\n\n### Price and Volume Analysis\n- **Current Price**: $177.82\n- **Daily Change**: +0.37% indicates a minor upward movement.\n- **Volume**: 124,911,131, which is below the average volume of 183,994,134, suggesting reduced trading activity. The volume ratio of 0.68x supports"
+2025-09-13 00:19:01.834 | ERROR    | agents.base_agent:_parse_json_response:163 | Raw content (last 200 chars): 'e bearish signals from the MACD and low volume warrant caution. Traders should watch for changes in volume and price action near key support and resistance levels to confirm the next directional move.'
+2025-09-13 00:19:17.189 | ERROR    | agents.base_agent:_parse_json_response:160 | Raw content length: 3373
+2025-09-13 00:19:17.189 | ERROR    | agents.base_agent:_parse_json_response:161 | Raw content (first 500 chars): "To analyze the technical indicators for NVDA using the provided market data, let's break down each component and assess the overall technical outlook. We'll consider price action, volume, momentum indicators, moving averages, Bollinger Bands, and support/resistance levels to form a comprehensive analysis.\n\n### Price Action and Volume\n- **Current Price**: $177.82\n- **Daily Change**: 0.37% (indicating a modest upward movement)\n- **Volume**: 124,911,131 (below average, with a volume ratio of 0.68x)"
+2025-09-13 00:19:17.190 | ERROR    | agents.base_agent:_parse_json_response:163 | Raw content (last 200 chars): '. Traders should watch for a break above the resistance at $184.47 for confirmation of continued bullish momentum, while a drop below the support at $164.07 could signal a shift to bearish conditions.'
+2025-09-13 00:19:28.376 | ERROR    | agents.base_agent:_parse_json_response:160 | Raw content length: 3323
+2025-09-13 00:19:28.376 | ERROR    | agents.base_agent:_parse_json_response:161 | Raw content (first 500 chars): 'To perform a comprehensive technical analysis of NVIDIA (NVDA) using the provided market data, we will evaluate each technical indicator, moving averages, and other relevant data points. This analysis will include scenario detection and a weighted scoring system to assess the current market conditions and potential future movements.\n\n### Price and Volume Analysis\n- **Current Price**: $177.82\n- **Daily Change**: +0.37% indicates a slight upward movement.\n- **Volume**: 124,911,131, which is below '
+2025-09-13 00:19:28.376 | ERROR    | agents.base_agent:_parse_json_response:163 | Raw content (last 200 chars): 'ilure to break resistance and a drop below the middle Bollinger Band could lead to a bearish outlook. Investors should monitor volume and momentum indicators closely for confirmation of the next move.'
+2025-09-13 00:19:39.643 | ERROR    | agents.base_agent:_parse_json_response:160 | Raw content length: 3391
+2025-09-13 00:19:39.643 | ERROR    | agents.base_agent:_parse_json_response:161 | Raw content (first 500 chars): "Based on the provided options flow data for NVIDIA (NVDA), we can conduct a comprehensive analysis to understand market sentiment and potential future movements in the stock price. Here's a breakdown of the key components:\n\n### 1. **Volume Analysis**\n- **Call Volume:** 507,459\n- **Put Volume:** 267,908\n- **Put/Call Ratio:** 0.53\n\nThe call volume significantly exceeds the put volume, indicating a strong bullish sentiment among traders. A put/call ratio of 0.53 suggests that there are nearly twice"
+2025-09-13 00:19:39.644 | ERROR    | agents.base_agent:_parse_json_response:163 | Raw content (last 200 chars): ' considerable price movement, which could be driven by upcoming earnings, product launches, or broader market trends. Overall, the data suggests a positive outlook for NVDA in the near to medium term.'
+2025-09-13 00:19:52.342 | ERROR    | agents.base_agent:_parse_json_response:160 | Raw content length: 3393
+2025-09-13 00:19:52.342 | ERROR    | agents.base_agent:_parse_json_response:161 | Raw content (first 500 chars): "Based on the provided market data for NVIDIA (NVDA), let's conduct a comprehensive technical analysis using the given indicators, moving averages, and other relevant metrics. We'll also consider scenario detection and weighted scoring to assess the stock's current technical position.\n\n### Price and Volume Analysis\n- **Current Price**: $177.82\n- **Daily Change**: 0.37% indicates a slight upward movement.\n- **Volume**: 124,911,131, which is below the average volume of 183,994,134, suggesting lower"
+2025-09-13 00:19:52.342 | ERROR    | agents.base_agent:_parse_json_response:163 | Raw content (last 200 chars): 'ss. The market trend is bullish, which could support further gains. Investors should watch for a breakout above the resistance at $184.47 or a breakdown below support at $164.07 for clearer direction.'
+2025-09-13 00:20:26.439 | ERROR    | agents.risk_agent:recommend_strikes:127 | Strike recommendation failed: could not convert string to float: 'unlimited'
+2025-09-13 00:20:51.858 | ERROR    | agents.base_agent:_parse_json_response:160 | Raw content length: 3163
+2025-09-13 00:20:51.858 | ERROR    | agents.base_agent:_parse_json_response:161 | Raw content (first 500 chars): "To provide a comprehensive technical analysis of AAPL using the given market data, let's break down each component and assess the overall scenario:\n\n### Price and Volume Analysis:\n- **Current Price**: $234.07, with a daily change of +1.76%, indicates positive momentum.\n- **Volume**: 55,824,219, which is above the average volume (48,011,975), with a volume ratio of 1.16x. This suggests increased trading activity, possibly supporting the price movement.\n\n### Technical Indicators:\n- **RSI(14) at 57"
+2025-09-13 00:20:51.859 | ERROR    | agents.base_agent:_parse_json_response:163 | Raw content (last 200 chars): 'es potential short-term weakness. Traders should watch for a break above the resistance level at $241.32 for further bullish confirmation, while keeping an eye on the MACD for any changes in momentum.'
+2025-09-13 00:26:59.287 | ERROR    | agents.base_agent:_make_completion:112 | Technical Analysis completion failed: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-09-13 00:27:14.093 | ERROR    | agents.base_agent:_make_completion:112 | Technical Analysis completion failed: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-09-13 00:28:14.465 | ERROR    | agents.base_agent:_make_completion:112 | Technical Analysis completion failed: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-09-13 00:30:55.492 | ERROR    | agents.base_agent:_make_completion:112 | Technical Analysis completion failed: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-09-13 00:42:48.598 | ERROR    | agents.base_agent:_make_completion:125 | Historical Pattern completion failed: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-09-13 00:43:10.825 | ERROR    | agents.base_agent:_make_completion:125 | Options Flow completion failed: Error code: 400 - {'error': {'message': "'messages' must contain the word 'json' in some form, to use 'response_format' of type 'json_object'.", 'type': 'invalid_request_error', 'param': 'messages', 'code': None}}
+2025-09-13 00:56:17.659 | ERROR    | agents.sentiment_agent:_search_news_sentiment:236 | Error searching news sentiment for NVDA: Request timed out.
+2025-09-13 00:56:17.661 | ERROR    | agents.sentiment_agent:_search_stocktwits_sentiment:285 | Error searching StockTwits sentiment for NVDA: Request timed out.
+2025-09-13 00:56:17.662 | ERROR    | agents.sentiment_agent:_search_market_psychology:332 | Error searching market psychology for NVDA: Request timed out.
+2025-09-13 00:57:05.325 | ERROR    | agents.sentiment_agent:_analyze_sentiment_with_gpt:375 | Error analyzing sentiment with GPT for NVDA: Request timed out.
+2025-09-13 01:37:11.422 | ERROR    | src.api.routes.portfolio:get_portfolio_summary:115 | Failed to get portfolio summary: 'list' object has no attribute 'get'
+2025-09-13 01:38:03.446 | ERROR    | config.database:save_trading_signal:175 | Failed to save trading signal: {'message': 'insert or update on table "trading_signals" violates foreign key constraint "trading_signals_symbol_fkey"', 'code': '23503', 'hint': None, 'details': 'Key (symbol)=(TEST) is not present in table "stocks".'}
+2025-09-13 01:38:15.291 | ERROR    | src.api.routes.portfolio:get_portfolio_summary:115 | Failed to get portfolio summary: 'list' object has no attribute 'get'
+2025-09-13 01:38:59.234 | ERROR    | src.api.routes.portfolio:get_portfolio_summary:115 | Failed to get portfolio summary: 'list' object has no attribute 'get'
+2025-09-13 01:43:27.482 | ERROR    | src.api.routes.portfolio:get_portfolio_summary:115 | Failed to get portfolio summary: 'list' object has no attribute 'get'
+2025-09-13 01:43:50.789 | ERROR    | src.api.routes.portfolio:get_portfolio_summary:115 | Failed to get portfolio summary: 'list' object has no attribute 'get'
+2025-09-13 01:43:54.185 | ERROR    | src.api.routes.portfolio:get_portfolio_summary:115 | Failed to get portfolio summary: 'list' object has no attribute 'get'
+2025-09-13 01:45:13.447 | ERROR    | src.api.routes.analysis:analyze_stock:174 | Analysis failed for AAPL: 'direction'
+2025-09-13 01:46:02.334 | ERROR    | src.api.routes.analysis:analyze_stock:174 | Analysis failed for AAPL: 'direction'
+2025-09-13 02:15:15.439 | ERROR    | config.database:save_educational_content:337 | Failed to save educational content: {'message': 'duplicate key value violates unique constraint "educational_content_content_id_key"', 'code': '23505', 'hint': None, 'details': 'Key (content_id)=(edu_MSFT_1757744115) already exists.'}
+2025-09-13 02:19:25.305 | ERROR    | config.database:save_educational_content:337 | Failed to save educational content: {'message': 'duplicate key value violates unique constraint "educational_content_content_id_key"', 'code': '23505', 'hint': None, 'details': 'Key (content_id)=(edu_NVDA_1757744365) already exists.'}

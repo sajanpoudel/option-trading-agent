@@ -13,7 +13,7 @@ project_root = Path(__file__).parent
 sys.path.insert(0, str(project_root))
 
 from src.api.main import app
-from src.core.real_data_orchestrator import RealDataOrchestrator
+from src.api.intelligent_orchestrator import IntelligentOrchestrator
 from config.settings import settings
 from config.logging import setup_logging, get_core_logger
 import uvicorn
@@ -84,19 +84,20 @@ async def initialize_real_data_sources():
         jigsawstack_key = os.getenv("JIGSAWSTACK_API_KEY")
         
         # Initialize orchestrator with real data sources only
-        orchestrator = RealDataOrchestrator(
-            openai_api_key=openai_key,
-            jigsawstack_api_key=jigsawstack_key
-        )
+        orchestrator = IntelligentOrchestrator()
         
-        logger.info("✅ Real Data Sources Orchestrator initialized")
-        logger.info("📊 Data Sources Available:")
-        logger.info("  - OptionsProfitCalculator.com API (Options Data)")
-        logger.info("  - Web Search APIs (News & Sentiment)")
+        logger.info("✅ Intelligent Orchestrator initialized")
+        logger.info("📊 AI Agents Available:")
+        logger.info("  - Technical Analysis Agent (Real market data)")
+        logger.info("  - Sentiment Analysis Agent (Social media & news)")
+        logger.info("  - Options Flow Agent (Flow & volume analysis)")
+        logger.info("  - Historical Patterns Agent (Pattern recognition)")
+        logger.info("  - Education Agent (Interactive learning)")
+        logger.info("  - Risk Management Agent (Portfolio protection)")
         if openai_key:
-            logger.info("  - OpenAI GPT Models (Web Search Agents)")
+            logger.info("  - OpenAI GPT Models Enabled")
         if jigsawstack_key:
-            logger.info("  - JigsawStack (Advanced Scraping & OCR)")
+            logger.info("  - JigsawStack Enhanced Features Enabled")
         
         return orchestrator
         
@@ -140,7 +141,7 @@ def main():
         sys.exit(1)
     
     # Start the server
-    logger.info("Starting FastAPI server with real data sources...")
+    logger.info("Starting FastAPI server...")
     
     try:
         uvicorn.run(

@@ -58,6 +58,97 @@ OUTPUT FORMAT (JSON):
 }
 """
     
+    def _get_response_schema(self) -> Dict[str, Any]:
+        """Get JSON Schema for education response"""
+        return {
+            "type": "object",
+            "properties": {
+                "explanation": {
+                    "type": "object",
+                    "properties": {
+                        "why_this_signal": {"type": "string"},
+                        "market_context": {"type": "string"},
+                        "risk_factors": {
+                            "type": "array",
+                            "items": {"type": "string"},
+                            "maxItems": 5
+                        },
+                        "learning_points": {
+                            "type": "array",
+                            "items": {"type": "string"},
+                            "maxItems": 5
+                        }
+                    },
+                    "required": ["why_this_signal", "market_context", "risk_factors", "learning_points"],
+                    "additionalProperties": False
+                },
+                "educational_content": {
+                    "type": "object",
+                    "properties": {
+                        "concept": {"type": "string"},
+                        "simple_explanation": {"type": "string"},
+                        "example": {"type": "string"},
+                        "quiz_question": {
+                            "type": "object",
+                            "properties": {
+                                "question": {"type": "string"},
+                                "options": {
+                                    "type": "array",
+                                    "items": {"type": "string"},
+                                    "minItems": 4,
+                                    "maxItems": 4
+                                },
+                                "correct_answer": {"type": "string", "enum": ["A", "B", "C", "D"]},
+                                "explanation": {"type": "string"}
+                            },
+                            "required": ["question", "options", "correct_answer", "explanation"],
+                            "additionalProperties": False
+                        }
+                    },
+                    "required": ["concept", "simple_explanation", "example", "quiz_question"],
+                    "additionalProperties": False
+                },
+                "next_steps": {
+                    "type": "object",
+                    "properties": {
+                        "recommended_reading": {
+                            "type": "array",
+                            "items": {"type": "string"},
+                            "maxItems": 5
+                        },
+                        "practice_exercises": {
+                            "type": "array",
+                            "items": {"type": "string"},
+                            "maxItems": 5
+                        },
+                        "skill_level": {"type": "string", "enum": ["beginner", "intermediate", "advanced"]}
+                    },
+                    "required": ["recommended_reading", "practice_exercises", "skill_level"],
+                    "additionalProperties": False
+                },
+                "confidence_building": {
+                    "type": "object",
+                    "properties": {
+                        "success_probability": {"type": "string"},
+                        "similar_examples": {
+                            "type": "array",
+                            "items": {"type": "string"},
+                            "maxItems": 5
+                        },
+                        "what_to_watch": {
+                            "type": "array",
+                            "items": {"type": "string"},
+                            "maxItems": 5
+                        }
+                    },
+                    "required": ["success_probability", "similar_examples", "what_to_watch"],
+                    "additionalProperties": False
+                }
+            },
+            "required": ["explanation", "educational_content", "next_steps", "confidence_building"],
+            "additionalProperties": False
+        }
+    
     async def generate_explanation(
         self, 
         symbol: str, 
@@ -91,7 +182,11 @@ Create educational content that explains WHY this decision was made and what the
                 """}
             ]
             
-            response = await self._make_completion(messages, temperature=0.6)
+            response = await self._make_completion(
+                messages, 
+                temperature=0.6,
+                response_schema=self._get_response_schema()
+            )
             explanation = self._parse_json_response(response['content'])
             
             # Validate and enhance

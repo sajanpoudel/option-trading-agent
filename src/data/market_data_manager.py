@@ -40,10 +40,26 @@ class MarketDataManager:
             tasks = [
                 self.alpaca_client.get_current_quote(symbol),
                 self.alpaca_client.get_technical_indicators(symbol),
-                self.alpaca_client.get_options_data(symbol)
+                self.alpaca_client.get_options_data(symbol),
+                self.alpaca_client.get_historical_data(symbol, period="5d", interval="1d")
             ]
             
-            quote_data, technical_data, options_data = await asyncio.gather(*tasks)
+            quote_data, technical_data, options_data, historical_df = await asyncio.gather(*tasks)
+            
+            # Convert historical DataFrame to list of dicts for JSON serialization
+            historical_data = []
+            if not historical_df.empty:
+                historical_data = [
+                    {
+                        'date': row.name.strftime('%Y-%m-%d'),
+                        'open': float(row['open']),
+                        'high': float(row['high']),
+                        'low': float(row['low']),
+                        'close': float(row['close']),
+                        'volume': int(row['volume'])
+                    }
+                    for _, row in historical_df.iterrows()
+                ]
             
             # Combine all data
             comprehensive_data = {
@@ -52,6 +68,7 @@ class MarketDataManager:
                 'quote': quote_data,
                 'technical': technical_data,
                 'options': options_data,
+                'historical': historical_data,
                 'market_conditions': await self._get_market_conditions()
             }
             
@@ -134,16 +151,16 @@ class MarketDataManager:
         """Get overall market conditions"""
         
         try:
-            # Get VIX as volatility indicator
-            vix_data = await self.alpaca_client.get_current_quote('^VIX')
-            
-            # Get SPY for market direction
+            # Get SPY for market direction (VIX not available in Alpaca)
             spy_data = await self.alpaca_client.get_technical_indicators('SPY')
             
+            # Use default VIX level since ^VIX is not available in Alpaca
+            vix_level = 20.0  # Default moderate volatility
+            
             return {
-                'vix': vix_data.get('price', 20.0),
+                'vix': vix_level,
                 'market_trend': self._determine_market_trend(spy_data),
-                'volatility_regime': self._determine_volatility_regime(vix_data.get('price', 20.0)),
+                'volatility_regime': self._determine_volatility_regime(vix_level),
                 'timestamp': datetime.now().isoformat()
             }
             
@@ -209,11 +226,14 @@ class MarketDataManager:
         """Cache market data"""
         
         try:
+            # Convert data to JSON-serializable format
+            serializable_data = self._make_json_serializable(data)
+            
             cache_record = {
                 'symbol': symbol,
-                'price_data': data,
-                'technical_indicators': data.get('technical', {}),
-                'options_chain': data.get('options', {}),
+                'price_data': serializable_data,
+                'technical_indicators': serializable_data.get('technical', {}),
+                'options_chain': serializable_data.get('options', {}),
                 'last_updated': datetime.now().isoformat()
             }
             
@@ -228,6 +248,24 @@ class MarketDataManager:
             
         except Exception as e:
             logger.warning(f"Failed to cache data for {symbol}: {e}")
+    
+    def _make_json_serializable(self, data: Any) -> Any:
+        """Convert data to JSON-serializable format"""
+        import pandas as pd
+        from decimal import Decimal
+        
+        if isinstance(data, dict):
+            return {key: self._make_json_serializable(value) for key, value in data.items()}
+        elif isinstance(data, list):
+            return [self._make_json_serializable(item) for item in data]
+        elif isinstance(data, (pd.Timestamp, datetime)):
+            return data.isoformat()
+        elif isinstance(data, Decimal):
+            return float(data)
+        elif isinstance(data, pd.DataFrame):
+            return data.to_dict('records')
+        else:
+            return data
     
     async def _get_cached_ai_analysis(self, symbol: str) -> Optional[Dict[str, Any]]:
         """Get cached AI analysis"""

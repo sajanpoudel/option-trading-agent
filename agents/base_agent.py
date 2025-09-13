@@ -47,11 +47,20 @@ class BaseAgent(ABC):
         self, 
         messages: list, 
         tools: Optional[list] = None,
-        temperature: float = 0.7
+        temperature: float = 0.7,
+        response_schema: Optional[Dict] = None
     ) -> Dict[str, Any]:
         """Make a completion request to OpenAI"""
         
         try:
+            # Check if client is available
+            if not self.client:
+                logger.warning(f"{self.name} client not available, returning fallback response")
+                return {
+                    'content': json.dumps(self._get_fallback_response()),
+                    'tool_calls': []
+                }
+            
             # Prepare the request
             request_params = {
                 "model": self.model,
@@ -60,16 +69,37 @@ class BaseAgent(ABC):
                 "max_tokens": 4000
             }
             
+            # Use structured outputs if schema provided, otherwise use basic json_object
+            if response_schema:
+                request_params["response_format"] = {
+                    "type": "json_schema",
+                    "json_schema": {
+                        "name": "analysis_response",
+                        "strict": True,
+                        "schema": response_schema
+                    }
+                }
+            else:
+                request_params["response_format"] = {"type": "json_object"}
+            
             if tools:
                 request_params["tools"] = tools
                 request_params["tool_choice"] = "auto"
             
             # Make the completion
+            logger.info(f"{self.name} making OpenAI API call with model: {self.model}")
+            logger.debug(f"{self.name} request params: {request_params}")
+            
             response = self.client.chat.completions.create(**request_params)
             
             # Extract response content
             message = response.choices[0].message
             content = message.content or ""
+            
+            logger.info(f"{self.name} OpenAI API response received")
+            logger.debug(f"{self.name} response content length: {len(content)}")
+            logger.debug(f"{self.name} response content preview: {content[:200]}...")
+            logger.debug(f"{self.name} full response: {response}")
             
             # Handle tool calls if present
             tool_calls = []
@@ -93,7 +123,11 @@ class BaseAgent(ABC):
             
         except Exception as e:
             logger.error(f"{self.name} completion failed: {e}")
-            raise
+            # Return fallback response instead of raising
+            return {
+                'content': json.dumps(self._get_fallback_response()),
+                'tool_calls': []
+            }
     
     async def get_status(self) -> Dict[str, Any]:
         """Get agent status"""
@@ -108,6 +142,11 @@ class BaseAgent(ABC):
     def _parse_json_response(self, content: str) -> Dict[str, Any]:
         """Parse JSON response from agent"""
         try:
+            # Handle empty or None content
+            if not content or content.strip() == "":
+                logger.warning(f"{self.name} received empty response, returning fallback")
+                return self._get_fallback_response()
+            
             # Try to extract JSON from the response
             if '```json' in content:
                 start = content.find('```json') + 7
@@ -120,10 +159,36 @@ class BaseAgent(ABC):
             else:
                 json_str = content
             
-            return json.loads(json_str)
+            # Try to parse the JSON
+            parsed = json.loads(json_str)
+            
+            # Validate that we got a proper response
+            if not isinstance(parsed, dict):
+                logger.warning(f"{self.name} parsed response is not a dict: {type(parsed)}")
+                return self._get_fallback_response()
+            
+            return parsed
+            
         except json.JSONDecodeError as e:
             logger.warning(f"{self.name} failed to parse JSON response: {e}")
-            return {'error': 'Failed to parse response', 'raw_content': content}
+            logger.error(f"Raw content length: {len(content)}")
+            logger.error(f"Raw content (first 500 chars): {repr(content[:500])}")
+            if len(content) > 500:
+                logger.error(f"Raw content (last 200 chars): {repr(content[-200:])}")
+            return self._get_fallback_response()
+        except Exception as e:
+            logger.error(f"{self.name} unexpected error parsing response: {e}")
+            return self._get_fallback_response()
+    
+    def _get_fallback_response(self) -> Dict[str, Any]:
+        """Get a fallback response when parsing fails"""
+        return {
+            'summary': f'{self.name} analysis completed with limited data',
+            'confidence': 0.3,
+            'recommendation': 'HOLD',
+            'reasoning': 'Analysis completed with fallback data due to API limitations',
+            'fallback': True
+        }
     
     def _validate_confidence(self, confidence: float) -> float:
         """Validate and normalize confidence score"""

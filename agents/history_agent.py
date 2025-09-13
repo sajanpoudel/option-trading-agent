@@ -51,6 +51,69 @@ OUTPUT FORMAT (JSON):
 }
 """
     
+    def _get_response_schema(self) -> Dict[str, Any]:
+        """Get JSON Schema for historical pattern response"""
+        return {
+            "type": "object",
+            "properties": {
+                "pattern_score": {"type": "number", "minimum": -1.0, "maximum": 1.0},
+                "confidence": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+                "dominant_pattern": {"type": "string", "enum": ["uptrend", "downtrend", "consolidation", "breakout", "reversal"]},
+                "historical_matches": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "date": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+                            "similarity": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+                            "outcome": {"type": "string"}
+                        },
+                        "required": ["date", "similarity", "outcome"],
+                        "additionalProperties": False
+                    },
+                    "maxItems": 10
+                },
+                "seasonality": {
+                    "type": "object",
+                    "properties": {
+                        "monthly_bias": {"type": "string", "enum": ["bullish", "bearish", "neutral"]},
+                        "weekly_pattern": {"type": "string"},
+                        "earnings_cycle": {"type": "string", "enum": ["pre", "post", "neutral"]}
+                    },
+                    "required": ["monthly_bias", "weekly_pattern", "earnings_cycle"],
+                    "additionalProperties": False
+                },
+                "pattern_strength": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+                "time_horizon": {"type": "string", "enum": ["short", "medium", "long"]},
+                "key_levels": {
+                    "type": "object",
+                    "properties": {
+                        "support": {
+                            "type": "array",
+                            "items": {"type": "number"},
+                            "minItems": 2,
+                            "maxItems": 2
+                        },
+                        "resistance": {
+                            "type": "array",
+                            "items": {"type": "number"},
+                            "minItems": 2,
+                            "maxItems": 2
+                        }
+                    },
+                    "required": ["support", "resistance"],
+                    "additionalProperties": False
+                },
+                "pattern_insights": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "maxItems": 5
+                }
+            },
+            "required": ["pattern_score", "confidence", "dominant_pattern", "historical_matches", "seasonality", "pattern_strength", "time_horizon", "key_levels", "pattern_insights"],
+            "additionalProperties": False
+        }
+    
     async def analyze(self, symbol: str, **kwargs) -> Dict[str, Any]:
         """Analyze historical patterns for the symbol"""
         
@@ -90,7 +153,11 @@ Provide comprehensive pattern analysis.
                 """}
             ]
             
-            response = await self._make_completion(messages, temperature=0.4)
+            response = await self._make_completion(
+                messages, 
+                temperature=0.4,
+                response_schema=self._get_response_schema()
+            )
             analysis = self._parse_json_response(response['content'])
             
             analysis = self._validate_pattern_analysis(analysis, symbol)

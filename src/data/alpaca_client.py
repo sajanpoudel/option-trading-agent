@@ -43,26 +43,34 @@ class AlpacaMarketDataClient:
     async def get_current_quote(self, symbol: str) -> Dict[str, Any]:
         """Get current quote for symbol"""
         try:
-            # Try Alpaca first
+            # Try Alpaca first for price data
             request = StockLatestQuoteRequest(symbol_or_symbols=symbol)
             quotes = self.alpaca_data_client.get_stock_latest_quote(request)
             
             if symbol in quotes:
                 quote = quotes[symbol]
+                # Get volume from yfinance since Alpaca quote doesn't have daily volume
+                try:
+                    ticker = yf.Ticker(symbol)
+                    info = ticker.info
+                    volume = int(info.get('volume', 0))
+                except:
+                    volume = 0
+                
                 return {
                     'symbol': symbol,
                     'price': float(quote.ask_price + quote.bid_price) / 2,
                     'bid': float(quote.bid_price),
                     'ask': float(quote.ask_price),
-                    'volume': int(quote.ask_size + quote.bid_size),
+                    'volume': volume,  # Real volume from yfinance
                     'timestamp': quote.timestamp.isoformat(),
-                    'source': 'alpaca'
+                    'source': 'alpaca_price_yfinance_volume'
                 }
                 
         except Exception as e:
             logger.warning(f"Alpaca quote failed for {symbol}: {e}")
         
-        # Fallback to yfinance
+        # Fallback to yfinance for everything
         try:
             ticker = yf.Ticker(symbol)
             info = ticker.info
