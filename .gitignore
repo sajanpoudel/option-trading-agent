@@ -172,3 +172,91 @@ jspm_packages/
 # Temporary files
 *.tmp
 *.temp
+
+# Machine Learning / AI Models
+# PyTorch
+*.pth
+*.pt
+*.bin
+torch/
+**/torch/
+**/*torch*
+site-packages/torch/
+
+# TensorFlow
+*.pb
+*.h5
+*.keras
+saved_model/
+**/saved_model/
+
+# Hugging Face / Transformers
+transformers_cache/
+.cache/huggingface/
+**/transformers/
+**/*transformers*
+
+# Scikit-learn cached models
+sklearn/
+**/sklearn/
+
+# Large model files
+*.model
+*.pkl
+*.pickle
+*.joblib
+models/
+checkpoints/
+weights/
+
+# GPU cache
+.nv_cache/
+.triton/
+
+# CUDA cache
+*.cudnn
+*.cuda
+
+# Large datasets
+data/raw/
+data/processed/
+datasets/
+**/datasets/
+
+# Model artifacts
+mlruns/
+artifacts/
+wandb/
+tensorboard_logs/
+
+# LightGBM
+lgb_model.txt
+*.lgb
+
+# Prophet models
+prophet_model.json
+
+# OpenAI API keys and secrets (double protection)
+openai_api_key
+*.key
+secrets/
+credentials/
+
+# Supabase keys
+supabase_url
+supabase_key
+
+# Large cache directories
+.cache/
+**/cache/
+**/.cache/
+
+# Plotly cache
+.plotly/
+
+# Matplotlib cache
+matplotlib/
+
+# Model downloads
+downloaded_models/
+pretrained/
