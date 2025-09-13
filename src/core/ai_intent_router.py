@@ -161,6 +161,59 @@ class AIIntentRouter:
                         "required": ["message"]
                     }
                 }
+            },
+            {
+                "type": "function",
+                "function": {
+                    "name": "buy_option",
+                    "description": "Analyze and buy a single option for a specific stock",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "symbol": {
+                                "type": "string",
+                                "description": "Stock symbol to buy options for (e.g., AAPL, TSLA)"
+                            },
+                            "budget": {
+                                "type": "number",
+                                "description": "Budget available for option purchase"
+                            },
+                            "risk_tolerance": {
+                                "type": "string",
+                                "enum": ["conservative", "moderate", "aggressive"],
+                                "description": "User's risk tolerance level"
+                            }
+                        },
+                        "required": ["symbol", "budget"]
+                    }
+                }
+            },
+            {
+                "type": "function",
+                "function": {
+                    "name": "buy_multiple_options",
+                    "description": "Analyze hot stocks and create optimized options portfolio within budget",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "budget": {
+                                "type": "number",
+                                "description": "Total budget for options portfolio"
+                            },
+                            "risk_tolerance": {
+                                "type": "string",
+                                "enum": ["conservative", "moderate", "aggressive"],
+                                "description": "User's risk tolerance level"
+                            },
+                            "diversification": {
+                                "type": "string",
+                                "enum": ["low", "moderate", "high"],
+                                "description": "Desired diversification level"
+                            }
+                        },
+                        "required": ["budget"]
+                    }
+                }
             }
         ]
         
@@ -182,19 +235,25 @@ Your job is to understand what the user wants and call the appropriate tools to 
 
 Available capabilities:
 1. **Stock Analysis** - Analyze any stock symbol with technical indicators, sentiment, options flow
-2. **Education** - Explain trading concepts, options Greeks, strategies in simple terms  
-3. **Market Trends** - Show trending stocks and market overview
-4. **Portfolio** - Analyze portfolio performance and risk
-5. **Quizzes** - Generate educational quizzes to test knowledge
-6. **Casual Chat** - Handle greetings and general conversation
+2. **Options Buying** - Buy single options for specific stocks with budget analysis
+3. **Multi-Options Buying** - Find and buy best options from hot stocks within budget
+4. **Education** - Explain trading concepts, options Greeks, strategies in simple terms  
+5. **Market Trends** - Show trending stocks and market overview
+6. **Portfolio** - Analyze portfolio performance and risk
+7. **Quizzes** - Generate educational quizzes to test knowledge
+8. **Casual Chat** - Handle greetings and general conversation
 
 Instructions:
 - For stock analysis requests, extract the symbol and call analyze_stock
+- For buying options with budget (e.g., "buy AAPL option with $500"), call buy_option
+- For buying best options from hot stocks (e.g., "find best options with $500 budget"), call buy_multiple_options
 - For questions about trading concepts, call explain_concept  
 - For casual greetings/conversation, call casual_response
 - For portfolio requests, call portfolio_analysis
 - For quiz requests, call generate_quiz
 - For market trends, call get_market_trends
+
+IMPORTANT: When user mentions "budget", "buy option", "buy options", or asks to find profitable options, use the buy tools!
 
 Always choose the most appropriate tool(s) for the user's request.
 You can call multiple tools if needed.
@@ -231,7 +290,14 @@ You can call multiple tools if needed.
                     user_message, message, tool_results
                 )
                 
-                return {
+                # Extract symbol from tool results if available
+                symbol = None
+                for result in tool_results:
+                    if result.get("symbol"):
+                        symbol = result["symbol"]
+                        break
+                
+                response_data = {
                     "response": final_response,
                     "intent": self._determine_intent_from_tools(message.tool_calls),
                     "tools_called": [tc.function.name for tc in message.tool_calls],
@@ -239,6 +305,12 @@ You can call multiple tools if needed.
                     "formatted": True,
                     "timestamp": datetime.now().isoformat()
                 }
+                
+                # Add symbol if found
+                if symbol:
+                    response_data["symbol"] = symbol
+                    
+                return response_data
             
             else:
                 # No tools needed - direct response
@@ -275,6 +347,10 @@ You can call multiple tools if needed.
                 return await self._generate_quiz(arguments)
             elif function_name == "casual_response":
                 return await self._casual_response(arguments)
+            elif function_name == "buy_option":
+                return await self._buy_option(arguments)
+            elif function_name == "buy_multiple_options":
+                return await self._buy_multiple_options(arguments)
             else:
                 return {"error": f"Unknown tool: {function_name}"}
                 
@@ -406,6 +482,63 @@ You can call multiple tools if needed.
             "success": True
         }
     
+    async def _buy_option(self, args: Dict) -> Dict[str, Any]:
+        """Execute single option purchase analysis"""
+        try:
+            from src.agents.buy_agent import analyze_option_buy
+            
+            symbol = args["symbol"].upper()
+            budget = float(args["budget"])
+            risk_tolerance = args.get("risk_tolerance", "moderate")
+            
+            preferences = {
+                "risk_tolerance": risk_tolerance,
+                "strategy": "growth",
+                "time_horizon": "short"
+            }
+            
+            analysis = await analyze_option_buy(symbol, budget, preferences)
+            
+            return {
+                "tool": "buy_option",
+                "symbol": symbol,
+                "budget": budget,
+                "analysis": analysis,
+                "requires_confirmation": True,
+                "success": True
+            }
+            
+        except Exception as e:
+            return {"tool": "buy_option", "error": str(e), "success": False}
+    
+    async def _buy_multiple_options(self, args: Dict) -> Dict[str, Any]:
+        """Execute multi-options portfolio analysis"""
+        try:
+            from src.agents.multi_options_buy_agent import analyze_multi_options_buy
+            
+            budget = float(args["budget"])
+            risk_tolerance = args.get("risk_tolerance", "moderate")
+            diversification = args.get("diversification", "moderate")
+            
+            preferences = {
+                "risk_tolerance": risk_tolerance,
+                "diversification": diversification,
+                "strategy": "growth"
+            }
+            
+            portfolio = await analyze_multi_options_buy(budget, preferences)
+            
+            return {
+                "tool": "buy_multiple_options",
+                "budget": budget,
+                "portfolio": portfolio,
+                "requires_confirmation": True,
+                "success": True
+            }
+            
+        except Exception as e:
+            return {"tool": "buy_multiple_options", "error": str(e), "success": False}
+    
     async def _format_final_response(
         self, 
         user_message: str, 
@@ -481,6 +614,10 @@ Make the response human-readable and engaging!
         
         if "analyze_stock" in tool_names:
             return "STOCK_ANALYSIS"
+        elif "buy_option" in tool_names:
+            return "OPTIONS_BUYING"
+        elif "buy_multiple_options" in tool_names:
+            return "PORTFOLIO_BUYING"
         elif "explain_concept" in tool_names:
             return "OPTIONS_EDUCATION"
         elif "get_market_trends" in tool_names:

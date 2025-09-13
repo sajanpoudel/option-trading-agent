@@ -5,6 +5,7 @@ Replaces ALL mock data in frontend with real AI-generated analysis
 """
 import asyncio
 import re
+import json
 from typing import Dict, List, Any, Optional, Tuple
 from datetime import datetime, timedelta
 from loguru import logger
@@ -21,6 +22,7 @@ from agents.history_agent import HistoricalPatternAgent
 from agents.education_agent import EducationAgent
 from agents.risk_agent import RiskManagementAgent
 from agents.buy_agent import BuyAgent
+from agents.multi_stock_agent import MultiStockAnalysisAgent
 
 # Import backend services
 from src.core.decision_engine import DecisionEngine
@@ -28,92 +30,160 @@ from src.data.market_data_manager import MarketDataManager
 from src.indicators.technical_calculator import TechnicalIndicatorsCalculator
 
 class QueryClassifier:
-    """Classifies user queries to determine which agents to trigger"""
+    """Intelligent query classifier using OpenAI to understand user intent"""
     
-    def __init__(self):
-        self.query_patterns = {
-            'technical_analysis': [
-                r'\b(technical|chart|rsi|macd|moving average|support|resistance|indicators?)\b',
-                r'\b(analyze|analysis)\b',
-                r'\b(breakout|trend|momentum)\b'
-            ],
-            'sentiment_analysis': [
-                r'\b(sentiment|news|social|twitter|reddit|stocktwits)\b',
-                r'\b(feeling|mood|opinion|buzz)\b',
-                r'\b(bullish|bearish)\b'
-            ],
-            'options_flow': [
-                r'\b(options?|calls?|puts?|flow|volume|gamma|delta)\b',
-                r'\b(unusual activity|whale|smart money)\b',
-                r'\b(strike|expiration|greeks?)\b'
-            ],
-            'historical_analysis': [
-                r'\b(historical|history|pattern|seasonal|past)\b',
-                r'\b(earnings|cycle|performance)\b',
-                r'\b(support|resistance|levels?)\b'
-            ],
-            'education': [
-                r'\b(explain|what is|how does|teach|learn)\b',
-                r'\b(help|guide|tutorial)\b',
-                r'\b(strategy|strategies)\b'
-            ],
-            'risk_assessment': [
-                r'\b(risk|safe|conservative|aggressive|portfolio)\b',
-                r'\b(stop loss|position siz|allocation)\b',
-                r'\b(hedge|protection|volatility)\b'
-            ],
-            'trading_signals': [
-                r'\b(buy|sell|trade|signal|recommendation)\b',
-                r'\b(should i|when to|entry|exit)\b',
-                r'\b(target|price target)\b'
-            ],
-            'trade_execution': [
-                r'\b(execute|place order|buy now|sell now)\b',
-                r'\b(open position|close position)\b',
-                r'\b(purchase|acquire|liquidate)\b',
-                r'\b(call option|put option|options trade)\b'
-            ],
-            'portfolio_management': [
-                r'\b(portfolio|positions?|holdings?|pnl|p&l)\b',
-                r'\b(performance|returns?|profit)\b',
-                r'\b(balance|cash|total)\b'
-            ]
+    def __init__(self, openai_client):
+        self.openai_client = openai_client
+        self.available_agents = {
+            'technical_analysis': 'Analyzes technical indicators, chart patterns, RSI, MACD, support/resistance levels, trends, and momentum',
+            'sentiment_analysis': 'Analyzes market sentiment, news sentiment, social media buzz, and overall market mood',
+            'options_flow': 'Monitors options flow, unusual activity, call/put ratios, and smart money movements',
+            'historical_analysis': 'Studies historical patterns, seasonal trends, past performance, and earnings cycles',
+            'education': 'Provides educational content, explanations, tutorials, and learning materials about trading concepts',
+            'risk_assessment': 'Evaluates risk metrics, position sizing, portfolio allocation, and risk management strategies',
+            'trading_signals': 'Generates buy/sell signals, entry/exit recommendations, and trading opportunities',
+            'trade_execution': 'Executes actual trades, places orders, and manages position opening/closing',
+            'portfolio_management': 'Manages portfolio positions, tracks P&L, monitors performance, and rebalancing',
+            'multi_stock_analysis': 'Analyzes multiple stocks, compares them, and selects the best option based on budget and criteria'
         }
+        
+        # No fallback patterns - we use OpenAI for all classification
     
-    def classify_query(self, query: str) -> Dict[str, float]:
+    async def classify_query(self, query: str) -> Dict[str, float]:
         """
-        Classify user query and return confidence scores for each category
+        Intelligently classify user query using OpenAI to understand intent
         Returns dict with category names and confidence scores (0-1)
         """
-        query_lower = query.lower()
-        scores = {}
-        
-        for category, patterns in self.query_patterns.items():
-            score = 0.0
-            matches = 0
+        try:
+            # Create a detailed prompt for OpenAI
+            agent_descriptions = "\n".join([f"- {name}: {desc}" for name, desc in self.available_agents.items()])
             
-            for pattern in patterns:
-                if re.search(pattern, query_lower, re.IGNORECASE):
-                    matches += 1
-                    score += 1.0
+            prompt = f"""
+You are an expert AI assistant that classifies user queries for a financial trading system. 
+
+Available AI agents and their purposes:
+{agent_descriptions}
+
+User Query: "{query}"
+
+IMPORTANT CLASSIFICATION RULES:
+1. "analyze [STOCK]" or "analysis of [STOCK]" = COMPREHENSIVE ANALYSIS
+   - This should trigger: technical_analysis, sentiment_analysis, options_flow, historical_analysis
+   - Score these agents 0.8-1.0 for comprehensive analysis requests
+
+2. "buy [STOCK]" or "execute trade" = TRADING EXECUTION
+   - This should trigger: trade_execution, technical_analysis, risk_assessment
+   - Score these agents 0.8-1.0 for trading requests
+
+3. "find me the best stock" or "best option with budget" = MULTI-STOCK ANALYSIS
+   - This should trigger: technical_analysis, sentiment_analysis, options_flow, historical_analysis, risk_assessment, trade_execution
+   - Score these agents 0.8-1.0 for stock selection requests
+
+4. "explain" or "teach me" = EDUCATION
+   - This should trigger: education agent
+   - Score education 0.8-1.0 for learning requests
+
+5. "portfolio" or "positions" = PORTFOLIO MANAGEMENT
+   - This should trigger: portfolio_management
+   - Score portfolio_management 0.8-1.0 for portfolio requests
+
+6. Specific requests (e.g., "show me RSI", "what's the sentiment") = TARGETED ANALYSIS
+   - Only trigger the specific agent mentioned
+   - Score the relevant agent 0.8-1.0, others 0.0-0.3
+
+Analyze this query and determine which agents should be triggered. For each agent, provide a confidence score from 0.0 to 1.0.
+
+Respond with a JSON object containing confidence scores for each agent. Only include agents with scores >= 0.3.
+
+Example responses:
+- "analyze AAPL" → {{"technical_analysis": 0.9, "sentiment_analysis": 0.9, "options_flow": 0.9, "historical_analysis": 0.9}}
+- "buy TSLA" → {{"trade_execution": 0.9, "technical_analysis": 0.8, "risk_assessment": 0.8}}
+- "find me the best stock with $500 budget" → {{"technical_analysis": 0.9, "sentiment_analysis": 0.9, "options_flow": 0.9, "historical_analysis": 0.9, "risk_assessment": 0.8, "trade_execution": 0.8}}
+- "explain options" → {{"education": 0.9}}
+- "show me RSI" → {{"technical_analysis": 0.9}}
+"""
+
+            response = await self.openai_client.chat.completions.create(
+                model="gpt-4o",
+                messages=[
+                    {"role": "system", "content": "You are an expert financial query classifier. Always respond with valid JSON only."},
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=0.1,
+                max_tokens=500
+            )
             
-            # Normalize score by number of patterns
-            scores[category] = min(score / len(patterns), 1.0)
-        
-        return scores
+            # Parse the JSON response
+            content = response.choices[0].message.content.strip()
+            logger.info(f"OpenAI classification response: {content}")
+            
+            # Try to parse as JSON
+            try:
+                scores = json.loads(content)
+                # Ensure all scores are floats and within valid range
+                for agent in scores:
+                    scores[agent] = max(0.0, min(1.0, float(scores[agent])))
+                
+                logger.info(f"✅ OpenAI classified query: {scores}")
+                return scores
+                
+            except json.JSONDecodeError as e:
+                logger.error(f"Failed to parse OpenAI JSON response: {e}")
+                # Return empty scores if OpenAI fails
+                return {}
+                
+        except Exception as e:
+            logger.error(f"OpenAI classification failed: {e}")
+            # Return empty scores if OpenAI fails
+            return {}
     
-    def extract_stock_symbol(self, query: str) -> Optional[str]:
-        """Extract stock symbol from query"""
-        # Common stock symbols pattern - look for 2-5 letter uppercase symbols
-        stock_pattern = r'\b([A-Z]{2,5})\b'
-        matches = re.findall(stock_pattern, query.upper())
-        
-        # Filter out common words that match pattern
-        excluded = {'THE', 'AND', 'FOR', 'ARE', 'BUT', 'NOT', 'YOU', 'ALL', 'CAN', 'HAD', 'HER', 'WAS', 'ONE', 'OUR', 'OUT', 'DAY', 'GET', 'HAS', 'HIM', 'HOW', 'ITS', 'MAY', 'NEW', 'NOW', 'OLD', 'SEE', 'TWO', 'WHO', 'BOY', 'DID', 'USE', 'WAY', 'WHY', 'AIR', 'BAD', 'BIG', 'BOX', 'CAR', 'CAT', 'CUT', 'DOG', 'EAR', 'EYE', 'FAR', 'FUN', 'GOT', 'HOT', 'JOB', 'LOT', 'MAN', 'OWN', 'PUT', 'RUN', 'SIT', 'SUN', 'TOO', 'TOP', 'WIN', 'YES', 'YET', 'AGENT', 'ANALYZE', 'ANALYSIS', 'TECHNICAL', 'SENTIMENT', 'OPTIONS', 'FLOW', 'HISTORY', 'PATTERN', 'RISK', 'EDUCATION', 'TRADING', 'SIGNALS', 'PORTFOLIO', 'MANAGEMENT'}
-        
-        valid_symbols = [symbol for symbol in matches if symbol not in excluded]
-        
-        return valid_symbols[0] if valid_symbols else None
+    async def extract_stock_symbol(self, query: str) -> Optional[str]:
+        """Intelligently extract stock symbol from query using OpenAI"""
+        try:
+            if not self.openai_client:
+                logger.error("OpenAI client not available for symbol extraction")
+                return None
+            
+            prompt = f"""
+Extract the stock symbol from this user query. Look for:
+1. Ticker symbols (2-5 uppercase letters like AAPL, TSLA, NVDA)
+2. Company names that can be mapped to symbols
+3. Market indices (SPY, QQQ, etc.)
+
+User Query: "{query}"
+
+Respond with ONLY the stock symbol in uppercase letters, or "NONE" if no stock symbol is found.
+
+Examples:
+- "analyze AAPL" → AAPL
+- "What's happening with Tesla?" → TSLA  
+- "Show me Apple stock" → AAPL
+- "How is the market doing?" → NONE
+- "Buy some Microsoft shares" → MSFT
+
+Symbol:"""
+
+            response = await self.openai_client.chat.completions.create(
+                model="gpt-4o",
+                messages=[
+                    {"role": "system", "content": "You are a financial symbol extractor. Always respond with just the symbol or NONE."},
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=0.1,
+                max_tokens=10
+            )
+            
+            symbol = response.choices[0].message.content.strip().upper()
+            
+            if symbol == "NONE" or len(symbol) < 2 or len(symbol) > 5:
+                return None
+            
+            logger.info(f"✅ OpenAI extracted symbol: {symbol}")
+            return symbol
+            
+        except Exception as e:
+            logger.error(f"OpenAI symbol extraction failed: {e}")
+            return None
 
 class IntelligentOrchestrator:
     """
@@ -131,7 +201,7 @@ class IntelligentOrchestrator:
         else:
             self.openai_client = OpenAI(api_key=openai_api_key)
         
-        self.query_classifier = QueryClassifier()
+        self.query_classifier = QueryClassifier(self.openai_client)
         self.orchestrator = OptionsOracleOrchestrator()
         self.decision_engine = DecisionEngine()
         self.market_data_manager = MarketDataManager()
@@ -146,6 +216,7 @@ class IntelligentOrchestrator:
             self.education_agent = EducationAgent(self.openai_client)
             self.risk_agent = RiskManagementAgent(self.openai_client)
             self.buy_agent = BuyAgent(self.openai_client)
+            self.multi_stock_agent = MultiStockAnalysisAgent(self.openai_client)
         else:
             # Use fallback mode without OpenAI agents
             self.technical_agent = None
@@ -155,6 +226,7 @@ class IntelligentOrchestrator:
             self.education_agent = None
             self.risk_agent = None
             self.buy_agent = None
+            self.multi_stock_agent = None
         
         logger.info("Intelligent Orchestrator initialized")
     
@@ -170,8 +242,8 @@ class IntelligentOrchestrator:
         logger.info(f"🧠 Processing user query: {query}")
         
         # Extract stock symbol and classify query
-        symbol = self.query_classifier.extract_stock_symbol(query)
-        query_scores = self.query_classifier.classify_query(query)
+        symbol = await self.query_classifier.extract_stock_symbol(query)
+        query_scores = await self.query_classifier.classify_query(query)
         
         # Default to AAPL if no symbol found
         if not symbol:
@@ -215,19 +287,30 @@ class IntelligentOrchestrator:
         threshold = 0.3  # Minimum confidence to trigger agent
         agents_to_trigger = []
         
-        # Always include technical analysis for stock queries
-        agents_to_trigger.append('technical')
+        # Check if this is a comprehensive analysis request (high scores for multiple analysis agents)
+        analysis_agents = ['technical_analysis', 'sentiment_analysis', 'options_flow', 'historical_analysis']
+        analysis_scores = [query_scores.get(agent, 0) for agent in analysis_agents]
+        is_comprehensive_analysis = any(score > 0.7 for score in analysis_scores) and len([s for s in analysis_scores if s > 0.5]) >= 2
         
-        # Add other agents based on query scores
-        if query_scores.get('sentiment_analysis', 0) > threshold:
-            agents_to_trigger.append('sentiment')
+        if is_comprehensive_analysis:
+            # For comprehensive analysis, trigger all core analysis agents
+            agents_to_trigger = ['technical', 'sentiment', 'flow', 'history']
+            logger.info("🎯 Comprehensive analysis detected - triggering all core agents")
+        else:
+            # Add agents based on individual query scores
+            if query_scores.get('technical_analysis', 0) > threshold:
+                agents_to_trigger.append('technical')
+            
+            if query_scores.get('sentiment_analysis', 0) > threshold:
+                agents_to_trigger.append('sentiment')
+            
+            if query_scores.get('options_flow', 0) > threshold:
+                agents_to_trigger.append('flow')
+            
+            if query_scores.get('historical_analysis', 0) > threshold:
+                agents_to_trigger.append('history')
         
-        if query_scores.get('options_flow', 0) > threshold:
-            agents_to_trigger.append('flow')
-        
-        if query_scores.get('historical_analysis', 0) > threshold:
-            agents_to_trigger.append('history')
-        
+        # Add specialized agents based on query scores
         if query_scores.get('education', 0) > threshold:
             agents_to_trigger.append('education')
         
@@ -242,9 +325,15 @@ class IntelligentOrchestrator:
         if query_scores.get('trade_execution', 0) > threshold:
             agents_to_trigger.append('buy_agent')
         
-        # For general queries, trigger all agents for comprehensive analysis
-        if max(query_scores.values()) < threshold:
-            agents_to_trigger = ['technical', 'sentiment', 'flow', 'history', 'decision_engine']
+        # Include multi-stock agent for stock selection requests
+        if query_scores.get('multi_stock_analysis', 0) > threshold:
+            agents_to_trigger.append('multi_stock')
+            logger.info("🎯 Multi-stock analysis detected - will analyze multiple stocks")
+        
+        # For general queries with no clear intent, default to comprehensive analysis
+        if not agents_to_trigger and max(query_scores.values()) < threshold:
+            agents_to_trigger = ['technical', 'sentiment', 'flow', 'history']
+            logger.info("🔄 No clear intent detected - defaulting to comprehensive analysis")
         
         logger.info(f"🤖 Agents to trigger: {agents_to_trigger}")
         return agents_to_trigger
@@ -319,6 +408,11 @@ class IntelligentOrchestrator:
                 logger.info("🎯 Running buy agent")
                 buy_result = await self._run_buy_agent(symbol, results, user_risk_profile)
                 results['buy_agent'] = buy_result
+            
+            if 'multi_stock' in agents_to_trigger:
+                logger.info("🔍 Running multi-stock analysis agent")
+                multi_stock_result = await self._run_multi_stock_agent(query, user_context)
+                results['multi_stock_agent'] = multi_stock_result
             
             # Generate comprehensive technical indicators for charts
             results['technical_indicators'] = await self._generate_technical_indicators(symbol, market_data)
@@ -530,6 +624,39 @@ class IntelligentOrchestrator:
             logger.error(f"Buy agent error: {e}")
             return {'error': str(e)}
     
+    async def _run_multi_stock_agent(self, query: str, user_context: Dict[str, Any]) -> Dict[str, Any]:
+        """Run multi-stock analysis agent"""
+        logger.info(f"🔍 Running multi-stock analysis for query: {query}")
+        
+        try:
+            if not self.multi_stock_agent:
+                logger.warning("Multi-stock agent not available")
+                return {
+                    'multi_stock_analysis': {
+                        'error': 'Multi-stock agent not available',
+                        'budget': 0,
+                        'analyzed_count': 0,
+                        'best_recommendation': None
+                    }
+                }
+            
+            # Run multi-stock analysis
+            result = await self.multi_stock_agent.analyze(query, user_context)
+            
+            logger.info(f"✅ Multi-stock analysis completed")
+            return result
+            
+        except Exception as e:
+            logger.error(f"Multi-stock agent error: {e}")
+            return {
+                'multi_stock_analysis': {
+                    'error': str(e),
+                    'budget': 0,
+                    'analyzed_count': 0,
+                    'best_recommendation': None
+                }
+            }
+    
     async def _generate_technical_indicators(self, symbol: str, market_data: Dict) -> Dict[str, Any]:
         """Generate complete technical indicators for frontend charts"""
         logger.info(f"📊 Generating technical indicators for {symbol}")
@@ -666,7 +793,10 @@ class IntelligentOrchestrator:
             'educational_content': analysis_result.get('education_agent', {}),
             
             # For risk assessment
-            'risk_assessment': analysis_result.get('risk_agent', {})
+            'risk_assessment': analysis_result.get('risk_agent', {}),
+            
+            # For multi-stock analysis
+            'multi_stock_analysis': analysis_result.get('multi_stock_agent', {})
         }
         
         # Generate contextual AI response text
@@ -879,6 +1009,8 @@ class IntelligentOrchestrator:
         elif primary_type == 'education':
             education_content = analysis_result.get('education_agent', {}).get('educational_content', {})
             return education_content.get('explanation', f"Educational analysis for {symbol} completed.")
+        elif primary_type == 'multi_stock_analysis':
+            return self._generate_multi_stock_response(analysis_result)
         else:
             return self._generate_comprehensive_response(symbol, analysis_result)
     
@@ -988,3 +1120,49 @@ All data is now loaded in the analysis view. Click on any agent above to see det
             ]
         
         return actions
+    
+    def _generate_multi_stock_response(self, analysis_result: Dict) -> str:
+        """Generate multi-stock analysis response"""
+        multi_stock = analysis_result.get('multi_stock_agent', {}).get('multi_stock_analysis', {})
+        
+        if multi_stock.get('error'):
+            return f"Multi-stock analysis encountered an issue: {multi_stock['error']}. Please try again."
+        
+        budget = multi_stock.get('budget', 0)
+        analyzed_count = multi_stock.get('analyzed_count', 0)
+        best_rec = multi_stock.get('best_recommendation')
+        
+        if not best_rec:
+            return f"I analyzed {analyzed_count} stocks with your ${budget:,.0f} budget, but couldn't find a suitable recommendation. Consider increasing your budget or trying different stocks."
+        
+        symbol = best_rec.get('symbol', 'Unknown')
+        name = best_rec.get('name', 'Unknown')
+        price = best_rec.get('price', 0)
+        score = best_rec.get('overall_score', 0) * 100
+        shares = best_rec.get('max_shares', 0)
+        total_cost = shares * price
+        potential_return = best_rec.get('potential_return', 0)
+        risk_level = best_rec.get('risk_level', 'Unknown')
+        
+        response = f"""🎯 **Best Stock Recommendation for ${budget:,.0f} Budget**
+
+**Selected:** {symbol} ({name})
+- **Price:** ${price:.2f}
+- **Shares:** {shares} shares
+- **Total Cost:** ${total_cost:,.2f}
+- **Overall Score:** {score:.1f}/100
+- **Risk Level:** {risk_level}
+- **Potential Return:** {potential_return:+.1f}%
+
+**Analysis Summary:**
+I analyzed {analyzed_count} stocks and {symbol} emerged as the best option for your budget. The stock shows strong technical indicators, positive sentiment, and good options flow activity.
+
+**Next Steps:**
+1. Review the detailed analysis below
+2. Consider the risk level ({risk_level.lower()})
+3. Set appropriate stop-loss orders
+4. Monitor the position closely
+
+Would you like me to execute this trade or would you prefer to see more details about other analyzed stocks?"""
+        
+        return response

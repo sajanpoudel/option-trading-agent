@@ -204,8 +204,8 @@ Only return the JSON array, no other text.
     async def _analyze_html_with_openai(self, html_content: str, limit: int) -> List[Dict[str, Any]]:
         """Use OpenAI to analyze HTML and extract trending stock data"""
         if not self.openai_client:
-            logger.warning("OpenAI client not available, using fallback extraction")
-            return self._fallback_html_parsing(html_content, limit)
+            logger.error("OpenAI client not available - cannot analyze HTML")
+            return []
         
         try:
             # Clean up the HTML to focus on the important parts

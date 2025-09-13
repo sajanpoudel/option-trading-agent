@@ -275,6 +275,7 @@ class ChatResponse(BaseModel):
     response: str
     actions: Optional[Dict[str, Any]] = None
     suggestions: Optional[List[str]] = None
+    agents_triggered: Optional[List[str]] = None
 
 @app.post("/api/v1/chat/message", response_model=ChatResponse)
 async def send_chat_message(message_data: ChatMessage):
@@ -301,6 +302,7 @@ async def send_chat_message(message_data: ChatMessage):
         ai_response = orchestration_result.get('ai_response', 'Analysis complete.')
         symbol = orchestration_result.get('symbol')
         query_type = orchestration_result.get('query_type', 'general')
+        agents_triggered = orchestration_result.get('ai_agents_triggered', [])
         
         # Determine actions based on orchestration results
         actions = {}
@@ -333,7 +335,8 @@ async def send_chat_message(message_data: ChatMessage):
         response = ChatResponse(
             response=ai_response,
             actions=actions if actions else None,
-            suggestions=suggestions
+            suggestions=suggestions,
+            agents_triggered=agents_triggered
         )
         
         logger.info(f"✅ Chat response generated for {symbol}")
@@ -386,8 +389,8 @@ async def get_hot_stocks():
         trending_stocks_data = await web_scraper.get_trending_stocks(limit=5)
         
         if not trending_stocks_data:
-            logger.warning("No trending stocks found, using fallback symbols")
-            symbols = ["NVDA", "TSLA", "AAPL", "MSFT", "GOOGL"]
+            logger.warning("No trending stocks found from StockTwits - using fallback stocks")
+            symbols = ["NVDA", "TSLA", "AAPL", "MSFT", "GOOGL", "AMZN", "META", "NFLX"]
         else:
             symbols = [stock["symbol"] for stock in trending_stocks_data]
             logger.info(f"✅ Got real trending symbols: {symbols}")
@@ -408,18 +411,32 @@ async def get_hot_stocks():
                 # Extract real market data
                 quote = market_data.get('quote', {})
                 current_price = float(quote.get('price', 0))
-                volume = quote.get('volume', 0)
+                volume = float(quote.get('volume', 0))
+                
+                # Debug logging for market data
+                logger.info(f"📊 Market data for {symbol}: price=${current_price}, volume={volume}")
+                logger.info(f"📊 Quote data: {quote}")
                 
                 
-                # Get previous close price for change calculation
-                historical = market_data.get('historical', [])
-                previous_close = current_price  # Default to current price
-                if historical and len(historical) > 1:
-                    previous_close = float(historical[-2].get('close', current_price))
+                # Get change data directly from quote (which now includes yfinance change data)
+                change = float(quote.get('change', 0))
+                change_percent = float(quote.get('change_percent', 0))
                 
-                # Calculate change and change percentage
-                change = current_price - previous_close
-                change_percent = (change / previous_close) * 100 if previous_close > 0 else 0
+                # If change data is missing, try to calculate from previous close
+                if change == 0 and change_percent == 0:
+                    previous_close = float(quote.get('previous_close', current_price))
+                    change = current_price - previous_close
+                    change_percent = (change / previous_close) * 100 if previous_close > 0 else 0
+                
+                # Sanity check - if change is too large, log warning but don't zero it out
+                if abs(change_percent) > 20:
+                    logger.warning(f"Large change detected for {symbol}: {change_percent:.1f}% - verify data")
+                
+                # Only zero out if change is completely unreasonable (>50%)
+                if abs(change_percent) > 50:
+                    logger.warning(f"Extreme change detected for {symbol}: {change_percent:.1f}% - using 0%")
+                    change = 0
+                    change_percent = 0
                 
                 # Generate sparkline from real historical data
                 historical = market_data.get('historical', [])
@@ -440,12 +457,19 @@ async def get_hot_stocks():
                     sentiment = trending_data.get('sentiment', 'Neutral')
                     mentions = trending_data.get('mentions', 0)
                     ai_signals.append(f"StockTwits: {sentiment}")
+                    # Convert mentions to int if it's a string
+                    if isinstance(mentions, str):
+                        try:
+                            mentions = int(mentions)
+                        except ValueError:
+                            mentions = 0
                     if mentions > 0:
                         ai_signals.append(f"{mentions} mentions")
                     
                     # Boost AI score based on StockTwits sentiment
                     sentiment_score = trending_data.get('sentiment_score', 0.5)
-                    ai_score = max(ai_score, int(sentiment_score * 100))
+                    if sentiment_score is not None:
+                        ai_score = max(ai_score, int(sentiment_score * 100))
                 
                 # Add basic technical signals based on price movement
                 if change > 0:
@@ -465,7 +489,7 @@ async def get_hot_stocks():
                 
                 hot_stock = {
                     "symbol": symbol,
-                    "name": trending_data.get('name', market_data.get('company_name', f"{symbol} Inc")),
+                    "name": (trending_data.get('name') if trending_data else None) or market_data.get('company_name', f"{symbol} Inc"),
                     "price": current_price,
                     "change": change,
                     "changePercent": change_percent,
@@ -673,6 +697,7 @@ async def process_trading_command(message_data: ChatMessage):
                 "Adjust position size",
                 "Set stop loss"
             ],
+            'agents_triggered': result.get('ai_agents_triggered', []),
             'timestamp': time.time()
         }
         
@@ -695,6 +720,62 @@ async def process_trading_command(message_data: ChatMessage):
             'suggestions': ["Try again", "Check symbol", "Review risk profile"],
             'timestamp': time.time()
         }
+
+
+@app.post("/api/v1/options/execute")
+async def execute_options_purchase(request: Dict[str, Any]):
+    """Execute options purchase after user confirmation"""
+    try:
+        logger.info(f"🚀 Executing options purchase: {request.get('type', 'unknown')}")
+        
+        purchase_type = request.get('type')
+        analysis = request.get('analysis', {})
+        budget = request.get('budget', 0)
+        symbol = request.get('symbol')
+        confirmed = request.get('confirmed', False)
+        
+        if not confirmed:
+            return JSONResponse(
+                status_code=400,
+                content={"error": "User confirmation required"}
+            )
+        
+        if purchase_type == "single_option":
+            # Execute single option purchase
+            from src.agents.buy_agent import execute_option_buy
+            
+            result = await execute_option_buy(analysis, confirmed=True)
+            
+        elif purchase_type == "multi_options":
+            # Execute multi-options portfolio purchase
+            from src.agents.multi_options_buy_agent import execute_multi_options_buy
+            
+            portfolio_data = {"recommended_portfolio": analysis.get('recommended_portfolio', [])}
+            result = await execute_multi_options_buy(portfolio_data, confirmed=True)
+            
+        else:
+            return JSONResponse(
+                status_code=400,
+                content={"error": f"Unknown purchase type: {purchase_type}"}
+            )
+        
+        # Log successful execution
+        if result.get('status') == 'executed' or result.get('portfolio_status') == 'executed':
+            logger.info(f"✅ Options purchase executed successfully: {result}")
+        else:
+            logger.warning(f"⚠️ Options purchase failed: {result}")
+        
+        return result
+        
+    except Exception as e:
+        logger.error(f"❌ Options execution error: {e}")
+        return JSONResponse(
+            status_code=500,
+            content={
+                "error": f"Execution failed: {str(e)}",
+                "status": "failed"
+            }
+        )
 
 
 if __name__ == "__main__":

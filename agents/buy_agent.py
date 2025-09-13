@@ -591,11 +591,70 @@ class BuyAgent(BaseAgent):
         """Execute paper trade using Alpaca API"""
         
         try:
-            # For paper trading, we'll simulate the execution
-            # In a real implementation, this would use the Alpaca API
+            if not self.alpaca_client:
+                raise Exception("Alpaca client not initialized")
             
+            # Prepare order parameters
+            if recommendation.option_type:
+                # Options trade
+                option_symbol = f"{symbol}{recommendation.expiration_date.replace('-', '')}{recommendation.option_type[0].upper()}{int(recommendation.strike_price * 1000):08d}"
+                
+                order_data = {
+                    'symbol': option_symbol,
+                    'qty': recommendation.quantity,
+                    'side': recommendation.action,
+                    'type': 'market',
+                    'time_in_force': 'day',
+                    'class': 'option'
+                }
+            else:
+                # Stock trade
+                order_data = {
+                    'symbol': symbol,
+                    'qty': recommendation.quantity,
+                    'side': recommendation.action,
+                    'type': 'market',
+                    'time_in_force': 'day'
+                }
+            
+            # Submit order to Alpaca
+            logger.info(f"Submitting {recommendation.action} order for {symbol}: {order_data}")
+            order = self.alpaca_client.submit_order(**order_data)
+            
+            # Wait for order to be filled (simplified)
+            await asyncio.sleep(1)
+            
+            # Get order status
+            order_status = self.alpaca_client.get_order(order.id)
+            
+            execution = TradeExecution(
+                symbol=symbol,
+                action=recommendation.action,
+                quantity=recommendation.quantity,
+                price=float(order_status.filled_avg_price) if order_status.filled_avg_price else recommendation.entry_price,
+                total_value=float(order_status.filled_qty) * float(order_status.filled_avg_price) if order_status.filled_avg_price else recommendation.quantity * recommendation.entry_price,
+                order_type='market',
+                option_details={
+                    'type': recommendation.option_type,
+                    'strike': recommendation.strike_price,
+                    'expiration': recommendation.expiration_date
+                } if recommendation.option_type else None,
+                execution_time=datetime.now(),
+                trade_id=order.id,
+                status=order_status.status,
+                reasoning=recommendation.reasoning
+            )
+            
+            # Log the trade execution
+            logger.info(f"Alpaca paper trade executed: {execution.trade_id} - Status: {execution.status}")
+            
+            return execution
+            
+        except Exception as e:
+            logger.error(f"Alpaca paper trade execution failed: {e}")
+            # Fallback to simulation if Alpaca fails
             execution_price = recommendation.entry_price
-            total_value = recommendation.quantity * execution_price * 100
+            total_value = recommendation.quantity * execution_price * (100 if recommendation.option_type else 1)
             
             execution = TradeExecution(
                 symbol=symbol,
@@ -608,21 +667,15 @@ class BuyAgent(BaseAgent):
                     'type': recommendation.option_type,
                     'strike': recommendation.strike_price,
                     'expiration': recommendation.expiration_date
-                },
+                } if recommendation.option_type else None,
                 execution_time=datetime.now(),
-                trade_id=f"paper_{symbol}_{int(datetime.now().timestamp())}",
+                trade_id=f"sim_{symbol}_{int(datetime.now().timestamp())}",
                 status='filled',
-                reasoning=recommendation.reasoning
+                reasoning=f"Simulated execution due to Alpaca error: {str(e)}"
             )
             
-            # Log the trade execution
-            logger.info(f"Paper trade executed: {execution.trade_id}")
-            
+            logger.info(f"Fallback simulated trade executed: {execution.trade_id}")
             return execution
-            
-        except Exception as e:
-            logger.error(f"Paper trade execution failed: {e}")
-            raise
     
     async def get_status(self) -> Dict[str, Any]:
         """Get buy agent status"""

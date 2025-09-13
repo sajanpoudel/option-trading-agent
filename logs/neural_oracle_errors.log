@@ -412,3 +412,33 @@
 2025-09-13 03:18:23.122 | ERROR    | src.agents.web_scraper_agent:_analyze_stocktwits_with_openai:159 | Failed to parse OpenAI JSON response: Expecting value: line 1 column 1 (char 0)
 2025-09-13 03:18:37.530 | ERROR    | src.agents.web_scraper_agent:_analyze_stocktwits_with_openai:159 | Failed to parse OpenAI JSON response: Expecting value: line 1 column 1 (char 0)
 2025-09-13 03:22:02.495 | ERROR    | src.agents.web_scraper_agent:_analyze_stocktwits_with_openai:159 | Failed to parse OpenAI JSON response: Expecting value: line 1 column 1 (char 0)
+2025-09-13 04:13:53.990 | ERROR    | src.api.main:get_hot_stocks:483 | Error processing NVDA: '>' not supported between instances of 'str' and 'int'
+2025-09-13 04:13:55.315 | ERROR    | src.api.main:get_hot_stocks:483 | Error processing TSLA: '>' not supported between instances of 'str' and 'int'
+2025-09-13 04:13:56.456 | ERROR    | src.api.main:get_hot_stocks:483 | Error processing CCL: '>' not supported between instances of 'str' and 'int'
+2025-09-13 04:13:57.530 | ERROR    | src.api.main:get_hot_stocks:483 | Error processing AMZN: '>' not supported between instances of 'str' and 'int'
+2025-09-13 04:13:58.639 | ERROR    | src.api.main:get_hot_stocks:483 | Error processing GME: '>' not supported between instances of 'str' and 'int'
+2025-09-13 04:15:52.014 | ERROR    | config.database:save_trading_signal:175 | Failed to save trading signal: {'message': 'insert or update on table "trading_signals" violates foreign key constraint "trading_signals_symbol_fkey"', 'code': '23503', 'hint': None, 'details': 'Key (symbol)=(INTC) is not present in table "stocks".'}
+2025-09-13 04:41:16.401 | ERROR    | src.api.main:get_hot_stocks:502 | ❌ Hot stocks API error: Can't instantiate abstract class MultiStockAnalysisAgent with abstract method _get_system_instructions
+2025-09-13 04:41:16.964 | ERROR    | src.api.main:get_hot_stocks:502 | ❌ Hot stocks API error: Can't instantiate abstract class MultiStockAnalysisAgent with abstract method _get_system_instructions
+2025-09-13 04:42:08.528 | ERROR    | src.api.main:get_hot_stocks:502 | ❌ Hot stocks API error: BaseAgent.__init__() got an unexpected keyword argument 'description'
+2025-09-13 04:42:09.243 | ERROR    | src.api.main:get_hot_stocks:502 | ❌ Hot stocks API error: BaseAgent.__init__() got an unexpected keyword argument 'description'
+2025-09-13 04:43:26.689 | ERROR    | src.api.main:get_hot_stocks:486 | Error processing NVDA: 'NoneType' object has no attribute 'get'
+2025-09-13 04:43:27.856 | ERROR    | src.api.main:get_hot_stocks:486 | Error processing TSLA: 'NoneType' object has no attribute 'get'
+2025-09-13 04:43:28.927 | ERROR    | src.api.main:get_hot_stocks:486 | Error processing AAPL: 'NoneType' object has no attribute 'get'
+2025-09-13 04:43:30.031 | ERROR    | src.api.main:get_hot_stocks:486 | Error processing MSFT: 'NoneType' object has no attribute 'get'
+2025-09-13 04:43:31.039 | ERROR    | src.api.main:get_hot_stocks:486 | Error processing GOOGL: 'NoneType' object has no attribute 'get'
+2025-09-13 04:45:22.525 | ERROR    | src.api.main:get_hot_stocks:486 | Error processing OCTO: '>' not supported between instances of 'str' and 'int'
+2025-09-13 04:45:23.673 | ERROR    | src.api.main:get_hot_stocks:486 | Error processing ASST: '>' not supported between instances of 'str' and 'int'
+2025-09-13 04:45:24.649 | ERROR    | src.api.main:get_hot_stocks:486 | Error processing SNTG: '>' not supported between instances of 'str' and 'int'
+2025-09-13 04:45:25.698 | ERROR    | src.api.main:get_hot_stocks:486 | Error processing GLXY: '>' not supported between instances of 'str' and 'int'
+2025-09-13 04:45:26.781 | ERROR    | src.api.main:get_hot_stocks:486 | Error processing QS: '>' not supported between instances of 'str' and 'int'
+2025-09-13 04:49:33.496 | ERROR    | src.api.main:get_hot_stocks:392 | No trending stocks found from StockTwits - API may be down
+2025-09-13 04:49:39.933 | ERROR    | src.api.main:get_hot_stocks:392 | No trending stocks found from StockTwits - API may be down
+2025-09-13 04:51:36.618 | ERROR    | src.api.main:get_hot_stocks:486 | Error processing NVDA: '>' not supported between instances of 'NoneType' and 'int'
+2025-09-13 04:51:38.169 | ERROR    | src.api.main:get_hot_stocks:486 | Error processing TSLA: '>' not supported between instances of 'NoneType' and 'int'
+2025-09-13 04:51:39.244 | ERROR    | src.api.main:get_hot_stocks:486 | Error processing CCL: '>' not supported between instances of 'NoneType' and 'int'
+2025-09-13 04:51:40.532 | ERROR    | src.api.main:get_hot_stocks:486 | Error processing NFLX: '>' not supported between instances of 'NoneType' and 'int'
+2025-09-13 04:51:41.618 | ERROR    | src.api.main:get_hot_stocks:486 | Error processing AMZN: '>' not supported between instances of 'NoneType' and 'int'
+2025-09-13 05:15:36.574 | ERROR    | src.api.main:get_hot_stocks:506 | Error processing GNS: unsupported operand type(s) for *: 'NoneType' and 'int'
+2025-09-13 05:15:37.801 | ERROR    | src.api.main:get_hot_stocks:506 | Error processing GME: unsupported operand type(s) for *: 'NoneType' and 'int'
+2025-09-13 05:15:38.887 | ERROR    | src.api.main:get_hot_stocks:506 | Error processing AMZN: unsupported operand type(s) for *: 'NoneType' and 'int'

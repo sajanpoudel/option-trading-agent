@@ -33,6 +33,7 @@ class ChatResponse(BaseModel):
     confidence: float
     data: Optional[Dict[str, Any]] = None
     suggestions: Optional[List[str]] = None
+    agents_triggered: Optional[List[str]] = None
     timestamp: str
 
 
@@ -79,6 +80,25 @@ async def send_chat_message(message_data: ChatMessage):
         
         logger.info(f"🎯 AI Intent: {intent} ({confidence:.2f}) -> Tools: {tools_called}")
         
+        # Map tools to agent names for frontend display
+        agent_mapping = {
+            "analyze_stock": ["technical", "sentiment", "flow", "history", "risk"],
+            "buy_option": ["buy", "technical", "risk"],
+            "buy_multiple_options": ["buy", "technical", "sentiment", "flow", "risk"],
+            "explain_concept": ["education"],
+            "get_market_trends": ["sentiment", "flow"],
+            "portfolio_analysis": ["risk"],
+            "generate_quiz": ["education"],
+            "casual_response": []
+        }
+        
+        agents_triggered = []
+        for tool in tools_called:
+            agents_triggered.extend(agent_mapping.get(tool, []))
+        
+        # Remove duplicates while preserving order
+        agents_triggered = list(dict.fromkeys(agents_triggered))
+        
         return ChatResponse(
             response=response_text,
             intent=intent,
@@ -86,6 +106,7 @@ async def send_chat_message(message_data: ChatMessage):
             confidence=confidence,
             data=data,
             suggestions=suggestions,
+            agents_triggered=agents_triggered,
             timestamp=datetime.now().isoformat()
         )
         
@@ -104,6 +125,7 @@ async def send_chat_message(message_data: ChatMessage):
                 "Show trending stocks",
                 "Portfolio overview"
             ],
+            agents_triggered=[],
             timestamp=datetime.now().isoformat()
         )
 

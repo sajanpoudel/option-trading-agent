@@ -49,17 +49,44 @@ class AlpacaMarketDataClient:
             
             if symbol in quotes:
                 quote = quotes[symbol]
-                # Get volume from yfinance since Alpaca quote doesn't have daily volume
+                
+                # Get all data from yfinance first, then supplement with Alpaca bid/ask if good
                 try:
                     ticker = yf.Ticker(symbol)
                     info = ticker.info
                     volume = int(info.get('volume', 0))
+                    yf_price = float(info.get('currentPrice', info.get('regularMarketPrice', 0)))
+                    previous_close = float(info.get('previousClose', info.get('regularMarketPreviousClose', yf_price)))
+                    yf_change = float(info.get('regularMarketChange', 0))
+                    yf_change_percent = float(info.get('regularMarketChangePercent', 0))
+                    company_name = info.get('longName', info.get('shortName', f"{symbol} Inc"))
                 except:
+                    yf_price = 0
                     volume = 0
+                    previous_close = 0
+                    yf_change = 0
+                    yf_change_percent = 0
+                    company_name = f"{symbol} Inc"
+                
+                # Calculate Alpaca mid-price from bid/ask
+                alpaca_price = float(quote.ask_price + quote.bid_price) / 2
+                
+                # Use yfinance price if it's reasonable, otherwise try Alpaca price
+                if yf_price > 0.01 and yf_price < 100000:
+                    last_price = yf_price
+                elif alpaca_price > 0.01 and alpaca_price < 100000:
+                    last_price = alpaca_price
+                else:
+                    logger.warning(f"No good price found for {symbol} - using yfinance fallback")
+                    raise Exception("Price validation failed")
                 
                 return {
                     'symbol': symbol,
-                    'price': float(quote.ask_price + quote.bid_price) / 2,
+                    'price': last_price,
+                    'previous_close': previous_close,
+                    'change': yf_change,
+                    'change_percent': yf_change_percent,
+                    'company_name': company_name,
                     'bid': float(quote.bid_price),
                     'ask': float(quote.ask_price),
                     'volume': volume,  # Real volume from yfinance
@@ -75,9 +102,19 @@ class AlpacaMarketDataClient:
             ticker = yf.Ticker(symbol)
             info = ticker.info
             
+            # Get change data from yfinance
+            current_price = float(info.get('currentPrice', info.get('regularMarketPrice', 0)))
+            previous_close = float(info.get('previousClose', info.get('regularMarketPreviousClose', current_price)))
+            change = float(info.get('regularMarketChange', current_price - previous_close))
+            change_percent = float(info.get('regularMarketChangePercent', 0))
+            
             return {
                 'symbol': symbol,
-                'price': float(info.get('currentPrice', info.get('regularMarketPrice', 0))),
+                'price': current_price,
+                'previous_close': previous_close,
+                'change': change,
+                'change_percent': change_percent,
+                'company_name': info.get('longName', info.get('shortName', f"{symbol} Inc")),
                 'bid': float(info.get('bid', 0)),
                 'ask': float(info.get('ask', 0)),
                 'volume': int(info.get('volume', 0)),
@@ -215,38 +252,83 @@ class AlpacaMarketDataClient:
             if not expiration_dates:
                 return {'error': 'No options data available'}
             
-            # Get options chain for the nearest expiration
-            nearest_expiry = expiration_dates[0]
-            options_chain = ticker.option_chain(nearest_expiry)
-            
-            # Process calls and puts
-            calls_df = options_chain.calls
-            puts_df = options_chain.puts
-            
-            # Calculate metrics
-            total_call_volume = calls_df['volume'].fillna(0).sum()
-            total_put_volume = puts_df['volume'].fillna(0).sum()
-            put_call_ratio = total_put_volume / max(total_call_volume, 1)
-            
-            # Get current stock price for delta approximation
+            # Get current stock price
             current_price = float(ticker.info.get('currentPrice', 100))
             
-            # Simple delta approximation for at-the-money options
-            atm_calls = calls_df[abs(calls_df['strike'] - current_price) < 5]
-            atm_puts = puts_df[abs(puts_df['strike'] - current_price) < 5]
+            # Process multiple expirations (up to 3)
+            all_options = []
+            summary_data = {
+                'total_call_volume': 0,
+                'total_put_volume': 0,
+                'expirations_processed': []
+            }
+            
+            for exp_date in expiration_dates[:3]:  # Process first 3 expirations
+                try:
+                    options_chain = ticker.option_chain(exp_date)
+                    calls_df = options_chain.calls
+                    puts_df = options_chain.puts
+                    
+                    # Process call options
+                    for _, call in calls_df.iterrows():
+                        all_options.append({
+                            'symbol': f"{symbol}_{exp_date}_C{call['strike']}",
+                            'underlying_symbol': symbol,
+                            'strike_price': float(call['strike']),
+                            'option_type': 'call',
+                            'expiration_date': exp_date,
+                            'last_price': float(call.get('lastPrice', 0)),
+                            'bid': float(call.get('bid', 0)),
+                            'ask': float(call.get('ask', 0)),
+                            'volume': int(call.get('volume', 0)) if pd.notna(call.get('volume')) else 0,
+                            'open_interest': int(call.get('openInterest', 0)) if pd.notna(call.get('openInterest')) else 0,
+                            'implied_volatility': float(call.get('impliedVolatility', 0.25)),
+                            'in_the_money': call.get('inTheMoney', False)
+                        })
+                    
+                    # Process put options
+                    for _, put in puts_df.iterrows():
+                        all_options.append({
+                            'symbol': f"{symbol}_{exp_date}_P{put['strike']}",
+                            'underlying_symbol': symbol,
+                            'strike_price': float(put['strike']),
+                            'option_type': 'put',
+                            'expiration_date': exp_date,
+                            'last_price': float(put.get('lastPrice', 0)),
+                            'bid': float(put.get('bid', 0)),
+                            'ask': float(put.get('ask', 0)),
+                            'volume': int(put.get('volume', 0)) if pd.notna(put.get('volume')) else 0,
+                            'open_interest': int(put.get('openInterest', 0)) if pd.notna(put.get('openInterest')) else 0,
+                            'implied_volatility': float(put.get('impliedVolatility', 0.25)),
+                            'in_the_money': put.get('inTheMoney', False)
+                        })
+                    
+                    # Update summary
+                    call_volume = calls_df['volume'].fillna(0).sum()
+                    put_volume = puts_df['volume'].fillna(0).sum()
+                    summary_data['total_call_volume'] += int(call_volume)
+                    summary_data['total_put_volume'] += int(put_volume)
+                    summary_data['expirations_processed'].append(exp_date)
+                    
+                except Exception as e:
+                    logger.warning(f"Failed to process expiration {exp_date} for {symbol}: {e}")
+                    continue
+            
+            # Calculate put/call ratio
+            put_call_ratio = (summary_data['total_put_volume'] / 
+                            max(summary_data['total_call_volume'], 1))
             
             return {
                 'symbol': symbol,
-                'expiration': nearest_expiry,
                 'current_price': current_price,
+                'options_chain': all_options,
+                'total_options': len(all_options),
                 'put_call_ratio': put_call_ratio,
-                'total_call_volume': int(total_call_volume),
-                'total_put_volume': int(total_put_volume),
-                'call_count': len(calls_df),
-                'put_count': len(puts_df),
-                'atm_calls': atm_calls.to_dict('records') if not atm_calls.empty else [],
-                'atm_puts': atm_puts.to_dict('records') if not atm_puts.empty else [],
-                'source': 'yfinance_options'
+                'total_call_volume': summary_data['total_call_volume'],
+                'total_put_volume': summary_data['total_put_volume'],
+                'expirations': summary_data['expirations_processed'],
+                'source': 'yfinance_real_options',
+                'last_updated': datetime.now().isoformat()
             }
             
         except Exception as e:
