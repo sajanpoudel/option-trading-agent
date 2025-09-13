@@ -25,6 +25,21 @@ class PaperTradeRequest(BaseModel):
     option_details: Optional[Dict[str, Any]] = Field(None, description="Option contract details")
 
 
+class BuyAnalysisRequest(BaseModel):
+    """Buy analysis request"""
+    symbol: str = Field(..., description="Stock symbol to analyze")
+    user_query: Optional[str] = Field(None, description="User's trading query")
+    risk_profile: Optional[Dict[str, Any]] = Field(None, description="User risk profile")
+
+
+class TradeExecutionRequest(BaseModel):
+    """Trade execution request"""
+    symbol: str = Field(..., description="Stock symbol")
+    recommendation_id: str = Field(..., description="ID of the recommendation to execute")
+    quantity: Optional[int] = Field(None, description="Override quantity")
+    user_risk_profile: Dict[str, Any] = Field(..., description="User risk profile")
+
+
 class TradeResponse(BaseModel):
     """Trade execution response"""
     trade_id: str
@@ -346,3 +361,164 @@ async def get_portfolio_performance(
     except Exception as e:
         logger.error(f"Failed to get portfolio performance: {e}")
         raise HTTPException(status_code=500, detail="Failed to get portfolio performance")
+
+
+@router.post("/analyze-buy")
+@rate_limiter(max_requests=10, time_window=60)
+async def analyze_buy_opportunity(
+    request: BuyAnalysisRequest,
+    session: Dict = Depends(get_current_session)
+) -> Dict[str, Any]:
+    """Analyze buy opportunity using AI agents"""
+    
+    symbol = request.symbol.upper()
+    logger.info(f"🎯 Analyzing buy opportunity for {symbol}")
+    
+    try:
+        # Import the intelligent orchestrator
+        from src.api.intelligent_orchestrator import IntelligentOrchestrator
+        
+        orchestrator = IntelligentOrchestrator()
+        
+        # Set up user context
+        user_context = {
+            'selectedStock': symbol,
+            'risk_profile': request.risk_profile or {
+                'risk_level': 'moderate',
+                'experience': 'intermediate',
+                'max_position_size': 0.05,
+                'account_balance': 100000
+            }
+        }
+        
+        # Process the buy request
+        user_query = request.user_query or f"analyze and buy {symbol}"
+        result = await orchestrator.process_user_query(user_query, user_context)
+        
+        # Extract buy recommendations
+        buy_agent_result = result.get('frontend_data', {}).get('buy_agent', {})
+        buy_analysis = buy_agent_result.get('buy_analysis', {})
+        
+        return {
+            'symbol': symbol,
+            'analysis_complete': True,
+            'buy_recommendations': buy_analysis.get('recommendations', []),
+            'execution_plan': buy_analysis.get('execution_plan', {}),
+            'risk_assessment': buy_analysis.get('risk_assessment', {}),
+            'confidence': buy_analysis.get('confidence', 0.0),
+            'timestamp': time.time(),
+            'user_query': user_query
+        }
+        
+    except Exception as e:
+        logger.error(f"Buy analysis failed for {symbol}: {e}")
+        raise HTTPException(status_code=500, detail=f"Buy analysis failed: {str(e)}")
+
+
+@router.post("/execute-recommendation")
+@rate_limiter(max_requests=5, time_window=60)
+async def execute_trade_recommendation(
+    request: TradeExecutionRequest,
+    session: Dict = Depends(get_current_session)
+) -> TradeResponse:
+    """Execute a trade based on AI recommendation"""
+    
+    symbol = request.symbol.upper()
+    logger.info(f"🎯 Executing trade recommendation for {symbol}")
+    
+    try:
+        # Import the buy agent
+        from agents.buy_agent import BuyAgent, PositionRecommendation
+        from openai import OpenAI
+        from config.settings import settings
+        
+        # Initialize buy agent
+        openai_client = OpenAI(api_key=settings.openai_api_key)
+        buy_agent = BuyAgent(openai_client)
+        
+        # For now, create a mock recommendation based on the request
+        # In a real implementation, you would fetch the actual recommendation by ID
+        recommendation = PositionRecommendation(
+            symbol=symbol,
+            action='buy',
+            quantity=request.quantity or 1,
+            option_type='call',
+            strike_price=150.0,  # Mock strike
+            expiration_date='2024-01-19',  # Mock expiration
+            entry_price=5.0,  # Mock entry price
+            confidence=0.8,
+            risk_score=0.3,
+            potential_return=0.15,
+            max_loss=0.05,
+            reasoning="AI-generated recommendation"
+        )
+        
+        # Execute the trade
+        execution = await buy_agent.execute_trade(symbol, recommendation, request.user_risk_profile)
+        
+        # Create trade response
+        trade_response = TradeResponse(
+            trade_id=execution.trade_id,
+            status=execution.status,
+            symbol=symbol,
+            quantity=execution.quantity,
+            price=execution.price,
+            total_value=execution.total_value,
+            timestamp=time.time(),
+            estimated_fill_time=time.time() + 60  # 1 minute estimated fill
+        )
+        
+        logger.info(f"✅ Trade executed: {execution.trade_id} - {execution.status}")
+        return trade_response
+        
+    except Exception as e:
+        logger.error(f"Trade execution failed for {symbol}: {e}")
+        raise HTTPException(status_code=500, detail=f"Trade execution failed: {str(e)}")
+
+
+@router.get("/buy-recommendations/{symbol}")
+async def get_buy_recommendations(
+    symbol: str,
+    session: Dict = Depends(get_current_session)
+) -> Dict[str, Any]:
+    """Get buy recommendations for a symbol"""
+    
+    symbol = symbol.upper()
+    logger.info(f"📊 Getting buy recommendations for {symbol}")
+    
+    try:
+        # Import the intelligent orchestrator
+        from src.api.intelligent_orchestrator import IntelligentOrchestrator
+        
+        orchestrator = IntelligentOrchestrator()
+        
+        # Set up user context
+        user_context = {
+            'selectedStock': symbol,
+            'risk_profile': {
+                'risk_level': 'moderate',
+                'experience': 'intermediate',
+                'max_position_size': 0.05,
+                'account_balance': 100000
+            }
+        }
+        
+        # Process buy analysis
+        result = await orchestrator.process_user_query(f"buy {symbol}", user_context)
+        
+        # Extract buy recommendations
+        buy_agent_result = result.get('frontend_data', {}).get('buy_agent', {})
+        buy_analysis = buy_agent_result.get('buy_analysis', {})
+        
+        return {
+            'symbol': symbol,
+            'recommendations': buy_analysis.get('recommendations', []),
+            'execution_plan': buy_analysis.get('execution_plan', {}),
+            'risk_assessment': buy_analysis.get('risk_assessment', {}),
+            'confidence': buy_analysis.get('confidence', 0.0),
+            'timestamp': time.time()
+        }
+        
+    except Exception as e:
+        logger.error(f"Failed to get buy recommendations for {symbol}: {e}")
+        raise HTTPException(status_code=500, detail="Failed to get buy recommendations")

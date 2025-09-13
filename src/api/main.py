@@ -307,6 +307,11 @@ async def send_chat_message(message_data: ChatMessage):
         if symbol:
             actions['analyzeStock'] = symbol
             actions['showAnalysis'] = True
+            
+            # Check if this is a trading request
+            if 'buy' in message_data.message.lower() or 'execute' in message_data.message.lower():
+                actions['showBuyRecommendations'] = True
+                actions['enableTrading'] = True
         
         # Get suggested actions from orchestrator
         suggestions = orchestration_result.get('suggested_actions', [
@@ -315,6 +320,15 @@ async def send_chat_message(message_data: ChatMessage):
             "Review risk assessment",
             "Show market sentiment"
         ])
+        
+        # Add trading-specific suggestions if this is a trading query
+        if 'buy' in message_data.message.lower() or 'execute' in message_data.message.lower():
+            suggestions = [
+                "View buy recommendations",
+                "Execute trade",
+                "Review risk assessment",
+                "Check position sizing"
+            ]
         
         response = ChatResponse(
             response=ai_response,
@@ -606,6 +620,80 @@ async def get_trading_signals(symbol: str):
             "total_signals": 0,
             "data_source": "error",
             "error": str(e)
+        }
+
+# Trading command endpoint for chat
+@app.post("/api/v1/chat/trade")
+async def process_trading_command(message_data: ChatMessage):
+    """Process trading commands from chat interface"""
+    try:
+        logger.info(f"🎯 Processing trading command: {message_data.message}")
+        
+        # Import the intelligent orchestrator
+        from src.api.intelligent_orchestrator import IntelligentOrchestrator
+        orchestrator = IntelligentOrchestrator()
+        
+        # Set up user context for trading
+        user_context = {
+            'selectedStock': message_data.selectedStock,
+            'risk_profile': {
+                'risk_level': 'moderate',
+                'experience': 'intermediate',
+                'max_position_size': 0.05,
+                'account_balance': 100000
+            }
+        }
+        
+        # Process the trading query
+        result = await orchestrator.process_user_query(message_data.message, user_context)
+        
+        # Extract buy agent results
+        buy_agent_result = result.get('frontend_data', {}).get('buy_agent', {})
+        buy_analysis = buy_agent_result.get('buy_analysis', {})
+        
+        # Format response for trading
+        trading_response = {
+            'symbol': result.get('symbol'),
+            'query': message_data.message,
+            'trading_analysis': {
+                'recommendations': buy_analysis.get('recommendations', []),
+                'execution_plan': buy_analysis.get('execution_plan', {}),
+                'risk_assessment': buy_analysis.get('risk_assessment', {}),
+                'confidence': buy_analysis.get('confidence', 0.0)
+            },
+            'ai_response': result.get('ai_response', 'Trading analysis complete.'),
+            'actions': {
+                'showBuyRecommendations': len(buy_analysis.get('recommendations', [])) > 0,
+                'enableTrading': True,
+                'symbol': result.get('symbol')
+            },
+            'suggestions': [
+                "Review buy recommendations",
+                "Execute trade",
+                "Adjust position size",
+                "Set stop loss"
+            ],
+            'timestamp': time.time()
+        }
+        
+        logger.info(f"✅ Trading command processed for {result.get('symbol')}")
+        return trading_response
+        
+    except Exception as e:
+        logger.error(f"❌ Trading command error: {e}")
+        return {
+            'error': str(e),
+            'symbol': message_data.selectedStock,
+            'trading_analysis': {
+                'recommendations': [],
+                'execution_plan': {'status': 'error'},
+                'risk_assessment': {'risk_level': 'unknown'},
+                'confidence': 0.0
+            },
+            'ai_response': f"I encountered an error processing your trading request: {str(e)}",
+            'actions': {},
+            'suggestions': ["Try again", "Check symbol", "Review risk profile"],
+            'timestamp': time.time()
         }
 
 

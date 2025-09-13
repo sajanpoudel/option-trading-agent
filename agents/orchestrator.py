@@ -45,6 +45,7 @@ class OptionsOracleOrchestrator:
             from .history_agent import HistoricalPatternAgent
             from .risk_agent import RiskManagementAgent
             from .education_agent import EducationAgent
+            from .buy_agent import BuyAgent
             
             # Initialize agents
             self.agents = {
@@ -53,7 +54,8 @@ class OptionsOracleOrchestrator:
                 'flow': OptionsFlowAgent(self.client),
                 'history': HistoricalPatternAgent(self.client),
                 'risk': RiskManagementAgent(self.client),
-                'education': EducationAgent(self.client)
+                'education': EducationAgent(self.client),
+                'buy': BuyAgent(self.client)
             }
             
             # Initialize each agent
@@ -157,6 +159,61 @@ class OptionsOracleOrchestrator:
             
         except Exception as e:
             logger.error(f"Analysis failed for {symbol}: {e}")
+            raise
+    
+    async def execute_buy_request(
+        self, 
+        symbol: str, 
+        user_risk_profile: Dict,
+        user_query: str = None
+    ) -> Dict[str, Any]:
+        """Execute buy request using buy agent"""
+        
+        if not self.initialized:
+            await self.initialize()
+            
+        try:
+            logger.info(f"🎯 Processing buy request for {symbol}")
+            
+            # First get comprehensive analysis
+            analysis_result = await self.analyze_stock(symbol, user_risk_profile)
+            
+            # Extract decision signal and strike recommendations
+            decision_signal = analysis_result.get('signal', {})
+            strike_recommendations = analysis_result.get('strike_recommendations', [])
+            
+            # Get market data
+            from src.data.market_data_manager import MarketDataManager
+            market_data_manager = MarketDataManager()
+            market_data = await market_data_manager.get_comprehensive_data(symbol)
+            
+            # Run buy agent analysis
+            buy_agent = self.agents.get('buy')
+            if not buy_agent:
+                raise Exception("Buy agent not available")
+            
+            buy_result = await buy_agent.analyze(
+                symbol,
+                decision_signal=decision_signal,
+                user_risk_profile=user_risk_profile,
+                market_data=market_data,
+                strike_recommendations=strike_recommendations
+            )
+            
+            # Combine analysis with buy recommendations
+            result = {
+                'symbol': symbol,
+                'analysis': analysis_result,
+                'buy_recommendations': buy_result,
+                'execution_ready': len(buy_result.get('recommendations', [])) > 0,
+                'timestamp': datetime.now().isoformat()
+            }
+            
+            logger.info(f"✅ Buy request processed for {symbol}: {len(buy_result.get('recommendations', []))} recommendations")
+            return result
+            
+        except Exception as e:
+            logger.error(f"Buy request failed for {symbol}: {e}")
             raise
     
     async def _detect_market_scenario(

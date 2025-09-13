@@ -20,6 +20,7 @@ from agents.flow_agent import OptionsFlowAgent
 from agents.history_agent import HistoricalPatternAgent
 from agents.education_agent import EducationAgent
 from agents.risk_agent import RiskManagementAgent
+from agents.buy_agent import BuyAgent
 
 # Import backend services
 from src.core.decision_engine import DecisionEngine
@@ -65,6 +66,12 @@ class QueryClassifier:
                 r'\b(buy|sell|trade|signal|recommendation)\b',
                 r'\b(should i|when to|entry|exit)\b',
                 r'\b(target|price target)\b'
+            ],
+            'trade_execution': [
+                r'\b(execute|place order|buy now|sell now)\b',
+                r'\b(open position|close position)\b',
+                r'\b(purchase|acquire|liquidate)\b',
+                r'\b(call option|put option|options trade)\b'
             ],
             'portfolio_management': [
                 r'\b(portfolio|positions?|holdings?|pnl|p&l)\b',
@@ -138,6 +145,7 @@ class IntelligentOrchestrator:
             self.history_agent = HistoricalPatternAgent(self.openai_client)
             self.education_agent = EducationAgent(self.openai_client)
             self.risk_agent = RiskManagementAgent(self.openai_client)
+            self.buy_agent = BuyAgent(self.openai_client)
         else:
             # Use fallback mode without OpenAI agents
             self.technical_agent = None
@@ -146,6 +154,7 @@ class IntelligentOrchestrator:
             self.history_agent = None
             self.education_agent = None
             self.risk_agent = None
+            self.buy_agent = None
         
         logger.info("Intelligent Orchestrator initialized")
     
@@ -229,6 +238,10 @@ class IntelligentOrchestrator:
         if query_scores.get('trading_signals', 0) > threshold:
             agents_to_trigger.append('decision_engine')
         
+        # Include buy agent for trade execution requests
+        if query_scores.get('trade_execution', 0) > threshold:
+            agents_to_trigger.append('buy_agent')
+        
         # For general queries, trigger all agents for comprehensive analysis
         if max(query_scores.values()) < threshold:
             agents_to_trigger = ['technical', 'sentiment', 'flow', 'history', 'decision_engine']
@@ -300,6 +313,12 @@ class IntelligentOrchestrator:
                 logger.info("🛡️ Running risk agent")
                 risk_result = await self._run_risk_agent(symbol, results, user_risk_profile)
                 results['risk_agent'] = risk_result
+            
+            # Run buy agent if needed (for trade execution)
+            if 'buy_agent' in agents_to_trigger:
+                logger.info("🎯 Running buy agent")
+                buy_result = await self._run_buy_agent(symbol, results, user_risk_profile)
+                results['buy_agent'] = buy_result
             
             # Generate comprehensive technical indicators for charts
             results['technical_indicators'] = await self._generate_technical_indicators(symbol, market_data)
@@ -468,6 +487,47 @@ class IntelligentOrchestrator:
             
         except Exception as e:
             logger.error(f"Risk agent error: {e}")
+            return {'error': str(e)}
+    
+    async def _run_buy_agent(self, symbol: str, all_results: Dict, user_risk_profile: Dict) -> Dict[str, Any]:
+        """Run buy agent for trade execution"""
+        logger.info(f"🎯 Running buy agent for {symbol}")
+        
+        try:
+            if self.buy_agent:
+                # Extract decision signal from decision engine results
+                decision_result = all_results.get('decision_engine', {})
+                decision_signal = decision_result.get('signal', {})
+                strike_recommendations = decision_result.get('strike_recommendations', [])
+                
+                # Get market data
+                market_data = all_results.get('market_data', {})
+                
+                buy_result = await self.buy_agent.analyze(
+                    symbol,
+                    decision_signal=decision_signal,
+                    user_risk_profile=user_risk_profile,
+                    market_data=market_data,
+                    strike_recommendations=strike_recommendations
+                )
+                
+                return {
+                    'buy_analysis': buy_result,
+                    'timestamp': datetime.now().isoformat()
+                }
+            else:
+                # Fallback buy analysis
+                return {
+                    'buy_analysis': {
+                        'recommendations': [],
+                        'execution_plan': {'status': 'no_agent', 'message': 'Buy agent not available'},
+                        'confidence': 0.0
+                    },
+                    'timestamp': datetime.now().isoformat()
+                }
+            
+        except Exception as e:
+            logger.error(f"Buy agent error: {e}")
             return {'error': str(e)}
     
     async def _generate_technical_indicators(self, symbol: str, market_data: Dict) -> Dict[str, Any]:
