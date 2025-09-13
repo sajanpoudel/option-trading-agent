@@ -284,3 +284,4 @@
 2025-09-12 19:21:49.666 | INFO     | src.api.main:lifespan:38 | Database connection established
 2025-09-12 19:21:49.666 | INFO     | src.api.main:lifespan:39 | Neural Options Oracle++ API Server started successfully
 2025-09-12 19:39:56.782 | INFO     | src.api.main:lifespan:44 | Shutting down Neural Options Oracle++ API Server
+2025-09-12 20:12:59.361 | INFO     | __main__:main:162 | Neural Options Oracle++ shutting down

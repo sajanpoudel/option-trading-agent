@@ -67,7 +67,7 @@ async def test_complete_pipeline():
         )
         
         print(f"   ✅ Ensemble Direction: {ensemble_signal.direction}")
-        print(f"   ✅ Ensemble Score: {ensemble_signal.score:.3f}")
+        print(f"   ✅ Ensemble Score: {ensemble_signal.final_score:.3f}")
         print(f"   ✅ Confidence: {ensemble_signal.confidence:.3f}")
         print()
         
