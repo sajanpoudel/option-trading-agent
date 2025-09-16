@@ -184,19 +184,16 @@ Would you like to execute this trade?"""
 @router.get("/intent/{text}")
 async def analyze_intent(text: str):
     """
-    Analyze intent of text without processing
+    Return the intent the AI router detects for a piece of text
     """
     try:
-        routing_plan = await route_user_message(text)
+        result = await route_with_ai(text)
         
         return {
-            'intent': routing_plan['intent'],
-            'confidence': routing_plan['confidence'],
-            'agents_to_call': routing_plan['agents_to_call'],
-            'extracted_symbols': routing_plan['extracted_data']['symbols'],
-            'extracted_keywords': routing_plan['extracted_data']['keywords'],
-            'response_type': routing_plan['response_type'],
-            'timestamp': routing_plan['timestamp']
+            'intent': result.get('intent', 'GENERAL_CHAT'),
+            'confidence': result.get('confidence', 0.5),
+            'tools_called': result.get('tools_called', []),
+            'timestamp': result.get('timestamp', datetime.now().isoformat())
         }
         
     except Exception as e:
