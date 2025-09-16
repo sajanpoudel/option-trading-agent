@@ -60,7 +60,7 @@ class AlpacaMarketDataClient:
                     yf_change = float(info.get('regularMarketChange', 0))
                     yf_change_percent = float(info.get('regularMarketChangePercent', 0))
                     company_name = info.get('longName', info.get('shortName', f"{symbol} Inc"))
-                except:
+                except Exception:
                     yf_price = 0
                     volume = 0
                     previous_close = 0
@@ -207,7 +207,7 @@ class AlpacaMarketDataClient:
             # Try basic calculation as fallback
             try:
                 return await self._get_basic_indicators(symbol)
-            except:
+            except Exception:
                 return self._get_fallback_indicators(symbol)
     
     async def _get_basic_indicators(self, symbol: str) -> Dict[str, Any]:

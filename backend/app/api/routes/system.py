@@ -64,7 +64,7 @@ async def get_system_status() -> Dict[str, Any]:
                 "packets_sent": network.packets_sent,
                 "packets_received": network.packets_recv
             }
-        except:
+        except Exception:
             network_stats = {}
         
         # Application-specific status
