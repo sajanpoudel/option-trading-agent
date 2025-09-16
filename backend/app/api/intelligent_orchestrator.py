@@ -233,13 +233,14 @@ class IntelligentOrchestrator:
     async def process_user_query(
         self, 
         query: str, 
-        user_context: Dict[str, Any] = None
+        user_context: Optional[Dict[str, Any]] = None
     ) -> Dict[str, Any]:
         """
         Main entry point: Process user query and orchestrate appropriate agents
         Returns complete analysis with all visualization data
         """
         logger.info(f"🧠 Processing user query: {query}")
+        user_context = user_context or {}
         
         # Extract stock symbol and classify query
         symbol = await self.query_classifier.extract_stock_symbol(query)
