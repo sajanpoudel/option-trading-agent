@@ -185,11 +185,11 @@ class BuyAgent(BaseAgent):
             # Generate recommendations based on signal direction
             if direction in ['BUY', 'STRONG_BUY']:
                 recommendations.extend(await self._generate_bullish_recommendations(
-                    symbol, current_price, max_trade_value, strike_recommendations, confidence
+                    symbol, current_price, max_trade_value, strike_recommendations, confidence, direction
                 ))
             elif direction in ['SELL', 'STRONG_SELL']:
                 recommendations.extend(await self._generate_bearish_recommendations(
-                    symbol, current_price, max_trade_value, strike_recommendations, confidence
+                    symbol, current_price, max_trade_value, strike_recommendations, confidence, direction
                 ))
             
             # Filter and rank recommendations
@@ -208,7 +208,8 @@ class BuyAgent(BaseAgent):
         current_price: float,
         max_trade_value: float,
         strike_recommendations: List[Dict[str, Any]],
-        confidence: float
+        confidence: float,
+        direction: str = 'BUY'
     ) -> List[PositionRecommendation]:
         """Generate bullish (call) recommendations"""
         
@@ -277,7 +278,8 @@ class BuyAgent(BaseAgent):
         current_price: float,
         max_trade_value: float,
         strike_recommendations: List[Dict[str, Any]],
-        confidence: float
+        confidence: float,
+        direction: str = 'SELL'
     ) -> List[PositionRecommendation]:
         """Generate bearish (put) recommendations"""
         
