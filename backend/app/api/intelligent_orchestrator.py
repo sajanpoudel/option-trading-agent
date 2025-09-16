@@ -267,7 +267,8 @@ class IntelligentOrchestrator:
             symbol, 
             query, 
             agents_to_trigger, 
-            user_risk_profile
+            user_risk_profile,
+            user_context
         )
         
         # Generate response based on query type
@@ -343,7 +344,8 @@ class IntelligentOrchestrator:
         symbol: str,
         query: str,
         agents_to_trigger: List[str],
-        user_risk_profile: Dict[str, Any]
+        user_risk_profile: Dict[str, Any],
+        user_context: Optional[Dict[str, Any]] = None
     ) -> Dict[str, Any]:
         """Orchestrate the execution of selected agents"""
         
@@ -411,7 +413,7 @@ class IntelligentOrchestrator:
             
             if 'multi_stock' in agents_to_trigger:
                 logger.info("🔍 Running multi-stock analysis agent")
-                multi_stock_result = await self._run_multi_stock_agent(query, user_context)
+                multi_stock_result = await self._run_multi_stock_agent(query, user_context or {})
                 results['multi_stock_agent'] = multi_stock_result
             
             # Generate comprehensive technical indicators for charts
