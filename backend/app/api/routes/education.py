@@ -2,7 +2,7 @@
 Neural Options Oracle++ Education API Routes
 """
 from typing import Dict, Any, Optional, List
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, Query
 from pydantic import BaseModel, Field
 import time
 
@@ -400,10 +400,11 @@ async def get_trading_glossary(
 @router.get("/learning-path")
 async def get_learning_path(
     current_level: str = "beginner",
-    interests: List[str] = [],
+    interests: Optional[List[str]] = Query(default=None),
     session: Dict = Depends(get_current_session)
 ) -> Dict[str, Any]:
     """Get personalized learning path"""
+    interests = interests or []
     
     try:
         # Mock learning path generation
