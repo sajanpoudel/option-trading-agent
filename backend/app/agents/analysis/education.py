@@ -12,10 +12,10 @@ logger = get_agents_logger()
 
 class EducationAgent(BaseAgent):
     """AI agent specializing in educational content generation"""
-    
+
     def __init__(self, client):
         super().__init__(client, "Education", "gpt-4o-mini")
-        
+
     def _get_system_instructions(self) -> str:
         return """
 You are an educational content specialist for the Neural Options Oracle++ system.
@@ -57,7 +57,7 @@ OUTPUT FORMAT (JSON):
     }
 }
 """
-    
+
     def _get_response_schema(self) -> Dict[str, Any]:
         """Get JSON Schema for education response"""
         return {
@@ -148,18 +148,18 @@ OUTPUT FORMAT (JSON):
             "required": ["explanation", "educational_content", "next_steps", "confidence_building"],
             "additionalProperties": False
         }
-    
+
     async def generate_explanation(
-        self, 
-        symbol: str, 
-        signal: Dict[str, Any], 
+        self,
+        symbol: str,
+        signal: Dict[str, Any],
         agent_results: Dict[str, Any]
     ) -> Dict[str, Any]:
         """Generate educational explanation for trading decision"""
-        
+
         try:
             logger.info(f"Generating educational content for {symbol} signal")
-            
+
             messages = [
                 {"role": "system", "content": self.system_instructions},
                 {"role": "user", "content": f"""
@@ -181,24 +181,24 @@ AGENT ANALYSIS SUMMARY:
 Create educational content that explains WHY this decision was made and what the user can learn from it.
                 """}
             ]
-            
+
             response = await self._make_completion(
-                messages, 
+                messages,
                 temperature=0.6,
                 response_schema=self._get_response_schema()
             )
             explanation = self._parse_json_response(response['content'])
-            
+
             # Validate and enhance
             explanation = self._validate_explanation(explanation, symbol, signal)
-            
+
             logger.info(f"Educational content generated for {symbol}")
             return explanation
-            
+
         except Exception as e:
             logger.error(f"Educational content generation failed for {symbol}: {e}")
             return self._get_fallback_explanation(symbol, signal)
-    
+
     async def analyze(self, symbol: str, **kwargs) -> Dict[str, Any]:
         """General analysis method (required by base class)"""
         return {
@@ -208,34 +208,34 @@ Create educational content that explains WHY this decision was made and what the
             'symbol': symbol,
             'agent': self.name
         }
-    
+
     def _summarize_technical(self, technical_data: Dict) -> str:
         """Summarize technical analysis for education"""
         scenario = technical_data.get('scenario', 'unknown')
         score = technical_data.get('weighted_score', 0)
         return f"{scenario} scenario with {score:.2f} technical score"
-    
+
     def _summarize_sentiment(self, sentiment_data: Dict) -> str:
         """Summarize sentiment analysis for education"""
         score = sentiment_data.get('aggregate_score', 0)
         trend = sentiment_data.get('sentiment_trend', 'stable')
         return f"{score:.2f} sentiment score, {trend} trend"
-    
+
     def _summarize_flow(self, flow_data: Dict) -> str:
         """Summarize flow analysis for education"""
         unusual = flow_data.get('unusual_activity', False)
         sentiment = flow_data.get('flow_sentiment', 'neutral')
         return f"{sentiment} flow sentiment, unusual activity: {unusual}"
-    
+
     def _summarize_history(self, history_data: Dict) -> str:
         """Summarize historical analysis for education"""
         pattern = history_data.get('dominant_pattern', 'unknown')
         score = history_data.get('pattern_score', 0)
         return f"{pattern} pattern with {score:.2f} strength"
-    
+
     def _validate_explanation(self, explanation: Dict, symbol: str, signal: Dict) -> Dict:
         """Validate educational explanation"""
-        
+
         # Ensure basic structure
         if 'explanation' not in explanation:
             explanation['explanation'] = {
@@ -244,7 +244,7 @@ Create educational content that explains WHY this decision was made and what the
                 'risk_factors': ['Market volatility', 'Timing risk'],
                 'learning_points': ['Always consider multiple indicators', 'Risk management is crucial']
             }
-        
+
         if 'educational_content' not in explanation:
             explanation['educational_content'] = {
                 'concept': 'Options Trading Signals',
@@ -257,19 +257,19 @@ Create educational content that explains WHY this decision was made and what the
                     'explanation': 'Risk management should always be the primary consideration in trading.'
                 }
             }
-        
+
         # Add metadata
         explanation['timestamp'] = datetime.now().isoformat()
         explanation['symbol'] = symbol
         explanation['agent'] = self.name
-        
+
         return explanation
-    
+
     def _get_fallback_explanation(self, symbol: str, signal: Dict) -> Dict:
         """Fallback educational explanation"""
-        
+
         direction = signal.get('direction', 'HOLD')
-        
+
         return {
             'explanation': {
                 'why_this_signal': f'The analysis resulted in a {direction} signal for {symbol} based on multiple factors.',
