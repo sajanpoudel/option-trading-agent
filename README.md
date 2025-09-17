@@ -598,3 +598,14 @@ Contributions are welcome. Please follow these guidelines:
 6. Submit a pull request
 
 ---
+
+---
+
+## Tests
+
+The backend tests do not need any API keys. `tests/conftest.py` sets placeholder values for the required settings.
+
+```
+pip install -r requirements.txt pytest
+pytest
+```
