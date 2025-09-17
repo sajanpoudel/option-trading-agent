@@ -587,6 +587,19 @@ class TechnicalIndicatorsCalculator:
         
         return converted
     
+    @staticmethod
+    def _true_range(high: np.ndarray, low: np.ndarray, close: np.ndarray) -> np.ndarray:
+        """True range for every bar after the first one.
+
+        np.maximum only takes two inputs (a third argument is the output array),
+        so the three candidates are combined with np.maximum.reduce.
+        """
+        return np.maximum.reduce([
+            high[1:] - low[1:],
+            np.abs(high[1:] - close[:-1]),
+            np.abs(low[1:] - close[:-1]),
+        ])
+
     def _calculate_basic_indicators(self, df: pd.DataFrame, symbol: str = None) -> Dict[str, Any]:
         """Calculate basic indicators using pandas when stock-indicators is not available"""
         try:
@@ -644,7 +657,7 @@ class TechnicalIndicatorsCalculator:
             
             # ATR (14-period)
             if len(high) >= 14 and len(low) >= 14:
-                tr = np.maximum(high[1:] - low[1:], np.abs(high[1:] - close[:-1]), np.abs(low[1:] - close[:-1]))
+                tr = self._true_range(high, low, close)
                 atr = float(np.mean(tr[-14:]))
             else:
                 atr = 1.0
