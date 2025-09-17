@@ -12,10 +12,10 @@ logger = get_agents_logger()
 
 class RiskManagementAgent(BaseAgent):
     """AI agent specializing in risk management and strike selection"""
-    
+
     def __init__(self, client):
         super().__init__(client, "Risk Management", "gpt-4o")
-        
+
     def _get_system_instructions(self) -> str:
         return """
 You are a risk management specialist for the Neural Options Oracle++ system.
@@ -69,7 +69,7 @@ OUTPUT FORMAT (JSON):
     }
 }
 """
-    
+
     def _get_response_schema(self) -> Dict[str, Any]:
         """Get JSON Schema for risk management response"""
         return {
@@ -145,21 +145,21 @@ OUTPUT FORMAT (JSON):
             "required": ["risk_assessment", "position_sizing", "strike_recommendations", "risk_mitigation", "portfolio_impact"],
             "additionalProperties": False
         }
-    
+
     async def recommend_strikes(
-        self, 
-        signal: Dict[str, Any], 
+        self,
+        signal: Dict[str, Any],
         user_risk_profile: Dict[str, Any]
     ) -> List[Dict[str, Any]]:
         """Recommend option strikes based on signal and risk profile"""
-        
+
         try:
             logger.info(f"Generating strike recommendations for {signal.get('direction', 'UNKNOWN')}")
-            
+
             # Mock current market data
             mock_data = self._get_mock_options_data(signal.get('symbol', 'UNKNOWN'))
             risk_level = user_risk_profile.get('risk_level', 'moderate')
-            
+
             messages = [
                 {"role": "system", "content": self.system_instructions},
                 {"role": "user", "content": f"""
@@ -186,30 +186,30 @@ AVAILABLE STRIKES:
 Recommend 3-5 appropriate strikes with full risk analysis.
                 """}
             ]
-            
+
             response = await self._make_completion(
-                messages, 
+                messages,
                 temperature=0.3,
                 response_schema=self._get_response_schema()
             )
             analysis = self._parse_json_response(response['content'])
-            
+
             # Extract just the strike recommendations
             recommendations = analysis.get('strike_recommendations', [])
-            
+
             # Validate recommendations
             recommendations = self._validate_strike_recommendations(recommendations)
-            
+
             logger.info(f"Generated {len(recommendations)} strike recommendations")
             return recommendations
-            
+
         except Exception as e:
             logger.error(f"Strike recommendation failed: {e}")
             return self._get_fallback_strikes(signal, user_risk_profile)
-    
+
     async def analyze(self, symbol: str, **kwargs) -> Dict[str, Any]:
         """General risk analysis (not used in main flow but required by base class)"""
-        
+
         return {
             'risk_score': 0.5,
             'confidence': 0.7,
@@ -218,18 +218,18 @@ Recommend 3-5 appropriate strikes with full risk analysis.
             'symbol': symbol,
             'agent': self.name
         }
-    
+
     def _get_mock_options_data(self, symbol: str) -> Dict:
         """Generate mock options data"""
         import random
-        
+
         current_price = 150.0 + random.uniform(-20, 20)
-        
+
         # Generate mock options chain
         options_chain = []
         for i in range(-5, 6):  # 11 strikes around current price
             strike = current_price + (i * 5)  # $5 intervals
-            
+
             call_data = {
                 'strike': strike,
                 'type': 'call',
@@ -237,39 +237,39 @@ Recommend 3-5 appropriate strikes with full risk analysis.
                 'premium': max(0.5, abs(i * 2) + random.uniform(1, 5)),
                 'iv': random.uniform(0.2, 0.6)
             }
-            
+
             put_data = {
                 'strike': strike,
-                'type': 'put', 
+                'type': 'put',
                 'delta': max(-0.95, min(-0.05, -0.5 - (i * 0.1))),
                 'premium': max(0.5, abs(i * 2) + random.uniform(1, 5)),
                 'iv': random.uniform(0.2, 0.6)
             }
-            
+
             options_chain.extend([call_data, put_data])
-        
+
         return {
             'current_price': current_price,
             'iv_rank': random.uniform(10, 90),
             'days_to_earnings': random.randint(5, 45),
             'options_chain': options_chain
         }
-    
+
     def _format_options_chain(self, chain: List[Dict]) -> str:
         """Format options chain for prompt"""
-        
+
         formatted = []
         for opt in chain[:10]:  # Limit to first 10 for brevity
             formatted.append(
                 f"{opt['strike']:.0f} {opt['type']}: "
                 f"${opt['premium']:.2f} (δ={opt['delta']:.2f}, IV={opt['iv']:.1%})"
             )
-        
+
         return "\n".join(formatted)
-    
+
     def _validate_strike_recommendations(self, recommendations: List[Dict]) -> List[Dict]:
         """Validate strike recommendations"""
-        
+
         validated = []
         for rec in recommendations:
             if isinstance(rec, dict):
@@ -281,7 +281,7 @@ Recommend 3-5 appropriate strikes with full risk analysis.
                         return float(value)
                     except (ValueError, TypeError):
                         return default
-                
+
                 validated_rec = {
                     'strike': safe_float(rec.get('strike'), 150.0),
                     'option_type': rec.get('option_type', 'call'),
@@ -295,15 +295,15 @@ Recommend 3-5 appropriate strikes with full risk analysis.
                     'contracts': max(1, int(rec.get('contracts', 1)))
                 }
                 validated.append(validated_rec)
-        
+
         return validated[:5]  # Limit to 5 recommendations
-    
+
     def _get_fallback_strikes(self, signal: Dict, user_profile: Dict) -> List[Dict]:
         """Fallback strike recommendations"""
-        
+
         direction = signal.get('direction', 'HOLD')
         risk_level = user_profile.get('risk_level', 'moderate')
-        
+
         # Simple fallback based on direction
         if direction in ['BUY', 'STRONG_BUY']:
             option_type = 'call'
@@ -314,7 +314,7 @@ Recommend 3-5 appropriate strikes with full risk analysis.
         else:
             option_type = 'call'
             delta_range = (0.35, 0.55)
-        
+
         return [
             {
                 'strike': 150.0,
