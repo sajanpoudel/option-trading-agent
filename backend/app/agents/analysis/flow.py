@@ -12,10 +12,10 @@ logger = get_agents_logger()
 
 class OptionsFlowAgent(BaseAgent):
     """AI agent specializing in options flow analysis"""
-    
+
     def __init__(self, client):
         super().__init__(client, "Options Flow", "gpt-4o-mini")  # Fallback to OpenAI for now
-        
+
     def _get_system_instructions(self) -> str:
         return """
 You are an options flow analyst for the Neural Options Oracle++ system.
@@ -52,7 +52,7 @@ OUTPUT FORMAT (JSON):
     "key_insights": ["string1", "string2"]
 }
 """
-    
+
     def _get_response_schema(self) -> Dict[str, Any]:
         """Get JSON Schema for options flow response"""
         return {
@@ -108,18 +108,18 @@ OUTPUT FORMAT (JSON):
             "required": ["flow_score", "confidence", "unusual_activity", "metrics", "gamma_exposure", "large_trades", "flow_sentiment", "key_insights"],
             "additionalProperties": False
         }
-    
+
     async def analyze(self, symbol: str, **kwargs) -> Dict[str, Any]:
         """Analyze options flow for the symbol"""
-        
+
         try:
             logger.info(f"Starting options flow analysis for {symbol}")
-            
+
             # Get real options data
             from backend.app.services.market_data import market_data_manager
             market_data = await market_data_manager.get_comprehensive_data(symbol)
             options_data = market_data.get('options', {})
-            
+
             messages = [
                 {"role": "system", "content": self.system_instructions},
                 {"role": "user", "content": f"""
@@ -153,30 +153,30 @@ ATM PUT DETAILS:
 Provide comprehensive flow analysis with this REAL options data.
                 """}
             ]
-            
+
             # Note: In production, this would use Gemini API
             # For now, using OpenAI as fallback
             response = await self._make_completion(
-                messages, 
+                messages,
                 temperature=0.3,
                 response_schema=self._get_response_schema()
             )
             analysis = self._parse_json_response(response['content'])
-            
+
             analysis = self._validate_flow_analysis(analysis, symbol)
-            
+
             logger.info(f"Options flow analysis completed for {symbol}")
             return analysis
-            
+
         except Exception as e:
             logger.error(f"Options flow analysis failed for {symbol}: {e}")
             return self._get_fallback_flow(symbol)
-    
+
     def _format_options_list(self, options_list: List[Dict]) -> str:
         """Format options list for display"""
         if not options_list:
             return "No options data available"
-        
+
         formatted = []
         for opt in options_list:
             strike = opt.get('strike', 0)
@@ -184,27 +184,27 @@ Provide comprehensive flow analysis with this REAL options data.
             oi = opt.get('openInterest', 0)
             iv = opt.get('impliedVolatility', 0)
             formatted.append(f"Strike ${strike:.0f}: Vol={volume}, OI={oi}, IV={iv:.1%}")
-        
+
         return "\n".join(formatted) if formatted else "No detailed options data"
-    
+
     def _validate_flow_analysis(self, analysis: Dict, symbol: str) -> Dict:
         """Validate flow analysis"""
-        
+
         if 'flow_score' not in analysis:
             analysis['flow_score'] = 0.0
         if 'confidence' not in analysis:
             analysis['confidence'] = 0.5
         if 'unusual_activity' not in analysis:
             analysis['unusual_activity'] = False
-            
+
         analysis['flow_score'] = max(-1.0, min(1.0, analysis['flow_score']))
         analysis['confidence'] = self._validate_confidence(analysis['confidence'])
         analysis['timestamp'] = datetime.now().isoformat()
         analysis['symbol'] = symbol
         analysis['agent'] = self.name
-        
+
         return analysis
-    
+
     def _get_fallback_flow(self, symbol: str) -> Dict:
         """Fallback flow analysis"""
         return {
