@@ -16,11 +16,11 @@ logger = get_agents_logger()
 
 class SentimentAnalysisAgent(BaseAgent):
     """AI agent specializing in market sentiment analysis using real web search data"""
-    
+
     def __init__(self, client):
         super().__init__(client, "Sentiment Analysis", "gpt-4o")
         self.openai_client = AsyncOpenAI(api_key=client.api_key) if hasattr(client, 'api_key') else None
-        
+
     def _get_system_instructions(self) -> str:
         return """
 You are a market sentiment analyst for the Neural Options Oracle++ system using REAL web search data.
@@ -48,7 +48,7 @@ OUTPUT FORMAT (JSON):
     "data_freshness": "YYYY-MM-DD HH:MM:SS"
 }
 """
-    
+
     def _get_response_schema(self) -> Dict[str, Any]:
         """Get JSON Schema for sentiment analysis response"""
         return {
@@ -123,36 +123,36 @@ OUTPUT FORMAT (JSON):
             "required": ["aggregate_score", "confidence", "sources", "sentiment_trend", "key_factors", "risk_factors", "data_freshness"],
             "additionalProperties": False
         }
-    
+
     async def analyze(self, symbol: str, **kwargs) -> Dict[str, Any]:
         """Analyze market sentiment for the symbol using real web search data"""
-        
+
         try:
             logger.info(f"Starting REAL sentiment analysis for {symbol}")
-            
+
             if not self.openai_client:
                 logger.error("OpenAI client not available for sentiment analysis")
                 return self._get_fallback_sentiment(symbol)
-            
+
             # Get current date for search queries
             current_date = datetime.now().strftime("%Y-%m-%d")
-            
+
             # Collect real sentiment data from multiple sources
             sentiment_data = await self._collect_real_sentiment_data(symbol, current_date)
-            
+
             # Analyze with GPT
             analysis = await self._analyze_sentiment_with_gpt(sentiment_data, symbol, current_date)
-            
+
             # Validate analysis
             analysis = self._validate_sentiment_analysis(analysis, symbol)
-            
+
             logger.info(f"REAL sentiment analysis completed for {symbol}")
             return analysis
-            
+
         except Exception as e:
             logger.error(f"Sentiment analysis failed for {symbol}: {e}")
             return self._get_fallback_sentiment(symbol)
-    
+
     async def _collect_real_sentiment_data(self, symbol: str, current_date: str) -> Dict[str, Any]:
         """Collect real sentiment data from web search"""
         try:
@@ -162,9 +162,9 @@ OUTPUT FORMAT (JSON):
                 self._search_stocktwits_sentiment(symbol, current_date),
                 self._search_market_psychology(symbol, current_date)
             ]
-            
+
             news_data, stocktwits_data, psychology_data = await asyncio.gather(*tasks, return_exceptions=True)
-        
+
             return {
                 'news_sentiment': news_data if not isinstance(news_data, Exception) else {},
                 'stocktwits_sentiment': stocktwits_data if not isinstance(stocktwits_data, Exception) else {},
@@ -172,7 +172,7 @@ OUTPUT FORMAT (JSON):
                 'search_date': current_date,
                 'symbol': symbol
             }
-            
+
         except Exception as e:
             logger.error(f"Error collecting real sentiment data for {symbol}: {e}")
             return {
@@ -183,7 +183,7 @@ OUTPUT FORMAT (JSON):
                 'symbol': symbol,
                 'error': str(e)
             }
-    
+
     async def _search_news_sentiment(self, symbol: str, current_date: str) -> Dict[str, Any]:
         """Search for real-time news sentiment"""
         try:
@@ -212,7 +212,7 @@ OUTPUT FORMAT (JSON):
                 "key_headlines": ["headline1", "headline2", "headline3"]
             }}
             """
-            
+
             response = await self.openai_client.chat.completions.create(
                 model="gpt-4o",
                 messages=[
@@ -228,14 +228,14 @@ OUTPUT FORMAT (JSON):
                 max_tokens=1000,
                 temperature=0.1
             )
-            
+
             content = response.choices[0].message.content.strip()
             return self._parse_json_from_response(content)
-            
+
         except Exception as e:
             logger.error(f"Error searching news sentiment for {symbol}: {e}")
             return {}
-    
+
     async def _search_stocktwits_sentiment(self, symbol: str, current_date: str) -> Dict[str, Any]:
         """Search for StockTwits sentiment"""
         try:
@@ -261,7 +261,7 @@ OUTPUT FORMAT (JSON):
                 "sample_messages": ["message1", "message2", "message3"]
             }}
             """
-            
+
             response = await self.openai_client.chat.completions.create(
                 model="gpt-4o",
                 messages=[
@@ -277,14 +277,14 @@ OUTPUT FORMAT (JSON):
                 max_tokens=800,
                 temperature=0.1
             )
-            
+
             content = response.choices[0].message.content.strip()
             return self._parse_json_from_response(content)
-            
+
         except Exception as e:
             logger.error(f"Error searching StockTwits sentiment for {symbol}: {e}")
             return {}
-    
+
     async def _search_market_psychology(self, symbol: str, current_date: str) -> Dict[str, Any]:
         """Search for market psychology indicators"""
         try:
@@ -308,7 +308,7 @@ OUTPUT FORMAT (JSON):
                 "volatility_trend": "increasing|decreasing|stable"
             }}
             """
-            
+
             response = await self.openai_client.chat.completions.create(
                 model="gpt-4o",
                 messages=[
@@ -324,14 +324,14 @@ OUTPUT FORMAT (JSON):
                 max_tokens=600,
                 temperature=0.1
             )
-            
+
             content = response.choices[0].message.content.strip()
             return self._parse_json_from_response(content)
-            
+
         except Exception as e:
             logger.error(f"Error searching market psychology for {symbol}: {e}")
             return {}
-    
+
     async def _analyze_sentiment_with_gpt(self, sentiment_data: Dict[str, Any], symbol: str, current_date: str) -> Dict[str, Any]:
         """Analyze collected sentiment data with GPT"""
         try:
@@ -357,7 +357,7 @@ OUTPUT FORMAT (JSON):
             
             Return in the exact JSON format specified in the system instructions.
             """
-            
+
             response = await self.openai_client.chat.completions.create(
                 model="gpt-4o",
                 messages=[
@@ -367,14 +367,14 @@ OUTPUT FORMAT (JSON):
                 max_tokens=1200,
                 temperature=0.2
             )
-            
+
             content = response.choices[0].message.content.strip()
             return self._parse_json_from_response(content)
-            
+
         except Exception as e:
             logger.error(f"Error analyzing sentiment with GPT for {symbol}: {e}")
             return {}
-    
+
     def _parse_json_from_response(self, content: str) -> Dict[str, Any]:
         """Parse JSON from GPT response"""
         try:
@@ -383,7 +383,7 @@ OUTPUT FORMAT (JSON):
                 r'\{.*\}',  # Any JSON object
                 r'\{[^{}]*\}',  # Simple JSON object
             ]
-            
+
             for pattern in json_patterns:
                 json_match = re.search(pattern, content, re.DOTALL)
                 if json_match:
@@ -392,31 +392,31 @@ OUTPUT FORMAT (JSON):
                         return json.loads(json_str)
                     except json.JSONDecodeError:
                         continue
-            
+
             # If no JSON found, return empty dict
             return {}
-            
+
         except Exception as e:
             logger.error(f"Error parsing JSON from response: {e}")
             return {}
-    
+
     def _validate_sentiment_analysis(self, analysis: Dict, symbol: str) -> Dict:
         """Validate sentiment analysis"""
-        
+
         if 'aggregate_score' not in analysis:
             analysis['aggregate_score'] = 0.0
         if 'confidence' not in analysis:
             analysis['confidence'] = 0.5
-            
+
         analysis['aggregate_score'] = max(-1.0, min(1.0, analysis['aggregate_score']))
         analysis['confidence'] = max(0.0, min(1.0, analysis['confidence']))
         analysis['timestamp'] = datetime.now().isoformat()
         analysis['symbol'] = symbol
         analysis['agent'] = self.name
         analysis['data_freshness'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        
+
         return analysis
-    
+
     def _get_fallback_sentiment(self, symbol: str) -> Dict:
         """Fallback sentiment analysis when real data unavailable"""
         return {
