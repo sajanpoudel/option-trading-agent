@@ -12,10 +12,10 @@ logger = get_agents_logger()
 
 class HistoricalPatternAgent(BaseAgent):
     """AI agent specializing in historical pattern analysis"""
-    
+
     def __init__(self, client):
         super().__init__(client, "Historical Pattern", "gpt-4o")
-        
+
     def _get_system_instructions(self) -> str:
         return """
 You are a historical pattern analyst for the Neural Options Oracle++ system.
@@ -50,7 +50,7 @@ OUTPUT FORMAT (JSON):
     "pattern_insights": ["string1", "string2"]
 }
 """
-    
+
     def _get_response_schema(self) -> Dict[str, Any]:
         """Get JSON Schema for historical pattern response"""
         return {
@@ -113,16 +113,16 @@ OUTPUT FORMAT (JSON):
             "required": ["pattern_score", "confidence", "dominant_pattern", "historical_matches", "seasonality", "pattern_strength", "time_horizon", "key_levels", "pattern_insights"],
             "additionalProperties": False
         }
-    
+
     async def analyze(self, symbol: str, **kwargs) -> Dict[str, Any]:
         """Analyze historical patterns for the symbol"""
-        
+
         try:
             logger.info(f"Starting historical pattern analysis for {symbol}")
-            
+
             # Mock historical data
             mock_history = self._get_mock_historical_data(symbol)
-            
+
             messages = [
                 {"role": "system", "content": self.system_instructions},
                 {"role": "user", "content": f"""
@@ -152,27 +152,27 @@ SIMILAR PERIODS:
 Provide comprehensive pattern analysis.
                 """}
             ]
-            
+
             response = await self._make_completion(
-                messages, 
+                messages,
                 temperature=0.4,
                 response_schema=self._get_response_schema()
             )
             analysis = self._parse_json_response(response['content'])
-            
+
             analysis = self._validate_pattern_analysis(analysis, symbol)
-            
+
             logger.info(f"Historical pattern analysis completed for {symbol}")
             return analysis
-            
+
         except Exception as e:
             logger.error(f"Historical pattern analysis failed for {symbol}: {e}")
             return self._get_fallback_history(symbol)
-    
+
     def _get_mock_historical_data(self, symbol: str) -> Dict:
         """Generate mock historical data"""
         import random
-        
+
         return {
             'week_return': random.uniform(-10, 10),
             'month_return': random.uniform(-20, 20),
@@ -188,25 +188,25 @@ Provide comprehensive pattern analysis.
             'similar_periods': random.randint(3, 15),
             'avg_outcome': random.uniform(-10, 15)
         }
-    
+
     def _validate_pattern_analysis(self, analysis: Dict, symbol: str) -> Dict:
         """Validate pattern analysis"""
-        
+
         if 'pattern_score' not in analysis:
             analysis['pattern_score'] = 0.0
         if 'confidence' not in analysis:
             analysis['confidence'] = 0.5
         if 'dominant_pattern' not in analysis:
             analysis['dominant_pattern'] = 'consolidation'
-            
+
         analysis['pattern_score'] = max(-1.0, min(1.0, analysis['pattern_score']))
         analysis['confidence'] = self._validate_confidence(analysis['confidence'])
         analysis['timestamp'] = datetime.now().isoformat()
         analysis['symbol'] = symbol
         analysis['agent'] = self.name
-        
+
         return analysis
-    
+
     def _get_fallback_history(self, symbol: str) -> Dict:
         """Fallback historical analysis"""
         return {
