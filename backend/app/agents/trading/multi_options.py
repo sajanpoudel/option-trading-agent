@@ -17,14 +17,14 @@ logger = get_agents_logger()
 
 class MultiOptionsBuyAgent:
     """Agent for analyzing hot stocks and creating optimized options portfolio"""
-    
+
     def __init__(self):
         self.openai_client = OpenAI(api_key=settings.openai_api_key)
         self.single_buy_agent = OptionsBuyAgent(self.openai_client)
-        
+
     async def analyze_best_options_portfolio(
-        self, 
-        total_budget: float, 
+        self,
+        total_budget: float,
         user_preferences: Dict[str, Any] = None
     ) -> Dict[str, Any]:
         """
@@ -32,80 +32,80 @@ class MultiOptionsBuyAgent:
         """
         try:
             logger.info(f"🔥 Analyzing best options portfolio with ${total_budget} budget")
-            
+
             # Get current hot stocks by making API call
             import aiohttp
             async with aiohttp.ClientSession() as session:
                 async with session.get('http://localhost:8080/api/v1/stocks/hot-stocks') as response:
                     hot_stocks_data = await response.json()
-            
+
             hot_stocks = hot_stocks_data.get('stocks', [])
-            
+
             if not hot_stocks:
                 return {"error": "No hot stocks data available"}
-            
+
             # Analyze top performing stocks
             top_stocks = sorted(
-                hot_stocks, 
-                key=lambda x: (x.get('aiScore', 0) + abs(x.get('changePercent', 0))), 
+                hot_stocks,
+                key=lambda x: (x.get('aiScore', 0) + abs(x.get('changePercent', 0))),
                 reverse=True
             )[:8]  # Analyze top 8 stocks
-            
+
             logger.info(f"Analyzing top stocks: {[s['symbol'] for s in top_stocks]}")
-            
+
             # Get options opportunities for each stock
             stock_opportunities = []
             for stock in top_stocks:
                 symbol = stock['symbol']
-                
+
                 # Allocate portion of budget for individual analysis
                 individual_budget = min(total_budget * 0.5, total_budget / 3)  # Max 50% or 1/3 of budget per stock
-                
+
                 try:
                     opportunity = await self.single_buy_agent.analyze_option_opportunity(
-                        symbol, 
-                        individual_budget, 
+                        symbol,
+                        individual_budget,
                         user_preferences or {}
                     )
-                    
+
                     if 'error' not in opportunity:
                         opportunity['stock_data'] = stock
                         stock_opportunities.append(opportunity)
-                        
+
                 except Exception as e:
                     logger.warning(f"Failed to analyze {symbol}: {e}")
                     continue
-            
+
             if not stock_opportunities:
                 return {"error": "No valid options opportunities found in hot stocks"}
-            
+
             # Use AI to create optimized portfolio
             portfolio_analysis = await self._create_optimized_portfolio(
-                stock_opportunities, 
-                total_budget, 
+                stock_opportunities,
+                total_budget,
                 user_preferences or {}
             )
-            
+
             return portfolio_analysis
-            
+
         except Exception as e:
             logger.error(f"Error analyzing options portfolio: {e}")
             return {"error": str(e)}
-    
+
     async def _create_optimized_portfolio(
-        self, 
-        opportunities: List[Dict[str, Any]], 
+        self,
+        opportunities: List[Dict[str, Any]],
         total_budget: float,
         user_preferences: Dict[str, Any]
     ) -> Dict[str, Any]:
         """Use AI to create optimized options portfolio"""
-        
+
         # Prepare data for AI analysis
         opportunities_summary = []
         for opp in opportunities:
             best_option = opp.get('best_option', {})
             stock_data = opp.get('stock_data', {})
-            
+
             opportunities_summary.append({
                 "symbol": opp.get('symbol'),
                 "current_price": opp.get('current_price'),
@@ -123,7 +123,7 @@ class MultiOptionsBuyAgent:
                 "profit_potential": opp.get('profit_potential'),
                 "max_loss": opp.get('max_loss')
             })
-        
+
         prompt = f"""
         Create an optimized options portfolio from these hot stock opportunities:
         
@@ -173,7 +173,7 @@ class MultiOptionsBuyAgent:
             }}
         }}
         """
-        
+
         try:
             response = await asyncio.to_thread(
                 self.openai_client.chat.completions.create,
@@ -182,15 +182,15 @@ class MultiOptionsBuyAgent:
                 temperature=0.1,
                 max_tokens=2000
             )
-            
+
             ai_response = response.choices[0].message.content.strip()
-            
+
             # Parse AI response
             if '```json' in ai_response:
                 ai_response = ai_response.split('```json')[1].split('```')[0]
-            
+
             portfolio = json.loads(ai_response)
-            
+
             # Add metadata
             portfolio.update({
                 "analysis_timestamp": datetime.now().isoformat(),
@@ -198,21 +198,21 @@ class MultiOptionsBuyAgent:
                 "total_opportunities_analyzed": len(opportunities),
                 "requires_confirmation": True
             })
-            
+
             return portfolio
-            
+
         except Exception as e:
             logger.error(f"AI portfolio optimization failed: {e}")
-            
+
             # Fallback: Simple diversified approach
             recommended = []
             budget_used = 0
             budget_per_position = total_budget / min(3, len(opportunities))
-            
+
             for opp in opportunities[:3]:  # Take top 3
                 best_option = opp.get('best_option', {})
                 cost = best_option.get('cost', 0)
-                
+
                 if budget_used + cost <= total_budget:
                     recommended.append({
                         "symbol": opp.get('symbol'),
@@ -222,7 +222,7 @@ class MultiOptionsBuyAgent:
                         "reasoning": "Fallback selection based on ranking"
                     })
                     budget_used += cost
-            
+
             return {
                 "recommended_portfolio": recommended,
                 "total_cost": budget_used,
@@ -231,34 +231,34 @@ class MultiOptionsBuyAgent:
                 "ai_optimized": False,
                 "error": "AI optimization failed, using fallback strategy"
             }
-    
+
     async def execute_portfolio_purchase(
-        self, 
-        portfolio: Dict[str, Any], 
+        self,
+        portfolio: Dict[str, Any],
         confirmed: bool = False
     ) -> Dict[str, Any]:
         """Execute the entire options portfolio if confirmed"""
-        
+
         if not confirmed:
             return {"error": "User confirmation required before execution"}
-        
+
         try:
             recommended_portfolio = portfolio.get('recommended_portfolio', [])
-            
+
             if not recommended_portfolio:
                 return {"error": "No portfolio to execute"}
-            
+
             logger.info(f"🚀 Executing options portfolio with {len(recommended_portfolio)} positions")
-            
+
             execution_results = []
             total_executed_cost = 0
-            
+
             for position in recommended_portfolio:
                 try:
                     symbol = position['symbol']
                     option_details = position['option']
                     quantity = position.get('quantity', 1)
-                    
+
                     # Execute individual position
                     # In real implementation, this would call Alpaca trading API
                     execution = {
@@ -271,12 +271,12 @@ class MultiOptionsBuyAgent:
                         "order_id": f"OPT_{symbol}_{datetime.now().strftime('%Y%m%d%H%M%S')}",
                         "status": "executed"
                     }
-                    
+
                     execution_results.append(execution)
                     total_executed_cost += execution['total_cost']
-                    
+
                     logger.info(f"✅ Executed {symbol} option: {execution}")
-                    
+
                 except Exception as e:
                     logger.error(f"Failed to execute {position.get('symbol', 'unknown')}: {e}")
                     execution_results.append({
@@ -284,11 +284,11 @@ class MultiOptionsBuyAgent:
                         "status": "failed",
                         "error": str(e)
                     })
-            
+
             # Portfolio execution summary
             successful_executions = [r for r in execution_results if r.get('status') == 'executed']
             failed_executions = [r for r in execution_results if r.get('status') == 'failed']
-            
+
             return {
                 "portfolio_status": "executed" if successful_executions else "failed",
                 "total_positions": len(recommended_portfolio),
@@ -299,7 +299,7 @@ class MultiOptionsBuyAgent:
                 "execution_time": datetime.now().isoformat(),
                 "confirmation_message": f"Portfolio execution completed: {len(successful_executions)}/{len(recommended_portfolio)} positions successful"
             }
-            
+
         except Exception as e:
             logger.error(f"Failed to execute portfolio: {e}")
             return {"error": f"Portfolio execution failed: {str(e)}", "status": "failed"}
@@ -312,11 +312,11 @@ async def analyze_multi_options_buy(budget: float, preferences: Dict[str, Any] =
     """Main function to analyze multi-options portfolio"""
     if preferences is None:
         preferences = {
-            "risk_tolerance": "moderate", 
-            "diversification": "moderate", 
+            "risk_tolerance": "moderate",
+            "diversification": "moderate",
             "strategy": "growth"
         }
-    
+
     return await multi_options_agent.analyze_best_options_portfolio(budget, preferences)
 
 async def execute_multi_options_buy(portfolio: Dict[str, Any], confirmed: bool = False) -> Dict[str, Any]:
