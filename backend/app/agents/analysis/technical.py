@@ -13,10 +13,10 @@ logger = get_agents_logger()
 
 class TechnicalAnalysisAgent(BaseAgent):
     """AI agent specializing in technical analysis for options trading"""
-    
+
     def __init__(self, client):
         super().__init__(client, "Technical Analysis", "gpt-4o")
-        
+
     def _get_system_instructions(self) -> str:
         """Get system instructions for technical analysis"""
         return """
@@ -98,7 +98,7 @@ IMPORTANT CALCULATION RULES:
 
 Remember: You are the primary decision driver with 60% weight in the final system decision.
 """
-    
+
     def _get_response_schema(self) -> Dict[str, Any]:
         """Get JSON Schema for technical analysis response"""
         return {
@@ -228,19 +228,19 @@ Remember: You are the primary decision driver with 60% weight in the final syste
 
     async def analyze(self, symbol: str, timeframe: str = "1d", **kwargs) -> Dict[str, Any]:
         """Analyze technical indicators for the given symbol"""
-        
+
         try:
             logger.info(f"Starting technical analysis for {symbol}")
-            
+
             # Get real market data
             from backend.app.services.market_data import market_data_manager
             market_data = await market_data_manager.get_comprehensive_data(symbol)
-            
+
             # Extract technical indicators
             tech_data = market_data.get('technical', {})
             quote_data = market_data.get('quote', {})
             market_conditions = market_data.get('market_conditions', {})
-            
+
             # Prepare the analysis prompt with real market data
             messages = [
                 {"role": "system", "content": self.system_instructions},
@@ -286,50 +286,50 @@ Data Source: {tech_data.get('source', 'unknown')}
 Please provide a comprehensive technical analysis with scenario detection and weighted scoring using this REAL market data.
                 """}
             ]
-            
+
             # Get analysis from GPT-4 with structured outputs
             response = await self._make_completion(
-                messages, 
+                messages,
                 temperature=0.3,
                 response_schema=self._get_response_schema()
             )
-            
+
             # Parse the response
             analysis = self._parse_json_response(response['content'])
-            
+
             # Validate and enhance the analysis
             analysis = self._validate_analysis(analysis, symbol, tech_data)
-            
+
             logger.info(f"Technical analysis completed for {symbol}: {analysis.get('scenario', 'unknown')} scenario")
             return analysis
-            
+
         except Exception as e:
             logger.error(f"Technical analysis failed for {symbol}: {e}")
-            
+
 
     def _validate_analysis(self, analysis: Dict, symbol: str, market_data: Dict) -> Dict[str, Any]:
         """Validate and enhance the analysis response"""
-        
+
         # Ensure required fields exist
         if 'scenario' not in analysis:
             analysis['scenario'] = 'range_bound'
-        
+
         if 'weighted_score' not in analysis:
             analysis['weighted_score'] = 0.0
-        
+
         if 'confidence' not in analysis:
             analysis['confidence'] = 0.5
-        
+
         # Validate numeric ranges
         analysis['weighted_score'] = max(-1.0, min(1.0, analysis['weighted_score']))
         analysis['confidence'] = self._validate_confidence(analysis['confidence'])
-        
+
         # Add metadata
         analysis['timestamp'] = datetime.now().isoformat()
         analysis['symbol'] = symbol
         analysis['agent'] = self.name
         analysis['market_data_snapshot'] = market_data
-        
+
         # Ensure indicators structure exists
         if 'indicators' not in analysis:
             analysis['indicators'] = {
