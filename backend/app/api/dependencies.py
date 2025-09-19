@@ -23,9 +23,9 @@ async def get_current_session(
     session_token: Optional[str] = None
 ) -> Dict[str, Any]:
     """Get current browser session (dependency)"""
-    
+
     token = x_session_token or session_token
-    
+
     if not token:
         # For demo purposes, create a temporary session
         logger.info("No session token provided, creating temporary session")
@@ -37,25 +37,25 @@ async def get_current_session(
             "expires_at": time.time() + 86400,
             "preferences": {}
         }
-    
+
     # Get session from database
     session = await db_manager.get_session(token)
-    
+
     if not session:
         raise HTTPException(
-            status_code=401, 
+            status_code=401,
             detail="Invalid or expired session token"
         )
-    
+
     # Update session activity
     await db_manager.update_session_activity(token)
-    
+
     return session
 
 
 def rate_limiter(max_requests: int = 60, time_window: int = 60):
     """Rate limiting decorator"""
-    
+
     def decorator(func):
         @wraps(func)
         async def wrapper(*args, **kwargs):
@@ -65,20 +65,20 @@ def rate_limiter(max_requests: int = 60, time_window: int = 60):
                 if hasattr(arg, 'client'):
                     request = arg
                     break
-            
+
             if not request:
                 return await func(*args, **kwargs)
-            
+
             # Get client IP
             client_ip = request.client.host if request.client else "unknown"
             current_time = time.time()
-            
+
             # Clean old timestamps
             request_timestamps[client_ip] = [
                 ts for ts in request_timestamps[client_ip]
                 if current_time - ts < time_window
             ]
-            
+
             # Check rate limit
             if len(request_timestamps[client_ip]) >= max_requests:
                 logger.warning(f"Rate limit exceeded for IP: {client_ip}")
@@ -86,34 +86,34 @@ def rate_limiter(max_requests: int = 60, time_window: int = 60):
                     status_code=429,
                     detail="Rate limit exceeded. Please try again later."
                 )
-            
+
             # Add current request
             request_timestamps[client_ip].append(current_time)
-            
+
             return await func(*args, **kwargs)
-        
+
         return wrapper
     return decorator
 
 
 class SessionManager:
     """Session management utilities"""
-    
+
     @staticmethod
     async def validate_session(session_token: str) -> bool:
         """Validate session token"""
         session = await db_manager.get_session(session_token)
         return session is not None
-    
+
     @staticmethod
     async def get_session_risk_profile(session_token: str) -> str:
         """Get session risk profile"""
         session = await db_manager.get_session(session_token)
         return session.get("risk_profile", "moderate") if session else "moderate"
-    
+
     @staticmethod
     async def update_session_preferences(
-        session_token: str, 
+        session_token: str,
         preferences: Dict[str, Any]
     ) -> bool:
         """Update session preferences"""
