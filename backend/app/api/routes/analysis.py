@@ -51,7 +51,7 @@ class QuickAnalysisResponse(BaseModel):
 @router.get("/")
 async def analysis_info() -> Dict[str, Any]:
     """Get analysis API information"""
-    
+
     return {
         "name": "Analysis API",
         "version": "1.0.0",
@@ -82,20 +82,20 @@ async def analyze_stock(
     session: Dict = Depends(get_current_session)
 ) -> AnalysisResponse:
     """Comprehensive stock analysis using AI agents"""
-    
+
     start_time = time.time()
     symbol = symbol.upper()
-    
+
     logger.info(f"Starting analysis for {symbol}")
-    
+
     try:
         # Validate symbol
         if not symbol or len(symbol) > 5:
             raise HTTPException(status_code=400, detail="Invalid symbol")
-        
+
         # For now, return a mock response until we implement the AI agents
         # This will be replaced with actual agent orchestration in Phase 2
-        
+
         mock_analysis_result = {
             "symbol": symbol,
             "analysis_id": f"analysis_{symbol}_{int(time.time())}",
@@ -153,14 +153,14 @@ async def analyze_stock(
             "timestamp": time.time(),
             "processing_time": time.time() - start_time
         }
-        
+
         # Save analysis to database - flatten signal data for database storage
         signal_data_for_db = {
             **mock_analysis_result,
             **mock_analysis_result["signal"],  # Flatten signal fields to top level
             "agent_weights": {
                 "technical": 0.6,
-                "sentiment": 0.1, 
+                "sentiment": 0.1,
                 "flow": 0.1,
                 "history": 0.2
             },
@@ -171,7 +171,7 @@ async def analyze_stock(
         }
         signal_id = await db_manager.save_trading_signal(signal_data_for_db)
         mock_analysis_result["analysis_id"] = signal_id or mock_analysis_result["analysis_id"]
-        
+
         # Add background task to generate educational content
         background_tasks.add_task(
             generate_educational_content,
@@ -179,11 +179,11 @@ async def analyze_stock(
             mock_analysis_result["signal"],
             session.get("risk_profile", "moderate")
         )
-        
+
         logger.info(f"Analysis completed for {symbol} in {time.time() - start_time:.2f}s")
-        
+
         return AnalysisResponse(**mock_analysis_result)
-        
+
     except Exception as e:
         logger.error(f"Analysis failed for {symbol}: {e}")
         raise HTTPException(status_code=500, detail=f"Analysis failed: {str(e)}")
@@ -196,10 +196,10 @@ async def quick_analysis(
     session: Dict = Depends(get_current_session)
 ) -> QuickAnalysisResponse:
     """Quick analysis for rapid decision making"""
-    
+
     symbol = symbol.upper()
     logger.info(f"Quick analysis for {symbol}")
-    
+
     try:
         # Mock quick analysis - will be replaced with actual implementation
         mock_quick_result = {
@@ -215,9 +215,9 @@ async def quick_analysis(
             ],
             "timestamp": time.time()
         }
-        
+
         return QuickAnalysisResponse(**mock_quick_result)
-        
+
     except Exception as e:
         logger.error(f"Quick analysis failed for {symbol}: {e}")
         raise HTTPException(status_code=500, detail=f"Quick analysis failed: {str(e)}")
@@ -230,15 +230,15 @@ async def get_analysis_history(
     session: Dict = Depends(get_current_session)
 ) -> List[Dict[str, Any]]:
     """Get analysis history"""
-    
+
     try:
         signals = await db_manager.get_trading_signals(
             symbol=symbol.upper() if symbol else None,
             limit=limit
         )
-        
+
         return signals
-        
+
     except Exception as e:
         logger.error(f"Failed to get analysis history: {e}")
         raise HTTPException(status_code=500, detail="Failed to get analysis history")
@@ -247,7 +247,7 @@ async def get_analysis_history(
 @router.get("/symbols")
 async def get_supported_symbols() -> Dict[str, Any]:
     """Get list of supported symbols"""
-    
+
     # Mock data - in production this would come from data providers
     supported_symbols = {
         "popular": ["AAPL", "GOOGL", "MSFT", "TSLA", "AMZN", "NVDA", "META", "NFLX"],
@@ -256,7 +256,7 @@ async def get_supported_symbols() -> Dict[str, Any]:
         "total_available": 5000,
         "last_updated": time.time()
     }
-    
+
     return supported_symbols
 
 
@@ -266,11 +266,11 @@ async def get_analysis_status(
     session: Dict = Depends(get_current_session)
 ) -> Dict[str, Any]:
     """Get analysis status by ID"""
-    
+
     try:
         # Get analysis from database
         signals = await db_manager.get_trading_signals(limit=1)
-        
+
         # Mock status for now
         return {
             "analysis_id": analysis_id,
@@ -279,7 +279,7 @@ async def get_analysis_status(
             "estimated_completion": None,
             "timestamp": time.time()
         }
-        
+
     except Exception as e:
         logger.error(f"Failed to get analysis status: {e}")
         raise HTTPException(status_code=500, detail="Failed to get analysis status")
@@ -292,10 +292,10 @@ async def generate_educational_content(
     risk_profile: str
 ) -> None:
     """Generate educational content in background"""
-    
+
     try:
         logger.info(f"Generating educational content for {symbol}")
-        
+
         # This will be implemented when we add the education agent
         educational_content = {
             "content_id": f"edu_{symbol}_{int(time.time())}",
@@ -312,9 +312,9 @@ async def generate_educational_content(
                 ]
             }
         }
-        
+
         await db_manager.save_educational_content(educational_content)
         logger.info(f"Educational content generated for {symbol}")
-        
+
     except Exception as e:
         logger.error(f"Failed to generate educational content: {e}")
