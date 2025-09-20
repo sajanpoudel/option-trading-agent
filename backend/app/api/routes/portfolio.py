@@ -50,7 +50,7 @@ class RiskMetrics(BaseModel):
 @router.get("/")
 async def portfolio_info() -> Dict[str, Any]:
     """Get portfolio API information"""
-    
+
     return {
         "name": "Portfolio API",
         "version": "1.0.0",
@@ -78,15 +78,15 @@ async def get_portfolio_summary(
     session: Dict = Depends(get_current_session)
 ) -> PortfolioSummary:
     """Get portfolio summary"""
-    
+
     try:
         # Get real portfolio data from database
         analytics = await db_manager.get_system_analytics()
         portfolio_summary_list = analytics.get("portfolio_summary", [])
-        
+
         # Extract first item if list is not empty, otherwise use empty dict
         portfolio_data = portfolio_summary_list[0] if portfolio_summary_list else {}
-        
+
         # Mock data if database is empty
         if not portfolio_data or not portfolio_data.get("total_value"):
             portfolio_data = {
@@ -97,12 +97,12 @@ async def get_portfolio_summary(
                 "cash_balance": 47500.0,
                 "buying_power": 95000.0
             }
-        
+
         # Calculate additional metrics
         unrealized_pnl_percent = (portfolio_data.get("total_unrealized_pnl", 0) / 50000.0) * 100
         day_change = 750.0  # Mock daily change
         day_change_percent = 1.5
-        
+
         return PortfolioSummary(
             total_value=portfolio_data.get("total_value", 0),
             total_positions=portfolio_data.get("total_positions", 0),
@@ -113,7 +113,7 @@ async def get_portfolio_summary(
             day_change=day_change,
             day_change_percent=day_change_percent
         )
-        
+
     except Exception as e:
         logger.error(f"Failed to get portfolio summary: {e}")
         raise HTTPException(status_code=500, detail="Failed to get portfolio summary")
@@ -125,14 +125,14 @@ async def get_portfolio_positions(
     session: Dict = Depends(get_current_session)
 ) -> List[Dict[str, Any]]:
     """Get all portfolio positions"""
-    
+
     try:
         if include_closed:
             # Would need to implement get_all_positions method
             positions = await db_manager.get_open_positions()
         else:
             positions = await db_manager.get_open_positions()
-        
+
         # Mock positions if none in database
         if not positions:
             positions = [
@@ -168,9 +168,9 @@ async def get_portfolio_positions(
                     "entry_date": time.time() - 172800
                 }
             ]
-        
+
         return positions
-        
+
     except Exception as e:
         logger.error(f"Failed to get portfolio positions: {e}")
         raise HTTPException(status_code=500, detail="Failed to get portfolio positions")
@@ -181,18 +181,18 @@ async def get_portfolio_greeks(
     session: Dict = Depends(get_current_session)
 ) -> PortfolioGreeks:
     """Get aggregated portfolio Greeks"""
-    
+
     try:
         # Get positions with Greeks
         positions = await db_manager.get_open_positions()
-        
+
         # Calculate total Greeks
         total_delta = sum(pos.get("delta", 0) * pos.get("quantity", 0) for pos in positions)
         total_gamma = sum(pos.get("gamma", 0) * pos.get("quantity", 0) for pos in positions)
         total_theta = sum(pos.get("theta", 0) * pos.get("quantity", 0) for pos in positions)
         total_vega = sum(pos.get("vega", 0) * pos.get("quantity", 0) for pos in positions)
         total_rho = sum(pos.get("rho", 0) * pos.get("quantity", 0) for pos in positions)
-        
+
         # Mock Greeks if no positions
         if not positions:
             total_delta = 125.5
@@ -200,10 +200,10 @@ async def get_portfolio_greeks(
             total_theta = -45.8
             total_vega = 180.3
             total_rho = 12.7
-        
+
         # Calculate net exposure (delta-adjusted notional)
         net_exposure = total_delta * 100  # Approximate dollar exposure
-        
+
         return PortfolioGreeks(
             total_delta=total_delta,
             total_gamma=total_gamma,
@@ -212,7 +212,7 @@ async def get_portfolio_greeks(
             total_rho=total_rho,
             net_exposure=net_exposure
         )
-        
+
     except Exception as e:
         logger.error(f"Failed to get portfolio Greeks: {e}")
         raise HTTPException(status_code=500, detail="Failed to get portfolio Greeks")
@@ -223,7 +223,7 @@ async def get_risk_metrics(
     session: Dict = Depends(get_current_session)
 ) -> RiskMetrics:
     """Get portfolio risk metrics"""
-    
+
     try:
         # Mock risk calculations - in production would use historical data
         risk_metrics = RiskMetrics(
@@ -237,9 +237,9 @@ async def get_risk_metrics(
                 "tech_sector": 0.70  # 70% in tech
             }
         )
-        
+
         return risk_metrics
-        
+
     except Exception as e:
         logger.error(f"Failed to get risk metrics: {e}")
         raise HTTPException(status_code=500, detail="Failed to get risk metrics")
@@ -251,7 +251,7 @@ async def get_portfolio_performance(
     session: Dict = Depends(get_current_session)
 ) -> Dict[str, Any]:
     """Get portfolio performance analytics"""
-    
+
     try:
         # Mock performance data
         performance_data = {
@@ -282,9 +282,9 @@ async def get_portfolio_performance(
                 "beta": 1.25
             }
         }
-        
+
         return performance_data
-        
+
     except Exception as e:
         logger.error(f"Failed to get performance data: {e}")
         raise HTTPException(status_code=500, detail="Failed to get performance data")
@@ -295,11 +295,11 @@ async def get_asset_allocation(
     session: Dict = Depends(get_current_session)
 ) -> Dict[str, Any]:
     """Get portfolio asset allocation"""
-    
+
     try:
         # Calculate allocation from positions
         positions = await db_manager.get_open_positions()
-        
+
         # Mock allocation data
         allocation_data = {
             "by_asset_class": {
@@ -333,9 +333,9 @@ async def get_asset_allocation(
                 "diversification_ratio": 0.65
             }
         }
-        
+
         return allocation_data
-        
+
     except Exception as e:
         logger.error(f"Failed to get asset allocation: {e}")
         raise HTTPException(status_code=500, detail="Failed to get asset allocation")
@@ -346,7 +346,7 @@ async def get_portfolio_alerts(
     session: Dict = Depends(get_current_session)
 ) -> List[Dict[str, Any]]:
     """Get portfolio alerts and notifications"""
-    
+
     try:
         # Mock alerts
         alerts = [
@@ -378,9 +378,9 @@ async def get_portfolio_alerts(
                 "action_required": False
             }
         ]
-        
+
         return alerts
-        
+
     except Exception as e:
         logger.error(f"Failed to get portfolio alerts: {e}")
         raise HTTPException(status_code=500, detail="Failed to get portfolio alerts")
@@ -392,7 +392,7 @@ async def suggest_rebalancing(
     session: Dict = Depends(get_current_session)
 ) -> Dict[str, Any]:
     """Suggest portfolio rebalancing actions"""
-    
+
     try:
         # Mock rebalancing suggestions
         suggestions = {
@@ -431,9 +431,9 @@ async def suggest_rebalancing(
                 "expected_return_impact": 0.2
             }
         }
-        
+
         return suggestions
-        
+
     except Exception as e:
         logger.error(f"Failed to generate rebalancing suggestions: {e}")
         raise HTTPException(status_code=500, detail="Failed to generate rebalancing suggestions")
