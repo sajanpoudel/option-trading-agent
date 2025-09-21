@@ -69,7 +69,7 @@ class PositionResponse(BaseModel):
 @router.get("/")
 async def trading_info() -> Dict[str, Any]:
     """Get trading API information"""
-    
+
     return {
         "name": "Trading API",
         "version": "1.0.0",
@@ -98,26 +98,26 @@ async def execute_paper_trade(
     session: Dict = Depends(get_current_session)
 ) -> TradeResponse:
     """Execute paper trade"""
-    
+
     symbol = trade_request.symbol.upper()
     logger.info(f"Executing paper trade: {trade_request.action} {trade_request.quantity} {symbol}")
-    
+
     try:
         # Validate trade request
         if trade_request.action not in ["buy", "sell"]:
             raise HTTPException(status_code=400, detail="Invalid action. Use 'buy' or 'sell'")
-        
+
         if trade_request.quantity <= 0:
             raise HTTPException(status_code=400, detail="Quantity must be positive")
-        
+
         # Mock trade execution - will be replaced with Alpaca integration
         mock_price = 155.25  # This would come from real market data
-        
+
         if trade_request.order_type == "limit" and trade_request.price:
             execution_price = trade_request.price
         else:
             execution_price = mock_price
-        
+
         # Calculate trade value
         if trade_request.option_details:
             # Options trade (multiply by 100 for contract size)
@@ -127,7 +127,7 @@ async def execute_paper_trade(
             # Stock trade
             total_value = execution_price * trade_request.quantity
             position_type = "stock"
-        
+
         # Create position in database
         position_data = {
             "symbol": symbol,
@@ -140,9 +140,9 @@ async def execute_paper_trade(
             "current_price": execution_price,
             "entry_order_id": f"paper_{symbol}_{int(time.time())}"
         }
-        
+
         position_id = await db_manager.create_position(position_data)
-        
+
         trade_response = {
             "trade_id": position_id or f"trade_{symbol}_{int(time.time())}",
             "status": "filled",
@@ -152,11 +152,11 @@ async def execute_paper_trade(
             "total_value": total_value,
             "timestamp": time.time()
         }
-        
+
         logger.info(f"Paper trade executed: {symbol} @ ${execution_price}")
-        
+
         return TradeResponse(**trade_response)
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -171,14 +171,14 @@ async def get_positions(
     session: Dict = Depends(get_current_session)
 ) -> List[PositionResponse]:
     """Get current positions"""
-    
+
     try:
         positions = await db_manager.get_open_positions()
-        
+
         # Filter by symbol if provided
         if symbol:
             positions = [p for p in positions if p["symbol"] == symbol.upper()]
-        
+
         # Convert to response format
         position_responses = []
         for pos in positions:
@@ -194,9 +194,9 @@ async def get_positions(
                 status=pos["status"]
             )
             position_responses.append(response)
-        
+
         return position_responses
-        
+
     except Exception as e:
         logger.error(f"Failed to get positions: {e}")
         raise HTTPException(status_code=500, detail="Failed to get positions")
@@ -208,7 +208,7 @@ async def get_position_details(
     session: Dict = Depends(get_current_session)
 ) -> Dict[str, Any]:
     """Get detailed position information"""
-    
+
     try:
         # Mock position details - in production would query database
         return {
@@ -232,7 +232,7 @@ async def get_position_details(
             "entry_date": time.time() - 3600,
             "status": "open"
         }
-        
+
     except Exception as e:
         logger.error(f"Failed to get position details: {e}")
         raise HTTPException(status_code=500, detail="Failed to get position details")
@@ -245,11 +245,11 @@ async def close_position(
     session: Dict = Depends(get_current_session)
 ) -> Dict[str, Any]:
     """Close a position"""
-    
+
     try:
         # Mock position close - will be replaced with actual implementation
         logger.info(f"Closing position: {position_id}")
-        
+
         return {
             "position_id": position_id,
             "status": "closed",
@@ -258,7 +258,7 @@ async def close_position(
             "close_timestamp": time.time(),
             "message": "Position closed successfully"
         }
-        
+
     except Exception as e:
         logger.error(f"Failed to close position: {e}")
         raise HTTPException(status_code=500, detail="Failed to close position")
@@ -272,7 +272,7 @@ async def get_orders(
     session: Dict = Depends(get_current_session)
 ) -> List[Dict[str, Any]]:
     """Get order history"""
-    
+
     try:
         # Mock order history
         orders = [
@@ -289,9 +289,9 @@ async def get_orders(
             }
             for i in range(min(limit, 5))
         ]
-        
+
         return orders
-        
+
     except Exception as e:
         logger.error(f"Failed to get orders: {e}")
         raise HTTPException(status_code=500, detail="Failed to get orders")
@@ -302,12 +302,12 @@ async def get_portfolio_summary(
     session: Dict = Depends(get_current_session)
 ) -> Dict[str, Any]:
     """Get portfolio summary"""
-    
+
     try:
         # Get portfolio data from database
         analytics = await db_manager.get_system_analytics()
         portfolio_summary = analytics.get("portfolio_summary", {})
-        
+
         # Add mock data if empty
         if not portfolio_summary:
             portfolio_summary = {
@@ -321,9 +321,9 @@ async def get_portfolio_summary(
                 "portfolio_vega": 180.0,
                 "calculated_at": time.time()
             }
-        
+
         return portfolio_summary
-        
+
     except Exception as e:
         logger.error(f"Failed to get portfolio summary: {e}")
         raise HTTPException(status_code=500, detail="Failed to get portfolio summary")
@@ -335,7 +335,7 @@ async def get_portfolio_performance(
     session: Dict = Depends(get_current_session)
 ) -> Dict[str, Any]:
     """Get portfolio performance metrics"""
-    
+
     try:
         # Mock performance data
         performance = {
@@ -355,9 +355,9 @@ async def get_portfolio_performance(
             },
             "calculated_at": time.time()
         }
-        
+
         return performance
-        
+
     except Exception as e:
         logger.error(f"Failed to get portfolio performance: {e}")
         raise HTTPException(status_code=500, detail="Failed to get portfolio performance")
@@ -370,16 +370,16 @@ async def analyze_buy_opportunity(
     session: Dict = Depends(get_current_session)
 ) -> Dict[str, Any]:
     """Analyze buy opportunity using AI agents"""
-    
+
     symbol = request.symbol.upper()
     logger.info(f"🎯 Analyzing buy opportunity for {symbol}")
-    
+
     try:
         # Import the intelligent orchestrator
         from backend.app.api.intelligent_orchestrator import IntelligentOrchestrator
-        
+
         orchestrator = IntelligentOrchestrator()
-        
+
         # Set up user context
         user_context = {
             'selectedStock': symbol,
@@ -390,15 +390,15 @@ async def analyze_buy_opportunity(
                 'account_balance': 100000
             }
         }
-        
+
         # Process the buy request
         user_query = request.user_query or f"analyze and buy {symbol}"
         result = await orchestrator.process_user_query(user_query, user_context)
-        
+
         # Extract buy recommendations
         buy_agent_result = result.get('frontend_data', {}).get('buy_agent', {})
         buy_analysis = buy_agent_result.get('buy_analysis', {})
-        
+
         return {
             'symbol': symbol,
             'analysis_complete': True,
@@ -409,7 +409,7 @@ async def analyze_buy_opportunity(
             'timestamp': time.time(),
             'user_query': user_query
         }
-        
+
     except Exception as e:
         logger.error(f"Buy analysis failed for {symbol}: {e}")
         raise HTTPException(status_code=500, detail=f"Buy analysis failed: {str(e)}")
@@ -422,20 +422,20 @@ async def execute_trade_recommendation(
     session: Dict = Depends(get_current_session)
 ) -> TradeResponse:
     """Execute a trade based on AI recommendation"""
-    
+
     symbol = request.symbol.upper()
     logger.info(f"🎯 Executing trade recommendation for {symbol}")
-    
+
     try:
         # Import the buy agent
         from backend.app.agents.trading.buy import BuyAgent, PositionRecommendation
         from openai import OpenAI
         from backend.config.settings import settings
-        
+
         # Initialize buy agent
         openai_client = OpenAI(api_key=settings.openai_api_key)
         buy_agent = BuyAgent(openai_client)
-        
+
         # For now, create a mock recommendation based on the request
         # In a real implementation, you would fetch the actual recommendation by ID
         recommendation = PositionRecommendation(
@@ -452,10 +452,10 @@ async def execute_trade_recommendation(
             max_loss=0.05,
             reasoning="AI-generated recommendation"
         )
-        
+
         # Execute the trade
         execution = await buy_agent.execute_trade(symbol, recommendation, request.user_risk_profile)
-        
+
         # Create trade response
         trade_response = TradeResponse(
             trade_id=execution.trade_id,
@@ -467,10 +467,10 @@ async def execute_trade_recommendation(
             timestamp=time.time(),
             estimated_fill_time=time.time() + 60  # 1 minute estimated fill
         )
-        
+
         logger.info(f"✅ Trade executed: {execution.trade_id} - {execution.status}")
         return trade_response
-        
+
     except Exception as e:
         logger.error(f"Trade execution failed for {symbol}: {e}")
         raise HTTPException(status_code=500, detail=f"Trade execution failed: {str(e)}")
@@ -482,16 +482,16 @@ async def get_buy_recommendations(
     session: Dict = Depends(get_current_session)
 ) -> Dict[str, Any]:
     """Get buy recommendations for a symbol"""
-    
+
     symbol = symbol.upper()
     logger.info(f"📊 Getting buy recommendations for {symbol}")
-    
+
     try:
         # Import the intelligent orchestrator
         from backend.app.api.intelligent_orchestrator import IntelligentOrchestrator
-        
+
         orchestrator = IntelligentOrchestrator()
-        
+
         # Set up user context
         user_context = {
             'selectedStock': symbol,
@@ -502,14 +502,14 @@ async def get_buy_recommendations(
                 'account_balance': 100000
             }
         }
-        
+
         # Process buy analysis
         result = await orchestrator.process_user_query(f"buy {symbol}", user_context)
-        
+
         # Extract buy recommendations
         buy_agent_result = result.get('frontend_data', {}).get('buy_agent', {})
         buy_analysis = buy_agent_result.get('buy_analysis', {})
-        
+
         return {
             'symbol': symbol,
             'recommendations': buy_analysis.get('recommendations', []),
@@ -518,7 +518,7 @@ async def get_buy_recommendations(
             'confidence': buy_analysis.get('confidence', 0.0),
             'timestamp': time.time()
         }
-        
+
     except Exception as e:
         logger.error(f"Failed to get buy recommendations for {symbol}: {e}")
         raise HTTPException(status_code=500, detail="Failed to get buy recommendations")
