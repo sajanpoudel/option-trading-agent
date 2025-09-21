@@ -95,3 +95,9 @@ def test_feature_engineering_splits_volume(predictor):
     features = predictor._engineer_features({"call_volume": 300, "put_volume": 100})
     assert features["call_volume_pct"] == pytest.approx(0.75)
     assert features["put_volume_pct"] == pytest.approx(0.25)
+
+
+def test_feature_engineering_defaults_without_volume(predictor):
+    features = predictor._engineer_features({})
+    assert features["call_volume_pct"] == features["put_volume_pct"] == 0.5
+    assert features["volume_ratio"] == 1.0
