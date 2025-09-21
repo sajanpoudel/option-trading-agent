@@ -20,7 +20,7 @@ router = APIRouter()
 @router.get("/")
 async def system_info() -> Dict[str, Any]:
     """Get system API information"""
-    
+
     return {
         "name": "System API",
         "version": "1.0.0",
@@ -45,16 +45,16 @@ async def system_info() -> Dict[str, Any]:
 @router.get("/status")
 async def get_system_status() -> Dict[str, Any]:
     """Get comprehensive system status"""
-    
+
     try:
         # System health checks
         db_health = await db_manager.health_check()
-        
+
         # Get system resource usage
         cpu_percent = psutil.cpu_percent(interval=1)
         memory = psutil.virtual_memory()
         disk = psutil.disk_usage('/')
-        
+
         # Get network info if available
         try:
             network = psutil.net_io_counters()
@@ -66,7 +66,7 @@ async def get_system_status() -> Dict[str, Any]:
             }
         except Exception:
             network_stats = {}
-        
+
         # Application-specific status
         app_status = {
             "environment": settings.app_env,
@@ -74,7 +74,7 @@ async def get_system_status() -> Dict[str, Any]:
             "log_level": settings.log_level,
             "cors_origins": settings.cors_origins
         }
-        
+
         return {
             "system": {
                 "status": "healthy",
@@ -96,7 +96,7 @@ async def get_system_status() -> Dict[str, Any]:
             "application": app_status,
             "timestamp": time.time()
         }
-        
+
     except Exception as e:
         logger.error(f"Failed to get system status: {e}")
         raise HTTPException(status_code=500, detail="Failed to get system status")
@@ -105,10 +105,10 @@ async def get_system_status() -> Dict[str, Any]:
 @router.get("/health")
 async def detailed_health_check() -> Dict[str, Any]:
     """Detailed health check for all system components"""
-    
+
     try:
         health_checks = {}
-        
+
         # Database health
         db_health = await db_manager.health_check()
         health_checks["database"] = {
@@ -116,34 +116,34 @@ async def detailed_health_check() -> Dict[str, Any]:
             "response_time_ms": 50,  # Mock response time
             "connection_pool": "healthy"
         }
-        
+
         # API health
         health_checks["api"] = {
             "status": "healthy",
             "response_time_ms": 10,
             "active_connections": 5
         }
-        
+
         # External services health (mock)
         health_checks["external_services"] = {
             "openai": {"status": "healthy", "last_check": time.time()},
             "alpaca": {"status": "healthy", "last_check": time.time()},
             "jigsawstack": {"status": "healthy", "last_check": time.time()}
         }
-        
+
         # Overall health
         all_healthy = all(
-            check.get("status") == "healthy" 
+            check.get("status") == "healthy"
             for check in [health_checks["database"], health_checks["api"]]
         )
-        
+
         return {
             "overall_status": "healthy" if all_healthy else "degraded",
             "components": health_checks,
             "timestamp": time.time(),
             "version": "1.0.0"
         }
-        
+
     except Exception as e:
         logger.error(f"Health check failed: {e}")
         return {
@@ -158,11 +158,11 @@ async def get_system_analytics(
     session: Dict = Depends(get_current_session)
 ) -> Dict[str, Any]:
     """Get comprehensive system analytics"""
-    
+
     try:
         # Get analytics from database
         analytics = await db_manager.get_system_analytics()
-        
+
         # Add API usage statistics (mock)
         api_stats = {
             "total_requests": 1250,
@@ -176,7 +176,7 @@ async def get_system_analytics(
                 "/api/v1/portfolio/summary": {"count": 375, "avg_time": 100}
             }
         }
-        
+
         # User activity (using sessions instead of users)
         user_stats = {
             "active_sessions": analytics.get("active_sessions", 0),
@@ -184,14 +184,14 @@ async def get_system_analytics(
             "avg_session_duration_minutes": 45,
             "total_analyses_today": analytics.get("signals_last_24h", 0)
         }
-        
+
         return {
             "database_analytics": analytics,
             "api_statistics": api_stats,
             "session_statistics": user_stats,
             "timestamp": time.time()
         }
-        
+
     except Exception as e:
         logger.error(f"Failed to get system analytics: {e}")
         raise HTTPException(status_code=500, detail="Failed to get system analytics")
@@ -203,7 +203,7 @@ async def get_system_config(
     session: Dict = Depends(get_current_session)
 ) -> Dict[str, Any]:
     """Get system configuration"""
-    
+
     try:
         if key:
             # Get specific config value
@@ -213,7 +213,7 @@ async def get_system_config(
                 "value": value,
                 "found": value is not None
             }
-        
+
         # Get all public configuration
         public_config = {
             "analysis_timeout_seconds": settings.analysis_timeout_seconds,
@@ -227,9 +227,9 @@ async def get_system_config(
             "cors_origins": settings.cors_origins,
             "environment": settings.app_env
         }
-        
+
         return public_config
-        
+
     except Exception as e:
         logger.error(f"Failed to get system config: {e}")
         raise HTTPException(status_code=500, detail="Failed to get system config")
@@ -243,11 +243,11 @@ async def update_system_config(
     session: Dict = Depends(get_current_session)
 ) -> Dict[str, Any]:
     """Update system configuration"""
-    
+
     try:
         # In a real system, you'd want admin authentication here
         success = await db_manager.set_system_config(key, value, description)
-        
+
         if success:
             return {
                 "success": True,
@@ -257,7 +257,7 @@ async def update_system_config(
             }
         else:
             raise HTTPException(status_code=500, detail="Failed to update configuration")
-            
+
     except Exception as e:
         logger.error(f"Failed to update system config: {e}")
         raise HTTPException(status_code=500, detail="Failed to update system config")
@@ -269,10 +269,10 @@ async def get_system_metrics(
     session: Dict = Depends(get_current_session)
 ) -> Dict[str, Any]:
     """Get detailed system metrics"""
-    
+
     try:
         metrics = {}
-        
+
         if metric_type in ["all", "performance"]:
             metrics["performance"] = {
                 "cpu_usage": psutil.cpu_percent(),
@@ -280,7 +280,7 @@ async def get_system_metrics(
                 "disk_usage": psutil.disk_usage('/').percent,
                 "load_average": psutil.getloadavg() if hasattr(psutil, 'getloadavg') else [0, 0, 0]
             }
-        
+
         if metric_type in ["all", "business"]:
             analytics = await db_manager.get_system_analytics()
             metrics["business"] = {
@@ -289,7 +289,7 @@ async def get_system_metrics(
                 "total_portfolio_value": analytics.get("portfolio_summary", {}).get("total_value", 0),
                 "session_count": analytics.get("active_sessions", 0)
             }
-        
+
         if metric_type in ["all", "errors"]:
             # Mock error metrics - in production would come from logging system
             metrics["errors"] = {
@@ -301,13 +301,13 @@ async def get_system_metrics(
                     {"error": "Invalid symbol", "count": 2}
                 ]
             }
-        
+
         return {
             "metrics": metrics,
             "metric_type": metric_type,
             "timestamp": time.time()
         }
-        
+
     except Exception as e:
         logger.error(f"Failed to get system metrics: {e}")
         raise HTTPException(status_code=500, detail="Failed to get system metrics")
@@ -321,7 +321,7 @@ async def get_system_logs(
     session: Dict = Depends(get_current_session)
 ) -> Dict[str, Any]:
     """Get system logs (mock implementation)"""
-    
+
     try:
         # Mock log entries - in production would read from log files
         mock_logs = [
@@ -334,7 +334,7 @@ async def get_system_logs(
             },
             {
                 "timestamp": time.time() - 600,
-                "level": "WARNING", 
+                "level": "WARNING",
                 "component": "database",
                 "message": "Slow query detected",
                 "context": {"query_time": "1.2s"}
@@ -347,18 +347,18 @@ async def get_system_logs(
                 "context": {"retry_after": "60s"}
             }
         ]
-        
+
         # Filter by level
         if level != "ALL":
             mock_logs = [log for log in mock_logs if log["level"] == level]
-        
+
         # Filter by component
         if component:
             mock_logs = [log for log in mock_logs if log["component"] == component]
-        
+
         # Apply limit
         mock_logs = mock_logs[:limit]
-        
+
         return {
             "logs": mock_logs,
             "total_count": len(mock_logs),
@@ -368,7 +368,7 @@ async def get_system_logs(
                 "limit": limit
             }
         }
-        
+
     except Exception as e:
         logger.error(f"Failed to get system logs: {e}")
         raise HTTPException(status_code=500, detail="Failed to get system logs")
@@ -380,7 +380,7 @@ async def trigger_maintenance_task(
     session: Dict = Depends(get_current_session)
 ) -> Dict[str, Any]:
     """Trigger system maintenance tasks"""
-    
+
     try:
         if task_type == "cleanup":
             # Mock cleanup task
@@ -391,7 +391,7 @@ async def trigger_maintenance_task(
                 "duration_seconds": 5.2
             }
         elif task_type == "backup":
-            # Mock backup task  
+            # Mock backup task
             result = {
                 "task": "backup",
                 "backup_size_mb": 125,
@@ -400,16 +400,16 @@ async def trigger_maintenance_task(
             }
         else:
             raise HTTPException(status_code=400, detail="Unknown maintenance task type")
-        
+
         logger.info(f"Maintenance task completed: {task_type}")
-        
+
         return {
             "success": True,
             "task_type": task_type,
             "result": result,
             "timestamp": time.time()
         }
-        
+
     except Exception as e:
         logger.error(f"Maintenance task failed: {e}")
         raise HTTPException(status_code=500, detail="Failed to execute maintenance task")
@@ -430,7 +430,7 @@ async def get_ingestion_status() -> Dict[str, Any]:
             "ingestion_layer": status,
             "timestamp": time.time()
         }
-    
+
     except Exception as e:
         logger.error(f"Failed to get ingestion status: {e}")
         raise HTTPException(status_code=500, detail="Failed to get ingestion status")
@@ -442,7 +442,7 @@ async def get_ingestion_health() -> Dict[str, Any]:
     try:
         health = ingestion_manager.get_health()
         return health
-    
+
     except Exception as e:
         logger.error(f"Failed to get ingestion health: {e}")
         raise HTTPException(status_code=500, detail="Failed to get ingestion health")
