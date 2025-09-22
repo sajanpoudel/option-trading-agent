@@ -15,10 +15,10 @@ logger = get_api_logger()
 
 class AIIntentRouter:
     """AI-powered router that uses OpenAI tool calling for intelligent request routing"""
-    
+
     def __init__(self):
         self.client = OpenAI(api_key=settings.openai_api_key)
-        
+
         # Define available tools/functions
         self.available_tools = [
             {
@@ -216,9 +216,9 @@ class AIIntentRouter:
                 }
             }
         ]
-        
+
         logger.info("AI Intent Router initialized with tool calling capabilities")
-    
+
     async def route_and_process(self, user_message: str, context: Dict[str, Any] = None) -> Dict[str, Any]:
         """
         Use OpenAI to determine intent and call appropriate tools
@@ -226,7 +226,7 @@ class AIIntentRouter:
         """
         try:
             logger.info(f"AI routing message: '{user_message[:50]}...'")
-            
+
             # Step 1: Let OpenAI decide what tools to call
             system_prompt = """
 You are an intelligent assistant for the Neural Options Oracle++ trading platform.
@@ -267,7 +267,7 @@ You can call multiple tools if needed.
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_message}
             ]
-            
+
             # Make OpenAI call with tool calling
             response = await asyncio.to_thread(
                 self.client.chat.completions.create,
@@ -277,10 +277,10 @@ You can call multiple tools if needed.
                 tool_choice="auto",
                 temperature=0.1
             )
-            
+
             # Process the response
             message = response.choices[0].message
-            
+
             # Check if OpenAI wants to call tools
             if message.tool_calls:
                 # Step 2: Execute the tool calls
@@ -288,19 +288,19 @@ You can call multiple tools if needed.
                 for tool_call in message.tool_calls:
                     result = await self._execute_tool_call(tool_call)
                     tool_results.append(result)
-                
+
                 # Step 3: Let OpenAI format the final response
                 final_response = await self._format_final_response(
                     user_message, message, tool_results
                 )
-                
+
                 # Extract symbol from tool results if available
                 symbol = None
                 for result in tool_results:
                     if result.get("symbol"):
                         symbol = result["symbol"]
                         break
-                
+
                 response_data = {
                     "response": final_response,
                     "intent": self._determine_intent_from_tools(message.tool_calls),
@@ -310,35 +310,35 @@ You can call multiple tools if needed.
                     "formatted": True,
                     "timestamp": datetime.now().isoformat()
                 }
-                
+
                 # Add symbol if found
                 if symbol:
                     response_data["symbol"] = symbol
-                    
+
                 return response_data
-            
+
             else:
                 # No tools needed - direct response
                 return {
                     "response": message.content,
-                    "intent": "GENERAL_CHAT", 
+                    "intent": "GENERAL_CHAT",
                     "tools_called": [],
                     "confidence": 0.7,
                     "formatted": True,
                     "timestamp": datetime.now().isoformat()
                 }
-                
+
         except Exception as e:
             logger.error(f"AI routing failed: {e}")
             return await self._fallback_response(user_message)
-    
+
     async def _execute_tool_call(self, tool_call) -> Dict[str, Any]:
         """Execute a single tool call and return results"""
         function_name = tool_call.function.name
         arguments = json.loads(tool_call.function.arguments)
-        
+
         logger.info(f"Executing tool: {function_name} with args: {arguments}")
-        
+
         try:
             if function_name == "analyze_stock":
                 return await self._analyze_stock(arguments)
@@ -358,120 +358,120 @@ You can call multiple tools if needed.
                 return await self._buy_multiple_options(arguments)
             else:
                 return {"error": f"Unknown tool: {function_name}"}
-                
+
         except Exception as e:
             logger.error(f"Tool execution failed for {function_name}: {e}")
             return {"error": str(e), "tool": function_name}
-    
+
     async def _analyze_stock(self, args: Dict) -> Dict[str, Any]:
         """Execute stock analysis"""
         try:
             from backend.app.agents.orchestrator import OptionsOracleOrchestrator
-            
+
             symbol = args["symbol"].upper()
             analysis_type = args.get("analysis_type", "full")
-            
+
             # Initialize orchestrator
             orchestrator = OptionsOracleOrchestrator()
             if not orchestrator.initialized:
                 await orchestrator.initialize()
-            
+
             # Run analysis
             user_risk_profile = {"risk_tolerance": "moderate", "experience": "beginner"}
             result = await orchestrator.analyze_stock(symbol, user_risk_profile, analysis_type)
-            
+
             return {
                 "tool": "analyze_stock",
                 "symbol": symbol,
                 "analysis_result": result,
                 "success": True
             }
-            
+
         except Exception as e:
             return {"tool": "analyze_stock", "error": str(e), "success": False}
-    
+
     async def _explain_concept(self, args: Dict) -> Dict[str, Any]:
         """Execute concept explanation"""
         try:
             from backend.app.api.routes.education import explain_concept as explain_api
-            
+
             concept = args["concept"]
             context = args.get("context", {})
-            
+
             # Call education API
             explanation = await explain_api(concept, context, session={})
-            
+
             return {
                 "tool": "explain_concept",
                 "concept": concept,
                 "explanation": explanation,
                 "success": True
             }
-            
+
         except Exception as e:
             return {"tool": "explain_concept", "error": str(e), "success": False}
-    
+
     async def _get_market_trends(self, args: Dict) -> Dict[str, Any]:
         """Get market trends"""
         try:
             # This would integrate with your hot stocks API
             from backend.app.api.main import app  # Get trending stocks
-            
+
             return {
-                "tool": "get_market_trends", 
+                "tool": "get_market_trends",
                 "trends": "Market trends data would be here",
                 "success": True
             }
-            
+
         except Exception as e:
             return {"tool": "get_market_trends", "error": str(e), "success": False}
-    
+
     async def _portfolio_analysis(self, args: Dict) -> Dict[str, Any]:
         """Analyze portfolio"""
         try:
             # This would integrate with portfolio API
             return {
                 "tool": "portfolio_analysis",
-                "analysis": "Portfolio analysis would be here", 
+                "analysis": "Portfolio analysis would be here",
                 "success": True
             }
-            
+
         except Exception as e:
             return {"tool": "portfolio_analysis", "error": str(e), "success": False}
-    
+
     async def _generate_quiz(self, args: Dict) -> Dict[str, Any]:
         """Generate educational quiz"""
         try:
             from backend.app.api.routes.education import generate_quiz as quiz_api
             from backend.app.api.routes.education import QuizRequest
-            
+
             topic = args["topic"]
             difficulty = args.get("difficulty", "beginner")
             count = args.get("question_count", 5)
-            
+
             request = QuizRequest(topic=topic, difficulty=difficulty, question_count=count)
             quiz = await quiz_api(request, session={})
-            
+
             return {
                 "tool": "generate_quiz",
                 "quiz": quiz,
                 "success": True
             }
-            
+
         except Exception as e:
             return {"tool": "generate_quiz", "error": str(e), "success": False}
-    
+
     async def _casual_response(self, args: Dict) -> Dict[str, Any]:
         """Generate casual response"""
         message = args["message"]
-        
+
         casual_responses = {
             "hello": "Hello! I'm here to help with your options trading and stock analysis. What would you like to explore today?",
             "how are you": "I'm doing great, thanks for asking! Ready to help you analyze stocks and learn about options trading.",
             "thanks": "You're very welcome! Feel free to ask about any stocks or trading concepts.",
             "bye": "Goodbye! Come back anytime you need help with trading analysis or have questions about options."
         }
-        
+
         # Simple matching for common phrases
         for key, response in casual_responses.items():
             if key in message.lower():
@@ -480,30 +480,30 @@ You can call multiple tools if needed.
                     "response": response,
                     "success": True
                 }
-        
+
         return {
-            "tool": "casual_response", 
+            "tool": "casual_response",
             "response": "I'm here to help with options trading and stock analysis. What can I assist you with?",
             "success": True
         }
-    
+
     async def _buy_option(self, args: Dict) -> Dict[str, Any]:
         """Execute single option purchase analysis"""
         try:
             from backend.app.agents.trading.buy import analyze_option_buy
-            
+
             symbol = args["symbol"].upper()
             budget = float(args.get("budget", 500))  # Default to $500 if not specified
             risk_tolerance = args.get("risk_tolerance", "moderate")
-            
+
             preferences = {
                 "risk_tolerance": risk_tolerance,
                 "strategy": "growth",
                 "time_horizon": "short"
             }
-            
+
             analysis = await analyze_option_buy(symbol, budget, preferences)
-            
+
             return {
                 "tool": "buy_option",
                 "symbol": symbol,
@@ -512,27 +512,27 @@ You can call multiple tools if needed.
                 "requires_confirmation": True,
                 "success": True
             }
-            
+
         except Exception as e:
             return {"tool": "buy_option", "error": str(e), "success": False}
-    
+
     async def _buy_multiple_options(self, args: Dict) -> Dict[str, Any]:
         """Execute multi-options portfolio analysis"""
         try:
             from backend.app.agents.trading.multi_options import analyze_multi_options_buy
-            
+
             budget = float(args["budget"])
             risk_tolerance = args.get("risk_tolerance", "moderate")
             diversification = args.get("diversification", "moderate")
-            
+
             preferences = {
                 "risk_tolerance": risk_tolerance,
                 "diversification": diversification,
                 "strategy": "growth"
             }
-            
+
             portfolio = await analyze_multi_options_buy(budget, preferences)
-            
+
             return {
                 "tool": "buy_multiple_options",
                 "budget": budget,
@@ -540,14 +540,14 @@ You can call multiple tools if needed.
                 "requires_confirmation": True,
                 "success": True
             }
-            
+
         except Exception as e:
             return {"tool": "buy_multiple_options", "error": str(e), "success": False}
-    
+
     async def _format_final_response(
-        self, 
-        user_message: str, 
-        ai_message, 
+        self,
+        user_message: str,
+        ai_message,
         tool_results: List[Dict]
     ) -> str:
         """Let OpenAI format the final human-readable response"""
@@ -558,7 +558,7 @@ You can call multiple tools if needed.
                 "tool_results": tool_results,
                 "tools_used": [result.get("tool", "unknown") for result in tool_results]
             }
-            
+
             format_prompt = f"""
 Based on the user's request and the tool results, provide a clear, helpful response in markdown format.
 
@@ -584,22 +584,22 @@ Make the response human-readable and engaging!
                 temperature=0.3,
                 max_tokens=1000
             )
-            
+
             return response.choices[0].message.content
-            
+
         except Exception as e:
             logger.error(f"Response formatting failed: {e}")
             return self._create_fallback_formatted_response(tool_results)
-    
+
     def _create_fallback_formatted_response(self, tool_results: List[Dict]) -> str:
         """Create a basic formatted response if AI formatting fails"""
         response = "## Analysis Complete\n\n"
-        
+
         for result in tool_results:
             if result.get("success"):
                 tool = result.get("tool", "analysis")
                 response += f"✅ **{tool.replace('_', ' ').title()}** completed successfully\n\n"
-                
+
                 if "analysis_result" in result:
                     analysis = result["analysis_result"]
                     signal = analysis.get("signal", {})
@@ -607,16 +607,16 @@ Make the response human-readable and engaging!
                     response += f"- **Confidence**: {analysis.get('confidence', 0):.1%}\n\n"
             else:
                 response += f"❌ **{result.get('tool', 'Tool')}** encountered an error\n\n"
-        
+
         return response
-    
+
     def _determine_intent_from_tools(self, tool_calls) -> str:
         """Determine intent based on tools called"""
         if not tool_calls:
             return "GENERAL_CHAT"
-        
+
         tool_names = [tc.function.name for tc in tool_calls]
-        
+
         if "analyze_stock" in tool_names:
             return "STOCK_ANALYSIS"
         elif "buy_option" in tool_names:
@@ -633,7 +633,7 @@ Make the response human-readable and engaging!
             return "QUIZ_LEARNING"
         else:
             return "GENERAL_CHAT"
-    
+
     async def _fallback_response(self, user_message: str) -> Dict[str, Any]:
         """Fallback response when AI routing fails"""
         return {
