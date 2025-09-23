@@ -101,3 +101,9 @@ def test_feature_engineering_defaults_without_volume(predictor):
     features = predictor._engineer_features({})
     assert features["call_volume_pct"] == features["put_volume_pct"] == 0.5
     assert features["volume_ratio"] == 1.0
+
+
+def test_feature_engineering_splits_open_interest(predictor):
+    features = predictor._engineer_features({"call_open_interest": 100, "put_open_interest": 300})
+    assert features["call_oi_pct"] == pytest.approx(0.25)
+    assert features["put_oi_pct"] == pytest.approx(0.75)
