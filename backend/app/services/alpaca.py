@@ -26,7 +26,7 @@ session = requests_cache.CachedSession('market_data_cache', expire_after=3600)
 
 class AlpacaMarketDataClient:
     """Real-time market data client using Alpaca API with yfinance fallback"""
-    
+
     def __init__(self):
         self.alpaca_data_client = StockHistoricalDataClient(
             api_key=settings.alpaca_api_key,
@@ -37,19 +37,19 @@ class AlpacaMarketDataClient:
             secret_key=settings.alpaca_secret_key,
             paper=True  # Using paper trading
         )
-        
+
         logger.info("Alpaca market data client initialized")
-    
+
     async def get_current_quote(self, symbol: str) -> Dict[str, Any]:
         """Get current quote for symbol"""
         try:
             # Try Alpaca first for price data
             request = StockLatestQuoteRequest(symbol_or_symbols=symbol)
             quotes = self.alpaca_data_client.get_stock_latest_quote(request)
-            
+
             if symbol in quotes:
                 quote = quotes[symbol]
-                
+
                 # Get all data from yfinance first, then supplement with Alpaca bid/ask if good
                 try:
                     ticker = yf.Ticker(symbol)
@@ -67,10 +67,10 @@ class AlpacaMarketDataClient:
                     yf_change = 0
                     yf_change_percent = 0
                     company_name = f"{symbol} Inc"
-                
+
                 # Calculate Alpaca mid-price from bid/ask
                 alpaca_price = float(quote.ask_price + quote.bid_price) / 2
-                
+
                 # Use yfinance price if it's reasonable, otherwise try Alpaca price
                 if yf_price > 0.01 and yf_price < 100000:
                     last_price = yf_price
@@ -79,7 +79,7 @@ class AlpacaMarketDataClient:
                 else:
                     logger.warning(f"No good price found for {symbol} - using yfinance fallback")
                     raise Exception("Price validation failed")
-                
+
                 return {
                     'symbol': symbol,
                     'price': last_price,
@@ -93,21 +93,21 @@ class AlpacaMarketDataClient:
                     'timestamp': quote.timestamp.isoformat(),
                     'source': 'alpaca_price_yfinance_volume'
                 }
-                
+
         except Exception as e:
             logger.warning(f"Alpaca quote failed for {symbol}: {e}")
-        
+
         # Fallback to yfinance for everything
         try:
             ticker = yf.Ticker(symbol)
             info = ticker.info
-            
+
             # Get change data from yfinance
             current_price = float(info.get('currentPrice', info.get('regularMarketPrice', 0)))
             previous_close = float(info.get('previousClose', info.get('regularMarketPreviousClose', current_price)))
             change = float(info.get('regularMarketChange', current_price - previous_close))
             change_percent = float(info.get('regularMarketChangePercent', 0))
-            
+
             return {
                 'symbol': symbol,
                 'price': current_price,
@@ -124,15 +124,15 @@ class AlpacaMarketDataClient:
         except Exception as e:
             logger.error(f"Failed to get quote for {symbol}: {e}")
             return self._get_fallback_quote(symbol)
-    
+
     async def get_historical_data(
-        self, 
-        symbol: str, 
+        self,
+        symbol: str,
         period: str = "1y",
         interval: str = "1d"
     ) -> pd.DataFrame:
         """Get historical price data"""
-        
+
         try:
             # Map periods to Alpaca timeframes
             timeframe_map = {
@@ -141,9 +141,9 @@ class AlpacaMarketDataClient:
                 "15m": TimeFrame.Minute,
                 "5m": TimeFrame.Minute
             }
-            
+
             timeframe = timeframe_map.get(interval, TimeFrame.Day)
-            
+
             # Calculate start/end dates
             if period == "1y":
                 start_date = datetime.now() - timedelta(days=365)
@@ -155,7 +155,7 @@ class AlpacaMarketDataClient:
                 start_date = datetime.now() - timedelta(days=30)
             else:
                 start_date = datetime.now() - timedelta(days=30)
-            
+
             # Try Alpaca first
             request = StockBarsRequest(
                 symbol_or_symbols=symbol,
@@ -163,45 +163,45 @@ class AlpacaMarketDataClient:
                 start=start_date,
                 end=datetime.now()
             )
-            
+
             bars = self.alpaca_data_client.get_stock_bars(request)
-            
+
             if symbol in bars.df.index.get_level_values('symbol'):
                 df = bars.df[bars.df.index.get_level_values('symbol') == symbol]
                 df.index = df.index.droplevel('symbol')
                 return df
-                
+
         except Exception as e:
             logger.warning(f"Alpaca historical data failed for {symbol}: {e}")
-        
+
         # Fallback to yfinance
         try:
             ticker = yf.Ticker(symbol)
             df = ticker.history(period=period, interval=interval)
             logger.info(f"Retrieved {len(df)} bars for {symbol} via yfinance")
             return df
-            
+
         except Exception as e:
             logger.error(f"Failed to get historical data for {symbol}: {e}")
             return pd.DataFrame()
-    
+
     async def get_technical_indicators(self, symbol: str) -> Dict[str, Any]:
         """Calculate technical indicators using professional stock-indicators library"""
-        
+
         try:
             # Get historical data
             df = await self.get_historical_data(symbol, period="1y", interval="1d")  # More data for better indicators
-            
+
             if df.empty:
                 return self._get_fallback_indicators(symbol)
-            
+
             # Use professional indicators calculator
             from backend.app.indicators.calculator import technical_calculator
             indicators = technical_calculator.calculate_comprehensive_indicators(df, symbol)
-            
+
             logger.info(f"Professional technical indicators calculated for {symbol}: {indicators.get('data_points', 0)} bars")
             return indicators
-            
+
         except Exception as e:
             logger.error(f"Professional technical indicators calculation failed for {symbol}: {e}")
             # Try basic calculation as fallback
@@ -209,15 +209,15 @@ class AlpacaMarketDataClient:
                 return await self._get_basic_indicators(symbol)
             except Exception:
                 return self._get_fallback_indicators(symbol)
-    
+
     async def _get_basic_indicators(self, symbol: str) -> Dict[str, Any]:
         """Fallback to basic indicator calculation"""
-        
+
         try:
             df = await self.get_historical_data(symbol, period="3mo", interval="1d")
             if df.empty:
                 return self._get_fallback_indicators(symbol)
-            
+
             # Basic calculations only
             indicators = {
                 'current_price': float(df['Close'].iloc[-1]),
@@ -233,28 +233,28 @@ class AlpacaMarketDataClient:
                 'macd': 0.0,
                 'vwap': float(df['Close'].iloc[-1])
             }
-            
+
             return indicators
-            
+
         except Exception as e:
             logger.error(f"Basic indicators calculation failed: {e}")
             return self._get_fallback_indicators(symbol)
-    
+
     async def get_options_data(self, symbol: str) -> Dict[str, Any]:
         """Get options chain data (using yfinance)"""
-        
+
         try:
             ticker = yf.Ticker(symbol)
-            
+
             # Get options expiration dates
             expiration_dates = ticker.options
-            
+
             if not expiration_dates:
                 return {'error': 'No options data available'}
-            
+
             # Get current stock price
             current_price = float(ticker.info.get('currentPrice', 100))
-            
+
             # Process multiple expirations (up to 3)
             all_options = []
             summary_data = {
@@ -262,13 +262,13 @@ class AlpacaMarketDataClient:
                 'total_put_volume': 0,
                 'expirations_processed': []
             }
-            
+
             for exp_date in expiration_dates[:3]:  # Process first 3 expirations
                 try:
                     options_chain = ticker.option_chain(exp_date)
                     calls_df = options_chain.calls
                     puts_df = options_chain.puts
-                    
+
                     # Process call options
                     for _, call in calls_df.iterrows():
                         all_options.append({
@@ -285,7 +285,7 @@ class AlpacaMarketDataClient:
                             'implied_volatility': float(call.get('impliedVolatility', 0.25)),
                             'in_the_money': call.get('inTheMoney', False)
                         })
-                    
+
                     # Process put options
                     for _, put in puts_df.iterrows():
                         all_options.append({
@@ -302,22 +302,22 @@ class AlpacaMarketDataClient:
                             'implied_volatility': float(put.get('impliedVolatility', 0.25)),
                             'in_the_money': put.get('inTheMoney', False)
                         })
-                    
+
                     # Update summary
                     call_volume = calls_df['volume'].fillna(0).sum()
                     put_volume = puts_df['volume'].fillna(0).sum()
                     summary_data['total_call_volume'] += int(call_volume)
                     summary_data['total_put_volume'] += int(put_volume)
                     summary_data['expirations_processed'].append(exp_date)
-                    
+
                 except Exception as e:
                     logger.warning(f"Failed to process expiration {exp_date} for {symbol}: {e}")
                     continue
-            
+
             # Calculate put/call ratio
-            put_call_ratio = (summary_data['total_put_volume'] / 
+            put_call_ratio = (summary_data['total_put_volume'] /
                             max(summary_data['total_call_volume'], 1))
-            
+
             return {
                 'symbol': symbol,
                 'current_price': current_price,
@@ -330,11 +330,11 @@ class AlpacaMarketDataClient:
                 'source': 'yfinance_real_options',
                 'last_updated': datetime.now().isoformat()
             }
-            
+
         except Exception as e:
             logger.error(f"Options data retrieval failed for {symbol}: {e}")
             return self._get_fallback_options_data(symbol)
-    
+
     def _get_fallback_quote(self, symbol: str) -> Dict[str, Any]:
         """Fallback quote when all APIs fail"""
         return {
@@ -346,11 +346,11 @@ class AlpacaMarketDataClient:
             'timestamp': datetime.now().isoformat(),
             'source': 'fallback'
         }
-    
+
     def _get_fallback_indicators(self, symbol: str) -> Dict[str, Any]:
         """Fallback indicators when calculation fails"""
         base_price = 100.0
-        
+
         return {
             'current_price': base_price,
             'change_percent': 0.0,
@@ -375,7 +375,7 @@ class AlpacaMarketDataClient:
             'support': base_price - 10,
             'source': 'fallback'
         }
-    
+
     def _get_fallback_options_data(self, symbol: str) -> Dict[str, Any]:
         """Fallback options data when APIs fail"""
         return {
