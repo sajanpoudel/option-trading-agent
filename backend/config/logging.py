@@ -9,10 +9,10 @@ from backend.config.settings import settings
 
 def setup_logging() -> None:
     """Setup application logging"""
-    
+
     # Remove default logger
     logger.remove()
-    
+
     # Console logging format
     console_format = (
         "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | "
@@ -20,7 +20,7 @@ def setup_logging() -> None:
         "<cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> | "
         "<level>{message}</level>"
     )
-    
+
     # File logging format
     file_format = (
         "{time:YYYY-MM-DD HH:mm:ss.SSS} | "
@@ -28,7 +28,7 @@ def setup_logging() -> None:
         "{name}:{function}:{line} | "
         "{message}"
     )
-    
+
     # Add console handler
     logger.add(
         sys.stderr,
@@ -38,7 +38,7 @@ def setup_logging() -> None:
         backtrace=True,
         diagnose=True
     )
-    
+
     # Add file handler for all logs
     logger.add(
         "logs/neural_oracle.log",
@@ -49,7 +49,7 @@ def setup_logging() -> None:
         backtrace=True,
         diagnose=True
     )
-    
+
     # Add separate file handler for errors
     logger.add(
         "logs/neural_oracle_errors.log",
@@ -60,7 +60,7 @@ def setup_logging() -> None:
         backtrace=True,
         diagnose=True
     )
-    
+
     # Add API access log handler
     logger.add(
         "logs/api_access.log",
@@ -70,7 +70,7 @@ def setup_logging() -> None:
         retention="14 days",
         filter=lambda record: "API_ACCESS" in record["extra"]
     )
-    
+
     logger.info("Logging configuration initialized")
 
 
@@ -81,9 +81,9 @@ def get_logger(name: str):
 
 class LoggingContexts:
     """Predefined logging contexts"""
-    
+
     API = "neural_oracle.api"
-    AGENTS = "neural_oracle.agents" 
+    AGENTS = "neural_oracle.agents"
     DATABASE = "neural_oracle.database"
     TRADING = "neural_oracle.trading"
     ML_MODELS = "neural_oracle.ml"
@@ -119,9 +119,9 @@ def get_core_logger():
 
 
 def log_api_access(
-    method: str, 
-    path: str, 
-    status_code: int, 
+    method: str,
+    path: str,
+    status_code: int,
     response_time: float,
     user_agent: str = None,
     ip_address: str = None
