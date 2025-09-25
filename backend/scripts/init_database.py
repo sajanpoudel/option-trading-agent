@@ -25,7 +25,7 @@ INIT_SQL_SCRIPTS = [
     CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
     CREATE EXTENSION IF NOT EXISTS "pgcrypto";
     """,
-    
+
     # 2. Create Enums
     """
     -- Create enums for trading signals
@@ -51,7 +51,7 @@ INIT_SQL_SCRIPTS = [
     CREATE TYPE content_type_enum AS ENUM ('lesson', 'quiz', 'interactive', 'video', 'simulation');
     CREATE TYPE learning_style_enum AS ENUM ('visual', 'auditory', 'kinesthetic', 'mixed');
     """,
-    
+
     # 3. Create Core Tables
     """
     -- System Configuration Table
@@ -72,7 +72,7 @@ INIT_SQL_SCRIPTS = [
     ('analysis_timeout', '30', 'Analysis timeout in seconds')
     ON CONFLICT (config_key) DO NOTHING;
     """,
-    
+
     """
     -- Browser Sessions Table (no user authentication)
     CREATE TABLE IF NOT EXISTS browser_sessions (
@@ -101,7 +101,7 @@ INIT_SQL_SCRIPTS = [
     CREATE INDEX IF NOT EXISTS idx_browser_sessions_expires ON browser_sessions(expires_at);
     CREATE INDEX IF NOT EXISTS idx_browser_sessions_active ON browser_sessions(is_active) WHERE is_active = TRUE;
     """,
-    
+
     """
     -- Stocks Table
     CREATE TABLE IF NOT EXISTS stocks (
@@ -126,7 +126,7 @@ INIT_SQL_SCRIPTS = [
     CREATE INDEX IF NOT EXISTS idx_stocks_market_cap ON stocks(market_cap);
     CREATE INDEX IF NOT EXISTS idx_stocks_options_available ON stocks(options_available) WHERE options_available = TRUE;
     """,
-    
+
     """
     -- Trading Signals Table
     CREATE TABLE IF NOT EXISTS trading_signals (
@@ -168,7 +168,7 @@ INIT_SQL_SCRIPTS = [
     CREATE INDEX IF NOT EXISTS idx_signals_direction ON trading_signals(direction);
     CREATE INDEX IF NOT EXISTS idx_signals_market_scenario ON trading_signals(market_scenario);
     """,
-    
+
     """
     -- Positions Table
     CREATE TABLE IF NOT EXISTS positions (
@@ -226,7 +226,7 @@ INIT_SQL_SCRIPTS = [
     CREATE INDEX IF NOT EXISTS idx_positions_expiration ON positions(expiration_date) WHERE option_type IS NOT NULL;
     CREATE INDEX IF NOT EXISTS idx_positions_entry_date ON positions(entry_date);
     """,
-    
+
     """
     -- Orders Table
     CREATE TABLE IF NOT EXISTS orders (
@@ -272,7 +272,7 @@ INIT_SQL_SCRIPTS = [
     CREATE INDEX IF NOT EXISTS idx_orders_submitted_at ON orders(submitted_at);
     CREATE INDEX IF NOT EXISTS idx_orders_broker_order_id ON orders(broker_order_id);
     """,
-    
+
     """
     -- Educational Content Table
     CREATE TABLE IF NOT EXISTS educational_content (
@@ -308,7 +308,7 @@ INIT_SQL_SCRIPTS = [
     CREATE INDEX IF NOT EXISTS idx_edu_content_type ON educational_content(content_type);
     CREATE INDEX IF NOT EXISTS idx_edu_content_active ON educational_content(is_active) WHERE is_active = TRUE;
     """,
-    
+
     """
     -- Trading Analytics Table (session-based, no user auth)
     CREATE TABLE IF NOT EXISTS trading_analytics (
@@ -344,7 +344,7 @@ INIT_SQL_SCRIPTS = [
     CREATE INDEX IF NOT EXISTS idx_trading_analytics_session ON trading_analytics(session_id);
     CREATE INDEX IF NOT EXISTS idx_trading_analytics_created ON trading_analytics(created_at);
     """,
-    
+
     # 4. Create Functions
     """
     -- Create updated_at trigger function
@@ -388,7 +388,7 @@ INIT_SQL_SCRIPTS = [
             FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
     END $$;
     """,
-    
+
     # 5. Create Views
     """
     -- System Portfolio Summary View
@@ -426,7 +426,7 @@ INIT_SQL_SCRIPTS = [
     FROM positions
     WHERE status = 'closed';
     """,
-    
+
     # 6. Insert Sample Data
     """
     -- Insert sample stocks
@@ -446,7 +446,7 @@ INIT_SQL_SCRIPTS = [
         market_cap = EXCLUDED.market_cap,
         updated_at = NOW();
     """,
-    
+
     """
     -- Insert sample educational content
     INSERT INTO educational_content (content_id, title, topic, difficulty, content_type, content, learning_objectives, tags) VALUES
@@ -473,29 +473,29 @@ async def execute_sql_script(script: str, description: str) -> bool:
     """Execute a SQL script"""
     try:
         logger.info(f"Executing: {description}")
-        
+
         # Split script into individual statements
         statements = [stmt.strip() for stmt in script.split(';') if stmt.strip()]
-        
+
         for statement in statements:
             if statement:
                 result = db_manager.client.rpc('exec_sql', {'query': statement}).execute()
-                
+
         logger.info(f"✅ {description} completed")
         return True
-        
+
     except Exception as e:
         logger.error(f"❌ {description} failed: {e}")
         # Try alternative approach using supabase client directly
         try:
             # For tables/views creation, we can use the REST API
             logger.info(f"Attempting alternative execution for: {description}")
-            
+
             # Execute via raw SQL using supabase client
             # This is a simplified approach - in production you'd use proper migrations
             logger.warning(f"⚠️ Could not execute via RPC, manual execution required: {description}")
             return True
-            
+
         except Exception as e2:
             logger.error(f"❌ Alternative execution also failed: {e2}")
             return False
@@ -503,22 +503,22 @@ async def execute_sql_script(script: str, description: str) -> bool:
 
 async def init_database():
     """Initialize the complete database schema"""
-    
+
     logger.info("🗄️ Starting Database Initialization")
     logger.info("=" * 60)
-    
+
     # Test database connection
     health = await db_manager.health_check()
     if health["status"] != "healthy":
         logger.error(f"Database connection failed: {health}")
         return False
-    
+
     logger.info("✅ Database connection verified")
-    
+
     # Execute all initialization scripts
     script_descriptions = [
         "Create Extensions",
-        "Create Enums", 
+        "Create Enums",
         "Create System Config Table",
         "Create Browser Sessions Table",
         "Create Stocks Table",
@@ -532,19 +532,19 @@ async def init_database():
         "Insert Sample Stocks",
         "Insert Sample Educational Content"
     ]
-    
+
     success_count = 0
     for i, (script, description) in enumerate(zip(INIT_SQL_SCRIPTS, script_descriptions)):
         logger.info(f"[{i+1}/{len(INIT_SQL_SCRIPTS)}] {description}")
-        
+
         if await execute_sql_script(script, description):
             success_count += 1
         else:
             logger.warning(f"⚠️ Skipping failed script: {description}")
-    
+
     logger.info("=" * 60)
     logger.info(f"🎉 Database initialization completed: {success_count}/{len(INIT_SQL_SCRIPTS)} scripts successful")
-    
+
     if success_count == len(INIT_SQL_SCRIPTS):
         logger.info("✅ All database components initialized successfully")
         return True
@@ -556,21 +556,21 @@ async def init_database():
 
 async def verify_database():
     """Verify database setup by testing core operations"""
-    
+
     logger.info("🔍 Verifying Database Setup")
-    
+
     try:
         # Test basic operations
-        
+
         # 1. Test session creation
         session_token = await db_manager.create_browser_session(
             ip_address="127.0.0.1",
             user_agent="test-setup"
         )
-        
+
         if session_token:
             logger.info("✅ Browser session creation works")
-            
+
             # Test session retrieval
             session = await db_manager.get_session(session_token)
             if session:
@@ -579,34 +579,34 @@ async def verify_database():
                 logger.warning("⚠️ Browser session retrieval failed")
         else:
             logger.warning("⚠️ Browser session creation failed")
-        
+
         # 2. Test trading signal creation
         test_signal = {
             "symbol": "AAPL",
-            "signal_type": "hybrid", 
+            "signal_type": "hybrid",
             "direction": "BUY",
             "strength": "moderate",
             "confidence_score": 0.75,
             "market_scenario": "strong_uptrend",
             "technical_analysis": {"test": True}
         }
-        
+
         signal_id = await db_manager.save_trading_signal(test_signal)
         if signal_id:
             logger.info("✅ Trading signal creation works")
         else:
             logger.warning("⚠️ Trading signal creation failed")
-        
+
         # 3. Test analytics
         analytics = await db_manager.get_system_analytics()
         if analytics:
             logger.info("✅ System analytics work")
         else:
             logger.warning("⚠️ System analytics failed")
-        
+
         logger.info("✅ Database verification completed")
         return True
-        
+
     except Exception as e:
         logger.error(f"❌ Database verification failed: {e}")
         return False
@@ -614,17 +614,17 @@ async def verify_database():
 
 async def main():
     """Main database initialization function"""
-    
+
     print("🧠 Neural Options Oracle++ Database Setup")
     print("=" * 60)
-    
+
     # Initialize database
     init_success = await init_database()
-    
+
     if init_success:
         # Verify setup
         verify_success = await verify_database()
-        
+
         if verify_success:
             print("\n🎉 Database setup completed successfully!")
             print("\n📊 Database is ready for the Neural Options Oracle++")
@@ -634,7 +634,7 @@ async def main():
     else:
         print("\n❌ Database setup failed")
         print("💡 Check Supabase connection and permissions")
-    
+
     print("\n📋 Next steps:")
     print("1. Verify tables in Supabase dashboard")
     print("2. Test the backend: python main.py")
