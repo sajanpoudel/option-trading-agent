@@ -7,7 +7,7 @@ from loguru import logger
 
 if __name__ == "__main__":
     logger.info("Starting Neural Options Oracle++ Backend Server")
-    
+
     uvicorn.run(
         "app.api.main:app",
         host="0.0.0.0",
