@@ -15,22 +15,22 @@ logger = get_database_logger()
 
 class SupabaseManager:
     """Supabase database manager for Neural Options Oracle++"""
-    
+
     def __init__(self):
         self.url = settings.supabase_url
         self.anon_key = settings.supabase_anon_key
         self.service_key = settings.supabase_service_key
-        
+
         # Use service key for backend operations (bypasses RLS)
         self.client: Client = create_client(self.url, self.service_key)
         logger.info("Supabase client initialized")
-        
+
     async def health_check(self) -> Dict[str, Any]:
         """Check database connectivity"""
         try:
             # Simple query to test connection
             result = self.client.table("system_config").select("count", count="exact").execute()
-            
+
             return {
                 "status": "healthy",
                 "connection": "active",
@@ -45,22 +45,22 @@ class SupabaseManager:
                 "error": str(e),
                 "timestamp": datetime.now().isoformat()
             }
-    
+
     # ========================
     # BROWSER SESSION MANAGEMENT
     # ========================
-    
+
     async def create_browser_session(
-        self, 
+        self,
         ip_address: str = None,
         user_agent: str = None,
         device_info: Dict = None,
         risk_profile: str = "moderate"
     ) -> str:
         """Create a new browser session (no authentication)"""
-        
+
         session_token = str(uuid.uuid4())
-        
+
         session_data = {
             "session_token": session_token,
             "ip_address": ip_address,
@@ -71,7 +71,7 @@ class SupabaseManager:
             "expires_at": (datetime.now() + timedelta(hours=24)).isoformat(),
             "is_active": True
         }
-        
+
         try:
             result = self.client.table("browser_sessions").insert(session_data).execute()
             logger.info(f"Browser session created: {session_token}")
@@ -79,10 +79,10 @@ class SupabaseManager:
         except Exception as e:
             logger.error(f"Failed to create browser session: {e}")
             raise
-    
+
     async def get_session(self, session_token: str) -> Optional[Dict]:
         """Get browser session data"""
-        
+
         try:
             result = self.client.table("browser_sessions")\
                 .select("*")\
@@ -91,44 +91,44 @@ class SupabaseManager:
                 .gt("expires_at", datetime.now().isoformat())\
                 .single()\
                 .execute()
-                
+
             if result.data:
                 logger.debug(f"Session retrieved: {session_token}")
                 return result.data
             else:
                 logger.warning(f"Session not found or expired: {session_token}")
                 return None
-                
+
         except Exception as e:
             logger.error(f"Failed to get session {session_token}: {e}")
             return None
-    
+
     async def update_session_activity(self, session_token: str) -> bool:
         """Update session last accessed time"""
-        
+
         try:
             result = self.client.table("browser_sessions")\
                 .update({"last_accessed_at": datetime.now().isoformat()})\
                 .eq("session_token", session_token)\
                 .execute()
-                
+
             return len(result.data) > 0
         except Exception as e:
             logger.error(f"Failed to update session activity {session_token}: {e}")
             return False
-    
+
     # ========================
     # TRADING SIGNALS
     # ========================
-    
+
     def _normalize_scenario_for_db(self, scenario: str) -> str:
         """Convert scenario format to match database enum"""
         if not scenario:
             return 'range_bound'
-        
+
         scenario_mapping = {
             'RANGE_BOUND': 'range_bound',
-            'STRONG_UPTREND': 'strong_uptrend', 
+            'STRONG_UPTREND': 'strong_uptrend',
             'STRONG_DOWNTREND': 'strong_downtrend',
             'BREAKOUT': 'breakout',
             'POTENTIAL_REVERSAL': 'potential_reversal',
@@ -142,12 +142,12 @@ class SupabaseManager:
             'high_volatility': 'high_volatility',
             'low_volatility': 'low_volatility'
         }
-        
+
         return scenario_mapping.get(scenario, 'range_bound')
 
     async def save_trading_signal(self, signal_data: Dict) -> Optional[str]:
         """Save trading signal to database"""
-        
+
         signal_record = {
             "symbol": signal_data["symbol"],
             "signal_type": signal_data.get("signal_type", "hybrid"),
@@ -165,7 +165,7 @@ class SupabaseManager:
             "expires_at": (datetime.now() + timedelta(hours=24)).isoformat(),
             "created_at": datetime.now().isoformat()
         }
-        
+
         try:
             result = self.client.table("trading_signals").insert(signal_record).execute()
             signal_id = result.data[0]["id"] if result.data else None
@@ -174,40 +174,40 @@ class SupabaseManager:
         except Exception as e:
             logger.error(f"Failed to save trading signal: {e}")
             return None
-    
+
     async def get_trading_signals(
-        self, 
-        symbol: str = None, 
+        self,
+        symbol: str = None,
         limit: int = 10,
         include_expired: bool = False
     ) -> List[Dict]:
         """Get trading signals with optional filtering"""
-        
+
         try:
             query = self.client.table("trading_signals").select("*")
-            
+
             if symbol:
                 query = query.eq("symbol", symbol)
-            
+
             if not include_expired:
                 query = query.gt("expires_at", datetime.now().isoformat())
-            
+
             query = query.order("created_at", desc=True).limit(limit)
-            
+
             result = query.execute()
             logger.debug(f"Retrieved {len(result.data) if result.data else 0} trading signals")
             return result.data or []
         except Exception as e:
             logger.error(f"Failed to get trading signals: {e}")
             return []
-    
+
     # ========================
     # POSITIONS MANAGEMENT
     # ========================
-    
+
     async def create_position(self, position_data: Dict) -> Optional[str]:
         """Create new trading position"""
-        
+
         position_record = {
             "signal_id": position_data.get("signal_id"),
             "symbol": position_data["symbol"],
@@ -228,7 +228,7 @@ class SupabaseManager:
             "entry_order_id": position_data.get("entry_order_id"),
             "entry_date": datetime.now().isoformat()
         }
-        
+
         try:
             result = self.client.table("positions").insert(position_record).execute()
             position_id = result.data[0]["id"] if result.data else None
@@ -237,14 +237,14 @@ class SupabaseManager:
         except Exception as e:
             logger.error(f"Failed to create position: {e}")
             return None
-    
+
     async def update_position_pnl(
-        self, 
-        position_id: str, 
+        self,
+        position_id: str,
         current_price: float
     ) -> Optional[Dict]:
         """Update position P&L in real-time"""
-        
+
         try:
             # Get current position
             position_result = self.client.table("positions")\
@@ -252,15 +252,15 @@ class SupabaseManager:
                 .eq("id", position_id)\
                 .single()\
                 .execute()
-                
+
             if not position_result.data:
                 logger.warning(f"Position not found: {position_id}")
                 return None
-                
+
             position = position_result.data
             entry_price = float(position["entry_price"])
             quantity = int(position["quantity"])
-            
+
             # Calculate P&L
             if position["position_type"] == "option":
                 # Options P&L (per contract = 100 shares)
@@ -268,9 +268,9 @@ class SupabaseManager:
             else:
                 # Stock P&L
                 unrealized_pnl = (current_price - entry_price) * quantity
-                
+
             unrealized_pnl_percent = ((current_price - entry_price) / entry_price) * 100 if entry_price > 0 else 0
-            
+
             # Update position
             update_data = {
                 "current_price": current_price,
@@ -278,42 +278,42 @@ class SupabaseManager:
                 "unrealized_pnl_percent": unrealized_pnl_percent,
                 "updated_at": datetime.now().isoformat()
             }
-            
+
             result = self.client.table("positions")\
                 .update(update_data)\
                 .eq("id", position_id)\
                 .execute()
-                
+
             updated_position = result.data[0] if result.data else None
             logger.debug(f"Position P&L updated: {position_id}, P&L: ${unrealized_pnl:.2f}")
             return updated_position
         except Exception as e:
             logger.error(f"Failed to update position P&L: {e}")
             return None
-    
+
     async def get_open_positions(self) -> List[Dict]:
         """Get all open positions"""
-        
+
         try:
             result = self.client.table("positions")\
                 .select("*")\
                 .eq("status", "open")\
                 .order("entry_date", desc=True)\
                 .execute()
-                
+
             logger.debug(f"Retrieved {len(result.data) if result.data else 0} open positions")
             return result.data or []
         except Exception as e:
             logger.error(f"Failed to get open positions: {e}")
             return []
-    
+
     # ========================
     # EDUCATIONAL CONTENT
     # ========================
-    
+
     async def save_educational_content(self, content_data: Dict) -> Optional[str]:
         """Save educational content"""
-        
+
         content_record = {
             "content_id": content_data["content_id"],
             "title": content_data["title"],
@@ -327,7 +327,7 @@ class SupabaseManager:
             "tags": content_data.get("tags", []),
             "is_active": True
         }
-        
+
         try:
             result = self.client.table("educational_content").insert(content_record).execute()
             content_id = result.data[0]["id"] if result.data else None
@@ -336,64 +336,64 @@ class SupabaseManager:
         except Exception as e:
             logger.error(f"Failed to save educational content: {e}")
             return None
-    
+
     async def get_educational_content(
-        self, 
-        topic: str = None, 
+        self,
+        topic: str = None,
         difficulty: str = None,
         content_type: str = None,
         limit: int = 20
     ) -> List[Dict]:
         """Get educational content with filtering"""
-        
+
         try:
             query = self.client.table("educational_content")\
                 .select("*")\
                 .eq("is_active", True)
-            
+
             if topic:
                 query = query.eq("topic", topic)
             if difficulty:
-                query = query.eq("difficulty", difficulty)  
+                query = query.eq("difficulty", difficulty)
             if content_type:
                 query = query.eq("content_type", content_type)
-            
+
             query = query.order("created_at", desc=True).limit(limit)
-            
+
             result = query.execute()
             logger.debug(f"Retrieved {len(result.data) if result.data else 0} educational content items")
             return result.data or []
         except Exception as e:
             logger.error(f"Failed to get educational content: {e}")
             return []
-    
+
     # ========================
     # SYSTEM ANALYTICS
     # ========================
-    
+
     async def get_system_analytics(self) -> Dict[str, Any]:
         """Get system-wide analytics"""
-        
+
         try:
             # Get portfolio summary using the view
             portfolio_result = self.client.table("system_portfolio_summary").select("*").execute()
-            
+
             # Get trading performance using the view
             performance_result = self.client.table("system_trading_performance").select("*").execute()
-            
+
             # Get active sessions count
             sessions_result = self.client.table("browser_sessions")\
                 .select("count", count="exact")\
                 .eq("is_active", True)\
                 .gt("expires_at", datetime.now().isoformat())\
                 .execute()
-            
+
             # Get recent signals count
             signals_result = self.client.table("trading_signals")\
                 .select("count", count="exact")\
                 .gt("created_at", (datetime.now() - timedelta(hours=24)).isoformat())\
                 .execute()
-            
+
             analytics = {
                 "portfolio_summary": portfolio_result.data if portfolio_result.data else {},
                 "trading_performance": performance_result.data if performance_result.data else {},
@@ -401,7 +401,7 @@ class SupabaseManager:
                 "signals_last_24h": signals_result.count or 0,
                 "timestamp": datetime.now().isoformat()
             }
-            
+
             logger.debug("System analytics retrieved successfully")
             return analytics
         except Exception as e:
@@ -410,11 +410,11 @@ class SupabaseManager:
                 "error": str(e),
                 "timestamp": datetime.now().isoformat()
             }
-    
+
     # ========================
     # SCHEMA INITIALIZATION
     # ========================
-    
+
     async def execute_sql(self, sql: str) -> bool:
         """Execute raw SQL command"""
         try:
@@ -438,12 +438,12 @@ class SupabaseManager:
             except Exception as e2:
                 logger.error(f"Alternative SQL execution failed: {e2}")
                 return False
-    
+
     async def initialize_schema(self) -> bool:
         """Initialize database schema - create essential tables programmatically"""
         try:
             logger.info("Creating essential database tables programmatically...")
-            
+
             # Create system_config table first
             try:
                 system_config_data = {
@@ -456,7 +456,7 @@ class SupabaseManager:
                 logger.info("✅ system_config table verified/created")
             except Exception as e:
                 logger.warning(f"system_config table creation failed: {e}")
-            
+
             # Create browser_sessions table
             try:
                 session_data = {
@@ -477,7 +477,7 @@ class SupabaseManager:
                 logger.info("✅ browser_sessions table verified/created")
             except Exception as e:
                 logger.warning(f"browser_sessions table creation failed: {e}")
-                
+
             # Create stocks table
             try:
                 stock_data = {
@@ -494,7 +494,7 @@ class SupabaseManager:
                 logger.info("✅ stocks table verified/created")
             except Exception as e:
                 logger.warning(f"stocks table creation failed: {e}")
-                
+
             # Create trading_signals table
             try:
                 signal_data = {
@@ -521,7 +521,7 @@ class SupabaseManager:
                 logger.info("✅ trading_signals table verified/created")
             except Exception as e:
                 logger.warning(f"trading_signals table creation failed: {e}")
-                
+
             # Create positions table
             try:
                 position_data = {
@@ -538,19 +538,19 @@ class SupabaseManager:
                 }
                 result = self.client.table("positions").insert(position_data).execute()
                 position_id = result.data[0]["id"]
-                # Delete the test record  
+                # Delete the test record
                 self.client.table("positions").delete().eq("id", position_id).execute()
                 logger.info("✅ positions table verified/created")
             except Exception as e:
                 logger.warning(f"positions table creation failed: {e}")
-                
+
             logger.info("✅ Essential database tables initialized successfully")
             return True
-            
+
         except Exception as e:
             logger.error(f"Schema initialization failed: {e}")
             return False
-    
+
     # Alias for backward compatibility
     async def create_session(self, session_data: Dict) -> str:
         """Create session - alias for create_browser_session"""
@@ -561,27 +561,27 @@ class SupabaseManager:
     # ========================
     # SYSTEM CONFIGURATION
     # ========================
-    
+
     async def get_system_config(self, key: str) -> Optional[Any]:
         """Get system configuration value"""
-        
+
         try:
             result = self.client.table("system_config")\
                 .select("config_value")\
                 .eq("config_key", key)\
                 .single()\
                 .execute()
-            
+
             if result.data:
                 return result.data["config_value"]
             return None
         except Exception as e:
             logger.error(f"Failed to get system config {key}: {e}")
             return None
-    
+
     async def set_system_config(self, key: str, value: Any, description: str = None) -> bool:
         """Set system configuration value"""
-        
+
         try:
             config_data = {
                 "config_key": key,
@@ -589,12 +589,12 @@ class SupabaseManager:
                 "description": description,
                 "updated_at": datetime.now().isoformat()
             }
-            
+
             # Try to update first, then insert if not exists
             result = self.client.table("system_config")\
                 .upsert(config_data)\
                 .execute()
-            
+
             logger.info(f"System config updated: {key}")
             return True
         except Exception as e:
