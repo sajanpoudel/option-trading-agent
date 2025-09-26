@@ -4,13 +4,15 @@ OpenAI Agents SDK v0.3.0 Implementation
 """
 import asyncio
 import json
-from typing import Dict, Any, List, Optional
 from datetime import datetime
+from typing import Any, Dict, List, Optional
+
 import openai
 from openai import OpenAI
-from backend.config.settings import settings
-from backend.config.logging import get_agents_logger
+
 from backend.config.database import db_manager
+from backend.config.logging import get_agents_logger
+from backend.config.settings import settings
 
 logger = get_agents_logger()
 
@@ -39,12 +41,12 @@ class OptionsOracleOrchestrator:
             logger.info("🧠 Initializing AI Agent System...")
 
             # Import agents (lazy loading to avoid circular imports)
-            from backend.app.agents.analysis.technical import TechnicalAnalysisAgent
-            from backend.app.agents.analysis.sentiment import SentimentAnalysisAgent
+            from backend.app.agents.analysis.education import EducationAgent
             from backend.app.agents.analysis.flow import OptionsFlowAgent
             from backend.app.agents.analysis.historical import HistoricalPatternAgent
             from backend.app.agents.analysis.risk import RiskManagementAgent
-            from backend.app.agents.analysis.education import EducationAgent
+            from backend.app.agents.analysis.sentiment import SentimentAnalysisAgent
+            from backend.app.agents.analysis.technical import TechnicalAnalysisAgent
             from backend.app.agents.trading.buy import BuyAgent
 
             # Initialize agents
