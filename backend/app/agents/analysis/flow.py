@@ -2,8 +2,9 @@
 Options Flow Analysis Agent
 OpenAI Agents SDK v0.3.0 Implementation
 """
-from typing import Dict, Any, List
 from datetime import datetime
+from typing import Any, Dict, List
+
 from backend.app.agents.base import BaseAgent
 from backend.config.logging import get_agents_logger
 
