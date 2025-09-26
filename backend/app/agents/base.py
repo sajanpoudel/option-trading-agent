@@ -4,9 +4,11 @@ OpenAI Agents SDK v0.3.0 Implementation
 """
 import json
 from abc import ABC, abstractmethod
-from typing import Dict, Any, Optional
 from datetime import datetime
+from typing import Any, Dict, Optional
+
 from openai import OpenAI
+
 from backend.config.logging import get_agents_logger
 
 logger = get_agents_logger()
