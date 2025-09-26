@@ -2,14 +2,16 @@
 Sentiment Analysis Agent
 OpenAI Agents SDK v0.3.0 Implementation - REAL DATA ONLY
 """
-from typing import Dict, Any, List
-from datetime import datetime, timedelta
-from backend.app.agents.base import BaseAgent
-from backend.config.logging import get_agents_logger
-from openai import AsyncOpenAI
 import asyncio
 import json
 import re
+from datetime import datetime, timedelta
+from typing import Any, Dict, List
+
+from openai import AsyncOpenAI
+
+from backend.app.agents.base import BaseAgent
+from backend.config.logging import get_agents_logger
 
 logger = get_agents_logger()
 
