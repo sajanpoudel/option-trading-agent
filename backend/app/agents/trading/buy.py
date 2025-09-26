@@ -4,14 +4,15 @@ Intelligent trade execution based on AI analysis and decision engine signals
 """
 import asyncio
 import json
-from typing import Dict, List, Any, Optional, Tuple
-from datetime import datetime, timedelta
 from dataclasses import dataclass
+from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional, Tuple
+
 from openai import OpenAI
-from backend.config.logging import get_agents_logger
-from backend.config.settings import settings
 
 from backend.app.agents.base import BaseAgent
+from backend.config.logging import get_agents_logger
+from backend.config.settings import settings
 
 logger = get_agents_logger()
 
@@ -969,8 +970,9 @@ def get_buy_agent(openai_client=None) -> BuyAgent:
     global _buy_agent_instance
     if _buy_agent_instance is None:
         if openai_client is None:
-            from openai import OpenAI
             import os
+
+            from openai import OpenAI
             openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
         _buy_agent_instance = BuyAgent(openai_client)
     return _buy_agent_instance
