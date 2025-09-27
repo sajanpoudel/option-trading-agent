@@ -4,13 +4,14 @@ Analyzes hot stocks and creates optimized options portfolio within budget
 """
 import asyncio
 import json
-from typing import Dict, Any, List, Optional
 from datetime import datetime
+from typing import Any, Dict, List, Optional
+
 from openai import OpenAI
 
 from backend.app.agents.trading.buy import BuyAgent as OptionsBuyAgent
-from backend.config.settings import settings
 from backend.config.logging import get_agents_logger
+from backend.config.settings import settings
 
 logger = get_agents_logger()
 
