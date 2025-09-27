@@ -1,11 +1,12 @@
 """
 Chat Router API - Intelligent text routing for user queries
 """
-from fastapi import APIRouter, HTTPException, Depends
-from pydantic import BaseModel
-from typing import Dict, Any, Optional, List
 import asyncio
 from datetime import datetime
+from typing import Any, Dict, List, Optional
+
+from fastapi import APIRouter, Depends, HTTPException
+from pydantic import BaseModel
 
 from backend.app.core.intent_router import route_with_ai
 from backend.config.logging import get_agents_logger
