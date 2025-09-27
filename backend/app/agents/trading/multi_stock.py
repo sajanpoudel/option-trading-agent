@@ -4,14 +4,15 @@ Analyzes multiple stocks, compares them, and selects the best option based on bu
 """
 import asyncio
 import json
-from typing import Dict, List, Any, Optional, Tuple
-from datetime import datetime, timedelta
 from dataclasses import dataclass
+from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional, Tuple
+
 from openai import OpenAI
-from backend.config.logging import get_agents_logger
-from backend.config.settings import settings
 
 from backend.app.agents.base import BaseAgent
+from backend.config.logging import get_agents_logger
+from backend.config.settings import settings
 
 logger = get_agents_logger()
 
@@ -397,11 +398,11 @@ Respond with a JSON array of stock symbols:
         """Get real analysis scores using our existing agents"""
         try:
             # Import our agents
-            from backend.app.agents.analysis.technical import TechnicalAnalysisAgent
-            from backend.app.agents.analysis.sentiment import SentimentAnalysisAgent
             from backend.app.agents.analysis.flow import OptionsFlowAgent
             from backend.app.agents.analysis.historical import HistoricalPatternAgent
             from backend.app.agents.analysis.risk import RiskManagementAgent
+            from backend.app.agents.analysis.sentiment import SentimentAnalysisAgent
+            from backend.app.agents.analysis.technical import TechnicalAnalysisAgent
 
             # Initialize agents
             technical_agent = TechnicalAnalysisAgent(self.openai_client)
