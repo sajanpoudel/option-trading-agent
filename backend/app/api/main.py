@@ -3,20 +3,21 @@ Neural Options Oracle++ FastAPI Main Application
 """
 import time
 from contextlib import asynccontextmanager
-from typing import Dict, Any
-from fastapi import FastAPI, Request, Response, HTTPException, Depends
+from typing import Any, Dict
+
+import uvicorn
+from fastapi import Depends, FastAPI, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.responses import JSONResponse
-import uvicorn
 
-from backend.config.settings import settings
-from backend.config.logging import setup_logging, log_api_access, get_api_logger
-from backend.config.database import db_manager
-from backend.app.api.dependencies import get_current_session, rate_limiter
-from backend.app.api.routes import analysis, trading, education, portfolio, system
 from backend.app.api.chat_router import router as chat_router
+from backend.app.api.dependencies import get_current_session, rate_limiter
+from backend.app.api.routes import analysis, education, portfolio, system, trading
 from backend.app.ingestion import ingestion_manager
+from backend.config.database import db_manager
+from backend.config.logging import get_api_logger, log_api_access, setup_logging
+from backend.config.settings import settings
 
 logger = get_api_logger()
 
@@ -271,8 +272,10 @@ app.include_router(system.router, prefix="/api/v1/system", tags=["System"])
 app.include_router(chat_router, tags=["Chat Router"])
 
 # Chat endpoint for frontend integration
+from typing import List, Optional
+
 from pydantic import BaseModel
-from typing import Optional, List
+
 
 class ChatMessage(BaseModel):
     message: str
@@ -366,10 +369,12 @@ async def get_hot_stocks():
         logger.info("🔥 Getting REAL trending stocks from StockTwits...")
 
         # Import the intelligent orchestrator and web scraper
+        import os
+
+        from openai import OpenAI
+
         from backend.app.api.intelligent_orchestrator import IntelligentOrchestrator
         from backend.app.services.web_scraper import get_web_scraper_agent
-        from openai import OpenAI
-        import os
 
         orchestrator = IntelligentOrchestrator()
 
@@ -743,9 +748,11 @@ async def analyze_option_opportunity(request: Dict[str, Any]):
         logger.info(f"🔍 Analyzing option opportunities for {symbol} with ${budget} budget")
 
         # Import and use the buy agent
-        from backend.app.agents.trading.buy import BuyAgent
-        from openai import OpenAI
         import os
+
+        from openai import OpenAI
+
+        from backend.app.agents.trading.buy import BuyAgent
 
         # Initialize OpenAI client
         openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
