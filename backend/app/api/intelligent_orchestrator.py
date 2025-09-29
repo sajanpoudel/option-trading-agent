@@ -4,30 +4,33 @@ Analyzes user queries and triggers appropriate AI agents with full visualization
 Replaces ALL mock data in frontend with real AI-generated analysis
 """
 import asyncio
-import re
 import json
-from typing import Dict, List, Any, Optional, Tuple
+import os
+import re
 from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional, Tuple
+
+import pandas as pd
 from loguru import logger
 from openai import OpenAI
-import os
-import pandas as pd
+
+from backend.app.agents.analysis.education import EducationAgent
+from backend.app.agents.analysis.flow import OptionsFlowAgent
+from backend.app.agents.analysis.historical import HistoricalPatternAgent
+from backend.app.agents.analysis.risk import RiskManagementAgent
+from backend.app.agents.analysis.sentiment import SentimentAnalysisAgent
+from backend.app.agents.analysis.technical import TechnicalAnalysisAgent
 
 # Import all our AI agents
 from backend.app.agents.orchestrator import OptionsOracleOrchestrator
-from backend.app.agents.analysis.technical import TechnicalAnalysisAgent
-from backend.app.agents.analysis.sentiment import SentimentAnalysisAgent
-from backend.app.agents.analysis.flow import OptionsFlowAgent
-from backend.app.agents.analysis.historical import HistoricalPatternAgent
-from backend.app.agents.analysis.education import EducationAgent
-from backend.app.agents.analysis.risk import RiskManagementAgent
 from backend.app.agents.trading.buy import BuyAgent
 from backend.app.agents.trading.multi_stock import MultiStockAnalysisAgent
 
 # Import backend services
 from backend.app.core.decision_engine import DecisionEngine
-from backend.app.services.market_data import MarketDataManager
 from backend.app.indicators.calculator import TechnicalIndicatorsCalculator
+from backend.app.services.market_data import MarketDataManager
+
 
 class QueryClassifier:
     """Intelligent query classifier using OpenAI to understand user intent"""
