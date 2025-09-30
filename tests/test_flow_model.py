@@ -107,3 +107,15 @@ def test_feature_engineering_splits_open_interest(predictor):
     features = predictor._engineer_features({"call_open_interest": 100, "put_open_interest": 300})
     assert features["call_oi_pct"] == pytest.approx(0.25)
     assert features["put_oi_pct"] == pytest.approx(0.75)
+
+
+def test_feature_engineering_reads_iv_and_large_trades(predictor):
+    features = predictor._engineer_features(
+        {
+            "implied_volatility": {"rank": 85, "percentile": 90, "skew": 0.2},
+            "large_trades": [{"volume": 500}, {"volume": 700}],
+        }
+    )
+    assert features["iv_rank"] == 85
+    assert features["large_trade_count"] == 2
+    assert features["large_trade_volume"] == 1200
