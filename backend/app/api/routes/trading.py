@@ -1,14 +1,15 @@
 """
 Neural Options Oracle++ Trading API Routes
 """
-from typing import Dict, Any, Optional, List
-from fastapi import APIRouter, HTTPException, Depends
-from pydantic import BaseModel, Field
 import time
+from typing import Any, Dict, List, Optional
 
+from fastapi import APIRouter, Depends, HTTPException
+from pydantic import BaseModel, Field
+
+from backend.app.api.dependencies import get_current_session, rate_limiter
 from backend.config.database import db_manager
 from backend.config.logging import get_api_logger
-from backend.app.api.dependencies import get_current_session, rate_limiter
 
 logger = get_api_logger()
 router = APIRouter()
@@ -428,8 +429,9 @@ async def execute_trade_recommendation(
 
     try:
         # Import the buy agent
-        from backend.app.agents.trading.buy import BuyAgent, PositionRecommendation
         from openai import OpenAI
+
+        from backend.app.agents.trading.buy import BuyAgent, PositionRecommendation
         from backend.config.settings import settings
 
         # Initialize buy agent
