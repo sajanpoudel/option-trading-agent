@@ -1,14 +1,15 @@
 """
 Neural Options Oracle++ Portfolio API Routes
 """
-from typing import Dict, Any, Optional, List
-from fastapi import APIRouter, HTTPException, Depends
-from pydantic import BaseModel
 import time
+from typing import Any, Dict, List, Optional
 
+from fastapi import APIRouter, Depends, HTTPException
+from pydantic import BaseModel
+
+from backend.app.api.dependencies import get_current_session
 from backend.config.database import db_manager
 from backend.config.logging import get_api_logger
-from backend.app.api.dependencies import get_current_session
 
 logger = get_api_logger()
 router = APIRouter()
