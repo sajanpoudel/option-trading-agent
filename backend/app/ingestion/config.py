@@ -5,6 +5,7 @@ Environment-driven settings with sensible defaults
 
 import os
 from typing import Optional
+
 from pydantic_settings import BaseSettings
 
 
