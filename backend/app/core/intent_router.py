@@ -4,11 +4,13 @@ Uses OpenAI's tool calling to intelligently route and process user requests
 """
 import asyncio
 import json
-from typing import Dict, Any, List, Optional
 from datetime import datetime
+from typing import Any, Dict, List, Optional
+
 from openai import OpenAI
-from backend.config.settings import settings
+
 from backend.config.logging import get_api_logger
+from backend.config.settings import settings
 
 logger = get_api_logger()
 
@@ -442,8 +444,8 @@ You can call multiple tools if needed.
     async def _generate_quiz(self, args: Dict) -> Dict[str, Any]:
         """Generate educational quiz"""
         try:
-            from backend.app.api.routes.education import generate_quiz as quiz_api
             from backend.app.api.routes.education import QuizRequest
+            from backend.app.api.routes.education import generate_quiz as quiz_api
 
             topic = args["topic"]
             difficulty = args.get("difficulty", "beginner")
