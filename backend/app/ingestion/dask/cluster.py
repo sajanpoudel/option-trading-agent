@@ -4,12 +4,13 @@ Connects to external Dask scheduler for batch processing
 """
 
 import asyncio
-from typing import Optional, Dict, Any
+from typing import Any, Dict, Optional
+
 from loguru import logger
 
 try:
-    from dask.distributed import Client, as_completed
     import dask.dataframe as dd
+    from dask.distributed import Client, as_completed
     DASK_AVAILABLE = True
 except ImportError:
     DASK_AVAILABLE = False
