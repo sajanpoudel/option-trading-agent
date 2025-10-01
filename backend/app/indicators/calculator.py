@@ -2,10 +2,11 @@
 Professional Technical Indicators Calculator
 Using stock-indicators library for accurate calculations
 """
-import pandas as pd
-import numpy as np
-from typing import Dict, List, Any, Optional
 from datetime import datetime
+from typing import Any, Dict, List, Optional
+
+import numpy as np
+import pandas as pd
 
 # Try to import stock_indicators, use fallback if not available
 try:
@@ -564,8 +565,9 @@ class TechnicalIndicatorsCalculator:
 
     def _convert_decimals_to_float(self, data: Dict[str, Any]) -> Dict[str, Any]:
         """Convert Decimal values to float for JSON serialization"""
-        from decimal import Decimal
         from datetime import datetime
+        from decimal import Decimal
+
         import pandas as pd
 
         converted = {}
