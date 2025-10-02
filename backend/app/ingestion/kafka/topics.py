@@ -3,10 +3,10 @@ Kafka Topic Definitions and Schemas
 Centralized topic configuration for maintainability
 """
 
-from enum import Enum
-from typing import Dict, Any
 from dataclasses import dataclass
 from datetime import datetime
+from enum import Enum
+from typing import Any, Dict
 
 
 class KafkaTopics(str, Enum):
