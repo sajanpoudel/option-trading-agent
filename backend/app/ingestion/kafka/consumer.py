@@ -3,10 +3,11 @@ Kafka Consumer - Processing Real-time Events from Speed Layer
 Async consumer with configurable message handlers
 """
 
-import json
 import asyncio
-from typing import Dict, Any, Callable, Optional, Awaitable
+import json
 from collections import defaultdict
+from typing import Any, Awaitable, Callable, Dict, Optional
+
 from loguru import logger
 
 try:
