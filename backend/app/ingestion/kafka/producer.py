@@ -3,10 +3,11 @@ Kafka Producer - Publishing Events to Speed Layer
 High-performance async producer with batching and compression
 """
 
-import json
 import asyncio
-from typing import Dict, Any, Optional
+import json
 from datetime import datetime
+from typing import Any, Dict, Optional
+
 from loguru import logger
 
 try:
