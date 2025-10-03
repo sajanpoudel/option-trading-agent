@@ -4,8 +4,9 @@ Monitors news sources and social media for market sentiment
 """
 
 import asyncio
-from typing import Set, Optional
 from datetime import datetime
+from typing import Optional, Set
+
 from loguru import logger
 
 from ..kafka.producer import kafka_producer
@@ -98,6 +99,7 @@ class SentimentStream:
         try:
             # Import OpenAI for real sentiment analysis
             from openai import OpenAI
+
             from backend.config.settings import settings
 
             client = OpenAI(api_key=settings.openai_api_key)
