@@ -3,15 +3,16 @@ Market Data Manager
 Centralized market data coordination and caching with OpenAI intelligence
 """
 import asyncio
-from typing import Dict, Any, List, Optional
-from datetime import datetime, timedelta
 import json
+from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
 
-from .alpaca import AlpacaMarketDataClient
-from .openai_orchestrator import OpenAIMarketIntelligence
 from backend.config.database import db_manager
 from backend.config.logging import get_data_logger
 from backend.config.settings import settings
+
+from .alpaca import AlpacaMarketDataClient
+from .openai_orchestrator import OpenAIMarketIntelligence
 
 # Import ingestion layer for real-time data
 try:
@@ -282,8 +283,9 @@ class MarketDataManager:
 
     def _make_json_serializable(self, data: Any) -> Any:
         """Convert data to JSON-serializable format"""
-        import pandas as pd
         from decimal import Decimal
+
+        import pandas as pd
 
         if isinstance(data, dict):
             return {key: self._make_json_serializable(value) for key, value in data.items()}
