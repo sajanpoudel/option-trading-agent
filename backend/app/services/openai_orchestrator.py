@@ -5,17 +5,19 @@ Eliminates JigsawStack and complex scraping dependencies
 """
 
 import asyncio
-import aiohttp
 import json
 import logging
-from typing import Dict, List, Optional, Any
-from datetime import datetime, timedelta
-from dataclasses import dataclass
-from openai import AsyncOpenAI
 import re
+from dataclasses import dataclass
+from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
 
-from backend.config.settings import settings
+import aiohttp
+from openai import AsyncOpenAI
+
 from backend.config.logging import get_data_logger
+from backend.config.settings import settings
+
 from .alpaca import AlpacaMarketDataClient
 
 logger = get_data_logger()
