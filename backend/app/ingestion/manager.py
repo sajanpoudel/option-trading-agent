@@ -4,16 +4,17 @@ Coordinates Kafka (Speed Layer) + Dask (Batch Layer) + Serving Layer
 """
 
 import asyncio
-from typing import Dict, Any, Optional, List
 from datetime import datetime
+from typing import Any, Dict, List, Optional
+
 from loguru import logger
 
 from .config import ingestion_settings
-from .kafka.producer import kafka_producer
-from .kafka.consumer import kafka_consumer
-from .kafka.topics import KafkaTopics
 from .dask.cluster import dask_cluster
 from .dask.tasks import BatchTasks
+from .kafka.consumer import kafka_consumer
+from .kafka.producer import kafka_producer
+from .kafka.topics import KafkaTopics
 from .streams.market_stream import market_stream
 from .streams.options_stream import options_stream
 from .streams.sentiment_stream import sentiment_stream
