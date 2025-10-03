@@ -6,13 +6,14 @@ Replaces FinBERT with GPT-4o-mini for better integration and performance
 import asyncio
 import json
 import re
-from typing import Dict, List, Any, Optional, Tuple
-from datetime import datetime
 from dataclasses import dataclass
+from datetime import datetime
+from typing import Any, Dict, List, Optional, Tuple
 
 from openai import OpenAI
-from backend.config.settings import settings
+
 from backend.config.logging import get_data_logger
+from backend.config.settings import settings
 
 logger = get_data_logger()
 
