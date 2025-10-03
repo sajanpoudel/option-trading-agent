@@ -4,16 +4,17 @@ Advanced time series forecasting for implied volatility and market volatility pr
 """
 
 import asyncio
+import json
+from dataclasses import dataclass
+from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional, Tuple
+
 import numpy as np
 import pandas as pd
-import json
-from typing import Dict, List, Any, Optional, Tuple
-from datetime import datetime, timedelta
-from dataclasses import dataclass
 
 try:
     from prophet import Prophet
-    from prophet.plot import plot_plotly, plot_components_plotly
+    from prophet.plot import plot_components_plotly, plot_plotly
     PROPHET_AVAILABLE = True
 except ImportError:
     PROPHET_AVAILABLE = False
@@ -21,8 +22,8 @@ except ImportError:
 
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 
-from backend.config.settings import settings
 from backend.config.logging import get_data_logger
+from backend.config.settings import settings
 
 logger = get_data_logger()
 
