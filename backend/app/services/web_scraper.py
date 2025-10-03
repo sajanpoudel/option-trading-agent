@@ -3,8 +3,9 @@ Web Scraper Service for Neural Options Oracle++
 Provides trending stock data from various sources
 """
 import asyncio
-from typing import Dict, Any, List, Optional
 from datetime import datetime
+from typing import Any, Dict, List, Optional
+
 from backend.config.logging import get_agents_logger
 
 logger = get_agents_logger()
