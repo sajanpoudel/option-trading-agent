@@ -4,8 +4,9 @@ Monitors unusual options activity and publishes to Kafka
 """
 
 import asyncio
-from typing import Set, Optional
 from datetime import datetime, timedelta
+from typing import Optional, Set
+
 from loguru import logger
 
 from ..kafka.producer import kafka_producer
