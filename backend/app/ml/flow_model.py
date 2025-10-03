@@ -4,12 +4,13 @@ High-performance gradient boosting for options flow analysis and unusual activit
 """
 
 import asyncio
+import json
+from dataclasses import dataclass
+from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional, Tuple
+
 import numpy as np
 import pandas as pd
-import json
-from typing import Dict, List, Any, Optional, Tuple
-from datetime import datetime, timedelta
-from dataclasses import dataclass
 
 try:
     import lightgbm as lgb
@@ -18,12 +19,12 @@ except ImportError:
     LIGHTGBM_AVAILABLE = False
     lgb = None
 
+from sklearn.metrics import accuracy_score, classification_report
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import accuracy_score, classification_report
 
-from backend.config.settings import settings
 from backend.config.logging import get_data_logger
+from backend.config.settings import settings
 
 logger = get_data_logger()
 
