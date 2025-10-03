@@ -4,13 +4,15 @@ Connects to Alpaca WebSocket and publishes to Kafka
 """
 
 import asyncio
-from typing import Set, Optional
 from datetime import datetime
+from typing import Optional, Set
+
 from loguru import logger
+
+from backend.config.settings import settings
 
 from ..kafka.producer import kafka_producer
 from ..kafka.topics import KafkaTopics, MarketTickEvent
-from backend.config.settings import settings
 
 
 class MarketDataStream:
