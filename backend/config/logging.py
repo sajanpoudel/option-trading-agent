@@ -2,8 +2,10 @@
 Neural Options Oracle++ Logging Configuration
 """
 import sys
-from typing import Dict, Any
+from typing import Any, Dict
+
 from loguru import logger
+
 from backend.config.settings import settings
 
 
