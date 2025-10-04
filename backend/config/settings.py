@@ -3,6 +3,7 @@ Neural Options Oracle++ Configuration Settings
 """
 import os
 from typing import List, Optional
+
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings
 
