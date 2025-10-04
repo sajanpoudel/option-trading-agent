@@ -54,7 +54,7 @@ OUTPUT FORMAT (JSON):
 }
 """
 
-    def _get_response_schema(self) -> Dict[str, Any]:
+    def _get_response_schema(self) -> dict[str, Any]:
         """Get JSON Schema for options flow response"""
         return {
             "type": "object",
@@ -110,7 +110,7 @@ OUTPUT FORMAT (JSON):
             "additionalProperties": False
         }
 
-    async def analyze(self, symbol: str, **kwargs) -> Dict[str, Any]:
+    async def analyze(self, symbol: str, **kwargs) -> dict[str, Any]:
         """Analyze options flow for the symbol"""
 
         try:
@@ -173,7 +173,7 @@ Provide comprehensive flow analysis with this REAL options data.
             logger.error(f"Options flow analysis failed for {symbol}: {e}")
             return self._get_fallback_flow(symbol)
 
-    def _format_options_list(self, options_list: List[Dict]) -> str:
+    def _format_options_list(self, options_list: list[dict]) -> str:
         """Format options list for display"""
         if not options_list:
             return "No options data available"
@@ -188,7 +188,7 @@ Provide comprehensive flow analysis with this REAL options data.
 
         return "\n".join(formatted) if formatted else "No detailed options data"
 
-    def _validate_flow_analysis(self, analysis: Dict, symbol: str) -> Dict:
+    def _validate_flow_analysis(self, analysis: dict, symbol: str) -> dict:
         """Validate flow analysis"""
 
         if 'flow_score' not in analysis:
@@ -206,7 +206,7 @@ Provide comprehensive flow analysis with this REAL options data.
 
         return analysis
 
-    def _get_fallback_flow(self, symbol: str) -> Dict:
+    def _get_fallback_flow(self, symbol: str) -> dict:
         """Fallback flow analysis"""
         return {
             'flow_score': 0.0,
