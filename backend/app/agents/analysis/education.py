@@ -59,7 +59,7 @@ OUTPUT FORMAT (JSON):
 }
 """
 
-    def _get_response_schema(self) -> Dict[str, Any]:
+    def _get_response_schema(self) -> dict[str, Any]:
         """Get JSON Schema for education response"""
         return {
             "type": "object",
@@ -153,9 +153,9 @@ OUTPUT FORMAT (JSON):
     async def generate_explanation(
         self,
         symbol: str,
-        signal: Dict[str, Any],
-        agent_results: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        signal: dict[str, Any],
+        agent_results: dict[str, Any]
+    ) -> dict[str, Any]:
         """Generate educational explanation for trading decision"""
 
         try:
@@ -200,7 +200,7 @@ Create educational content that explains WHY this decision was made and what the
             logger.error(f"Educational content generation failed for {symbol}: {e}")
             return self._get_fallback_explanation(symbol, signal)
 
-    async def analyze(self, symbol: str, **kwargs) -> Dict[str, Any]:
+    async def analyze(self, symbol: str, **kwargs) -> dict[str, Any]:
         """General analysis method (required by base class)"""
         return {
             'educational_readiness': True,
@@ -210,31 +210,31 @@ Create educational content that explains WHY this decision was made and what the
             'agent': self.name
         }
 
-    def _summarize_technical(self, technical_data: Dict) -> str:
+    def _summarize_technical(self, technical_data: dict) -> str:
         """Summarize technical analysis for education"""
         scenario = technical_data.get('scenario', 'unknown')
         score = technical_data.get('weighted_score', 0)
         return f"{scenario} scenario with {score:.2f} technical score"
 
-    def _summarize_sentiment(self, sentiment_data: Dict) -> str:
+    def _summarize_sentiment(self, sentiment_data: dict) -> str:
         """Summarize sentiment analysis for education"""
         score = sentiment_data.get('aggregate_score', 0)
         trend = sentiment_data.get('sentiment_trend', 'stable')
         return f"{score:.2f} sentiment score, {trend} trend"
 
-    def _summarize_flow(self, flow_data: Dict) -> str:
+    def _summarize_flow(self, flow_data: dict) -> str:
         """Summarize flow analysis for education"""
         unusual = flow_data.get('unusual_activity', False)
         sentiment = flow_data.get('flow_sentiment', 'neutral')
         return f"{sentiment} flow sentiment, unusual activity: {unusual}"
 
-    def _summarize_history(self, history_data: Dict) -> str:
+    def _summarize_history(self, history_data: dict) -> str:
         """Summarize historical analysis for education"""
         pattern = history_data.get('dominant_pattern', 'unknown')
         score = history_data.get('pattern_score', 0)
         return f"{pattern} pattern with {score:.2f} strength"
 
-    def _validate_explanation(self, explanation: Dict, symbol: str, signal: Dict) -> Dict:
+    def _validate_explanation(self, explanation: dict, symbol: str, signal: dict) -> dict:
         """Validate educational explanation"""
 
         # Ensure basic structure
@@ -266,7 +266,7 @@ Create educational content that explains WHY this decision was made and what the
 
         return explanation
 
-    def _get_fallback_explanation(self, symbol: str, signal: Dict) -> Dict:
+    def _get_fallback_explanation(self, symbol: str, signal: dict) -> dict:
         """Fallback educational explanation"""
 
         direction = signal.get('direction', 'HOLD')
