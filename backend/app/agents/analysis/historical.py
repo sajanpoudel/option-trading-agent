@@ -52,7 +52,7 @@ OUTPUT FORMAT (JSON):
 }
 """
 
-    def _get_response_schema(self) -> Dict[str, Any]:
+    def _get_response_schema(self) -> dict[str, Any]:
         """Get JSON Schema for historical pattern response"""
         return {
             "type": "object",
@@ -115,7 +115,7 @@ OUTPUT FORMAT (JSON):
             "additionalProperties": False
         }
 
-    async def analyze(self, symbol: str, **kwargs) -> Dict[str, Any]:
+    async def analyze(self, symbol: str, **kwargs) -> dict[str, Any]:
         """Analyze historical patterns for the symbol"""
 
         try:
@@ -170,7 +170,7 @@ Provide comprehensive pattern analysis.
             logger.error(f"Historical pattern analysis failed for {symbol}: {e}")
             return self._get_fallback_history(symbol)
 
-    def _get_mock_historical_data(self, symbol: str) -> Dict:
+    def _get_mock_historical_data(self, symbol: str) -> dict:
         """Generate mock historical data"""
         import random
 
@@ -190,7 +190,7 @@ Provide comprehensive pattern analysis.
             'avg_outcome': random.uniform(-10, 15)
         }
 
-    def _validate_pattern_analysis(self, analysis: Dict, symbol: str) -> Dict:
+    def _validate_pattern_analysis(self, analysis: dict, symbol: str) -> dict:
         """Validate pattern analysis"""
 
         if 'pattern_score' not in analysis:
@@ -208,7 +208,7 @@ Provide comprehensive pattern analysis.
 
         return analysis
 
-    def _get_fallback_history(self, symbol: str) -> Dict:
+    def _get_fallback_history(self, symbol: str) -> dict:
         """Fallback historical analysis"""
         return {
             'pattern_score': 0.0,
