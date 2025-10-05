@@ -71,7 +71,7 @@ OUTPUT FORMAT (JSON):
 }
 """
 
-    def _get_response_schema(self) -> Dict[str, Any]:
+    def _get_response_schema(self) -> dict[str, Any]:
         """Get JSON Schema for risk management response"""
         return {
             "type": "object",
@@ -149,9 +149,9 @@ OUTPUT FORMAT (JSON):
 
     async def recommend_strikes(
         self,
-        signal: Dict[str, Any],
-        user_risk_profile: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        signal: dict[str, Any],
+        user_risk_profile: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Recommend option strikes based on signal and risk profile"""
 
         try:
@@ -208,7 +208,7 @@ Recommend 3-5 appropriate strikes with full risk analysis.
             logger.error(f"Strike recommendation failed: {e}")
             return self._get_fallback_strikes(signal, user_risk_profile)
 
-    async def analyze(self, symbol: str, **kwargs) -> Dict[str, Any]:
+    async def analyze(self, symbol: str, **kwargs) -> dict[str, Any]:
         """General risk analysis (not used in main flow but required by base class)"""
 
         return {
@@ -220,7 +220,7 @@ Recommend 3-5 appropriate strikes with full risk analysis.
             'agent': self.name
         }
 
-    def _get_mock_options_data(self, symbol: str) -> Dict:
+    def _get_mock_options_data(self, symbol: str) -> dict:
         """Generate mock options data"""
         import random
 
@@ -256,7 +256,7 @@ Recommend 3-5 appropriate strikes with full risk analysis.
             'options_chain': options_chain
         }
 
-    def _format_options_chain(self, chain: List[Dict]) -> str:
+    def _format_options_chain(self, chain: list[dict]) -> str:
         """Format options chain for prompt"""
 
         formatted = []
@@ -268,7 +268,7 @@ Recommend 3-5 appropriate strikes with full risk analysis.
 
         return "\n".join(formatted)
 
-    def _validate_strike_recommendations(self, recommendations: List[Dict]) -> List[Dict]:
+    def _validate_strike_recommendations(self, recommendations: list[dict]) -> list[dict]:
         """Validate strike recommendations"""
 
         validated = []
@@ -299,7 +299,7 @@ Recommend 3-5 appropriate strikes with full risk analysis.
 
         return validated[:5]  # Limit to 5 recommendations
 
-    def _get_fallback_strikes(self, signal: Dict, user_profile: Dict) -> List[Dict]:
+    def _get_fallback_strikes(self, signal: dict, user_profile: dict) -> list[dict]:
         """Fallback strike recommendations"""
 
         direction = signal.get('direction', 'HOLD')
