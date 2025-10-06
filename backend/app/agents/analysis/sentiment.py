@@ -51,7 +51,7 @@ OUTPUT FORMAT (JSON):
 }
 """
 
-    def _get_response_schema(self) -> Dict[str, Any]:
+    def _get_response_schema(self) -> dict[str, Any]:
         """Get JSON Schema for sentiment analysis response"""
         return {
             "type": "object",
@@ -126,7 +126,7 @@ OUTPUT FORMAT (JSON):
             "additionalProperties": False
         }
 
-    async def analyze(self, symbol: str, **kwargs) -> Dict[str, Any]:
+    async def analyze(self, symbol: str, **kwargs) -> dict[str, Any]:
         """Analyze market sentiment for the symbol using real web search data"""
 
         try:
@@ -155,7 +155,7 @@ OUTPUT FORMAT (JSON):
             logger.error(f"Sentiment analysis failed for {symbol}: {e}")
             return self._get_fallback_sentiment(symbol)
 
-    async def _collect_real_sentiment_data(self, symbol: str, current_date: str) -> Dict[str, Any]:
+    async def _collect_real_sentiment_data(self, symbol: str, current_date: str) -> dict[str, Any]:
         """Collect real sentiment data from web search"""
         try:
             # Run multiple web searches in parallel
@@ -186,7 +186,7 @@ OUTPUT FORMAT (JSON):
                 'error': str(e)
             }
 
-    async def _search_news_sentiment(self, symbol: str, current_date: str) -> Dict[str, Any]:
+    async def _search_news_sentiment(self, symbol: str, current_date: str) -> dict[str, Any]:
         """Search for real-time news sentiment"""
         try:
             prompt = f"""
@@ -238,7 +238,7 @@ OUTPUT FORMAT (JSON):
             logger.error(f"Error searching news sentiment for {symbol}: {e}")
             return {}
 
-    async def _search_stocktwits_sentiment(self, symbol: str, current_date: str) -> Dict[str, Any]:
+    async def _search_stocktwits_sentiment(self, symbol: str, current_date: str) -> dict[str, Any]:
         """Search for StockTwits sentiment"""
         try:
             prompt = f"""
@@ -287,7 +287,7 @@ OUTPUT FORMAT (JSON):
             logger.error(f"Error searching StockTwits sentiment for {symbol}: {e}")
             return {}
 
-    async def _search_market_psychology(self, symbol: str, current_date: str) -> Dict[str, Any]:
+    async def _search_market_psychology(self, symbol: str, current_date: str) -> dict[str, Any]:
         """Search for market psychology indicators"""
         try:
             prompt = f"""
@@ -334,7 +334,7 @@ OUTPUT FORMAT (JSON):
             logger.error(f"Error searching market psychology for {symbol}: {e}")
             return {}
 
-    async def _analyze_sentiment_with_gpt(self, sentiment_data: Dict[str, Any], symbol: str, current_date: str) -> Dict[str, Any]:
+    async def _analyze_sentiment_with_gpt(self, sentiment_data: dict[str, Any], symbol: str, current_date: str) -> dict[str, Any]:
         """Analyze collected sentiment data with GPT"""
         try:
             # Prepare comprehensive sentiment analysis prompt
@@ -377,7 +377,7 @@ OUTPUT FORMAT (JSON):
             logger.error(f"Error analyzing sentiment with GPT for {symbol}: {e}")
             return {}
 
-    def _parse_json_from_response(self, content: str) -> Dict[str, Any]:
+    def _parse_json_from_response(self, content: str) -> dict[str, Any]:
         """Parse JSON from GPT response"""
         try:
             # Try multiple JSON extraction patterns
@@ -402,7 +402,7 @@ OUTPUT FORMAT (JSON):
             logger.error(f"Error parsing JSON from response: {e}")
             return {}
 
-    def _validate_sentiment_analysis(self, analysis: Dict, symbol: str) -> Dict:
+    def _validate_sentiment_analysis(self, analysis: dict, symbol: str) -> dict:
         """Validate sentiment analysis"""
 
         if 'aggregate_score' not in analysis:
@@ -419,7 +419,7 @@ OUTPUT FORMAT (JSON):
 
         return analysis
 
-    def _get_fallback_sentiment(self, symbol: str) -> Dict:
+    def _get_fallback_sentiment(self, symbol: str) -> dict:
         """Fallback sentiment analysis when real data unavailable"""
         return {
             'aggregate_score': 0.0,
