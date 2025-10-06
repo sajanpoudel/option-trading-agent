@@ -100,7 +100,7 @@ IMPORTANT CALCULATION RULES:
 Remember: You are the primary decision driver with 60% weight in the final system decision.
 """
 
-    def _get_response_schema(self) -> Dict[str, Any]:
+    def _get_response_schema(self) -> dict[str, Any]:
         """Get JSON Schema for technical analysis response"""
         return {
             "type": "object",
@@ -227,7 +227,7 @@ Remember: You are the primary decision driver with 60% weight in the final syste
             "additionalProperties": False
         }
 
-    async def analyze(self, symbol: str, timeframe: str = "1d", **kwargs) -> Dict[str, Any]:
+    async def analyze(self, symbol: str, timeframe: str = "1d", **kwargs) -> dict[str, Any]:
         """Analyze technical indicators for the given symbol"""
 
         try:
@@ -308,7 +308,7 @@ Please provide a comprehensive technical analysis with scenario detection and we
             logger.error(f"Technical analysis failed for {symbol}: {e}")
 
 
-    def _validate_analysis(self, analysis: Dict, symbol: str, market_data: Dict) -> Dict[str, Any]:
+    def _validate_analysis(self, analysis: dict, symbol: str, market_data: dict) -> dict[str, Any]:
         """Validate and enhance the analysis response"""
 
         # Ensure required fields exist
