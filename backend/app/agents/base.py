@@ -41,17 +41,17 @@ class BaseAgent(ABC):
         pass
 
     @abstractmethod
-    async def analyze(self, symbol: str, **kwargs) -> Dict[str, Any]:
+    async def analyze(self, symbol: str, **kwargs) -> dict[str, Any]:
         """Main analysis method - must be implemented by subclasses"""
         pass
 
     async def _make_completion(
         self,
         messages: list,
-        tools: Optional[list] = None,
+        tools: list | None = None,
         temperature: float = 0.7,
-        response_schema: Optional[Dict] = None
-    ) -> Dict[str, Any]:
+        response_schema: dict | None = None
+    ) -> dict[str, Any]:
         """Make a completion request to OpenAI"""
 
         try:
@@ -131,7 +131,7 @@ class BaseAgent(ABC):
                 'tool_calls': []
             }
 
-    async def get_status(self) -> Dict[str, Any]:
+    async def get_status(self) -> dict[str, Any]:
         """Get agent status"""
         return {
             'name': self.name,
@@ -141,7 +141,7 @@ class BaseAgent(ABC):
             'last_check': datetime.now().isoformat()
         }
 
-    def _parse_json_response(self, content: str) -> Dict[str, Any]:
+    def _parse_json_response(self, content: str) -> dict[str, Any]:
         """Parse JSON response from agent"""
         try:
             # Handle empty or None content
@@ -182,7 +182,7 @@ class BaseAgent(ABC):
             logger.error(f"{self.name} unexpected error parsing response: {e}")
             return self._get_fallback_response()
 
-    def _get_fallback_response(self) -> Dict[str, Any]:
+    def _get_fallback_response(self) -> dict[str, Any]:
         """Get a fallback response when parsing fails"""
         return {
             'summary': f'{self.name} analysis completed with limited data',
