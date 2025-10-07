@@ -41,10 +41,10 @@ class StockAnalysis:
 class MultiStockResult:
     """Multi-stock analysis result"""
     budget: float
-    analyzed_stocks: List[StockAnalysis]
-    best_recommendation: Optional[StockAnalysis]
-    execution_plan: Dict[str, Any]
-    risk_assessment: Dict[str, Any]
+    analyzed_stocks: list[StockAnalysis]
+    best_recommendation: StockAnalysis | None
+    execution_plan: dict[str, Any]
+    risk_assessment: dict[str, Any]
     timestamp: datetime
 
 
@@ -80,7 +80,7 @@ Key capabilities:
 Always provide comprehensive analysis with clear reasoning for your recommendations.
 """
 
-    async def analyze(self, query: str, context: Dict[str, Any] = None) -> Dict[str, Any]:
+    async def analyze(self, query: str, context: dict[str, Any] = None) -> dict[str, Any]:
         """
         Analyze multiple stocks and select the best option based on budget
         """
@@ -187,7 +187,7 @@ Always provide comprehensive analysis with clear reasoning for your recommendati
                 }
             }
 
-    def _extract_budget_and_criteria(self, query: str) -> Dict[str, Any]:
+    def _extract_budget_and_criteria(self, query: str) -> dict[str, Any]:
         """Extract budget and investment criteria from query"""
         try:
             # Use OpenAI to extract budget and criteria
@@ -243,7 +243,7 @@ If no budget is specified, default to $1000.
                 'preferences': []
             }
 
-    async def _get_stocks_to_analyze(self, query: str, context: Dict[str, Any] = None) -> List[str]:
+    async def _get_stocks_to_analyze(self, query: str, context: dict[str, Any] = None) -> list[str]:
         """Get stocks to analyze from hot stocks API and OpenAI selection"""
         try:
             # First, get hot stocks from our API
@@ -272,7 +272,7 @@ If no budget is specified, default to $1000.
             logger.error(f"Failed to get stocks to analyze: {e}")
             return []
 
-    async def _select_stocks_from_hot_list(self, query: str, hot_symbols: List[str]) -> List[str]:
+    async def _select_stocks_from_hot_list(self, query: str, hot_symbols: list[str]) -> list[str]:
         """Use OpenAI to select best stocks from hot stocks list based on query"""
         try:
             prompt = f"""
@@ -309,7 +309,7 @@ Respond with a JSON array of stock symbols:
             logger.error(f"Failed to select stocks from hot list: {e}")
             return []  # No fallback - return empty list
 
-    async def _analyze_individual_stock(self, symbol: str, budget_info: Dict[str, Any]) -> Optional[StockAnalysis]:
+    async def _analyze_individual_stock(self, symbol: str, budget_info: dict[str, Any]) -> StockAnalysis | None:
         """Analyze an individual stock using real APIs and agents"""
         try:
             # Get real market data from our market data manager
@@ -394,7 +394,7 @@ Respond with a JSON array of stock symbols:
             logger.error(f"Failed to analyze individual stock {symbol}: {e}")
             return None
 
-    async def _get_real_analysis_scores(self, symbol: str, market_data: Dict[str, Any]) -> Optional[Dict[str, float]]:
+    async def _get_real_analysis_scores(self, symbol: str, market_data: dict[str, Any]) -> dict[str, float] | None:
         """Get real analysis scores using our existing agents"""
         try:
             # Import our agents
@@ -441,7 +441,7 @@ Respond with a JSON array of stock symbols:
             logger.error(f"Failed to get real analysis scores for {symbol}: {e}")
             return None
 
-    async def _run_technical_analysis(self, agent, symbol: str, market_data: Dict[str, Any]) -> float:
+    async def _run_technical_analysis(self, agent, symbol: str, market_data: dict[str, Any]) -> float:
         """Run technical analysis and extract score"""
         try:
             result = await agent.analyze(f"technical analysis for {symbol}", {'symbol': symbol})
@@ -452,7 +452,7 @@ Respond with a JSON array of stock symbols:
             logger.error(f"Technical analysis failed for {symbol}: {e}")
             return 0.5
 
-    async def _run_sentiment_analysis(self, agent, symbol: str, market_data: Dict[str, Any]) -> float:
+    async def _run_sentiment_analysis(self, agent, symbol: str, market_data: dict[str, Any]) -> float:
         """Run sentiment analysis and extract score"""
         try:
             result = await agent.analyze(f"sentiment analysis for {symbol}", {'symbol': symbol})
@@ -463,7 +463,7 @@ Respond with a JSON array of stock symbols:
             logger.error(f"Sentiment analysis failed for {symbol}: {e}")
             return 0.5
 
-    async def _run_options_flow_analysis(self, agent, symbol: str, market_data: Dict[str, Any]) -> float:
+    async def _run_options_flow_analysis(self, agent, symbol: str, market_data: dict[str, Any]) -> float:
         """Run options flow analysis and extract score"""
         try:
             result = await agent.analyze(f"options flow analysis for {symbol}", {'symbol': symbol})
@@ -474,7 +474,7 @@ Respond with a JSON array of stock symbols:
             logger.error(f"Options flow analysis failed for {symbol}: {e}")
             return 0.5
 
-    async def _run_historical_analysis(self, agent, symbol: str, market_data: Dict[str, Any]) -> float:
+    async def _run_historical_analysis(self, agent, symbol: str, market_data: dict[str, Any]) -> float:
         """Run historical analysis and extract score"""
         try:
             result = await agent.analyze(f"historical analysis for {symbol}", {'symbol': symbol})
@@ -485,7 +485,7 @@ Respond with a JSON array of stock symbols:
             logger.error(f"Historical analysis failed for {symbol}: {e}")
             return 0.5
 
-    async def _run_risk_analysis(self, agent, symbol: str, market_data: Dict[str, Any]) -> float:
+    async def _run_risk_analysis(self, agent, symbol: str, market_data: dict[str, Any]) -> float:
         """Run risk analysis and extract score"""
         try:
             result = await agent.analyze(f"risk analysis for {symbol}", {'symbol': symbol})
@@ -496,7 +496,7 @@ Respond with a JSON array of stock symbols:
             logger.error(f"Risk analysis failed for {symbol}: {e}")
             return 0.5
 
-    def _calculate_potential_return(self, market_data: Dict[str, Any], analysis_scores: Dict[str, float]) -> float:
+    def _calculate_potential_return(self, market_data: dict[str, Any], analysis_scores: dict[str, float]) -> float:
         """Calculate potential return based on technical indicators and analysis"""
         try:
             # Get technical indicators from market data
@@ -533,7 +533,7 @@ Respond with a JSON array of stock symbols:
             logger.error(f"Failed to calculate potential return: {e}")
             return 0.0
 
-    def _select_best_stock(self, analyses: List[StockAnalysis], budget_info: Dict[str, Any]) -> Optional[StockAnalysis]:
+    def _select_best_stock(self, analyses: list[StockAnalysis], budget_info: dict[str, Any]) -> StockAnalysis | None:
         """Select the best stock based on analysis results"""
         if not analyses:
             return None
@@ -550,7 +550,7 @@ Respond with a JSON array of stock symbols:
 
         return budget_fit_analyses[0]
 
-    def _create_execution_plan(self, recommendation: Optional[StockAnalysis], budget_info: Dict[str, Any]) -> Dict[str, Any]:
+    def _create_execution_plan(self, recommendation: StockAnalysis | None, budget_info: dict[str, Any]) -> dict[str, Any]:
         """Create execution plan for the best recommendation"""
         if not recommendation:
             return {
@@ -578,7 +578,7 @@ Respond with a JSON array of stock symbols:
             ]
         }
 
-    def _assess_portfolio_risk(self, analyses: List[StockAnalysis], recommendation: Optional[StockAnalysis]) -> Dict[str, Any]:
+    def _assess_portfolio_risk(self, analyses: list[StockAnalysis], recommendation: StockAnalysis | None) -> dict[str, Any]:
         """Assess portfolio risk for the recommendation"""
         if not recommendation:
             return {'risk_level': 'UNKNOWN', 'diversification': 'N/A', 'recommendations': []}
@@ -604,7 +604,7 @@ Respond with a JSON array of stock symbols:
             'recommendations': recommendations
         }
 
-    async def get_status(self) -> Dict[str, Any]:
+    async def get_status(self) -> dict[str, Any]:
         """Get multi-stock analysis agent status"""
         base_status = await super().get_status()
         base_status.update({
