@@ -26,7 +26,7 @@ class TradeExecution:
     price: float
     total_value: float
     order_type: str
-    option_details: Optional[Dict[str, Any]] = None
+    option_details: dict[str, Any] | None = None
     execution_time: datetime = None
     trade_id: str = ""
     status: str = "pending"  # pending, filled, rejected
@@ -39,10 +39,10 @@ class PositionRecommendation:
     symbol: str
     action: str
     quantity: int
-    option_type: Optional[str] = None  # 'call' or 'put'
-    strike_price: Optional[float] = None
-    expiration_date: Optional[str] = None
-    entry_price: Optional[float] = None
+    option_type: str | None = None  # 'call' or 'put'
+    strike_price: float | None = None
+    expiration_date: str | None = None
+    entry_price: float | None = None
     confidence: float = 0.0
     risk_score: float = 0.0
     potential_return: float = 0.0
@@ -106,7 +106,7 @@ class BuyAgent(BaseAgent):
 
 **Response Format**: Always return structured JSON with trade recommendations, risk metrics, and detailed reasoning."""
 
-    async def analyze(self, symbol: str, **kwargs) -> Dict[str, Any]:
+    async def analyze(self, symbol: str, **kwargs) -> dict[str, Any]:
         """Main analysis method - processes trading signals and generates buy recommendations"""
         try:
             logger.info(f"🎯 Buy agent analyzing {symbol} for trade execution")
@@ -152,11 +152,11 @@ class BuyAgent(BaseAgent):
     async def _generate_buy_recommendations(
         self,
         symbol: str,
-        decision_signal: Dict[str, Any],
-        user_risk_profile: Dict[str, Any],
-        market_data: Dict[str, Any],
-        strike_recommendations: List[Dict[str, Any]]
-    ) -> List[PositionRecommendation]:
+        decision_signal: dict[str, Any],
+        user_risk_profile: dict[str, Any],
+        market_data: dict[str, Any],
+        strike_recommendations: list[dict[str, Any]]
+    ) -> list[PositionRecommendation]:
         """Generate buy recommendations based on decision signal"""
 
         recommendations = []
@@ -208,10 +208,10 @@ class BuyAgent(BaseAgent):
         symbol: str,
         current_price: float,
         max_trade_value: float,
-        strike_recommendations: List[Dict[str, Any]],
+        strike_recommendations: list[dict[str, Any]],
         confidence: float,
         direction: str = 'BUY'
-    ) -> List[PositionRecommendation]:
+    ) -> list[PositionRecommendation]:
         """Generate bullish (call) recommendations"""
 
         recommendations = []
@@ -278,10 +278,10 @@ class BuyAgent(BaseAgent):
         symbol: str,
         current_price: float,
         max_trade_value: float,
-        strike_recommendations: List[Dict[str, Any]],
+        strike_recommendations: list[dict[str, Any]],
         confidence: float,
         direction: str = 'SELL'
-    ) -> List[PositionRecommendation]:
+    ) -> list[PositionRecommendation]:
         """Generate bearish (put) recommendations"""
 
         recommendations = []
@@ -337,7 +337,7 @@ class BuyAgent(BaseAgent):
             logger.error(f"Failed to generate bearish recommendations: {e}")
             return []
 
-    async def _get_options_data(self, symbol: str) -> Dict[str, Any]:
+    async def _get_options_data(self, symbol: str) -> dict[str, Any]:
         """Get options data for the symbol"""
         try:
             if self.options_api:
@@ -359,9 +359,9 @@ class BuyAgent(BaseAgent):
 
     def _filter_and_rank_recommendations(
         self,
-        recommendations: List[PositionRecommendation],
-        user_risk_profile: Dict[str, Any]
-    ) -> List[PositionRecommendation]:
+        recommendations: list[PositionRecommendation],
+        user_risk_profile: dict[str, Any]
+    ) -> list[PositionRecommendation]:
         """Filter and rank recommendations based on risk profile"""
 
         # Filter by risk tolerance
@@ -377,9 +377,9 @@ class BuyAgent(BaseAgent):
     async def _create_execution_plan(
         self,
         symbol: str,
-        recommendations: List[PositionRecommendation],
-        user_risk_profile: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        recommendations: list[PositionRecommendation],
+        user_risk_profile: dict[str, Any]
+    ) -> dict[str, Any]:
         """Create detailed execution plan for recommendations"""
 
         if not recommendations:
@@ -443,9 +443,9 @@ class BuyAgent(BaseAgent):
 
     def _assess_trade_risk(
         self,
-        recommendations: List[PositionRecommendation],
-        user_risk_profile: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        recommendations: list[PositionRecommendation],
+        user_risk_profile: dict[str, Any]
+    ) -> dict[str, Any]:
         """Assess overall risk of the trade recommendations"""
 
         if not recommendations:
@@ -476,9 +476,9 @@ class BuyAgent(BaseAgent):
 
     def _generate_risk_warnings(
         self,
-        recommendations: List[PositionRecommendation],
-        user_risk_profile: Dict[str, Any]
-    ) -> List[str]:
+        recommendations: list[PositionRecommendation],
+        user_risk_profile: dict[str, Any]
+    ) -> list[str]:
         """Generate risk warnings for the recommendations"""
 
         warnings = []
@@ -500,7 +500,7 @@ class BuyAgent(BaseAgent):
 
         return warnings
 
-    def _calculate_execution_confidence(self, recommendations: List[PositionRecommendation]) -> float:
+    def _calculate_execution_confidence(self, recommendations: list[PositionRecommendation]) -> float:
         """Calculate overall confidence in the execution plan"""
 
         if not recommendations:
@@ -521,7 +521,7 @@ class BuyAgent(BaseAgent):
         self,
         symbol: str,
         recommendation: PositionRecommendation,
-        user_risk_profile: Dict[str, Any]
+        user_risk_profile: dict[str, Any]
     ) -> TradeExecution:
         """Execute a trade based on recommendation"""
 
@@ -564,8 +564,8 @@ class BuyAgent(BaseAgent):
     async def _validate_trade(
         self,
         recommendation: PositionRecommendation,
-        user_risk_profile: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        user_risk_profile: dict[str, Any]
+    ) -> dict[str, Any]:
         """Validate trade before execution"""
 
         # Check risk limits
@@ -680,7 +680,7 @@ class BuyAgent(BaseAgent):
             logger.info(f"Fallback simulated trade executed: {execution.trade_id}")
             return execution
 
-    async def analyze_option_opportunity(self, symbol: str, budget: float, user_query: str = "") -> Dict[str, Any]:
+    async def analyze_option_opportunity(self, symbol: str, budget: float, user_query: str = "") -> dict[str, Any]:
         """Analyze option opportunity based on user's buy request with budget"""
         try:
             logger.info(f"🔍 Analyzing option opportunities for {symbol} with ${budget} budget")
@@ -729,7 +729,7 @@ class BuyAgent(BaseAgent):
                 'recommendations': []
             }
 
-    async def _format_user_buy_request(self, symbol: str, budget: float, user_query: str) -> Dict[str, Any]:
+    async def _format_user_buy_request(self, symbol: str, budget: float, user_query: str) -> dict[str, Any]:
         """Use OpenAI to format user buy request into proper options parameters"""
         try:
             prompt = f"""
@@ -794,7 +794,7 @@ class BuyAgent(BaseAgent):
                 'reasoning': 'Default fallback strategy'
             }
 
-    async def _get_current_stock_price(self, symbol: str) -> Optional[float]:
+    async def _get_current_stock_price(self, symbol: str) -> float | None:
         """Get current stock price"""
         try:
             from backend.app.services.alpaca import AlpacaMarketDataClient
@@ -810,8 +810,8 @@ class BuyAgent(BaseAgent):
         symbol: str,
         budget: float,
         current_price: float,
-        formatted_request: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        formatted_request: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Generate options recommendations based on budget constraints"""
         try:
             recommendations = []
@@ -949,7 +949,7 @@ class BuyAgent(BaseAgent):
             logger.error(f"Failed to format option symbol: {e}")
             return f"{underlying}240101C00100000"  # Fallback
 
-    async def get_status(self) -> Dict[str, Any]:
+    async def get_status(self) -> dict[str, Any]:
         """Get buy agent status"""
         base_status = await super().get_status()
         base_status.update({
@@ -978,7 +978,7 @@ def get_buy_agent(openai_client=None) -> BuyAgent:
     return _buy_agent_instance
 
 
-async def execute_option_buy(analysis: Dict[str, Any], confirmed: bool = False) -> Dict[str, Any]:
+async def execute_option_buy(analysis: dict[str, Any], confirmed: bool = False) -> dict[str, Any]:
     """Execute single option buy based on analysis"""
     if not confirmed:
         return {"error": "User confirmation required", "status": "pending"}
@@ -1036,7 +1036,7 @@ async def execute_option_buy(analysis: Dict[str, Any], confirmed: bool = False) 
         return {"error": str(e), "status": "failed"}
 
 
-async def analyze_option_buy(symbol: str, budget: float, preferences: Dict[str, Any] = None) -> Dict[str, Any]:
+async def analyze_option_buy(symbol: str, budget: float, preferences: dict[str, Any] = None) -> dict[str, Any]:
     """Analyze option buy opportunity for a symbol"""
     try:
         buy_agent = get_buy_agent()
