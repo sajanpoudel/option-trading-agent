@@ -26,8 +26,8 @@ class MultiOptionsBuyAgent:
     async def analyze_best_options_portfolio(
         self,
         total_budget: float,
-        user_preferences: Dict[str, Any] = None
-    ) -> Dict[str, Any]:
+        user_preferences: dict[str, Any] = None
+    ) -> dict[str, Any]:
         """
         Analyze hot stocks and create optimized options portfolio within budget
         """
@@ -95,10 +95,10 @@ class MultiOptionsBuyAgent:
 
     async def _create_optimized_portfolio(
         self,
-        opportunities: List[Dict[str, Any]],
+        opportunities: list[dict[str, Any]],
         total_budget: float,
-        user_preferences: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        user_preferences: dict[str, Any]
+    ) -> dict[str, Any]:
         """Use AI to create optimized options portfolio"""
 
         # Prepare data for AI analysis
@@ -235,9 +235,9 @@ class MultiOptionsBuyAgent:
 
     async def execute_portfolio_purchase(
         self,
-        portfolio: Dict[str, Any],
+        portfolio: dict[str, Any],
         confirmed: bool = False
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Execute the entire options portfolio if confirmed"""
 
         if not confirmed:
@@ -309,7 +309,7 @@ class MultiOptionsBuyAgent:
 # Global instance
 multi_options_agent = MultiOptionsBuyAgent()
 
-async def analyze_multi_options_buy(budget: float, preferences: Dict[str, Any] = None) -> Dict[str, Any]:
+async def analyze_multi_options_buy(budget: float, preferences: dict[str, Any] = None) -> dict[str, Any]:
     """Main function to analyze multi-options portfolio"""
     if preferences is None:
         preferences = {
@@ -320,6 +320,6 @@ async def analyze_multi_options_buy(budget: float, preferences: Dict[str, Any] =
 
     return await multi_options_agent.analyze_best_options_portfolio(budget, preferences)
 
-async def execute_multi_options_buy(portfolio: Dict[str, Any], confirmed: bool = False) -> Dict[str, Any]:
+async def execute_multi_options_buy(portfolio: dict[str, Any], confirmed: bool = False) -> dict[str, Any]:
     """Main function to execute options portfolio"""
     return await multi_options_agent.execute_portfolio_purchase(portfolio, confirmed)
