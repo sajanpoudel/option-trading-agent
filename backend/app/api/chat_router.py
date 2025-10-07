@@ -19,21 +19,21 @@ router = APIRouter(prefix="/api/v1/chat", tags=["Chat Router"])
 class ChatMessage(BaseModel):
     """Chat message model"""
     message: str
-    context: Optional[Dict[str, Any]] = None
-    user_id: Optional[str] = None
-    session_id: Optional[str] = None
+    context: dict[str, Any] | None = None
+    user_id: str | None = None
+    session_id: str | None = None
 
 
 class ChatResponse(BaseModel):
     """Chat response model"""
     response: str
     intent: str
-    symbol: Optional[str]
+    symbol: str | None
     confidence: float
-    data: Optional[Dict[str, Any]] = None
-    suggestions: Optional[List[str]] = None
-    agents_triggered: Optional[List[str]] = None
-    interactive_elements: Optional[Dict[str, Any]] = None
+    data: dict[str, Any] | None = None
+    suggestions: list[str] | None = None
+    agents_triggered: list[str] | None = None
+    interactive_elements: dict[str, Any] | None = None
     timestamp: str
 
 
@@ -204,7 +204,7 @@ async def analyze_intent(text: str):
 
 # Helper functions for AI-powered routing
 
-def _generate_ai_suggestions(intent: str, symbol: Optional[str], tools_called: List[str]) -> List[str]:
+def _generate_ai_suggestions(intent: str, symbol: str | None, tools_called: list[str]) -> list[str]:
     """Generate contextual suggestions based on AI analysis"""
     base_suggestions = []
 
@@ -239,7 +239,7 @@ def _generate_ai_suggestions(intent: str, symbol: Optional[str], tools_called: L
 
     return base_suggestions[:4]  # Return max 4 suggestions
 
-def _extract_stock_data(analysis_result: Dict[str, Any]) -> Dict[str, Any]:
+def _extract_stock_data(analysis_result: dict[str, Any]) -> dict[str, Any]:
     """Extract stock data for frontend"""
     return {
         "symbol": analysis_result.get('symbol'),
