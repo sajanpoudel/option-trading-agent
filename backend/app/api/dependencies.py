@@ -20,9 +20,9 @@ request_timestamps = defaultdict(lambda: defaultdict(list))
 
 
 async def get_current_session(
-    x_session_token: Optional[str] = Header(None),
-    session_token: Optional[str] = None
-) -> Dict[str, Any]:
+    x_session_token: str | None = Header(None),
+    session_token: str | None = None
+) -> dict[str, Any]:
     """Get current browser session (dependency)"""
 
     token = x_session_token or session_token
@@ -115,7 +115,7 @@ class SessionManager:
     @staticmethod
     async def update_session_preferences(
         session_token: str,
-        preferences: Dict[str, Any]
+        preferences: dict[str, Any]
     ) -> bool:
         """Update session preferences"""
         try:
