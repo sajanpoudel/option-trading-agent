@@ -79,9 +79,9 @@ class OptionsOracleOrchestrator:
     async def analyze_stock(
         self,
         symbol: str,
-        user_risk_profile: Dict,
+        user_risk_profile: dict,
         analysis_type: str = "full"
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Complete stock analysis using all agents"""
 
         if not self.initialized:
@@ -166,9 +166,9 @@ class OptionsOracleOrchestrator:
     async def execute_buy_request(
         self,
         symbol: str,
-        user_risk_profile: Dict,
+        user_risk_profile: dict,
         user_query: str = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Execute buy request using buy agent"""
 
         if not self.initialized:
@@ -221,7 +221,7 @@ class OptionsOracleOrchestrator:
     async def _detect_market_scenario(
         self,
         symbol: str,
-        agent_results: Dict
+        agent_results: dict
     ) -> str:
         """Detect current market scenario for dynamic weight adjustment"""
 
@@ -248,7 +248,7 @@ class OptionsOracleOrchestrator:
             logger.warning(f"Scenario detection failed: {e}")
             return 'range_bound'  # Default scenario
 
-    def _adjust_weights_for_scenario(self, scenario: str) -> Dict[str, float]:
+    def _adjust_weights_for_scenario(self, scenario: str) -> dict[str, float]:
         """Dynamically adjust agent weights based on market scenario"""
 
         weights = self.base_weights.copy()
@@ -288,8 +288,8 @@ class OptionsOracleOrchestrator:
 
     def _calculate_weighted_decision(
         self,
-        agent_results: Dict,
-        weights: Dict[str, float]
+        agent_results: dict,
+        weights: dict[str, float]
     ) -> float:
         """Calculate final weighted decision score"""
 
@@ -328,9 +328,9 @@ class OptionsOracleOrchestrator:
         self,
         symbol: str,
         decision_score: float,
-        agent_results: Dict,
+        agent_results: dict,
         scenario: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate trading signal from decision score"""
 
         # Signal thresholds
@@ -381,7 +381,7 @@ class OptionsOracleOrchestrator:
 
     def _generate_signal_reasoning(
         self,
-        agent_results: Dict,
+        agent_results: dict,
         decision_score: float
     ) -> str:
         """Generate human-readable reasoning for the signal"""
@@ -415,7 +415,7 @@ class OptionsOracleOrchestrator:
 
         return "; ".join(reasoning_parts)
 
-    def _calculate_overall_confidence(self, agent_results: Dict) -> float:
+    def _calculate_overall_confidence(self, agent_results: dict) -> float:
         """Calculate overall confidence score"""
 
         confidences = []
@@ -427,7 +427,7 @@ class OptionsOracleOrchestrator:
             return sum(confidences) / len(confidences)
         return 0.5  # Default confidence
 
-    async def _save_analysis_to_db(self, analysis: Dict) -> None:
+    async def _save_analysis_to_db(self, analysis: dict) -> None:
         """Save analysis results to database"""
 
         try:
@@ -453,7 +453,7 @@ class OptionsOracleOrchestrator:
         except Exception as e:
             logger.error(f"Failed to save analysis to database: {e}")
 
-    async def get_agent_status(self) -> Dict[str, Any]:
+    async def get_agent_status(self) -> dict[str, Any]:
         """Get status of all agents"""
 
         status = {
