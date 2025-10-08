@@ -164,7 +164,7 @@ async def general_exception_handler(request: Request, exc: Exception):
 
 # Root endpoint
 @app.get("/")
-async def root() -> Dict[str, Any]:
+async def root() -> dict[str, Any]:
     """Root endpoint with API information"""
 
     return {
@@ -187,7 +187,7 @@ async def root() -> Dict[str, Any]:
 
 # Health check endpoint
 @app.get("/health")
-async def health_check() -> Dict[str, Any]:
+async def health_check() -> dict[str, Any]:
     """Health check endpoint"""
 
     # Check database
@@ -220,7 +220,7 @@ async def health_check() -> Dict[str, Any]:
 async def create_session(
     request: Request,
     risk_profile: str = "moderate"
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Create a new browser session"""
 
     # Get client info
@@ -249,8 +249,8 @@ async def create_session(
 
 @app.get("/api/v1/session/info")
 async def get_session_info(
-    session: Dict = Depends(get_current_session)
-) -> Dict[str, Any]:
+    session: dict = Depends(get_current_session)
+) -> dict[str, Any]:
     """Get current session information"""
 
     return {
@@ -279,13 +279,13 @@ from pydantic import BaseModel
 
 class ChatMessage(BaseModel):
     message: str
-    selectedStock: Optional[str] = None
+    selectedStock: str | None = None
 
 class ChatResponse(BaseModel):
     response: str
-    actions: Optional[Dict[str, Any]] = None
-    suggestions: Optional[List[str]] = None
-    agents_triggered: Optional[List[str]] = None
+    actions: dict[str, Any] | None = None
+    suggestions: list[str] | None = None
+    agents_triggered: list[str] | None = None
 
 @app.post("/api/v1/chat/message", response_model=ChatResponse)
 async def send_chat_message(message_data: ChatMessage):
@@ -735,7 +735,7 @@ async def process_trading_command(message_data: ChatMessage):
 
 
 @app.post("/api/v1/options/analyze")
-async def analyze_option_opportunity(request: Dict[str, Any]):
+async def analyze_option_opportunity(request: dict[str, Any]):
     """Analyze option opportunity based on user's buy request with budget"""
     try:
         symbol = request.get("symbol")
@@ -769,7 +769,7 @@ async def analyze_option_opportunity(request: Dict[str, Any]):
         raise HTTPException(status_code=500, detail=f"Option analysis failed: {str(e)}")
 
 @app.post("/api/v1/options/execute")
-async def execute_options_purchase(request: Dict[str, Any]):
+async def execute_options_purchase(request: dict[str, Any]):
     """Execute options purchase after user confirmation"""
     try:
         logger.info(f"🚀 Executing options purchase: {request.get('type', 'unknown')}")
