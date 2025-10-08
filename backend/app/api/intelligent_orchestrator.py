@@ -52,7 +52,7 @@ class QueryClassifier:
 
         # No fallback patterns - we use OpenAI for all classification
 
-    async def classify_query(self, query: str) -> Dict[str, float]:
+    async def classify_query(self, query: str) -> dict[str, float]:
         """
         Intelligently classify user query using OpenAI to understand intent
         Returns dict with category names and confidence scores (0-1)
@@ -140,7 +140,7 @@ Example responses:
             # Return empty scores if OpenAI fails
             return {}
 
-    async def extract_stock_symbol(self, query: str) -> Optional[str]:
+    async def extract_stock_symbol(self, query: str) -> str | None:
         """Intelligently extract stock symbol from query using OpenAI"""
         try:
             if not self.openai_client:
@@ -236,8 +236,8 @@ class IntelligentOrchestrator:
     async def process_user_query(
         self,
         query: str,
-        user_context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        user_context: dict[str, Any] | None = None
+    ) -> dict[str, Any]:
         """
         Main entry point: Process user query and orchestrate appropriate agents
         Returns complete analysis with all visualization data
@@ -287,7 +287,7 @@ class IntelligentOrchestrator:
 
         return response
 
-    def _determine_agents_to_trigger(self, query_scores: Dict[str, float]) -> List[str]:
+    def _determine_agents_to_trigger(self, query_scores: dict[str, float]) -> list[str]:
         """Determine which agents to trigger based on query classification"""
         threshold = 0.3  # Minimum confidence to trigger agent
         agents_to_trigger = []
@@ -347,10 +347,10 @@ class IntelligentOrchestrator:
         self,
         symbol: str,
         query: str,
-        agents_to_trigger: List[str],
-        user_risk_profile: Dict[str, Any],
-        user_context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        agents_to_trigger: list[str],
+        user_risk_profile: dict[str, Any],
+        user_context: dict[str, Any] | None = None
+    ) -> dict[str, Any]:
         """Orchestrate the execution of selected agents"""
 
         results = {}
@@ -434,7 +434,7 @@ class IntelligentOrchestrator:
 
         return results
 
-    async def _run_technical_agent(self, symbol: str, market_data: Dict) -> Dict[str, Any]:
+    async def _run_technical_agent(self, symbol: str, market_data: dict) -> dict[str, Any]:
         """Run technical analysis agent"""
         logger.info(f"🔍 Running technical agent for {symbol}")
 
@@ -474,7 +474,7 @@ class IntelligentOrchestrator:
             logger.error(f"Technical agent error: {e}")
             return {'error': str(e)}
 
-    async def _run_sentiment_agent(self, symbol: str, query: str) -> Dict[str, Any]:
+    async def _run_sentiment_agent(self, symbol: str, query: str) -> dict[str, Any]:
         """Run sentiment analysis agent"""
         logger.info(f"💭 Running sentiment agent for {symbol}")
 
@@ -498,7 +498,7 @@ class IntelligentOrchestrator:
             logger.error(f"Sentiment agent error: {e}")
             return {'error': str(e)}
 
-    async def _run_flow_agent(self, symbol: str, market_data: Dict) -> Dict[str, Any]:
+    async def _run_flow_agent(self, symbol: str, market_data: dict) -> dict[str, Any]:
         """Run options flow analysis agent"""
         logger.info(f"⚡ Running flow agent for {symbol}")
 
@@ -522,7 +522,7 @@ class IntelligentOrchestrator:
             logger.error(f"Flow agent error: {e}")
             return {'error': str(e)}
 
-    async def _run_history_agent(self, symbol: str, market_data: Dict) -> Dict[str, Any]:
+    async def _run_history_agent(self, symbol: str, market_data: dict) -> dict[str, Any]:
         """Run historical pattern analysis agent"""
         logger.info(f"📈 Running history agent for {symbol}")
 
@@ -546,7 +546,7 @@ class IntelligentOrchestrator:
             logger.error(f"History agent error: {e}")
             return {'error': str(e)}
 
-    async def _run_education_agent(self, query: str, symbol: str, all_results: Dict) -> Dict[str, Any]:
+    async def _run_education_agent(self, query: str, symbol: str, all_results: dict) -> dict[str, Any]:
         """Run education agent with context from other agents"""
         logger.info(f"🎓 Running education agent for query: {query}")
 
@@ -569,7 +569,7 @@ class IntelligentOrchestrator:
             logger.error(f"Education agent error: {e}")
             return {'error': str(e)}
 
-    async def _run_risk_agent(self, symbol: str, all_results: Dict, user_risk_profile: Dict) -> Dict[str, Any]:
+    async def _run_risk_agent(self, symbol: str, all_results: dict, user_risk_profile: dict) -> dict[str, Any]:
         """Run risk assessment agent"""
         logger.info(f"🛡️ Running risk agent for {symbol}")
 
@@ -589,7 +589,7 @@ class IntelligentOrchestrator:
             logger.error(f"Risk agent error: {e}")
             return {'error': str(e)}
 
-    async def _run_buy_agent(self, symbol: str, all_results: Dict, user_risk_profile: Dict) -> Dict[str, Any]:
+    async def _run_buy_agent(self, symbol: str, all_results: dict, user_risk_profile: dict) -> dict[str, Any]:
         """Run buy agent for trade execution"""
         logger.info(f"🎯 Running buy agent for {symbol}")
 
@@ -630,7 +630,7 @@ class IntelligentOrchestrator:
             logger.error(f"Buy agent error: {e}")
             return {'error': str(e)}
 
-    async def _run_multi_stock_agent(self, query: str, user_context: Dict[str, Any]) -> Dict[str, Any]:
+    async def _run_multi_stock_agent(self, query: str, user_context: dict[str, Any]) -> dict[str, Any]:
         """Run multi-stock analysis agent"""
         logger.info(f"🔍 Running multi-stock analysis for query: {query}")
 
@@ -663,7 +663,7 @@ class IntelligentOrchestrator:
                 }
             }
 
-    async def _generate_technical_indicators(self, symbol: str, market_data: Dict) -> Dict[str, Any]:
+    async def _generate_technical_indicators(self, symbol: str, market_data: dict) -> dict[str, Any]:
         """Generate complete technical indicators for frontend charts"""
         logger.info(f"📊 Generating technical indicators for {symbol}")
 
@@ -708,7 +708,7 @@ class IntelligentOrchestrator:
             logger.error(f"Technical indicators generation error: {e}")
             return {'error': str(e)}
 
-    async def _generate_chart_data(self, symbol: str, market_data: Dict) -> Dict[str, Any]:
+    async def _generate_chart_data(self, symbol: str, market_data: dict) -> dict[str, Any]:
         """Generate chart data for frontend visualization"""
         logger.info(f"📈 Generating chart data for {symbol}")
 
@@ -759,9 +759,9 @@ class IntelligentOrchestrator:
         self,
         query: str,
         symbol: str,
-        query_scores: Dict[str, float],
-        analysis_result: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        query_scores: dict[str, float],
+        analysis_result: dict[str, Any]
+    ) -> dict[str, Any]:
         """Generate intelligent response based on query type and analysis results"""
 
         # Determine primary query type
@@ -815,7 +815,7 @@ class IntelligentOrchestrator:
 
         return response
 
-    def _format_stock_data(self, symbol: str, analysis_result: Dict) -> Dict[str, Any]:
+    def _format_stock_data(self, symbol: str, analysis_result: dict) -> dict[str, Any]:
         """Format stock data for frontend stock view"""
         market_data = analysis_result.get('market_data', {})
         quote = market_data.get('quote', {})
@@ -831,7 +831,7 @@ class IntelligentOrchestrator:
             'description': market_data.get('description', f"{symbol} company description")
         }
 
-    def _format_agent_analysis(self, analysis_result: Dict) -> List[Dict[str, Any]]:
+    def _format_agent_analysis(self, analysis_result: dict) -> list[dict[str, Any]]:
         """Format agent analysis for frontend AI agent component"""
         agents_data = []
 
@@ -893,7 +893,7 @@ class IntelligentOrchestrator:
 
         return agents_data
 
-    def _format_trading_signals(self, analysis_result: Dict) -> List[Dict[str, Any]]:
+    def _format_trading_signals(self, analysis_result: dict) -> list[dict[str, Any]]:
         """Format trading signals for frontend"""
         decision_result = analysis_result.get('decision_engine', {})
 
@@ -934,7 +934,7 @@ class IntelligentOrchestrator:
 
         return signals
 
-    def _extract_technical_indicators(self, technical_data: Dict) -> List[str]:
+    def _extract_technical_indicators(self, technical_data: dict) -> list[str]:
         """Extract technical indicators for display"""
         # Handle case where technical_data might not be a dict
         if not isinstance(technical_data, dict):
@@ -964,7 +964,7 @@ class IntelligentOrchestrator:
 
         return result or ["Technical analysis complete"]
 
-    def _extract_sentiment_indicators(self, sentiment_data: Dict) -> List[str]:
+    def _extract_sentiment_indicators(self, sentiment_data: dict) -> list[str]:
         """Extract sentiment indicators for display"""
         analysis = sentiment_data.get('sentiment_analysis', {})
 
@@ -975,7 +975,7 @@ class IntelligentOrchestrator:
             f"Confidence: {analysis.get('confidence', 0.5) * 100:.0f}%"
         ]
 
-    def _extract_flow_indicators(self, flow_data: Dict) -> List[str]:
+    def _extract_flow_indicators(self, flow_data: dict) -> list[str]:
         """Extract flow indicators for display"""
         analysis = flow_data.get('flow_analysis', {})
 
@@ -986,7 +986,7 @@ class IntelligentOrchestrator:
             f"Unusual Activity: {analysis.get('unusual_activity', 'None detected')}"
         ]
 
-    def _extract_history_indicators(self, history_data: Dict) -> List[str]:
+    def _extract_history_indicators(self, history_data: dict) -> list[str]:
         """Extract historical indicators for display"""
         analysis = history_data.get('historical_analysis', {})
 
@@ -1002,7 +1002,7 @@ class IntelligentOrchestrator:
         query: str,
         symbol: str,
         primary_type: str,
-        analysis_result: Dict[str, Any]
+        analysis_result: dict[str, Any]
     ) -> str:
         """Generate contextual AI response based on analysis"""
 
@@ -1020,7 +1020,7 @@ class IntelligentOrchestrator:
         else:
             return self._generate_comprehensive_response(symbol, analysis_result)
 
-    def _generate_technical_response(self, symbol: str, analysis_result: Dict) -> str:
+    def _generate_technical_response(self, symbol: str, analysis_result: dict) -> str:
         """Generate technical analysis response"""
         technical = analysis_result.get('technical_agent', {})
         if technical.get('error'):
@@ -1039,7 +1039,7 @@ The analysis shows {scenario.lower()} market conditions with a technical strengt
 
 Click on the Technical agent above for detailed indicator breakdown and reasoning."""
 
-    def _generate_sentiment_response(self, symbol: str, analysis_result: Dict) -> str:
+    def _generate_sentiment_response(self, symbol: str, analysis_result: dict) -> str:
         """Generate sentiment analysis response"""
         sentiment = analysis_result.get('sentiment_agent', {})
         if sentiment.get('error'):
@@ -1058,7 +1058,7 @@ Market sentiment appears {overall_sentiment.lower()} based on social media, news
 
 Click on the Sentiment agent above for detailed sentiment breakdown."""
 
-    def _generate_trading_response(self, symbol: str, analysis_result: Dict) -> str:
+    def _generate_trading_response(self, symbol: str, analysis_result: dict) -> str:
         """Generate trading signals response"""
         decision = analysis_result.get('decision_engine', {})
         if decision.get('error'):
@@ -1079,7 +1079,7 @@ Click on the Sentiment agent above for detailed sentiment breakdown."""
 
 The system recommends to {direction.lower()} {symbol} based on comprehensive multi-agent analysis."""
 
-    def _generate_comprehensive_response(self, symbol: str, analysis_result: Dict) -> str:
+    def _generate_comprehensive_response(self, symbol: str, analysis_result: dict) -> str:
         """Generate comprehensive analysis response"""
         return f"""🧠 **Comprehensive Analysis for {symbol}**
 
@@ -1092,7 +1092,7 @@ I've completed a full multi-agent analysis covering:
 
 All data is now loaded in the analysis view. Click on any agent above to see detailed insights, or check the charts and technical indicators below."""
 
-    def _generate_suggested_actions(self, primary_type: str, analysis_result: Dict) -> List[str]:
+    def _generate_suggested_actions(self, primary_type: str, analysis_result: dict) -> list[str]:
         """Generate suggested follow-up actions"""
         actions = []
 
@@ -1127,7 +1127,7 @@ All data is now loaded in the analysis view. Click on any agent above to see det
 
         return actions
 
-    def _generate_multi_stock_response(self, analysis_result: Dict) -> str:
+    def _generate_multi_stock_response(self, analysis_result: dict) -> str:
         """Generate multi-stock analysis response"""
         multi_stock = analysis_result.get('multi_stock_agent', {}).get('multi_stock_analysis', {})
 
