@@ -20,18 +20,18 @@ router = APIRouter()
 class AnalysisRequest(BaseModel):
     """Stock analysis request"""
     symbol: str = Field(..., description="Stock symbol to analyze", example="AAPL")
-    risk_profile: Optional[str] = Field("moderate", description="Risk profile override")
-    analysis_type: Optional[str] = Field("full", description="Analysis type: full, quick, technical_only")
+    risk_profile: str | None = Field("moderate", description="Risk profile override")
+    analysis_type: str | None = Field("full", description="Analysis type: full, quick, technical_only")
 
 
 class AnalysisResponse(BaseModel):
     """Stock analysis response"""
     symbol: str
     analysis_id: str
-    signal: Dict[str, Any]
-    agent_results: Dict[str, Any]
-    strike_recommendations: List[Dict[str, Any]]
-    educational_content: Dict[str, Any]
+    signal: dict[str, Any]
+    agent_results: dict[str, Any]
+    strike_recommendations: list[dict[str, Any]]
+    educational_content: dict[str, Any]
     confidence: float
     timestamp: float
     processing_time: float
@@ -43,14 +43,14 @@ class QuickAnalysisResponse(BaseModel):
     direction: str
     strength: str
     confidence: float
-    current_price: Optional[float]
-    key_insights: List[str]
+    current_price: float | None
+    key_insights: list[str]
     timestamp: float
 
 
 # Analysis endpoints
 @router.get("/")
-async def analysis_info() -> Dict[str, Any]:
+async def analysis_info() -> dict[str, Any]:
     """Get analysis API information"""
 
     return {
@@ -80,7 +80,7 @@ async def analyze_stock(
     symbol: str,
     request: AnalysisRequest,
     background_tasks: BackgroundTasks,
-    session: Dict = Depends(get_current_session)
+    session: dict = Depends(get_current_session)
 ) -> AnalysisResponse:
     """Comprehensive stock analysis using AI agents"""
 
@@ -194,7 +194,7 @@ async def analyze_stock(
 @rate_limiter(max_requests=60, time_window=60)
 async def quick_analysis(
     symbol: str,
-    session: Dict = Depends(get_current_session)
+    session: dict = Depends(get_current_session)
 ) -> QuickAnalysisResponse:
     """Quick analysis for rapid decision making"""
 
@@ -227,9 +227,9 @@ async def quick_analysis(
 @router.get("/history")
 async def get_analysis_history(
     limit: int = 10,
-    symbol: Optional[str] = None,
-    session: Dict = Depends(get_current_session)
-) -> List[Dict[str, Any]]:
+    symbol: str | None = None,
+    session: dict = Depends(get_current_session)
+) -> list[dict[str, Any]]:
     """Get analysis history"""
 
     try:
@@ -246,7 +246,7 @@ async def get_analysis_history(
 
 
 @router.get("/symbols")
-async def get_supported_symbols() -> Dict[str, Any]:
+async def get_supported_symbols() -> dict[str, Any]:
     """Get list of supported symbols"""
 
     # Mock data - in production this would come from data providers
@@ -264,8 +264,8 @@ async def get_supported_symbols() -> Dict[str, Any]:
 @router.get("/status/{analysis_id}")
 async def get_analysis_status(
     analysis_id: str,
-    session: Dict = Depends(get_current_session)
-) -> Dict[str, Any]:
+    session: dict = Depends(get_current_session)
+) -> dict[str, Any]:
     """Get analysis status by ID"""
 
     try:
@@ -289,7 +289,7 @@ async def get_analysis_status(
 # Background tasks
 async def generate_educational_content(
     symbol: str,
-    signal: Dict[str, Any],
+    signal: dict[str, Any],
     risk_profile: str
 ) -> None:
     """Generate educational content in background"""
