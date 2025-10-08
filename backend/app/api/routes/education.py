@@ -18,9 +18,9 @@ router = APIRouter()
 # Request/Response Models
 class ContentRequest(BaseModel):
     """Educational content request"""
-    topic: Optional[str] = Field(None, description="Topic filter")
-    difficulty: Optional[str] = Field(None, description="Difficulty level: beginner, intermediate, advanced")
-    content_type: Optional[str] = Field(None, description="Content type: lesson, quiz, interactive, video")
+    topic: str | None = Field(None, description="Topic filter")
+    difficulty: str | None = Field(None, description="Difficulty level: beginner, intermediate, advanced")
+    content_type: str | None = Field(None, description="Content type: lesson, quiz, interactive, video")
 
 
 class ContentResponse(BaseModel):
@@ -31,10 +31,10 @@ class ContentResponse(BaseModel):
     difficulty: str
     content_type: str
     estimated_duration_minutes: int
-    content: Dict[str, Any]
-    prerequisites: List[str]
-    learning_objectives: List[str]
-    tags: List[str]
+    content: dict[str, Any]
+    prerequisites: list[str]
+    learning_objectives: list[str]
+    tags: list[str]
 
 
 class QuizRequest(BaseModel):
@@ -49,14 +49,14 @@ class QuizResponse(BaseModel):
     quiz_id: str
     topic: str
     difficulty: str
-    questions: List[Dict[str, Any]]
+    questions: list[dict[str, Any]]
     estimated_duration_minutes: int
     timestamp: float
 
 
 # Education endpoints
 @router.get("/")
-async def education_info() -> Dict[str, Any]:
+async def education_info() -> dict[str, Any]:
     """Get education API information"""
 
     return {
@@ -82,12 +82,12 @@ async def education_info() -> Dict[str, Any]:
 
 @router.get("/content")
 async def get_educational_content(
-    topic: Optional[str] = None,
-    difficulty: Optional[str] = None,
-    content_type: Optional[str] = None,
+    topic: str | None = None,
+    difficulty: str | None = None,
+    content_type: str | None = None,
     limit: int = 10,
-    session: Dict = Depends(get_current_session)
-) -> List[ContentResponse]:
+    session: dict = Depends(get_current_session)
+) -> list[ContentResponse]:
     """Get educational content with filtering"""
 
     try:
@@ -196,7 +196,7 @@ async def get_educational_content(
 @router.get("/content/{content_id}")
 async def get_content_by_id(
     content_id: str,
-    session: Dict = Depends(get_current_session)
+    session: dict = Depends(get_current_session)
 ) -> ContentResponse:
     """Get specific educational content by ID"""
 
@@ -244,7 +244,7 @@ async def get_content_by_id(
 @router.post("/quiz")
 async def generate_quiz(
     quiz_request: QuizRequest,
-    session: Dict = Depends(get_current_session)
+    session: dict = Depends(get_current_session)
 ) -> QuizResponse:
     """Generate adaptive quiz based on topic and difficulty"""
 
@@ -291,9 +291,9 @@ async def generate_quiz(
 @router.post("/explain")
 async def explain_concept(
     concept: str,
-    context: Optional[Dict[str, Any]] = None,
-    session: Dict = Depends(get_current_session)
-) -> Dict[str, Any]:
+    context: dict[str, Any] | None = None,
+    session: dict = Depends(get_current_session)
+) -> dict[str, Any]:
     """Get AI-powered explanation of trading concepts"""
 
     try:
@@ -338,10 +338,10 @@ async def explain_concept(
 
 @router.get("/glossary")
 async def get_trading_glossary(
-    search: Optional[str] = None,
-    category: Optional[str] = None,
-    session: Dict = Depends(get_current_session)
-) -> Dict[str, Any]:
+    search: str | None = None,
+    category: str | None = None,
+    session: dict = Depends(get_current_session)
+) -> dict[str, Any]:
     """Get trading terminology glossary"""
 
     try:
@@ -401,9 +401,9 @@ async def get_trading_glossary(
 @router.get("/learning-path")
 async def get_learning_path(
     current_level: str = "beginner",
-    interests: Optional[List[str]] = Query(default=None),
-    session: Dict = Depends(get_current_session)
-) -> Dict[str, Any]:
+    interests: list[str] | None = Query(default=None),
+    session: dict = Depends(get_current_session)
+) -> dict[str, Any]:
     """Get personalized learning path"""
     interests = interests or []
 
