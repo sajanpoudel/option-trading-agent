@@ -52,7 +52,7 @@ class ScenarioDetector:
             'range_bound': {'adx': 20, 'bb_squeeze': True}
         }
 
-    def detect(self, technical_results: Dict) -> str:
+    def detect(self, technical_results: dict) -> str:
         """Detect current market scenario"""
         try:
             scenario = technical_results.get('scenario', 'normal')
@@ -95,8 +95,8 @@ class RiskBasedStrikeSelector:
             }
         }
 
-    def select_strikes(self, signal: Dict, symbol: str,
-                      user_profile: Dict) -> List[StrikeRecommendation]:
+    def select_strikes(self, signal: dict, symbol: str,
+                      user_profile: dict) -> list[StrikeRecommendation]:
         """Select optimal strikes based on risk profile and signal"""
 
         try:
@@ -129,7 +129,7 @@ class RiskBasedStrikeSelector:
             logger.error(f"Strike selection failed: {e}")
             return []
 
-    def _generate_call_recommendations(self, symbol: str, profile: Dict, score: float) -> List[StrikeRecommendation]:
+    def _generate_call_recommendations(self, symbol: str, profile: dict, score: float) -> list[StrikeRecommendation]:
         """Generate call option recommendations"""
         base_price = 150.0  # Example current price
         delta_min, delta_max = profile['delta_range']
@@ -156,7 +156,7 @@ class RiskBasedStrikeSelector:
 
         return recommendations
 
-    def _generate_put_recommendations(self, symbol: str, profile: Dict, score: float) -> List[StrikeRecommendation]:
+    def _generate_put_recommendations(self, symbol: str, profile: dict, score: float) -> list[StrikeRecommendation]:
         """Generate put option recommendations"""
         base_price = 150.0
         delta_min, delta_max = profile['delta_range']
@@ -183,7 +183,7 @@ class RiskBasedStrikeSelector:
 
         return recommendations
 
-    def _generate_neutral_recommendations(self, symbol: str, profile: Dict) -> List[StrikeRecommendation]:
+    def _generate_neutral_recommendations(self, symbol: str, profile: dict) -> list[StrikeRecommendation]:
         """Generate neutral strategy recommendations"""
         base_price = 150.0
 
@@ -223,7 +223,7 @@ class DecisionEngine:
 
         logger.info("Decision Engine initialized")
 
-    async def process_stock(self, symbol: str, user_risk_profile: Dict) -> Dict:
+    async def process_stock(self, symbol: str, user_risk_profile: dict) -> dict:
         """Main decision processing pipeline"""
 
         logger.info(f"Processing decision for {symbol}")
@@ -329,7 +329,7 @@ class DecisionEngine:
 
         return weights
 
-    def _calculate_weighted_decision(self, agent_results: Dict, weights: ScenarioWeights) -> float:
+    def _calculate_weighted_decision(self, agent_results: dict, weights: ScenarioWeights) -> float:
         """Calculate final weighted decision score"""
 
         try:
@@ -375,7 +375,7 @@ class DecisionEngine:
 
         return 0.0
 
-    def _normalize_scores(self, scores: Dict[str, float]) -> Dict[str, float]:
+    def _normalize_scores(self, scores: dict[str, float]) -> dict[str, float]:
         """Normalize scores to [-1, 1] range"""
         normalized = {}
 
@@ -385,7 +385,7 @@ class DecisionEngine:
 
         return normalized
 
-    def _generate_signal(self, decision_score: float, ensemble_signal, agent_results: Dict) -> Dict:
+    def _generate_signal(self, decision_score: float, ensemble_signal, agent_results: dict) -> dict:
         """Generate trading signal from decision score and ensemble"""
 
         # Use ensemble signal as primary, decision score as confirmation
@@ -442,7 +442,7 @@ class DecisionEngine:
             else:
                 return 'straddle'
 
-    def _generate_reasoning(self, agent_results: Dict, score: float) -> str:
+    def _generate_reasoning(self, agent_results: dict, score: float) -> str:
         """Generate human-readable reasoning for the decision"""
 
         technical = agent_results.get('technical', {})
@@ -461,7 +461,7 @@ class DecisionEngine:
 
         return reasoning
 
-    def _calculate_overall_confidence(self, agent_results: Dict, ensemble_signal, weights: ScenarioWeights) -> float:
+    def _calculate_overall_confidence(self, agent_results: dict, ensemble_signal, weights: ScenarioWeights) -> float:
         """Calculate overall confidence in the decision"""
 
         try:
@@ -485,7 +485,7 @@ class DecisionEngine:
             logger.error(f"Confidence calculation failed: {e}")
             return 0.5  # Neutral confidence
 
-    def _fallback_decision(self, symbol: str, user_risk_profile: Dict) -> Dict:
+    def _fallback_decision(self, symbol: str, user_risk_profile: dict) -> dict:
         """Fallback decision when processing fails"""
 
         return {
