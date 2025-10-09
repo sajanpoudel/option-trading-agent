@@ -19,7 +19,7 @@ router = APIRouter()
 
 
 @router.get("/")
-async def system_info() -> Dict[str, Any]:
+async def system_info() -> dict[str, Any]:
     """Get system API information"""
 
     return {
@@ -44,7 +44,7 @@ async def system_info() -> Dict[str, Any]:
 
 
 @router.get("/status")
-async def get_system_status() -> Dict[str, Any]:
+async def get_system_status() -> dict[str, Any]:
     """Get comprehensive system status"""
 
     try:
@@ -104,7 +104,7 @@ async def get_system_status() -> Dict[str, Any]:
 
 
 @router.get("/health")
-async def detailed_health_check() -> Dict[str, Any]:
+async def detailed_health_check() -> dict[str, Any]:
     """Detailed health check for all system components"""
 
     try:
@@ -156,8 +156,8 @@ async def detailed_health_check() -> Dict[str, Any]:
 
 @router.get("/analytics")
 async def get_system_analytics(
-    session: Dict = Depends(get_current_session)
-) -> Dict[str, Any]:
+    session: dict = Depends(get_current_session)
+) -> dict[str, Any]:
     """Get comprehensive system analytics"""
 
     try:
@@ -201,8 +201,8 @@ async def get_system_analytics(
 @router.get("/config")
 async def get_system_config(
     key: str = None,
-    session: Dict = Depends(get_current_session)
-) -> Dict[str, Any]:
+    session: dict = Depends(get_current_session)
+) -> dict[str, Any]:
     """Get system configuration"""
 
     try:
@@ -241,8 +241,8 @@ async def update_system_config(
     key: str,
     value: Any,
     description: str = None,
-    session: Dict = Depends(get_current_session)
-) -> Dict[str, Any]:
+    session: dict = Depends(get_current_session)
+) -> dict[str, Any]:
     """Update system configuration"""
 
     try:
@@ -267,8 +267,8 @@ async def update_system_config(
 @router.get("/metrics")
 async def get_system_metrics(
     metric_type: str = "all",
-    session: Dict = Depends(get_current_session)
-) -> Dict[str, Any]:
+    session: dict = Depends(get_current_session)
+) -> dict[str, Any]:
     """Get detailed system metrics"""
 
     try:
@@ -319,8 +319,8 @@ async def get_system_logs(
     level: str = "INFO",
     limit: int = 100,
     component: str = None,
-    session: Dict = Depends(get_current_session)
-) -> Dict[str, Any]:
+    session: dict = Depends(get_current_session)
+) -> dict[str, Any]:
     """Get system logs (mock implementation)"""
 
     try:
@@ -378,8 +378,8 @@ async def get_system_logs(
 @router.post("/maintenance")
 async def trigger_maintenance_task(
     task_type: str,
-    session: Dict = Depends(get_current_session)
-) -> Dict[str, Any]:
+    session: dict = Depends(get_current_session)
+) -> dict[str, Any]:
     """Trigger system maintenance tasks"""
 
     try:
@@ -416,7 +416,7 @@ async def trigger_maintenance_task(
         raise HTTPException(status_code=500, detail="Failed to execute maintenance task")
 
 @router.get("/ingestion/status")
-async def get_ingestion_status() -> Dict[str, Any]:
+async def get_ingestion_status() -> dict[str, Any]:
     """
     Get Big Data Ingestion Layer status (Lambda Architecture)
     
@@ -438,7 +438,7 @@ async def get_ingestion_status() -> Dict[str, Any]:
 
 
 @router.get("/ingestion/health")
-async def get_ingestion_health() -> Dict[str, Any]:
+async def get_ingestion_health() -> dict[str, Any]:
     """Get ingestion layer health check"""
     try:
         health = ingestion_manager.get_health()
