@@ -22,23 +22,23 @@ class PaperTradeRequest(BaseModel):
     action: str = Field(..., description="buy or sell")
     quantity: int = Field(..., description="Number of shares/contracts")
     order_type: str = Field("market", description="market, limit, stop")
-    price: Optional[float] = Field(None, description="Price for limit orders")
-    option_details: Optional[Dict[str, Any]] = Field(None, description="Option contract details")
+    price: float | None = Field(None, description="Price for limit orders")
+    option_details: dict[str, Any] | None = Field(None, description="Option contract details")
 
 
 class BuyAnalysisRequest(BaseModel):
     """Buy analysis request"""
     symbol: str = Field(..., description="Stock symbol to analyze")
-    user_query: Optional[str] = Field(None, description="User's trading query")
-    risk_profile: Optional[Dict[str, Any]] = Field(None, description="User risk profile")
+    user_query: str | None = Field(None, description="User's trading query")
+    risk_profile: dict[str, Any] | None = Field(None, description="User risk profile")
 
 
 class TradeExecutionRequest(BaseModel):
     """Trade execution request"""
     symbol: str = Field(..., description="Stock symbol")
     recommendation_id: str = Field(..., description="ID of the recommendation to execute")
-    quantity: Optional[int] = Field(None, description="Override quantity")
-    user_risk_profile: Dict[str, Any] = Field(..., description="User risk profile")
+    quantity: int | None = Field(None, description="Override quantity")
+    user_risk_profile: dict[str, Any] = Field(..., description="User risk profile")
 
 
 class TradeResponse(BaseModel):
@@ -50,7 +50,7 @@ class TradeResponse(BaseModel):
     price: float
     total_value: float
     timestamp: float
-    estimated_fill_time: Optional[float] = None
+    estimated_fill_time: float | None = None
 
 
 class PositionResponse(BaseModel):
@@ -68,7 +68,7 @@ class PositionResponse(BaseModel):
 
 # Trading endpoints
 @router.get("/")
-async def trading_info() -> Dict[str, Any]:
+async def trading_info() -> dict[str, Any]:
     """Get trading API information"""
 
     return {
@@ -96,7 +96,7 @@ async def trading_info() -> Dict[str, Any]:
 @rate_limiter(max_requests=20, time_window=60)
 async def execute_paper_trade(
     trade_request: PaperTradeRequest,
-    session: Dict = Depends(get_current_session)
+    session: dict = Depends(get_current_session)
 ) -> TradeResponse:
     """Execute paper trade"""
 
@@ -167,10 +167,10 @@ async def execute_paper_trade(
 
 @router.get("/positions")
 async def get_positions(
-    symbol: Optional[str] = None,
+    symbol: str | None = None,
     status: str = "open",
-    session: Dict = Depends(get_current_session)
-) -> List[PositionResponse]:
+    session: dict = Depends(get_current_session)
+) -> list[PositionResponse]:
     """Get current positions"""
 
     try:
@@ -206,8 +206,8 @@ async def get_positions(
 @router.get("/positions/{position_id}")
 async def get_position_details(
     position_id: str,
-    session: Dict = Depends(get_current_session)
-) -> Dict[str, Any]:
+    session: dict = Depends(get_current_session)
+) -> dict[str, Any]:
     """Get detailed position information"""
 
     try:
@@ -243,8 +243,8 @@ async def get_position_details(
 @rate_limiter(max_requests=20, time_window=60)
 async def close_position(
     position_id: str,
-    session: Dict = Depends(get_current_session)
-) -> Dict[str, Any]:
+    session: dict = Depends(get_current_session)
+) -> dict[str, Any]:
     """Close a position"""
 
     try:
@@ -267,11 +267,11 @@ async def close_position(
 
 @router.get("/orders")
 async def get_orders(
-    symbol: Optional[str] = None,
+    symbol: str | None = None,
     status: str = "all",
     limit: int = 20,
-    session: Dict = Depends(get_current_session)
-) -> List[Dict[str, Any]]:
+    session: dict = Depends(get_current_session)
+) -> list[dict[str, Any]]:
     """Get order history"""
 
     try:
@@ -300,8 +300,8 @@ async def get_orders(
 
 @router.get("/portfolio/summary")
 async def get_portfolio_summary(
-    session: Dict = Depends(get_current_session)
-) -> Dict[str, Any]:
+    session: dict = Depends(get_current_session)
+) -> dict[str, Any]:
     """Get portfolio summary"""
 
     try:
@@ -333,8 +333,8 @@ async def get_portfolio_summary(
 @router.get("/portfolio/performance")
 async def get_portfolio_performance(
     period: str = "1m",
-    session: Dict = Depends(get_current_session)
-) -> Dict[str, Any]:
+    session: dict = Depends(get_current_session)
+) -> dict[str, Any]:
     """Get portfolio performance metrics"""
 
     try:
@@ -368,8 +368,8 @@ async def get_portfolio_performance(
 @rate_limiter(max_requests=10, time_window=60)
 async def analyze_buy_opportunity(
     request: BuyAnalysisRequest,
-    session: Dict = Depends(get_current_session)
-) -> Dict[str, Any]:
+    session: dict = Depends(get_current_session)
+) -> dict[str, Any]:
     """Analyze buy opportunity using AI agents"""
 
     symbol = request.symbol.upper()
@@ -420,7 +420,7 @@ async def analyze_buy_opportunity(
 @rate_limiter(max_requests=5, time_window=60)
 async def execute_trade_recommendation(
     request: TradeExecutionRequest,
-    session: Dict = Depends(get_current_session)
+    session: dict = Depends(get_current_session)
 ) -> TradeResponse:
     """Execute a trade based on AI recommendation"""
 
@@ -481,8 +481,8 @@ async def execute_trade_recommendation(
 @router.get("/buy-recommendations/{symbol}")
 async def get_buy_recommendations(
     symbol: str,
-    session: Dict = Depends(get_current_session)
-) -> Dict[str, Any]:
+    session: dict = Depends(get_current_session)
+) -> dict[str, Any]:
     """Get buy recommendations for a symbol"""
 
     symbol = symbol.upper()
