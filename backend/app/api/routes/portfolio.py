@@ -44,12 +44,12 @@ class RiskMetrics(BaseModel):
     max_loss_scenario: float
     beta: float
     correlation_spy: float
-    concentration_risk: Dict[str, float]
+    concentration_risk: dict[str, float]
 
 
 # Portfolio endpoints
 @router.get("/")
-async def portfolio_info() -> Dict[str, Any]:
+async def portfolio_info() -> dict[str, Any]:
     """Get portfolio API information"""
 
     return {
@@ -76,7 +76,7 @@ async def portfolio_info() -> Dict[str, Any]:
 
 @router.get("/summary")
 async def get_portfolio_summary(
-    session: Dict = Depends(get_current_session)
+    session: dict = Depends(get_current_session)
 ) -> PortfolioSummary:
     """Get portfolio summary"""
 
@@ -123,8 +123,8 @@ async def get_portfolio_summary(
 @router.get("/positions")
 async def get_portfolio_positions(
     include_closed: bool = False,
-    session: Dict = Depends(get_current_session)
-) -> List[Dict[str, Any]]:
+    session: dict = Depends(get_current_session)
+) -> list[dict[str, Any]]:
     """Get all portfolio positions"""
 
     try:
@@ -179,7 +179,7 @@ async def get_portfolio_positions(
 
 @router.get("/greeks")
 async def get_portfolio_greeks(
-    session: Dict = Depends(get_current_session)
+    session: dict = Depends(get_current_session)
 ) -> PortfolioGreeks:
     """Get aggregated portfolio Greeks"""
 
@@ -221,7 +221,7 @@ async def get_portfolio_greeks(
 
 @router.get("/risk")
 async def get_risk_metrics(
-    session: Dict = Depends(get_current_session)
+    session: dict = Depends(get_current_session)
 ) -> RiskMetrics:
     """Get portfolio risk metrics"""
 
@@ -249,8 +249,8 @@ async def get_risk_metrics(
 @router.get("/performance")
 async def get_portfolio_performance(
     period: str = "1M",
-    session: Dict = Depends(get_current_session)
-) -> Dict[str, Any]:
+    session: dict = Depends(get_current_session)
+) -> dict[str, Any]:
     """Get portfolio performance analytics"""
 
     try:
@@ -293,8 +293,8 @@ async def get_portfolio_performance(
 
 @router.get("/allocation")
 async def get_asset_allocation(
-    session: Dict = Depends(get_current_session)
-) -> Dict[str, Any]:
+    session: dict = Depends(get_current_session)
+) -> dict[str, Any]:
     """Get portfolio asset allocation"""
 
     try:
@@ -344,8 +344,8 @@ async def get_asset_allocation(
 
 @router.get("/alerts")
 async def get_portfolio_alerts(
-    session: Dict = Depends(get_current_session)
-) -> List[Dict[str, Any]]:
+    session: dict = Depends(get_current_session)
+) -> list[dict[str, Any]]:
     """Get portfolio alerts and notifications"""
 
     try:
@@ -389,9 +389,9 @@ async def get_portfolio_alerts(
 
 @router.post("/rebalance")
 async def suggest_rebalancing(
-    target_allocation: Dict[str, float],
-    session: Dict = Depends(get_current_session)
-) -> Dict[str, Any]:
+    target_allocation: dict[str, float],
+    session: dict = Depends(get_current_session)
+) -> dict[str, Any]:
     """Suggest portfolio rebalancing actions"""
 
     try:
