@@ -119,3 +119,9 @@ def test_feature_engineering_reads_iv_and_large_trades(predictor):
     assert features["iv_rank"] == 85
     assert features["large_trade_count"] == 2
     assert features["large_trade_volume"] == 1200
+
+
+def test_feature_engineering_reads_greeks(predictor):
+    features = predictor._engineer_features({"greeks": {"delta": 0.4, "gamma": 0.02, "theta": -0.1, "vega": 0.3}})
+    assert (features["net_delta"], features["net_gamma"]) == (0.4, 0.02)
+    assert (features["net_theta"], features["net_vega"]) == (-0.1, 0.3)
