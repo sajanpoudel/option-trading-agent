@@ -77,7 +77,7 @@ class MarketTickEvent:
     """Schema for market tick events"""
 
     @staticmethod
-    def create(symbol: str, price: float, volume: int, **kwargs) -> Dict[str, Any]:
+    def create(symbol: str, price: float, volume: int, **kwargs) -> dict[str, Any]:
         return {
             'timestamp': datetime.utcnow().isoformat(),
             'symbol': symbol,
@@ -94,7 +94,7 @@ class OptionsFlowEvent:
     """Schema for options flow events"""
 
     @staticmethod
-    def create(symbol: str, option_type: str, strike: float, expiry: str, **kwargs) -> Dict[str, Any]:
+    def create(symbol: str, option_type: str, strike: float, expiry: str, **kwargs) -> dict[str, Any]:
         return {
             'timestamp': datetime.utcnow().isoformat(),
             'symbol': symbol,
@@ -112,7 +112,7 @@ class SentimentEvent:
     """Schema for sentiment events"""
 
     @staticmethod
-    def create(symbol: str, score: float, source: str, **kwargs) -> Dict[str, Any]:
+    def create(symbol: str, score: float, source: str, **kwargs) -> dict[str, Any]:
         return {
             'timestamp': datetime.utcnow().isoformat(),
             'symbol': symbol,
@@ -128,7 +128,7 @@ class TechnicalSignalEvent:
     """Schema for technical signal events"""
 
     @staticmethod
-    def create(symbol: str, signal_type: str, value: float, **kwargs) -> Dict[str, Any]:
+    def create(symbol: str, signal_type: str, value: float, **kwargs) -> dict[str, Any]:
         return {
             'timestamp': datetime.utcnow().isoformat(),
             'symbol': symbol,
