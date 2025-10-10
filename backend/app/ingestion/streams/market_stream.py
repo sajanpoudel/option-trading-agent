@@ -22,9 +22,9 @@ class MarketDataStream:
     """
 
     def __init__(self):
-        self.subscribed_symbols: Set[str] = set()
+        self.subscribed_symbols: set[str] = set()
         self.is_streaming = False
-        self._stream_task: Optional[asyncio.Task] = None
+        self._stream_task: asyncio.Task | None = None
 
     async def start(self, symbols: list[str] = None):
         """
