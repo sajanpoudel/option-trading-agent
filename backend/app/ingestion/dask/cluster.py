@@ -26,7 +26,7 @@ class DaskClusterManager:
     """
 
     def __init__(self):
-        self.client: Optional[Client] = None
+        self.client: Client | None = None
         self.is_connected = False
         self._jobs_submitted = 0
 
@@ -146,7 +146,7 @@ class DaskClusterManager:
             logger.error(f"Error mapping Dask tasks: {e}")
             return [func(item) for item in items]
 
-    def get_cluster_info(self) -> Dict[str, Any]:
+    def get_cluster_info(self) -> dict[str, Any]:
         """Get information about the Dask cluster"""
         if not self.is_connected:
             return {
@@ -171,7 +171,7 @@ class DaskClusterManager:
             logger.error(f"Error getting cluster info: {e}")
             return {'error': str(e)}
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get cluster statistics"""
         return self.get_cluster_info()
 
