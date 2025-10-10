@@ -34,10 +34,10 @@ class IngestionManager:
 
     def __init__(self):
         self.is_running = False
-        self._start_time: Optional[datetime] = None
-        self._latest_ticks: Dict[str, Dict[str, Any]] = {}  # Buffer for latest ticks
-        self._latest_flows: Dict[str, List[Dict[str, Any]]] = {}  # Buffer for options flow
-        self._latest_sentiment: Dict[str, Dict[str, Any]] = {}  # Buffer for sentiment
+        self._start_time: datetime | None = None
+        self._latest_ticks: dict[str, dict[str, Any]] = {}  # Buffer for latest ticks
+        self._latest_flows: dict[str, list[dict[str, Any]]] = {}  # Buffer for options flow
+        self._latest_sentiment: dict[str, dict[str, Any]] = {}  # Buffer for sentiment
 
     async def start(self):
         """
@@ -121,7 +121,7 @@ class IngestionManager:
 
         logger.info("Registered Kafka consumer handlers")
 
-    async def _handle_market_tick(self, event: Dict[str, Any]):
+    async def _handle_market_tick(self, event: dict[str, Any]):
         """Process market tick events from Kafka"""
         symbol = event.get('symbol')
         if symbol:
@@ -129,7 +129,7 @@ class IngestionManager:
             self._latest_ticks[symbol] = event
             logger.debug(f"Processed market tick: {symbol} @ ${event.get('price', 0):.2f}")
 
-    async def _handle_options_flow(self, event: Dict[str, Any]):
+    async def _handle_options_flow(self, event: dict[str, Any]):
         """Process options flow events from Kafka"""
         symbol = event.get('symbol')
         if symbol:
@@ -140,7 +140,7 @@ class IngestionManager:
             self._latest_flows[symbol] = self._latest_flows[symbol][-100:]  # Keep last 100
             logger.debug(f"Processed options flow: {symbol} {event.get('option_type')} ${event.get('strike')}")
 
-    async def _handle_sentiment(self, event: Dict[str, Any]):
+    async def _handle_sentiment(self, event: dict[str, Any]):
         """Process sentiment events from Kafka"""
         symbol = event.get('symbol')
         if symbol:
@@ -169,9 +169,9 @@ class IngestionManager:
     async def run_batch_job(
         self,
         job_type: str,
-        symbols: List[str],
+        symbols: list[str],
         **kwargs
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         Run a batch processing job on Dask cluster
 
@@ -202,7 +202,7 @@ class IngestionManager:
 
     # ===== SERVING LAYER (Unified View) =====
 
-    def get_latest_tick(self, symbol: str) -> Optional[Dict[str, Any]]:
+    def get_latest_tick(self, symbol: str) -> dict[str, Any] | None:
         """
         Get latest market tick for a symbol from Kafka buffer
 
@@ -238,7 +238,7 @@ class IngestionManager:
 
     # ===== MONITORING =====
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get comprehensive status of ingestion layer"""
         return {
             'is_running': self.is_running,
@@ -262,7 +262,7 @@ class IngestionManager:
             }
         }
 
-    def get_health(self) -> Dict[str, Any]:
+    def get_health(self) -> dict[str, Any]:
         """Health check endpoint data"""
         status = self.get_status()
 
