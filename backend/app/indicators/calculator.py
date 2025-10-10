@@ -36,7 +36,7 @@ class TechnicalIndicatorsCalculator:
         self,
         df: pd.DataFrame,
         symbol: str = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Calculate comprehensive technical indicators using professional library"""
 
         try:
@@ -112,7 +112,7 @@ class TechnicalIndicatorsCalculator:
             logger.error(f"Professional indicators calculation failed: {e}")
             return self._get_fallback_indicators()
 
-    def _convert_to_quotes(self, df: pd.DataFrame) -> List[Quote]:
+    def _convert_to_quotes(self, df: pd.DataFrame) -> list[Quote]:
         """Convert pandas DataFrame to Quote objects"""
 
         try:
@@ -164,7 +164,7 @@ class TechnicalIndicatorsCalculator:
             logger.error(f"Quote conversion failed: {e}")
             return []
 
-    def _calculate_moving_averages(self, quotes: List[Quote]) -> Dict[str, float]:
+    def _calculate_moving_averages(self, quotes: list[Quote]) -> dict[str, float]:
         """Calculate multiple types of moving averages"""
 
         ma_data = {}
@@ -218,7 +218,7 @@ class TechnicalIndicatorsCalculator:
 
         return ma_data
 
-    def _calculate_oscillators(self, quotes: List[Quote]) -> Dict[str, float]:
+    def _calculate_oscillators(self, quotes: list[Quote]) -> dict[str, float]:
         """Calculate oscillator indicators"""
 
         oscillators = {}
@@ -261,7 +261,7 @@ class TechnicalIndicatorsCalculator:
 
         return oscillators
 
-    def _calculate_trend_indicators(self, quotes: List[Quote]) -> Dict[str, Any]:
+    def _calculate_trend_indicators(self, quotes: list[Quote]) -> dict[str, Any]:
         """Calculate trend-following indicators"""
 
         trend_data = {}
@@ -320,7 +320,7 @@ class TechnicalIndicatorsCalculator:
 
         return trend_data
 
-    def _calculate_volatility_indicators(self, quotes: List[Quote], df: pd.DataFrame) -> Dict[str, Any]:
+    def _calculate_volatility_indicators(self, quotes: list[Quote], df: pd.DataFrame) -> dict[str, Any]:
         """Calculate volatility-based indicators"""
 
         # Define column names for consistency
@@ -394,7 +394,7 @@ class TechnicalIndicatorsCalculator:
 
         return vol_data
 
-    def _calculate_volume_indicators(self, quotes: List[Quote]) -> Dict[str, Any]:
+    def _calculate_volume_indicators(self, quotes: list[Quote]) -> dict[str, Any]:
         """Calculate volume-based indicators"""
 
         volume_data = {}
@@ -441,7 +441,7 @@ class TechnicalIndicatorsCalculator:
 
         return volume_data
 
-    def _calculate_support_resistance(self, quotes: List[Quote]) -> Dict[str, Any]:
+    def _calculate_support_resistance(self, quotes: list[Quote]) -> dict[str, Any]:
         """Calculate support and resistance levels"""
 
         sr_data = {}
@@ -491,7 +491,7 @@ class TechnicalIndicatorsCalculator:
 
         return sr_data
 
-    def _calculate_patterns(self, quotes: List[Quote]) -> Dict[str, Any]:
+    def _calculate_patterns(self, quotes: list[Quote]) -> dict[str, Any]:
         """Calculate pattern recognition indicators"""
 
         patterns = {}
@@ -529,7 +529,7 @@ class TechnicalIndicatorsCalculator:
 
         return patterns
 
-    def _calculate_advanced_indicators(self, quotes: List[Quote]) -> Dict[str, Any]:
+    def _calculate_advanced_indicators(self, quotes: list[Quote]) -> dict[str, Any]:
         """Calculate advanced technical indicators"""
 
         advanced = {}
@@ -563,7 +563,7 @@ class TechnicalIndicatorsCalculator:
 
         return advanced
 
-    def _convert_decimals_to_float(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def _convert_decimals_to_float(self, data: dict[str, Any]) -> dict[str, Any]:
         """Convert Decimal values to float for JSON serialization"""
         from datetime import datetime
         from decimal import Decimal
@@ -602,7 +602,7 @@ class TechnicalIndicatorsCalculator:
             np.abs(low[1:] - close[:-1]),
         ])
 
-    def _calculate_basic_indicators(self, df: pd.DataFrame, symbol: str = None) -> Dict[str, Any]:
+    def _calculate_basic_indicators(self, df: pd.DataFrame, symbol: str = None) -> dict[str, Any]:
         """Calculate basic indicators using pandas when stock-indicators is not available"""
         try:
             # Ensure we have the required columns
@@ -696,7 +696,7 @@ class TechnicalIndicatorsCalculator:
             logger.error(f"Basic indicator calculation failed: {e}")
             return self._get_fallback_indicators()
 
-    def _get_fallback_indicators(self) -> Dict[str, Any]:
+    def _get_fallback_indicators(self) -> dict[str, Any]:
         """Fallback indicators when calculation fails"""
 
         base_price = 150.0
