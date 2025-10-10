@@ -29,7 +29,7 @@ class KafkaProducerManager:
     """
 
     def __init__(self):
-        self.producer: Optional[AIOKafkaProducer] = None
+        self.producer: AIOKafkaProducer | None = None
         self.is_running = False
         self._message_count = 0
 
@@ -74,8 +74,8 @@ class KafkaProducerManager:
     async def publish(
         self,
         topic: KafkaTopics,
-        event: Dict[str, Any],
-        key: Optional[str] = None
+        event: dict[str, Any],
+        key: str | None = None
     ) -> bool:
         """
         Publish an event to a Kafka topic
@@ -120,8 +120,8 @@ class KafkaProducerManager:
     async def publish_batch(
         self,
         topic: KafkaTopics,
-        events: list[Dict[str, Any]],
-        keys: Optional[list[str]] = None
+        events: list[dict[str, Any]],
+        keys: list[str] | None = None
     ) -> int:
         """
         Publish multiple events efficiently
@@ -151,7 +151,7 @@ class KafkaProducerManager:
         logger.info(f"Batch published {success_count}/{len(events)} events to {topic}")
         return success_count
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get producer statistics"""
         return {
             'is_running': self.is_running,
