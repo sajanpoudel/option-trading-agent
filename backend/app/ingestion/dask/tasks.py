@@ -34,7 +34,7 @@ class BatchTasks:
         symbol: str,
         start_date: datetime,
         end_date: datetime
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Calculate historical technical features for a symbol
 
@@ -67,7 +67,7 @@ class BatchTasks:
     def aggregate_options_flow(
         symbol: str,
         window_hours: int = 24
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Aggregate options flow data over a time window
 
@@ -98,7 +98,7 @@ class BatchTasks:
     def compute_sentiment_trends(
         symbol: str,
         days: int = 7
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Compute sentiment trends over multiple days
 
@@ -125,9 +125,9 @@ class BatchTasks:
 
     @staticmethod
     def batch_process_symbols(
-        symbols: List[str],
+        symbols: list[str],
         task_type: str = 'features'
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         Process multiple symbols in parallel using Dask
 
@@ -169,7 +169,7 @@ class BatchTasks:
 
     @staticmethod
     def create_feature_dataframe(
-        data: List[Dict[str, Any]]
+        data: list[dict[str, Any]]
     ) -> pd.DataFrame:
         """
         Convert batch results to pandas DataFrame
@@ -191,7 +191,7 @@ class BatchTasks:
     def window_aggregation(
         df: pd.DataFrame,
         window: str = '1H',
-        agg_cols: List[str] = None
+        agg_cols: list[str] = None
     ) -> pd.DataFrame:
         """
         Perform time-window aggregation on streaming data
