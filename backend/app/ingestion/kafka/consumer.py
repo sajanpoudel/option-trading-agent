@@ -6,7 +6,8 @@ Async consumer with configurable message handlers
 import asyncio
 import json
 from collections import defaultdict
-from typing import Any, Awaitable, Callable, Dict, Optional
+from typing import Any, Dict, Optional
+from collections.abc import Awaitable, Callable
 
 from loguru import logger
 
@@ -28,8 +29,8 @@ class KafkaConsumerManager:
     """
 
     def __init__(self):
-        self.consumers: Dict[str, AIOKafkaConsumer] = {}
-        self.handlers: Dict[KafkaTopics, Callable] = {}
+        self.consumers: dict[str, AIOKafkaConsumer] = {}
+        self.handlers: dict[KafkaTopics, Callable] = {}
         self.is_running = False
         self._consumer_tasks = []
         self._stats = defaultdict(int)
@@ -81,7 +82,7 @@ class KafkaConsumerManager:
     def register_handler(
         self,
         topic: KafkaTopics,
-        handler: Callable[[Dict[str, Any]], Awaitable[None]]
+        handler: Callable[[dict[str, Any]], Awaitable[None]]
     ):
         """
         Register a message handler for a topic
@@ -155,7 +156,7 @@ class KafkaConsumerManager:
         except Exception as e:
             logger.error(f"Consumer error for {topic}: {e}")
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get consumer statistics"""
         return {
             'is_running': self.is_running,
