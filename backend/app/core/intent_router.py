@@ -221,7 +221,7 @@ class AIIntentRouter:
 
         logger.info("AI Intent Router initialized with tool calling capabilities")
 
-    async def route_and_process(self, user_message: str, context: Dict[str, Any] = None) -> Dict[str, Any]:
+    async def route_and_process(self, user_message: str, context: dict[str, Any] = None) -> dict[str, Any]:
         """
         Use OpenAI to determine intent and call appropriate tools
         Returns formatted response ready for user display
@@ -334,7 +334,7 @@ You can call multiple tools if needed.
             logger.error(f"AI routing failed: {e}")
             return await self._fallback_response(user_message)
 
-    async def _execute_tool_call(self, tool_call) -> Dict[str, Any]:
+    async def _execute_tool_call(self, tool_call) -> dict[str, Any]:
         """Execute a single tool call and return results"""
         function_name = tool_call.function.name
         arguments = json.loads(tool_call.function.arguments)
@@ -365,7 +365,7 @@ You can call multiple tools if needed.
             logger.error(f"Tool execution failed for {function_name}: {e}")
             return {"error": str(e), "tool": function_name}
 
-    async def _analyze_stock(self, args: Dict) -> Dict[str, Any]:
+    async def _analyze_stock(self, args: dict) -> dict[str, Any]:
         """Execute stock analysis"""
         try:
             from backend.app.agents.orchestrator import OptionsOracleOrchestrator
@@ -392,7 +392,7 @@ You can call multiple tools if needed.
         except Exception as e:
             return {"tool": "analyze_stock", "error": str(e), "success": False}
 
-    async def _explain_concept(self, args: Dict) -> Dict[str, Any]:
+    async def _explain_concept(self, args: dict) -> dict[str, Any]:
         """Execute concept explanation"""
         try:
             from backend.app.api.routes.education import explain_concept as explain_api
@@ -413,7 +413,7 @@ You can call multiple tools if needed.
         except Exception as e:
             return {"tool": "explain_concept", "error": str(e), "success": False}
 
-    async def _get_market_trends(self, args: Dict) -> Dict[str, Any]:
+    async def _get_market_trends(self, args: dict) -> dict[str, Any]:
         """Get market trends"""
         try:
             # This would integrate with your hot stocks API
@@ -428,7 +428,7 @@ You can call multiple tools if needed.
         except Exception as e:
             return {"tool": "get_market_trends", "error": str(e), "success": False}
 
-    async def _portfolio_analysis(self, args: Dict) -> Dict[str, Any]:
+    async def _portfolio_analysis(self, args: dict) -> dict[str, Any]:
         """Analyze portfolio"""
         try:
             # This would integrate with portfolio API
@@ -441,7 +441,7 @@ You can call multiple tools if needed.
         except Exception as e:
             return {"tool": "portfolio_analysis", "error": str(e), "success": False}
 
-    async def _generate_quiz(self, args: Dict) -> Dict[str, Any]:
+    async def _generate_quiz(self, args: dict) -> dict[str, Any]:
         """Generate educational quiz"""
         try:
             from backend.app.api.routes.education import QuizRequest
@@ -463,7 +463,7 @@ You can call multiple tools if needed.
         except Exception as e:
             return {"tool": "generate_quiz", "error": str(e), "success": False}
 
-    async def _casual_response(self, args: Dict) -> Dict[str, Any]:
+    async def _casual_response(self, args: dict) -> dict[str, Any]:
         """Generate casual response"""
         message = args["message"]
 
@@ -489,7 +489,7 @@ You can call multiple tools if needed.
             "success": True
         }
 
-    async def _buy_option(self, args: Dict) -> Dict[str, Any]:
+    async def _buy_option(self, args: dict) -> dict[str, Any]:
         """Execute single option purchase analysis"""
         try:
             from backend.app.agents.trading.buy import analyze_option_buy
@@ -518,7 +518,7 @@ You can call multiple tools if needed.
         except Exception as e:
             return {"tool": "buy_option", "error": str(e), "success": False}
 
-    async def _buy_multiple_options(self, args: Dict) -> Dict[str, Any]:
+    async def _buy_multiple_options(self, args: dict) -> dict[str, Any]:
         """Execute multi-options portfolio analysis"""
         try:
             from backend.app.agents.trading.multi_options import analyze_multi_options_buy
@@ -550,7 +550,7 @@ You can call multiple tools if needed.
         self,
         user_message: str,
         ai_message,
-        tool_results: List[Dict]
+        tool_results: list[dict]
     ) -> str:
         """Let OpenAI format the final human-readable response"""
         try:
@@ -593,7 +593,7 @@ Make the response human-readable and engaging!
             logger.error(f"Response formatting failed: {e}")
             return self._create_fallback_formatted_response(tool_results)
 
-    def _create_fallback_formatted_response(self, tool_results: List[Dict]) -> str:
+    def _create_fallback_formatted_response(self, tool_results: list[dict]) -> str:
         """Create a basic formatted response if AI formatting fails"""
         response = "## Analysis Complete\n\n"
 
@@ -636,7 +636,7 @@ Make the response human-readable and engaging!
         else:
             return "GENERAL_CHAT"
 
-    async def _fallback_response(self, user_message: str) -> Dict[str, Any]:
+    async def _fallback_response(self, user_message: str) -> dict[str, Any]:
         """Fallback response when AI routing fails"""
         return {
             "response": f"I encountered an issue processing your request: '{user_message}'. Please try asking about a specific stock symbol or trading concept.",
@@ -652,7 +652,7 @@ Make the response human-readable and engaging!
 # Global instance
 ai_intent_router = AIIntentRouter()
 
-async def route_with_ai(message: str, context: Dict[str, Any] = None) -> Dict[str, Any]:
+async def route_with_ai(message: str, context: dict[str, Any] = None) -> dict[str, Any]:
     """
     Main function to route messages using AI with tool calling
     """
