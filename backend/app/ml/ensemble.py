@@ -31,13 +31,13 @@ class EnsembleSignal:
     confidence: float   # 0 to 1 scale
     direction: str      # 'BUY', 'SELL', 'HOLD'
     strength: str       # 'strong', 'moderate', 'weak'
-    component_scores: Dict[str, float]
-    component_weights: Dict[str, float]
+    component_scores: dict[str, float]
+    component_weights: dict[str, float]
     market_regime: str
-    volatility_forecast: Dict[str, Any]
-    risk_assessment: Dict[str, Any]
-    key_insights: List[str]
-    recommended_strategies: List[str]
+    volatility_forecast: dict[str, Any]
+    risk_assessment: dict[str, Any]
+    key_insights: list[str]
+    recommended_strategies: list[str]
     timestamp: datetime
 
 
@@ -94,9 +94,9 @@ class EnsembleDecisionModel:
     async def generate_signal(
         self,
         symbol: str,
-        market_data: Dict[str, Any],
-        sentiment_data: Optional[Dict[str, Any]] = None,
-        options_data: Optional[Dict[str, Any]] = None
+        market_data: dict[str, Any],
+        sentiment_data: dict[str, Any] | None = None,
+        options_data: dict[str, Any] | None = None
     ) -> EnsembleSignal:
         """Generate comprehensive trading signal using ensemble approach"""
 
@@ -185,7 +185,7 @@ class EnsembleDecisionModel:
             logger.error(f"Ensemble signal generation failed for {symbol}: {e}")
             return self._fallback_signal(symbol)
 
-    async def _detect_market_regime(self, symbol: str, market_data: Dict[str, Any]) -> str:
+    async def _detect_market_regime(self, symbol: str, market_data: dict[str, Any]) -> str:
         """Detect current market regime for dynamic weight adjustment"""
 
         try:
@@ -226,7 +226,7 @@ class EnsembleDecisionModel:
             logger.warning(f"Market regime detection failed: {e}")
             return 'normal'
 
-    async def _get_sentiment_score(self, sentiment_data: Dict[str, Any]) -> float:
+    async def _get_sentiment_score(self, sentiment_data: dict[str, Any]) -> float:
         """Get sentiment score from OpenAI analyzer"""
 
         try:
@@ -272,7 +272,7 @@ class EnsembleDecisionModel:
             logger.warning(f"Sentiment score calculation failed: {e}")
             return 0.0
 
-    async def _get_flow_score(self, options_data: Dict[str, Any]) -> float:
+    async def _get_flow_score(self, options_data: dict[str, Any]) -> float:
         """Get flow score from LightGBM predictor"""
 
         try:
@@ -303,7 +303,7 @@ class EnsembleDecisionModel:
             logger.warning(f"Flow score calculation failed: {e}")
             return 0.0
 
-    async def _get_volatility_score(self, symbol: str, market_data: Dict[str, Any]) -> float:
+    async def _get_volatility_score(self, symbol: str, market_data: dict[str, Any]) -> float:
         """Get volatility-based score"""
 
         try:
@@ -340,7 +340,7 @@ class EnsembleDecisionModel:
             logger.warning(f"Volatility score calculation failed: {e}")
             return 0.0
 
-    async def _get_technical_score(self, market_data: Dict[str, Any]) -> float:
+    async def _get_technical_score(self, market_data: dict[str, Any]) -> float:
         """Get technical analysis score from market data"""
 
         try:
@@ -399,7 +399,7 @@ class EnsembleDecisionModel:
 
         return default
 
-    def _adjust_weights_for_regime(self, market_regime: str) -> Dict[str, float]:
+    def _adjust_weights_for_regime(self, market_regime: str) -> dict[str, float]:
         """Adjust component weights based on market regime"""
 
         weights = self.base_weights.copy()
@@ -417,7 +417,7 @@ class EnsembleDecisionModel:
 
         return weights
 
-    def _calculate_ensemble_score(self, scores: Dict[str, float], weights: Dict[str, float]) -> float:
+    def _calculate_ensemble_score(self, scores: dict[str, float], weights: dict[str, float]) -> float:
         """Calculate weighted ensemble score"""
 
         weighted_score = 0.0
@@ -437,8 +437,8 @@ class EnsembleDecisionModel:
 
     def _calculate_ensemble_confidence(
         self,
-        scores: Dict[str, float],
-        weights: Dict[str, float],
+        scores: dict[str, float],
+        weights: dict[str, float],
         market_regime: str
     ) -> float:
         """Calculate overall ensemble confidence"""
@@ -472,7 +472,7 @@ class EnsembleDecisionModel:
 
         return np.clip(confidence, 0.0, 1.0)
 
-    def _determine_direction_and_strength(self, score: float, confidence: float) -> Tuple[str, str]:
+    def _determine_direction_and_strength(self, score: float, confidence: float) -> tuple[str, str]:
         """Determine trading direction and strength from score and confidence"""
 
         abs_score = abs(score)
@@ -501,7 +501,7 @@ class EnsembleDecisionModel:
 
         return direction, strength
 
-    async def _get_detailed_volatility_forecast(self, symbol: str, market_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _get_detailed_volatility_forecast(self, symbol: str, market_data: dict[str, Any]) -> dict[str, Any]:
         """Get detailed volatility forecast information"""
 
         try:
@@ -526,10 +526,10 @@ class EnsembleDecisionModel:
 
     def _assess_ensemble_risk(
         self,
-        scores: Dict[str, float],
-        volatility_forecast: Dict[str, Any],
+        scores: dict[str, float],
+        volatility_forecast: dict[str, Any],
         market_regime: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Assess overall risk of the ensemble signal"""
 
         risk_factors = []
@@ -577,11 +577,11 @@ class EnsembleDecisionModel:
 
     def _generate_insights(
         self,
-        scores: Dict[str, float],
-        weights: Dict[str, float],
+        scores: dict[str, float],
+        weights: dict[str, float],
         market_regime: str,
-        volatility_forecast: Dict[str, Any]
-    ) -> List[str]:
+        volatility_forecast: dict[str, Any]
+    ) -> list[str]:
         """Generate key insights from ensemble analysis"""
 
         insights = []
@@ -621,9 +621,9 @@ class EnsembleDecisionModel:
         self,
         direction: str,
         strength: str,
-        volatility_forecast: Dict[str, Any],
-        risk_assessment: Dict[str, Any]
-    ) -> List[str]:
+        volatility_forecast: dict[str, Any],
+        risk_assessment: dict[str, Any]
+    ) -> list[str]:
         """Recommend options strategies based on signal and market conditions"""
 
         strategies = []
