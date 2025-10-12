@@ -37,7 +37,7 @@ class FlowPrediction:
     unusual_activity_score: float
     put_call_bias: float
     volume_prediction: float
-    key_indicators: List[str]
+    key_indicators: list[str]
     risk_level: str
     timestamp: datetime
 
@@ -80,7 +80,7 @@ class LightGBMFlowPredictor:
         else:
             logger.info("LightGBM Flow Predictor initialized")
 
-    async def predict_flow(self, flow_data: Dict[str, Any]) -> FlowPrediction:
+    async def predict_flow(self, flow_data: dict[str, Any]) -> FlowPrediction:
         """Predict options flow sentiment and unusual activity"""
 
         try:
@@ -135,7 +135,7 @@ class LightGBMFlowPredictor:
             logger.error(f"Flow prediction failed: {e}")
             return self._fallback_prediction(flow_data)
 
-    def _engineer_features(self, flow_data: Dict[str, Any]) -> Dict[str, float]:
+    def _engineer_features(self, flow_data: dict[str, Any]) -> dict[str, float]:
         """Engineer features from raw options flow data"""
 
         features = {}
@@ -209,7 +209,7 @@ class LightGBMFlowPredictor:
             logger.error(f"Feature engineering failed: {e}")
             return self._get_default_features()
 
-    def _rule_based_prediction(self, features: Dict[str, float], flow_data: Dict) -> FlowPrediction:
+    def _rule_based_prediction(self, features: dict[str, float], flow_data: dict) -> FlowPrediction:
         """Rule-based prediction when ML model is not available"""
 
         try:
@@ -283,7 +283,7 @@ class LightGBMFlowPredictor:
             logger.error(f"Rule-based prediction failed: {e}")
             return self._fallback_prediction(flow_data)
 
-    def _calculate_unusual_activity_score(self, features: Dict[str, float]) -> float:
+    def _calculate_unusual_activity_score(self, features: dict[str, float]) -> float:
         """Calculate unusual activity score from features"""
 
         score = 0.0
@@ -309,7 +309,7 @@ class LightGBMFlowPredictor:
 
         return min(1.0, score)
 
-    def _identify_key_indicators(self, features: Dict[str, float]) -> List[str]:
+    def _identify_key_indicators(self, features: dict[str, float]) -> list[str]:
         """Identify most important indicators from features"""
 
         indicators = []
@@ -347,7 +347,7 @@ class LightGBMFlowPredictor:
         else:
             return 'low'
 
-    def _calculate_avg_days_to_expiry(self, flow_data: Dict) -> float:
+    def _calculate_avg_days_to_expiry(self, flow_data: dict) -> float:
         """Calculate average days to expiry for the options chain"""
 
         try:
@@ -370,7 +370,7 @@ class LightGBMFlowPredictor:
         except Exception:
             return 30.0
 
-    def _calculate_itm_otm_ratio(self, strikes: List, current_price: float) -> float:
+    def _calculate_itm_otm_ratio(self, strikes: list, current_price: float) -> float:
         """Calculate in-the-money to out-of-the-money ratio"""
 
         if not strikes:
@@ -396,7 +396,7 @@ class LightGBMFlowPredictor:
 
         return itm_count / max(otm_count, 1)
 
-    def _get_default_features(self) -> Dict[str, float]:
+    def _get_default_features(self) -> dict[str, float]:
         """Get default feature values when feature engineering fails"""
 
         return {
@@ -411,7 +411,7 @@ class LightGBMFlowPredictor:
             'days_to_expiry': 30.0
         }
 
-    def _prepare_features(self, features: Dict[str, float]) -> np.ndarray:
+    def _prepare_features(self, features: dict[str, float]) -> np.ndarray:
         """Prepare features for model input"""
 
         if not self.feature_names:
@@ -424,7 +424,7 @@ class LightGBMFlowPredictor:
 
         return np.array(feature_vector)
 
-    def _fallback_prediction(self, flow_data: Dict) -> FlowPrediction:
+    def _fallback_prediction(self, flow_data: dict) -> FlowPrediction:
         """Fallback prediction when all else fails"""
 
         return FlowPrediction(
@@ -438,7 +438,7 @@ class LightGBMFlowPredictor:
             timestamp=datetime.now()
         )
 
-    async def train_model(self, training_data: List[Dict[str, Any]]) -> bool:
+    async def train_model(self, training_data: list[dict[str, Any]]) -> bool:
         """Train the LightGBM model with historical options flow data"""
 
         if not LIGHTGBM_AVAILABLE:
@@ -495,7 +495,7 @@ class LightGBMFlowPredictor:
             logger.error(f"Model training failed: {e}")
             return False
 
-    def _prepare_training_data(self, training_data: List[Dict]) -> Tuple[np.ndarray, np.ndarray]:
+    def _prepare_training_data(self, training_data: list[dict]) -> tuple[np.ndarray, np.ndarray]:
         """Prepare training data for model"""
 
         X = []
@@ -519,7 +519,7 @@ class LightGBMFlowPredictor:
 
         return np.array(X), np.array(y)
 
-    def get_model_info(self) -> Dict[str, Any]:
+    def get_model_info(self) -> dict[str, Any]:
         """Get model information and performance metrics"""
 
         return {
