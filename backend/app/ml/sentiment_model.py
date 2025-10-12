@@ -25,7 +25,7 @@ class SentimentResult:
     confidence: float  # 0 to 1 scale
     reasoning: str
     category: str  # 'bullish', 'bearish', 'neutral'
-    signals: List[str]
+    signals: list[str]
     timestamp: datetime
 
 
@@ -92,8 +92,8 @@ class OpenAISentimentAnalyzer:
 
     async def analyze_multiple_texts(
         self,
-        texts: List[Dict[str, str]]
-    ) -> Dict[str, SentimentResult]:
+        texts: list[dict[str, str]]
+    ) -> dict[str, SentimentResult]:
         """Analyze sentiment for multiple texts with different contexts"""
 
         try:
@@ -263,8 +263,8 @@ Guidelines:
 
     async def aggregate_sentiments(
         self,
-        sentiment_results: Dict[str, SentimentResult],
-        source_weights: Optional[Dict[str, float]] = None
+        sentiment_results: dict[str, SentimentResult],
+        source_weights: dict[str, float] | None = None
     ) -> SentimentResult:
         """Aggregate multiple sentiment results with optional source weighting"""
 
@@ -329,7 +329,7 @@ Guidelines:
             timestamp=datetime.now()
         )
 
-    def get_performance_metrics(self) -> Dict[str, Any]:
+    def get_performance_metrics(self) -> dict[str, Any]:
         """Get performance metrics for the sentiment analyzer"""
 
         return {
@@ -348,7 +348,7 @@ class ComparativeAnalyzer:
     def __init__(self):
         self.openai_analyzer = OpenAISentimentAnalyzer()
 
-    async def compare_approaches(self, text: str) -> Dict[str, Any]:
+    async def compare_approaches(self, text: str) -> dict[str, Any]:
         """Compare OpenAI vs traditional keyword-based sentiment"""
 
         # OpenAI analysis
@@ -377,7 +377,7 @@ class ComparativeAnalyzer:
             }
         }
 
-    def _traditional_sentiment(self, text: str) -> Dict[str, Any]:
+    def _traditional_sentiment(self, text: str) -> dict[str, Any]:
         """Traditional keyword-based sentiment analysis"""
 
         text_lower = text.lower()
