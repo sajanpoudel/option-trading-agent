@@ -36,11 +36,11 @@ class VolatilityForecast:
     current_volatility: float
     predicted_volatility: float
     volatility_trend: str  # 'increasing', 'decreasing', 'stable'
-    confidence_intervals: Dict[str, float]
-    seasonal_components: Dict[str, Any]
+    confidence_intervals: dict[str, float]
+    seasonal_components: dict[str, Any]
     market_regime: str  # 'low_vol', 'medium_vol', 'high_vol'
     forecast_accuracy: float
-    key_drivers: List[str]
+    key_drivers: list[str]
     timestamp: datetime
 
 
@@ -294,7 +294,7 @@ class ProphetVolatilityPredictor:
         except Exception:
             return 'stable'
 
-    def _extract_seasonal_components(self, forecast: pd.DataFrame) -> Dict[str, Any]:
+    def _extract_seasonal_components(self, forecast: pd.DataFrame) -> dict[str, Any]:
         """Extract seasonal components from forecast"""
 
         try:
@@ -369,7 +369,7 @@ class ProphetVolatilityPredictor:
         except Exception:
             return 0.7
 
-    def _identify_volatility_drivers(self, forecast: pd.DataFrame, historical_data: pd.DataFrame) -> List[str]:
+    def _identify_volatility_drivers(self, forecast: pd.DataFrame, historical_data: pd.DataFrame) -> list[str]:
         """Identify key drivers of volatility forecast"""
 
         drivers = []
@@ -539,7 +539,7 @@ class ProphetVolatilityPredictor:
                 timestamp=datetime.now()
             )
 
-    async def batch_predict(self, symbols: List[str], market_data: Dict[str, pd.DataFrame]) -> Dict[str, VolatilityForecast]:
+    async def batch_predict(self, symbols: list[str], market_data: dict[str, pd.DataFrame]) -> dict[str, VolatilityForecast]:
         """Predict volatility for multiple symbols"""
 
         try:
@@ -567,7 +567,7 @@ class ProphetVolatilityPredictor:
             logger.error(f"Batch prediction failed: {e}")
             return {}
 
-    def get_model_status(self) -> Dict[str, Any]:
+    def get_model_status(self) -> dict[str, Any]:
         """Get status of volatility prediction models"""
 
         return {
