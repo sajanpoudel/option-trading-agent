@@ -558,7 +558,7 @@ class BuyAgent(BaseAgent):
                 total_value=0.0,
                 order_type='market',
                 status='rejected',
-                reasoning=f"Execution failed: {str(e)}"
+                reasoning=f"Execution failed: {e!s}"
             )
 
     async def _validate_trade(
@@ -674,7 +674,7 @@ class BuyAgent(BaseAgent):
                 execution_time=datetime.now(),
                 trade_id=f"sim_{symbol}_{int(datetime.now().timestamp())}",
                 status='filled',
-                reasoning=f"Simulated execution due to Alpaca error: {str(e)}"
+                reasoning=f"Simulated execution due to Alpaca error: {e!s}"
             )
 
             logger.info(f"Fallback simulated trade executed: {execution.trade_id}")
@@ -788,7 +788,7 @@ class BuyAgent(BaseAgent):
         except Exception as e:
             logger.error(f"Failed to format user buy request: {e}")
             return {
-                'error': f'Failed to format request: {str(e)}',
+                'error': f'Failed to format request: {e!s}',
                 'strategy': 'buy_call',
                 'option_type': 'call',
                 'reasoning': 'Default fallback strategy'
