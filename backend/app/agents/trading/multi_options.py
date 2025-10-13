@@ -303,7 +303,7 @@ class MultiOptionsBuyAgent:
 
         except Exception as e:
             logger.error(f"Failed to execute portfolio: {e}")
-            return {"error": f"Portfolio execution failed: {str(e)}", "status": "failed"}
+            return {"error": f"Portfolio execution failed: {e!s}", "status": "failed"}
 
 
 # Global instance
