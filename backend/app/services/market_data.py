@@ -34,7 +34,7 @@ class MarketDataManager:
         self.cache_ttl = 300  # 5 minutes cache
         self.use_ingestion = INGESTION_AVAILABLE
 
-    async def get_comprehensive_data(self, symbol: str) -> Dict[str, Any]:
+    async def get_comprehensive_data(self, symbol: str) -> dict[str, Any]:
         """Get all market data for a symbol"""
 
         try:
@@ -114,7 +114,7 @@ class MarketDataManager:
             logger.error(f"Failed to get comprehensive data for {symbol}: {e}")
             return self._get_fallback_comprehensive_data(symbol)
 
-    async def get_comprehensive_ai_analysis(self, symbol: str) -> Dict[str, Any]:
+    async def get_comprehensive_ai_analysis(self, symbol: str) -> dict[str, Any]:
         """Get comprehensive AI-powered analysis with real options data"""
 
         try:
@@ -158,7 +158,7 @@ class MarketDataManager:
             logger.error(f"Failed to get comprehensive AI analysis for {symbol}: {e}")
             return self._get_fallback_ai_analysis(symbol)
 
-    async def get_multiple_quotes(self, symbols: List[str]) -> Dict[str, Dict[str, Any]]:
+    async def get_multiple_quotes(self, symbols: list[str]) -> dict[str, dict[str, Any]]:
         """Get quotes for multiple symbols"""
 
         try:
@@ -179,7 +179,7 @@ class MarketDataManager:
             logger.error(f"Failed to get multiple quotes: {e}")
             return {}
 
-    async def _get_market_conditions(self) -> Dict[str, Any]:
+    async def _get_market_conditions(self) -> dict[str, Any]:
         """Get overall market conditions"""
 
         try:
@@ -205,7 +205,7 @@ class MarketDataManager:
                 'timestamp': datetime.now().isoformat()
             }
 
-    def _determine_market_trend(self, spy_data: Dict) -> str:
+    def _determine_market_trend(self, spy_data: dict) -> str:
         """Determine overall market trend from SPY data"""
 
         try:
@@ -233,7 +233,7 @@ class MarketDataManager:
         else:
             return 'medium'
 
-    async def _get_cached_data(self, symbol: str) -> Optional[Dict[str, Any]]:
+    async def _get_cached_data(self, symbol: str) -> dict[str, Any] | None:
         """Get cached market data"""
 
         try:
@@ -254,7 +254,7 @@ class MarketDataManager:
 
         return None
 
-    async def _cache_data(self, symbol: str, data: Dict[str, Any]) -> None:
+    async def _cache_data(self, symbol: str, data: dict[str, Any]) -> None:
         """Cache market data"""
 
         try:
@@ -300,7 +300,7 @@ class MarketDataManager:
         else:
             return data
 
-    async def _get_cached_ai_analysis(self, symbol: str) -> Optional[Dict[str, Any]]:
+    async def _get_cached_ai_analysis(self, symbol: str) -> dict[str, Any] | None:
         """Get cached AI analysis"""
 
         try:
@@ -321,7 +321,7 @@ class MarketDataManager:
 
         return None
 
-    async def _cache_ai_analysis(self, symbol: str, analysis: Dict[str, Any]) -> None:
+    async def _cache_ai_analysis(self, symbol: str, analysis: dict[str, Any]) -> None:
         """Cache AI analysis"""
 
         try:
@@ -344,7 +344,7 @@ class MarketDataManager:
         except Exception as e:
             logger.warning(f"Failed to cache AI analysis for {symbol}: {e}")
 
-    def _get_fallback_ai_analysis(self, symbol: str) -> Dict[str, Any]:
+    def _get_fallback_ai_analysis(self, symbol: str) -> dict[str, Any]:
         """Fallback AI analysis when intelligence fails"""
 
         return {
@@ -363,7 +363,7 @@ class MarketDataManager:
             'error': 'AI analysis failed - using fallback data'
         }
 
-    def _get_fallback_comprehensive_data(self, symbol: str) -> Dict[str, Any]:
+    def _get_fallback_comprehensive_data(self, symbol: str) -> dict[str, Any]:
         """Fallback comprehensive data"""
 
         return {
