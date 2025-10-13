@@ -30,8 +30,8 @@ class OptionsAnalysis:
     total_put_volume: int
     put_call_ratio: float
     unusual_activity: bool
-    key_strikes: List[Dict[str, Any]]
-    expiration_analysis: Dict[str, Any]
+    key_strikes: list[dict[str, Any]]
+    expiration_analysis: dict[str, Any]
     flow_sentiment: str
     confidence: float
 
@@ -41,10 +41,10 @@ class MarketIntelligence:
     symbol: str
     timestamp: datetime
     options_analysis: OptionsAnalysis
-    news_sentiment: Dict[str, Any]
-    social_sentiment: Dict[str, Any]
-    technical_signals: Dict[str, Any]
-    market_outlook: Dict[str, Any]
+    news_sentiment: dict[str, Any]
+    social_sentiment: dict[str, Any]
+    technical_signals: dict[str, Any]
+    market_outlook: dict[str, Any]
     confidence_score: float
 
 class OptionsProfitCalculatorAPI:
@@ -65,7 +65,7 @@ class OptionsProfitCalculatorAPI:
         if self.session:
             await self.session.close()
 
-    async def get_comprehensive_options_data(self, symbol: str) -> Dict[str, Any]:
+    async def get_comprehensive_options_data(self, symbol: str) -> dict[str, Any]:
         """Get comprehensive options data with detailed analysis"""
         try:
             # Get raw options data
@@ -86,7 +86,7 @@ class OptionsProfitCalculatorAPI:
             logger.error(f"Error getting comprehensive options data for {symbol}: {e}")
             return {}
 
-    async def _fetch_options_data(self, symbol: str) -> Dict[str, Any]:
+    async def _fetch_options_data(self, symbol: str) -> dict[str, Any]:
         """Fetch raw options data from API"""
         try:
             params = {
@@ -106,7 +106,7 @@ class OptionsProfitCalculatorAPI:
             logger.error(f"Error fetching options data: {e}")
             return {}
 
-    def _analyze_options_chain(self, raw_data: Dict[str, Any], symbol: str) -> Dict[str, Any]:
+    def _analyze_options_chain(self, raw_data: dict[str, Any], symbol: str) -> dict[str, Any]:
         """Comprehensive analysis of options chain data"""
 
         options_data = raw_data.get('options', {})
@@ -289,7 +289,7 @@ class OpenAIMarketIntelligence:
             logger.error(f"Error in comprehensive intelligence for {symbol}: {e}")
             return self._get_fallback_intelligence(symbol)
 
-    async def _get_options_intelligence(self, symbol: str) -> Dict[str, Any]:
+    async def _get_options_intelligence(self, symbol: str) -> dict[str, Any]:
         """Get comprehensive options intelligence"""
 
         try:
@@ -351,7 +351,7 @@ class OpenAIMarketIntelligence:
             logger.error(f"Error in options intelligence for {symbol}: {e}")
             return {}
 
-    async def _get_news_intelligence(self, symbol: str) -> Dict[str, Any]:
+    async def _get_news_intelligence(self, symbol: str) -> dict[str, Any]:
         """Get news intelligence using OpenAI web search"""
 
         prompt = f"""
@@ -394,7 +394,7 @@ class OpenAIMarketIntelligence:
             logger.error(f"Error in news intelligence for {symbol}: {e}")
             return {}
 
-    async def _get_social_intelligence(self, symbol: str) -> Dict[str, Any]:
+    async def _get_social_intelligence(self, symbol: str) -> dict[str, Any]:
         """Get social sentiment intelligence using OpenAI web search"""
 
         prompt = f"""
@@ -437,7 +437,7 @@ class OpenAIMarketIntelligence:
             logger.error(f"Error in social intelligence for {symbol}: {e}")
             return {}
 
-    async def _get_technical_intelligence(self, symbol: str) -> Dict[str, Any]:
+    async def _get_technical_intelligence(self, symbol: str) -> dict[str, Any]:
         """Get technical analysis intelligence"""
 
         try:
@@ -494,7 +494,7 @@ class OpenAIMarketIntelligence:
             logger.error(f"Error in technical intelligence for {symbol}: {e}")
             return {}
 
-    async def _get_market_outlook(self, symbol: str) -> Dict[str, Any]:
+    async def _get_market_outlook(self, symbol: str) -> dict[str, Any]:
         """Get comprehensive market outlook using web search"""
 
         prompt = f"""
@@ -542,7 +542,7 @@ class OpenAIMarketIntelligence:
             logger.error(f"Error in market outlook for {symbol}: {e}")
             return {}
 
-    def _extract_json_response(self, response: str) -> Dict[str, Any]:
+    def _extract_json_response(self, response: str) -> dict[str, Any]:
         """Extract JSON from OpenAI response"""
         try:
             json_match = re.search(r'\{.*\}', response, re.DOTALL)
@@ -553,7 +553,7 @@ class OpenAIMarketIntelligence:
             logger.warning("Failed to parse JSON from OpenAI response")
             return {}
 
-    def _format_key_strikes(self, strikes: List[Dict]) -> str:
+    def _format_key_strikes(self, strikes: list[dict]) -> str:
         """Format key strikes for prompt"""
         if not strikes:
             return "No significant volume strikes"
@@ -564,7 +564,7 @@ class OpenAIMarketIntelligence:
 
         return "\n".join(formatted)
 
-    def _format_expiration_data(self, exp_data: Dict) -> str:
+    def _format_expiration_data(self, exp_data: dict) -> str:
         """Format expiration data for prompt"""
         if not exp_data:
             return "No expiration data"
@@ -577,7 +577,7 @@ class OpenAIMarketIntelligence:
 
         return "\n".join(formatted)
 
-    def _calculate_confidence_score(self, results: List[Any]) -> float:
+    def _calculate_confidence_score(self, results: list[Any]) -> float:
         """Calculate overall confidence score"""
         successful = sum(1 for r in results if not isinstance(r, Exception) and r)
         total = len(results)
