@@ -649,7 +649,7 @@ class IntelligentOrchestrator:
             # Run multi-stock analysis
             result = await self.multi_stock_agent.analyze(query, user_context)
 
-            logger.info(f"✅ Multi-stock analysis completed")
+            logger.info("✅ Multi-stock analysis completed")
             return result
 
         except Exception as e:
