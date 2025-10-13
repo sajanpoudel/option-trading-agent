@@ -114,7 +114,7 @@ async def logging_middleware(request: Request, call_next):
 
     except Exception as e:
         process_time = time.time() - start_time
-        logger.error(f"Request failed: {request.method} {request.url.path} - {str(e)}")
+        logger.error(f"Request failed: {request.method} {request.url.path} - {e!s}")
 
         # Log failed request
         log_api_access(
@@ -611,7 +611,7 @@ async def get_technical_indicators(symbol: str):
 
     except Exception as e:
         logger.error(f"❌ Technical indicators error for {symbol}: {e}")
-        raise HTTPException(status_code=500, detail=f"Technical indicators failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Technical indicators failed: {e!s}")
 
 @app.get("/api/v1/signals/{symbol}")
 async def get_trading_signals(symbol: str):
@@ -727,7 +727,7 @@ async def process_trading_command(message_data: ChatMessage):
                 'risk_assessment': {'risk_level': 'unknown'},
                 'confidence': 0.0
             },
-            'ai_response': f"I encountered an error processing your trading request: {str(e)}",
+            'ai_response': f"I encountered an error processing your trading request: {e!s}",
             'actions': {},
             'suggestions': ["Try again", "Check symbol", "Review risk profile"],
             'timestamp': time.time()
@@ -766,7 +766,7 @@ async def analyze_option_opportunity(request: dict[str, Any]):
 
     except Exception as e:
         logger.error(f"❌ Option analysis failed: {e}")
-        raise HTTPException(status_code=500, detail=f"Option analysis failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Option analysis failed: {e!s}")
 
 @app.post("/api/v1/options/execute")
 async def execute_options_purchase(request: dict[str, Any]):
@@ -818,7 +818,7 @@ async def execute_options_purchase(request: dict[str, Any]):
         return JSONResponse(
             status_code=500,
             content={
-                "error": f"Execution failed: {str(e)}",
+                "error": f"Execution failed: {e!s}",
                 "status": "failed"
             }
         )
