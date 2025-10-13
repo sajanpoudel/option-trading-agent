@@ -19,7 +19,7 @@ class WebScraperAgent:
         self.cache = {}
         self.cache_duration = 300  # 5 minutes
 
-    async def get_trending_stocks(self, limit: int = 10) -> List[Dict[str, Any]]:
+    async def get_trending_stocks(self, limit: int = 10) -> list[dict[str, Any]]:
         """Get trending stocks from various sources"""
         try:
             logger.info(f"🔍 Fetching trending stocks (limit: {limit})")
@@ -39,7 +39,7 @@ class WebScraperAgent:
             logger.error(f"❌ Error fetching trending stocks: {e}")
             return self._get_fallback_stocks(limit)
 
-    async def _get_yfinance_trending(self, limit: int) -> List[Dict[str, Any]]:
+    async def _get_yfinance_trending(self, limit: int) -> list[dict[str, Any]]:
         """Get trending stocks using yfinance"""
         try:
             import yfinance as yf
@@ -74,7 +74,7 @@ class WebScraperAgent:
             logger.error(f"Error in yfinance trending: {e}")
             return []
 
-    def _get_fallback_stocks(self, limit: int) -> List[Dict[str, Any]]:
+    def _get_fallback_stocks(self, limit: int) -> list[dict[str, Any]]:
         """Get fallback list of popular stocks"""
         fallback_stocks = [
             {"symbol": "NVDA", "name": "NVIDIA Corporation", "mentions": 500, "sentiment": "Bullish", "sentiment_score": 0.75, "trending": True},
