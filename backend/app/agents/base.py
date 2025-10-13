@@ -38,12 +38,10 @@ class BaseAgent(ABC):
     @abstractmethod
     def _get_system_instructions(self) -> str:
         """Get system instructions for the agent"""
-        pass
 
     @abstractmethod
     async def analyze(self, symbol: str, **kwargs) -> dict[str, Any]:
         """Main analysis method - must be implemented by subclasses"""
-        pass
 
     async def _make_completion(
         self,
@@ -174,9 +172,9 @@ class BaseAgent(ABC):
         except json.JSONDecodeError as e:
             logger.warning(f"{self.name} failed to parse JSON response: {e}")
             logger.error(f"Raw content length: {len(content)}")
-            logger.error(f"Raw content (first 500 chars): {repr(content[:500])}")
+            logger.error(f"Raw content (first 500 chars): {content[:500]!r}")
             if len(content) > 500:
-                logger.error(f"Raw content (last 200 chars): {repr(content[-200:])}")
+                logger.error(f"Raw content (last 200 chars): {content[-200:]!r}")
             return self._get_fallback_response()
         except Exception as e:
             logger.error(f"{self.name} unexpected error parsing response: {e}")
