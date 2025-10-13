@@ -77,7 +77,7 @@ async def send_chat_message(message_data: ChatMessage):
 
             elif tool_result.get("tool") == "buy_option":
                 symbol = tool_result.get("symbol")
-                if "recommendations" in tool_result and tool_result["recommendations"]:
+                if tool_result.get("recommendations"):
                     # Extract the best recommendation for interactive display
                     recommendations = tool_result["recommendations"]
                     best_rec = recommendations[0] if recommendations else None
@@ -199,7 +199,7 @@ async def analyze_intent(text: str):
 
     except Exception as e:
         logger.error(f"❌ Intent analysis error: {e}")
-        raise HTTPException(status_code=500, detail=f"Intent analysis failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Intent analysis failed: {e!s}")
 
 
 # Helper functions for AI-powered routing
