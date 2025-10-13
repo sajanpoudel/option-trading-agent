@@ -41,7 +41,7 @@ class AlpacaMarketDataClient:
 
         logger.info("Alpaca market data client initialized")
 
-    async def get_current_quote(self, symbol: str) -> Dict[str, Any]:
+    async def get_current_quote(self, symbol: str) -> dict[str, Any]:
         """Get current quote for symbol"""
         try:
             # Try Alpaca first for price data
@@ -186,7 +186,7 @@ class AlpacaMarketDataClient:
             logger.error(f"Failed to get historical data for {symbol}: {e}")
             return pd.DataFrame()
 
-    async def get_technical_indicators(self, symbol: str) -> Dict[str, Any]:
+    async def get_technical_indicators(self, symbol: str) -> dict[str, Any]:
         """Calculate technical indicators using professional stock-indicators library"""
 
         try:
@@ -211,7 +211,7 @@ class AlpacaMarketDataClient:
             except Exception:
                 return self._get_fallback_indicators(symbol)
 
-    async def _get_basic_indicators(self, symbol: str) -> Dict[str, Any]:
+    async def _get_basic_indicators(self, symbol: str) -> dict[str, Any]:
         """Fallback to basic indicator calculation"""
 
         try:
@@ -241,7 +241,7 @@ class AlpacaMarketDataClient:
             logger.error(f"Basic indicators calculation failed: {e}")
             return self._get_fallback_indicators(symbol)
 
-    async def get_options_data(self, symbol: str) -> Dict[str, Any]:
+    async def get_options_data(self, symbol: str) -> dict[str, Any]:
         """Get options chain data (using yfinance)"""
 
         try:
@@ -336,7 +336,7 @@ class AlpacaMarketDataClient:
             logger.error(f"Options data retrieval failed for {symbol}: {e}")
             return self._get_fallback_options_data(symbol)
 
-    def _get_fallback_quote(self, symbol: str) -> Dict[str, Any]:
+    def _get_fallback_quote(self, symbol: str) -> dict[str, Any]:
         """Fallback quote when all APIs fail"""
         return {
             'symbol': symbol,
@@ -348,7 +348,7 @@ class AlpacaMarketDataClient:
             'source': 'fallback'
         }
 
-    def _get_fallback_indicators(self, symbol: str) -> Dict[str, Any]:
+    def _get_fallback_indicators(self, symbol: str) -> dict[str, Any]:
         """Fallback indicators when calculation fails"""
         base_price = 100.0
 
@@ -377,7 +377,7 @@ class AlpacaMarketDataClient:
             'source': 'fallback'
         }
 
-    def _get_fallback_options_data(self, symbol: str) -> Dict[str, Any]:
+    def _get_fallback_options_data(self, symbol: str) -> dict[str, Any]:
         """Fallback options data when APIs fail"""
         return {
             'symbol': symbol,
