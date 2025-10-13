@@ -27,7 +27,7 @@ class SupabaseManager:
         self.client: Client = create_client(self.url, self.service_key)
         logger.info("Supabase client initialized")
 
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """Check database connectivity"""
         try:
             # Simple query to test connection
@@ -56,7 +56,7 @@ class SupabaseManager:
         self,
         ip_address: str = None,
         user_agent: str = None,
-        device_info: Dict = None,
+        device_info: dict = None,
         risk_profile: str = "moderate"
     ) -> str:
         """Create a new browser session (no authentication)"""
@@ -82,7 +82,7 @@ class SupabaseManager:
             logger.error(f"Failed to create browser session: {e}")
             raise
 
-    async def get_session(self, session_token: str) -> Optional[Dict]:
+    async def get_session(self, session_token: str) -> dict | None:
         """Get browser session data"""
 
         try:
@@ -147,7 +147,7 @@ class SupabaseManager:
 
         return scenario_mapping.get(scenario, 'range_bound')
 
-    async def save_trading_signal(self, signal_data: Dict) -> Optional[str]:
+    async def save_trading_signal(self, signal_data: dict) -> str | None:
         """Save trading signal to database"""
 
         signal_record = {
@@ -182,7 +182,7 @@ class SupabaseManager:
         symbol: str = None,
         limit: int = 10,
         include_expired: bool = False
-    ) -> List[Dict]:
+    ) -> list[dict]:
         """Get trading signals with optional filtering"""
 
         try:
@@ -207,7 +207,7 @@ class SupabaseManager:
     # POSITIONS MANAGEMENT
     # ========================
 
-    async def create_position(self, position_data: Dict) -> Optional[str]:
+    async def create_position(self, position_data: dict) -> str | None:
         """Create new trading position"""
 
         position_record = {
@@ -244,7 +244,7 @@ class SupabaseManager:
         self,
         position_id: str,
         current_price: float
-    ) -> Optional[Dict]:
+    ) -> dict | None:
         """Update position P&L in real-time"""
 
         try:
@@ -293,7 +293,7 @@ class SupabaseManager:
             logger.error(f"Failed to update position P&L: {e}")
             return None
 
-    async def get_open_positions(self) -> List[Dict]:
+    async def get_open_positions(self) -> list[dict]:
         """Get all open positions"""
 
         try:
@@ -313,7 +313,7 @@ class SupabaseManager:
     # EDUCATIONAL CONTENT
     # ========================
 
-    async def save_educational_content(self, content_data: Dict) -> Optional[str]:
+    async def save_educational_content(self, content_data: dict) -> str | None:
         """Save educational content"""
 
         content_record = {
@@ -345,7 +345,7 @@ class SupabaseManager:
         difficulty: str = None,
         content_type: str = None,
         limit: int = 20
-    ) -> List[Dict]:
+    ) -> list[dict]:
         """Get educational content with filtering"""
 
         try:
@@ -373,7 +373,7 @@ class SupabaseManager:
     # SYSTEM ANALYTICS
     # ========================
 
-    async def get_system_analytics(self) -> Dict[str, Any]:
+    async def get_system_analytics(self) -> dict[str, Any]:
         """Get system-wide analytics"""
 
         try:
@@ -554,7 +554,7 @@ class SupabaseManager:
             return False
 
     # Alias for backward compatibility
-    async def create_session(self, session_data: Dict) -> str:
+    async def create_session(self, session_data: dict) -> str:
         """Create session - alias for create_browser_session"""
         return await self.create_browser_session(
             risk_profile=session_data.get('risk_profile', 'moderate')
@@ -564,7 +564,7 @@ class SupabaseManager:
     # SYSTEM CONFIGURATION
     # ========================
 
-    async def get_system_config(self, key: str) -> Optional[Any]:
+    async def get_system_config(self, key: str) -> Any | None:
         """Get system configuration value"""
 
         try:
