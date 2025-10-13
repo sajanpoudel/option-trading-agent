@@ -31,8 +31,8 @@ class TradingSettings(BaseModel):
 
 class ExternalDataSettings(BaseModel):
     """External data API configuration"""
-    stocktwits_access_token: Optional[str] = None
-    news_api_key: Optional[str] = None
+    stocktwits_access_token: str | None = None
+    news_api_key: str | None = None
 
 
 class AppSettings(BaseModel):
@@ -42,7 +42,7 @@ class AppSettings(BaseModel):
     host: str = "0.0.0.0"
     port: int = 8080
     log_level: str = "INFO"
-    cors_origins: List[str] = ["http://localhost:3000", "http://localhost:3001"]
+    cors_origins: list[str] = ["http://localhost:3000", "http://localhost:3001"]
 
     # Rate limiting
     rate_limit_per_minute: int = 100
@@ -74,8 +74,8 @@ class Settings(BaseSettings):
     alpaca_base_url: str = "https://paper-api.alpaca.markets"
 
     # External Data
-    stocktwits_access_token: Optional[str] = None
-    news_api_key: Optional[str] = None
+    stocktwits_access_token: str | None = None
+    news_api_key: str | None = None
 
     # Application
     app_env: str = "development"
@@ -83,7 +83,7 @@ class Settings(BaseSettings):
     app_host: str = "0.0.0.0"
     app_port: int = 8080
     log_level: str = "INFO"
-    cors_origins: List[str] = ["http://localhost:3000", "http://localhost:3001"]
+    cors_origins: list[str] = ["http://localhost:3000", "http://localhost:3001"]
 
     # Rate limiting
     rate_limit_per_minute: int = 100
