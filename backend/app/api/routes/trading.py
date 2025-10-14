@@ -162,7 +162,7 @@ async def execute_paper_trade(
         raise
     except Exception as e:
         logger.error(f"Trade execution failed: {e}")
-        raise HTTPException(status_code=500, detail=f"Trade execution failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Trade execution failed: {e!s}")
 
 
 @router.get("/positions")
@@ -413,7 +413,7 @@ async def analyze_buy_opportunity(
 
     except Exception as e:
         logger.error(f"Buy analysis failed for {symbol}: {e}")
-        raise HTTPException(status_code=500, detail=f"Buy analysis failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Buy analysis failed: {e!s}")
 
 
 @router.post("/execute-recommendation")
@@ -475,7 +475,7 @@ async def execute_trade_recommendation(
 
     except Exception as e:
         logger.error(f"Trade execution failed for {symbol}: {e}")
-        raise HTTPException(status_code=500, detail=f"Trade execution failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Trade execution failed: {e!s}")
 
 
 @router.get("/buy-recommendations/{symbol}")
