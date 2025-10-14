@@ -187,7 +187,7 @@ async def analyze_stock(
 
     except Exception as e:
         logger.error(f"Analysis failed for {symbol}: {e}")
-        raise HTTPException(status_code=500, detail=f"Analysis failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Analysis failed: {e!s}")
 
 
 @router.get("/quick/{symbol}")
@@ -221,7 +221,7 @@ async def quick_analysis(
 
     except Exception as e:
         logger.error(f"Quick analysis failed for {symbol}: {e}")
-        raise HTTPException(status_code=500, detail=f"Quick analysis failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Quick analysis failed: {e!s}")
 
 
 @router.get("/history")
