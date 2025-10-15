@@ -2,6 +2,7 @@
 Technical Analysis Agent
 OpenAI Agents SDK v0.3.0 Implementation
 """
+
 import json
 from datetime import datetime, timedelta
 from typing import Any, Dict, List
@@ -107,18 +108,17 @@ Remember: You are the primary decision driver with 60% weight in the final syste
             "properties": {
                 "scenario": {
                     "type": "string",
-                    "enum": ["STRONG_UPTREND", "STRONG_DOWNTREND", "RANGE_BOUND", "BREAKOUT", "POTENTIAL_REVERSAL", "HIGH_VOLATILITY"]
+                    "enum": [
+                        "STRONG_UPTREND",
+                        "STRONG_DOWNTREND",
+                        "RANGE_BOUND",
+                        "BREAKOUT",
+                        "POTENTIAL_REVERSAL",
+                        "HIGH_VOLATILITY",
+                    ],
                 },
-                "weighted_score": {
-                    "type": "number",
-                    "minimum": -1.0,
-                    "maximum": 1.0
-                },
-                "confidence": {
-                    "type": "number",
-                    "minimum": 0.0,
-                    "maximum": 1.0
-                },
+                "weighted_score": {"type": "number", "minimum": -1.0, "maximum": 1.0},
+                "confidence": {"type": "number", "minimum": 0.0, "maximum": 1.0},
                 "indicators": {
                     "type": "object",
                     "properties": {
@@ -127,54 +127,54 @@ Remember: You are the primary decision driver with 60% weight in the final syste
                             "properties": {
                                 "signal": {"type": "number", "minimum": -1.0, "maximum": 1.0},
                                 "weight": {"type": "number", "minimum": 0.0, "maximum": 1.0},
-                                "details": {"type": "string"}
+                                "details": {"type": "string"},
                             },
                             "required": ["signal", "weight", "details"],
-                            "additionalProperties": False
+                            "additionalProperties": False,
                         },
                         "rsi": {
                             "type": "object",
                             "properties": {
                                 "signal": {"type": "number", "minimum": -1.0, "maximum": 1.0},
                                 "weight": {"type": "number", "minimum": 0.0, "maximum": 1.0},
-                                "details": {"type": "string"}
+                                "details": {"type": "string"},
                             },
                             "required": ["signal", "weight", "details"],
-                            "additionalProperties": False
+                            "additionalProperties": False,
                         },
                         "bb": {
                             "type": "object",
                             "properties": {
                                 "signal": {"type": "number", "minimum": -1.0, "maximum": 1.0},
                                 "weight": {"type": "number", "minimum": 0.0, "maximum": 1.0},
-                                "details": {"type": "string"}
+                                "details": {"type": "string"},
                             },
                             "required": ["signal", "weight", "details"],
-                            "additionalProperties": False
+                            "additionalProperties": False,
                         },
                         "macd": {
                             "type": "object",
                             "properties": {
                                 "signal": {"type": "number", "minimum": -1.0, "maximum": 1.0},
                                 "weight": {"type": "number", "minimum": 0.0, "maximum": 1.0},
-                                "details": {"type": "string"}
+                                "details": {"type": "string"},
                             },
                             "required": ["signal", "weight", "details"],
-                            "additionalProperties": False
+                            "additionalProperties": False,
                         },
                         "vwap": {
                             "type": "object",
                             "properties": {
                                 "signal": {"type": "number", "minimum": -1.0, "maximum": 1.0},
                                 "weight": {"type": "number", "minimum": 0.0, "maximum": 1.0},
-                                "details": {"type": "string"}
+                                "details": {"type": "string"},
                             },
                             "required": ["signal", "weight", "details"],
-                            "additionalProperties": False
-                        }
+                            "additionalProperties": False,
+                        },
                     },
                     "required": ["ma", "rsi", "bb", "macd", "vwap"],
-                    "additionalProperties": False
+                    "additionalProperties": False,
                 },
                 "support_resistance": {
                     "type": "object",
@@ -183,48 +183,58 @@ Remember: You are the primary decision driver with 60% weight in the final syste
                             "type": "array",
                             "items": {"type": "number"},
                             "minItems": 2,
-                            "maxItems": 2
+                            "maxItems": 2,
                         },
                         "resistance": {
                             "type": "array",
                             "items": {"type": "number"},
                             "minItems": 2,
-                            "maxItems": 2
-                        }
+                            "maxItems": 2,
+                        },
                     },
                     "required": ["support", "resistance"],
-                    "additionalProperties": False
+                    "additionalProperties": False,
                 },
                 "volatility": {
                     "type": "object",
                     "properties": {
                         "current": {"type": "number", "minimum": 0.0},
                         "percentile": {"type": "number", "minimum": 0.0, "maximum": 100.0},
-                        "trend": {"type": "string", "enum": ["increasing", "decreasing", "stable"]}
+                        "trend": {"type": "string", "enum": ["increasing", "decreasing", "stable"]},
                     },
                     "required": ["current", "percentile", "trend"],
-                    "additionalProperties": False
+                    "additionalProperties": False,
                 },
                 "volume_analysis": {
                     "type": "object",
                     "properties": {
                         "relative_volume": {"type": "number", "minimum": 0.0},
                         "volume_trend": {"type": "string"},
-                        "volume_score": {"type": "number", "minimum": -1.0, "maximum": 1.0}
+                        "volume_score": {"type": "number", "minimum": -1.0, "maximum": 1.0},
                     },
                     "required": ["relative_volume", "volume_trend", "volume_score"],
-                    "additionalProperties": False
+                    "additionalProperties": False,
                 },
                 "key_insights": {
                     "type": "array",
                     "items": {"type": "string"},
                     "minItems": 1,
-                    "maxItems": 5
+                    "maxItems": 5,
                 },
-                "options_strategy_suggestion": {"type": "string"}
+                "options_strategy_suggestion": {"type": "string"},
             },
-            "required": ["scenario", "weighted_score", "confidence", "indicators", "support_resistance", "volatility", "volume_analysis", "key_insights", "options_strategy_suggestion"],
-            "additionalProperties": False
+            "required": [
+                "scenario",
+                "weighted_score",
+                "confidence",
+                "indicators",
+                "support_resistance",
+                "volatility",
+                "volume_analysis",
+                "key_insights",
+                "options_strategy_suggestion",
+            ],
+            "additionalProperties": False,
         }
 
     async def analyze(self, symbol: str, timeframe: str = "1d", **kwargs) -> dict[str, Any]:
@@ -235,110 +245,113 @@ Remember: You are the primary decision driver with 60% weight in the final syste
 
             # Get real market data
             from backend.app.services.market_data import market_data_manager
+
             market_data = await market_data_manager.get_comprehensive_data(symbol)
 
             # Extract technical indicators
-            tech_data = market_data.get('technical', {})
-            quote_data = market_data.get('quote', {})
-            market_conditions = market_data.get('market_conditions', {})
+            tech_data = market_data.get("technical", {})
+            quote_data = market_data.get("quote", {})
+            market_conditions = market_data.get("market_conditions", {})
 
             # Prepare the analysis prompt with real market data
             messages = [
                 {"role": "system", "content": self.system_instructions},
-                {"role": "user", "content": f"""
+                {
+                    "role": "user",
+                    "content": f"""
 Analyze the technical indicators for {symbol} using the following REAL MARKET DATA:
 
 PRICE DATA:
-- Current Price: ${tech_data.get('current_price', 0):.2f}
-- Daily Change: {tech_data.get('change_percent', 0):.2f}%
-- Volume: {tech_data.get('current_volume', 0):,.0f} (Avg: {tech_data.get('avg_volume', 0):,.0f})
-- Volume Ratio: {tech_data.get('volume_ratio', 1.0):.2f}x
+- Current Price: ${tech_data.get("current_price", 0):.2f}
+- Daily Change: {tech_data.get("change_percent", 0):.2f}%
+- Volume: {tech_data.get("current_volume", 0):,.0f} (Avg: {tech_data.get("avg_volume", 0):,.0f})
+- Volume Ratio: {tech_data.get("volume_ratio", 1.0):.2f}x
 
 TECHNICAL INDICATORS:
-- RSI(14): {tech_data.get('rsi', 50):.1f}
-- MACD: {tech_data.get('macd', 0):.3f} (Signal: {tech_data.get('macd_signal', 0):.3f})
-- MACD Histogram: {tech_data.get('macd_histogram', 0):.3f}
-- BB Position: {tech_data.get('bb_position', 0.5):.2f} (0=lower, 0.5=middle, 1=upper)
-- VWAP: ${tech_data.get('vwap', 0):.2f}
+- RSI(14): {tech_data.get("rsi", 50):.1f}
+- MACD: {tech_data.get("macd", 0):.3f} (Signal: {tech_data.get("macd_signal", 0):.3f})
+- MACD Histogram: {tech_data.get("macd_histogram", 0):.3f}
+- BB Position: {tech_data.get("bb_position", 0.5):.2f} (0=lower, 0.5=middle, 1=upper)
+- VWAP: ${tech_data.get("vwap", 0):.2f}
 
 MOVING AVERAGES:
-- MA5: ${tech_data.get('ma5', 0):.2f}
-- MA20: ${tech_data.get('ma20', 0):.2f}  
-- MA50: ${tech_data.get('ma50', 0):.2f}
-- MA200: ${tech_data.get('ma200', 0):.2f}
+- MA5: ${tech_data.get("ma5", 0):.2f}
+- MA20: ${tech_data.get("ma20", 0):.2f}  
+- MA50: ${tech_data.get("ma50", 0):.2f}
+- MA200: ${tech_data.get("ma200", 0):.2f}
 
 BOLLINGER BANDS:
-- Upper: ${tech_data.get('bb_upper', 0):.2f}
-- Middle: ${tech_data.get('bb_middle', 0):.2f}
-- Lower: ${tech_data.get('bb_lower', 0):.2f}
+- Upper: ${tech_data.get("bb_upper", 0):.2f}
+- Middle: ${tech_data.get("bb_middle", 0):.2f}
+- Lower: ${tech_data.get("bb_lower", 0):.2f}
 
 VOLATILITY & MARKET CONDITIONS:
-- 30-day HV: {tech_data.get('volatility', 25):.1f}%
-- Market VIX: {market_conditions.get('vix', 20):.1f}
-- Market Trend: {market_conditions.get('market_trend', 'neutral')}
-- Volatility Regime: {market_conditions.get('volatility_regime', 'medium')}
+- 30-day HV: {tech_data.get("volatility", 25):.1f}%
+- Market VIX: {market_conditions.get("vix", 20):.1f}
+- Market Trend: {market_conditions.get("market_trend", "neutral")}
+- Volatility Regime: {market_conditions.get("volatility_regime", "medium")}
 
 SUPPORT/RESISTANCE:
-- Resistance: ${tech_data.get('resistance', 0):.2f}
-- Support: ${tech_data.get('support', 0):.2f}
+- Resistance: ${tech_data.get("resistance", 0):.2f}
+- Support: ${tech_data.get("support", 0):.2f}
 
-Data Source: {tech_data.get('source', 'unknown')}
+Data Source: {tech_data.get("source", "unknown")}
 
 Please provide a comprehensive technical analysis with scenario detection and weighted scoring using this REAL market data.
-                """}
+                """,
+                },
             ]
 
             # Get analysis from GPT-4 with structured outputs
             response = await self._make_completion(
-                messages,
-                temperature=0.3,
-                response_schema=self._get_response_schema()
+                messages, temperature=0.3, response_schema=self._get_response_schema()
             )
 
             # Parse the response
-            analysis = self._parse_json_response(response['content'])
+            analysis = self._parse_json_response(response["content"])
 
             # Validate and enhance the analysis
             analysis = self._validate_analysis(analysis, symbol, tech_data)
 
-            logger.info(f"Technical analysis completed for {symbol}: {analysis.get('scenario', 'unknown')} scenario")
+            logger.info(
+                f"Technical analysis completed for {symbol}: {analysis.get('scenario', 'unknown')} scenario"
+            )
             return analysis
 
         except Exception as e:
             logger.error(f"Technical analysis failed for {symbol}: {e}")
 
-
     def _validate_analysis(self, analysis: dict, symbol: str, market_data: dict) -> dict[str, Any]:
         """Validate and enhance the analysis response"""
 
         # Ensure required fields exist
-        if 'scenario' not in analysis:
-            analysis['scenario'] = 'range_bound'
+        if "scenario" not in analysis:
+            analysis["scenario"] = "range_bound"
 
-        if 'weighted_score' not in analysis:
-            analysis['weighted_score'] = 0.0
+        if "weighted_score" not in analysis:
+            analysis["weighted_score"] = 0.0
 
-        if 'confidence' not in analysis:
-            analysis['confidence'] = 0.5
+        if "confidence" not in analysis:
+            analysis["confidence"] = 0.5
 
         # Validate numeric ranges
-        analysis['weighted_score'] = max(-1.0, min(1.0, analysis['weighted_score']))
-        analysis['confidence'] = self._validate_confidence(analysis['confidence'])
+        analysis["weighted_score"] = max(-1.0, min(1.0, analysis["weighted_score"]))
+        analysis["confidence"] = self._validate_confidence(analysis["confidence"])
 
         # Add metadata
-        analysis['timestamp'] = datetime.now().isoformat()
-        analysis['symbol'] = symbol
-        analysis['agent'] = self.name
-        analysis['market_data_snapshot'] = market_data
+        analysis["timestamp"] = datetime.now().isoformat()
+        analysis["symbol"] = symbol
+        analysis["agent"] = self.name
+        analysis["market_data_snapshot"] = market_data
 
         # Ensure indicators structure exists
-        if 'indicators' not in analysis:
-            analysis['indicators'] = {
-                'ma': {'signal': 0.0, 'weight': 0.3, 'details': 'Analysis failed'},
-                'rsi': {'signal': 0.0, 'weight': 0.15, 'details': 'Analysis failed'},
-                'bb': {'signal': 0.0, 'weight': 0.1, 'details': 'Analysis failed'},
-                'macd': {'signal': 0.0, 'weight': 0.25, 'details': 'Analysis failed'},
-                'vwap': {'signal': 0.0, 'weight': 0.2, 'details': 'Analysis failed'}
+        if "indicators" not in analysis:
+            analysis["indicators"] = {
+                "ma": {"signal": 0.0, "weight": 0.3, "details": "Analysis failed"},
+                "rsi": {"signal": 0.0, "weight": 0.15, "details": "Analysis failed"},
+                "bb": {"signal": 0.0, "weight": 0.1, "details": "Analysis failed"},
+                "macd": {"signal": 0.0, "weight": 0.25, "details": "Analysis failed"},
+                "vwap": {"signal": 0.0, "weight": 0.2, "details": "Analysis failed"},
             }
 
         return analysis
