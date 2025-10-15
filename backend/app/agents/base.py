@@ -2,6 +2,7 @@
 Base Agent Class for Neural Options Oracle++
 OpenAI Agents SDK v0.3.0 Implementation
 """
+
 import json
 from abc import ABC, abstractmethod
 from datetime import datetime
@@ -48,7 +49,7 @@ class BaseAgent(ABC):
         messages: list,
         tools: list | None = None,
         temperature: float = 0.7,
-        response_schema: dict | None = None
+        response_schema: dict | None = None,
     ) -> dict[str, Any]:
         """Make a completion request to OpenAI"""
 
@@ -56,17 +57,14 @@ class BaseAgent(ABC):
             # Check if client is available
             if not self.client:
                 logger.warning(f"{self.name} client not available, returning fallback response")
-                return {
-                    'content': json.dumps(self._get_fallback_response()),
-                    'tool_calls': []
-                }
+                return {"content": json.dumps(self._get_fallback_response()), "tool_calls": []}
 
             # Prepare the request
             request_params = {
                 "model": self.model,
                 "messages": messages,
                 "temperature": temperature,
-                "max_tokens": 4000
+                "max_tokens": 4000,
             }
 
             # Use structured outputs if schema provided, otherwise use basic json_object
@@ -76,8 +74,8 @@ class BaseAgent(ABC):
                     "json_schema": {
                         "name": "analysis_response",
                         "strict": True,
-                        "schema": response_schema
-                    }
+                        "schema": response_schema,
+                    },
                 }
             else:
                 request_params["response_format"] = {"type": "json_object"}
@@ -106,37 +104,38 @@ class BaseAgent(ABC):
             if message.tool_calls:
                 for tool_call in message.tool_calls:
                     try:
-                        tool_calls.append({
-                            'id': tool_call.id,
-                            'function': tool_call.function.name,
-                            'arguments': json.loads(tool_call.function.arguments)
-                        })
+                        tool_calls.append(
+                            {
+                                "id": tool_call.id,
+                                "function": tool_call.function.name,
+                                "arguments": json.loads(tool_call.function.arguments),
+                            }
+                        )
                     except json.JSONDecodeError:
-                        logger.warning(f"Failed to parse tool call arguments: {tool_call.function.arguments}")
+                        logger.warning(
+                            f"Failed to parse tool call arguments: {tool_call.function.arguments}"
+                        )
 
             return {
-                'content': content,
-                'tool_calls': tool_calls,
-                'usage': response.usage.dict() if response.usage else {},
-                'model': response.model
+                "content": content,
+                "tool_calls": tool_calls,
+                "usage": response.usage.dict() if response.usage else {},
+                "model": response.model,
             }
 
         except Exception as e:
             logger.error(f"{self.name} completion failed: {e}")
             # Return fallback response instead of raising
-            return {
-                'content': json.dumps(self._get_fallback_response()),
-                'tool_calls': []
-            }
+            return {"content": json.dumps(self._get_fallback_response()), "tool_calls": []}
 
     async def get_status(self) -> dict[str, Any]:
         """Get agent status"""
         return {
-            'name': self.name,
-            'model': self.model,
-            'initialized': self.initialized,
-            'healthy': True,
-            'last_check': datetime.now().isoformat()
+            "name": self.name,
+            "model": self.model,
+            "initialized": self.initialized,
+            "healthy": True,
+            "last_check": datetime.now().isoformat(),
         }
 
     def _parse_json_response(self, content: str) -> dict[str, Any]:
@@ -148,13 +147,13 @@ class BaseAgent(ABC):
                 return self._get_fallback_response()
 
             # Try to extract JSON from the response
-            if '```json' in content:
-                start = content.find('```json') + 7
-                end = content.find('```', start)
+            if "```json" in content:
+                start = content.find("```json") + 7
+                end = content.find("```", start)
                 json_str = content[start:end].strip()
-            elif '{' in content and '}' in content:
-                start = content.find('{')
-                end = content.rfind('}') + 1
+            elif "{" in content and "}" in content:
+                start = content.find("{")
+                end = content.rfind("}") + 1
                 json_str = content[start:end]
             else:
                 json_str = content
@@ -183,11 +182,11 @@ class BaseAgent(ABC):
     def _get_fallback_response(self) -> dict[str, Any]:
         """Get a fallback response when parsing fails"""
         return {
-            'summary': f'{self.name} analysis completed with limited data',
-            'confidence': 0.3,
-            'recommendation': 'HOLD',
-            'reasoning': 'Analysis completed with fallback data due to API limitations',
-            'fallback': True
+            "summary": f"{self.name} analysis completed with limited data",
+            "confidence": 0.3,
+            "recommendation": "HOLD",
+            "reasoning": "Analysis completed with fallback data due to API limitations",
+            "fallback": True,
         }
 
     def _validate_confidence(self, confidence: float) -> float:
