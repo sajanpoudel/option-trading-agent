@@ -2,6 +2,7 @@
 Sentiment Analysis Agent
 OpenAI Agents SDK v0.3.0 Implementation - REAL DATA ONLY
 """
+
 import asyncio
 import json
 import re
@@ -21,7 +22,9 @@ class SentimentAnalysisAgent(BaseAgent):
 
     def __init__(self, client):
         super().__init__(client, "Sentiment Analysis", "gpt-4o")
-        self.openai_client = AsyncOpenAI(api_key=client.api_key) if hasattr(client, 'api_key') else None
+        self.openai_client = (
+            AsyncOpenAI(api_key=client.api_key) if hasattr(client, "api_key") else None
+        )
 
     def _get_system_instructions(self) -> str:
         return """
@@ -56,16 +59,8 @@ OUTPUT FORMAT (JSON):
         return {
             "type": "object",
             "properties": {
-                "aggregate_score": {
-                    "type": "number",
-                    "minimum": -1.0,
-                    "maximum": 1.0
-                },
-                "confidence": {
-                    "type": "number",
-                    "minimum": 0.0,
-                    "maximum": 1.0
-                },
+                "aggregate_score": {"type": "number", "minimum": -1.0, "maximum": 1.0},
+                "confidence": {"type": "number", "minimum": 0.0, "maximum": 1.0},
                 "sources": {
                     "type": "object",
                     "properties": {
@@ -74,56 +69,56 @@ OUTPUT FORMAT (JSON):
                             "properties": {
                                 "score": {"type": "number"},
                                 "article_count": {"type": "integer", "minimum": 0},
-                                "details": {"type": "string"}
+                                "details": {"type": "string"},
                             },
                             "required": ["score", "article_count", "details"],
-                            "additionalProperties": False
+                            "additionalProperties": False,
                         },
                         "stocktwits_sentiment": {
                             "type": "object",
                             "properties": {
                                 "score": {"type": "number"},
                                 "message_count": {"type": "integer", "minimum": 0},
-                                "details": {"type": "string"}
+                                "details": {"type": "string"},
                             },
                             "required": ["score", "message_count", "details"],
-                            "additionalProperties": False
+                            "additionalProperties": False,
                         },
                         "market_psychology": {
                             "type": "object",
                             "properties": {
                                 "score": {"type": "number"},
                                 "indicators": {"type": "string"},
-                                "details": {"type": "string"}
+                                "details": {"type": "string"},
                             },
                             "required": ["score", "indicators", "details"],
-                            "additionalProperties": False
-                        }
+                            "additionalProperties": False,
+                        },
                     },
                     "required": ["news_sentiment", "stocktwits_sentiment", "market_psychology"],
-                    "additionalProperties": False
+                    "additionalProperties": False,
                 },
                 "sentiment_trend": {
                     "type": "string",
-                    "enum": ["improving", "deteriorating", "stable"]
+                    "enum": ["improving", "deteriorating", "stable"],
                 },
-                "key_factors": {
-                    "type": "array",
-                    "items": {"type": "string"},
-                    "maxItems": 5
-                },
-                "risk_factors": {
-                    "type": "array",
-                    "items": {"type": "string"},
-                    "maxItems": 5
-                },
+                "key_factors": {"type": "array", "items": {"type": "string"}, "maxItems": 5},
+                "risk_factors": {"type": "array", "items": {"type": "string"}, "maxItems": 5},
                 "data_freshness": {
                     "type": "string",
-                    "pattern": "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}$"
-                }
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}$",
+                },
             },
-            "required": ["aggregate_score", "confidence", "sources", "sentiment_trend", "key_factors", "risk_factors", "data_freshness"],
-            "additionalProperties": False
+            "required": [
+                "aggregate_score",
+                "confidence",
+                "sources",
+                "sentiment_trend",
+                "key_factors",
+                "risk_factors",
+                "data_freshness",
+            ],
+            "additionalProperties": False,
         }
 
     async def analyze(self, symbol: str, **kwargs) -> dict[str, Any]:
@@ -162,28 +157,34 @@ OUTPUT FORMAT (JSON):
             tasks = [
                 self._search_news_sentiment(symbol, current_date),
                 self._search_stocktwits_sentiment(symbol, current_date),
-                self._search_market_psychology(symbol, current_date)
+                self._search_market_psychology(symbol, current_date),
             ]
 
-            news_data, stocktwits_data, psychology_data = await asyncio.gather(*tasks, return_exceptions=True)
+            news_data, stocktwits_data, psychology_data = await asyncio.gather(
+                *tasks, return_exceptions=True
+            )
 
             return {
-                'news_sentiment': news_data if not isinstance(news_data, Exception) else {},
-                'stocktwits_sentiment': stocktwits_data if not isinstance(stocktwits_data, Exception) else {},
-                'market_psychology': psychology_data if not isinstance(psychology_data, Exception) else {},
-                'search_date': current_date,
-                'symbol': symbol
+                "news_sentiment": news_data if not isinstance(news_data, Exception) else {},
+                "stocktwits_sentiment": stocktwits_data
+                if not isinstance(stocktwits_data, Exception)
+                else {},
+                "market_psychology": psychology_data
+                if not isinstance(psychology_data, Exception)
+                else {},
+                "search_date": current_date,
+                "symbol": symbol,
             }
 
         except Exception as e:
             logger.error(f"Error collecting real sentiment data for {symbol}: {e}")
             return {
-                'news_sentiment': {},
-                'stocktwits_sentiment': {},
-                'market_psychology': {},
-                'search_date': current_date,
-                'symbol': symbol,
-                'error': str(e)
+                "news_sentiment": {},
+                "stocktwits_sentiment": {},
+                "market_psychology": {},
+                "search_date": current_date,
+                "symbol": symbol,
+                "error": str(e),
             }
 
     async def _search_news_sentiment(self, symbol: str, current_date: str) -> dict[str, Any]:
@@ -220,15 +221,12 @@ OUTPUT FORMAT (JSON):
                 messages=[
                     {
                         "role": "system",
-                        "content": "You are a financial news analyst. Use web search to find real-time news and analyze sentiment. Always return valid JSON data."
+                        "content": "You are a financial news analyst. Use web search to find real-time news and analyze sentiment. Always return valid JSON data.",
                     },
-                    {
-                        "role": "user",
-                        "content": prompt
-                    }
+                    {"role": "user", "content": prompt},
                 ],
                 max_tokens=1000,
-                temperature=0.1
+                temperature=0.1,
             )
 
             content = response.choices[0].message.content.strip()
@@ -269,15 +267,12 @@ OUTPUT FORMAT (JSON):
                 messages=[
                     {
                         "role": "system",
-                        "content": "You are a social media sentiment analyst. Use web search to find real-time StockTwits sentiment data. Always return valid JSON data."
+                        "content": "You are a social media sentiment analyst. Use web search to find real-time StockTwits sentiment data. Always return valid JSON data.",
                     },
-                    {
-                        "role": "user",
-                        "content": prompt
-                    }
+                    {"role": "user", "content": prompt},
                 ],
                 max_tokens=800,
-                temperature=0.1
+                temperature=0.1,
             )
 
             content = response.choices[0].message.content.strip()
@@ -316,15 +311,12 @@ OUTPUT FORMAT (JSON):
                 messages=[
                     {
                         "role": "system",
-                        "content": "You are a market psychology analyst. Use web search to find real-time market sentiment indicators. Always return valid JSON data."
+                        "content": "You are a market psychology analyst. Use web search to find real-time market sentiment indicators. Always return valid JSON data.",
                     },
-                    {
-                        "role": "user",
-                        "content": prompt
-                    }
+                    {"role": "user", "content": prompt},
                 ],
                 max_tokens=600,
-                temperature=0.1
+                temperature=0.1,
             )
 
             content = response.choices[0].message.content.strip()
@@ -334,7 +326,9 @@ OUTPUT FORMAT (JSON):
             logger.error(f"Error searching market psychology for {symbol}: {e}")
             return {}
 
-    async def _analyze_sentiment_with_gpt(self, sentiment_data: dict[str, Any], symbol: str, current_date: str) -> dict[str, Any]:
+    async def _analyze_sentiment_with_gpt(
+        self, sentiment_data: dict[str, Any], symbol: str, current_date: str
+    ) -> dict[str, Any]:
         """Analyze collected sentiment data with GPT"""
         try:
             # Prepare comprehensive sentiment analysis prompt
@@ -342,13 +336,13 @@ OUTPUT FORMAT (JSON):
             Analyze the collected sentiment data for {symbol} on {current_date} and provide a comprehensive sentiment analysis.
             
             NEWS SENTIMENT DATA:
-            {json.dumps(sentiment_data.get('news_sentiment', {}), indent=2)}
+            {json.dumps(sentiment_data.get("news_sentiment", {}), indent=2)}
             
             STOCKTWITS SENTIMENT DATA:
-            {json.dumps(sentiment_data.get('stocktwits_sentiment', {}), indent=2)}
+            {json.dumps(sentiment_data.get("stocktwits_sentiment", {}), indent=2)}
             
             MARKET PSYCHOLOGY DATA:
-            {json.dumps(sentiment_data.get('market_psychology', {}), indent=2)}
+            {json.dumps(sentiment_data.get("market_psychology", {}), indent=2)}
             
             Based on this real data, provide:
             1. Overall aggregate sentiment score (-1 to 1)
@@ -364,10 +358,10 @@ OUTPUT FORMAT (JSON):
                 model="gpt-4o",
                 messages=[
                     {"role": "system", "content": self.system_instructions},
-                    {"role": "user", "content": prompt}
+                    {"role": "user", "content": prompt},
                 ],
                 max_tokens=1200,
-                temperature=0.2
+                temperature=0.2,
             )
 
             content = response.choices[0].message.content.strip()
@@ -382,8 +376,8 @@ OUTPUT FORMAT (JSON):
         try:
             # Try multiple JSON extraction patterns
             json_patterns = [
-                r'\{.*\}',  # Any JSON object
-                r'\{[^{}]*\}',  # Simple JSON object
+                r"\{.*\}",  # Any JSON object
+                r"\{[^{}]*\}",  # Simple JSON object
             ]
 
             for pattern in json_patterns:
@@ -405,36 +399,48 @@ OUTPUT FORMAT (JSON):
     def _validate_sentiment_analysis(self, analysis: dict, symbol: str) -> dict:
         """Validate sentiment analysis"""
 
-        if 'aggregate_score' not in analysis:
-            analysis['aggregate_score'] = 0.0
-        if 'confidence' not in analysis:
-            analysis['confidence'] = 0.5
+        if "aggregate_score" not in analysis:
+            analysis["aggregate_score"] = 0.0
+        if "confidence" not in analysis:
+            analysis["confidence"] = 0.5
 
-        analysis['aggregate_score'] = max(-1.0, min(1.0, analysis['aggregate_score']))
-        analysis['confidence'] = max(0.0, min(1.0, analysis['confidence']))
-        analysis['timestamp'] = datetime.now().isoformat()
-        analysis['symbol'] = symbol
-        analysis['agent'] = self.name
-        analysis['data_freshness'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        analysis["aggregate_score"] = max(-1.0, min(1.0, analysis["aggregate_score"]))
+        analysis["confidence"] = max(0.0, min(1.0, analysis["confidence"]))
+        analysis["timestamp"] = datetime.now().isoformat()
+        analysis["symbol"] = symbol
+        analysis["agent"] = self.name
+        analysis["data_freshness"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         return analysis
 
     def _get_fallback_sentiment(self, symbol: str) -> dict:
         """Fallback sentiment analysis when real data unavailable"""
         return {
-            'aggregate_score': 0.0,
-            'confidence': 0.3,
-            'sources': {
-                'news_sentiment': {'score': 0.0, 'article_count': 0, 'details': 'Real-time news data unavailable'},
-                'stocktwits_sentiment': {'score': 0.0, 'message_count': 0, 'details': 'StockTwits data unavailable'},
-                'market_psychology': {'score': 0.0, 'indicators': 'unavailable', 'details': 'Market psychology data unavailable'}
+            "aggregate_score": 0.0,
+            "confidence": 0.3,
+            "sources": {
+                "news_sentiment": {
+                    "score": 0.0,
+                    "article_count": 0,
+                    "details": "Real-time news data unavailable",
+                },
+                "stocktwits_sentiment": {
+                    "score": 0.0,
+                    "message_count": 0,
+                    "details": "StockTwits data unavailable",
+                },
+                "market_psychology": {
+                    "score": 0.0,
+                    "indicators": "unavailable",
+                    "details": "Market psychology data unavailable",
+                },
             },
-            'sentiment_trend': 'stable',
-            'key_factors': ['Real-time sentiment data unavailable'],
-            'risk_factors': ['Limited real-time data'],
-            'error': 'Fallback sentiment analysis - real data unavailable',
-            'timestamp': datetime.now().isoformat(),
-            'symbol': symbol,
-            'agent': self.name,
-            'data_freshness': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            "sentiment_trend": "stable",
+            "key_factors": ["Real-time sentiment data unavailable"],
+            "risk_factors": ["Limited real-time data"],
+            "error": "Fallback sentiment analysis - real data unavailable",
+            "timestamp": datetime.now().isoformat(),
+            "symbol": symbol,
+            "agent": self.name,
+            "data_freshness": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         }
