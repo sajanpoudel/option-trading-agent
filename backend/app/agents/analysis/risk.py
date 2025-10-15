@@ -2,6 +2,7 @@
 Risk Management Agent
 OpenAI Agents SDK v0.3.0 Implementation
 """
+
 from datetime import datetime, timedelta
 from typing import Any, Dict, List
 
@@ -81,14 +82,10 @@ OUTPUT FORMAT (JSON):
                     "properties": {
                         "overall_risk": {"type": "string", "enum": ["low", "medium", "high"]},
                         "risk_score": {"type": "number", "minimum": 0.0, "maximum": 1.0},
-                        "key_risks": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                            "maxItems": 5
-                        }
+                        "key_risks": {"type": "array", "items": {"type": "string"}, "maxItems": 5},
                     },
                     "required": ["overall_risk", "risk_score", "key_risks"],
-                    "additionalProperties": False
+                    "additionalProperties": False,
                 },
                 "position_sizing": {
                     "type": "object",
@@ -96,10 +93,15 @@ OUTPUT FORMAT (JSON):
                         "recommended_contracts": {"type": "integer", "minimum": 1},
                         "max_loss_dollar": {"type": "number", "minimum": 0.0},
                         "max_loss_percent": {"type": "number", "minimum": 0.0, "maximum": 100.0},
-                        "risk_reward_ratio": {"type": "number", "minimum": 0.0}
+                        "risk_reward_ratio": {"type": "number", "minimum": 0.0},
                     },
-                    "required": ["recommended_contracts", "max_loss_dollar", "max_loss_percent", "risk_reward_ratio"],
-                    "additionalProperties": False
+                    "required": [
+                        "recommended_contracts",
+                        "max_loss_dollar",
+                        "max_loss_percent",
+                        "risk_reward_ratio",
+                    ],
+                    "additionalProperties": False,
                 },
                 "strike_recommendations": {
                     "type": "array",
@@ -110,16 +112,29 @@ OUTPUT FORMAT (JSON):
                             "option_type": {"type": "string", "enum": ["call", "put"]},
                             "expiration": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
                             "delta": {"type": "number", "minimum": -1.0, "maximum": 1.0},
-                            "probability_profit": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+                            "probability_profit": {
+                                "type": "number",
+                                "minimum": 0.0,
+                                "maximum": 1.0,
+                            },
                             "max_loss": {"type": "number", "minimum": 0.0},
                             "max_gain": {"type": "number", "minimum": 0.0},
-                            "risk_level": {"type": "string", "enum": ["low", "medium", "high"]}
+                            "risk_level": {"type": "string", "enum": ["low", "medium", "high"]},
                         },
-                        "required": ["strike", "option_type", "expiration", "delta", "probability_profit", "max_loss", "max_gain", "risk_level"],
-                        "additionalProperties": False
+                        "required": [
+                            "strike",
+                            "option_type",
+                            "expiration",
+                            "delta",
+                            "probability_profit",
+                            "max_loss",
+                            "max_gain",
+                            "risk_level",
+                        ],
+                        "additionalProperties": False,
                     },
                     "minItems": 1,
-                    "maxItems": 5
+                    "maxItems": 5,
                 },
                 "risk_mitigation": {
                     "type": "object",
@@ -127,76 +142,88 @@ OUTPUT FORMAT (JSON):
                         "stop_loss": {"type": "number", "minimum": 0.0},
                         "take_profit": {"type": "number", "minimum": 0.0},
                         "time_decay_warning": {"type": "boolean"},
-                        "volatility_risk": {"type": "string", "enum": ["low", "medium", "high"]}
+                        "volatility_risk": {"type": "string", "enum": ["low", "medium", "high"]},
                     },
-                    "required": ["stop_loss", "take_profit", "time_decay_warning", "volatility_risk"],
-                    "additionalProperties": False
+                    "required": [
+                        "stop_loss",
+                        "take_profit",
+                        "time_decay_warning",
+                        "volatility_risk",
+                    ],
+                    "additionalProperties": False,
                 },
                 "portfolio_impact": {
                     "type": "object",
                     "properties": {
                         "correlation_risk": {"type": "number", "minimum": 0.0, "maximum": 1.0},
                         "concentration_risk": {"type": "number", "minimum": 0.0, "maximum": 1.0},
-                        "diversification_score": {"type": "number", "minimum": 0.0, "maximum": 1.0}
+                        "diversification_score": {"type": "number", "minimum": 0.0, "maximum": 1.0},
                     },
                     "required": ["correlation_risk", "concentration_risk", "diversification_score"],
-                    "additionalProperties": False
-                }
+                    "additionalProperties": False,
+                },
             },
-            "required": ["risk_assessment", "position_sizing", "strike_recommendations", "risk_mitigation", "portfolio_impact"],
-            "additionalProperties": False
+            "required": [
+                "risk_assessment",
+                "position_sizing",
+                "strike_recommendations",
+                "risk_mitigation",
+                "portfolio_impact",
+            ],
+            "additionalProperties": False,
         }
 
     async def recommend_strikes(
-        self,
-        signal: dict[str, Any],
-        user_risk_profile: dict[str, Any]
+        self, signal: dict[str, Any], user_risk_profile: dict[str, Any]
     ) -> list[dict[str, Any]]:
         """Recommend option strikes based on signal and risk profile"""
 
         try:
-            logger.info(f"Generating strike recommendations for {signal.get('direction', 'UNKNOWN')}")
+            logger.info(
+                f"Generating strike recommendations for {signal.get('direction', 'UNKNOWN')}"
+            )
 
             # Mock current market data
-            mock_data = self._get_mock_options_data(signal.get('symbol', 'UNKNOWN'))
-            risk_level = user_risk_profile.get('risk_level', 'moderate')
+            mock_data = self._get_mock_options_data(signal.get("symbol", "UNKNOWN"))
+            risk_level = user_risk_profile.get("risk_level", "moderate")
 
             messages = [
                 {"role": "system", "content": self.system_instructions},
-                {"role": "user", "content": f"""
+                {
+                    "role": "user",
+                    "content": f"""
 Generate risk-appropriate strike recommendations:
 
 TRADING SIGNAL:
-- Direction: {signal.get('direction', 'HOLD')}
-- Confidence: {signal.get('confidence', 0.5):.2f}
-- Strategy Type: {signal.get('strategy_type', 'neutral')}
+- Direction: {signal.get("direction", "HOLD")}
+- Confidence: {signal.get("confidence", 0.5):.2f}
+- Strategy Type: {signal.get("strategy_type", "neutral")}
 
 USER RISK PROFILE:
 - Risk Level: {risk_level}
-- Account Size: ${user_risk_profile.get('account_size', 100000)}
-- Max Position Size: {user_risk_profile.get('max_position_percent', 5)}%
+- Account Size: ${user_risk_profile.get("account_size", 100000)}
+- Max Position Size: {user_risk_profile.get("max_position_percent", 5)}%
 
 CURRENT MARKET DATA:
-- Current Price: ${mock_data['current_price']:.2f}
-- IV Rank: {mock_data['iv_rank']:.0f}%
-- Days to Earnings: {mock_data['days_to_earnings']}
+- Current Price: ${mock_data["current_price"]:.2f}
+- IV Rank: {mock_data["iv_rank"]:.0f}%
+- Days to Earnings: {mock_data["days_to_earnings"]}
 
 AVAILABLE STRIKES:
-{self._format_options_chain(mock_data['options_chain'])}
+{self._format_options_chain(mock_data["options_chain"])}
 
 Recommend 3-5 appropriate strikes with full risk analysis.
-                """}
+                """,
+                },
             ]
 
             response = await self._make_completion(
-                messages,
-                temperature=0.3,
-                response_schema=self._get_response_schema()
+                messages, temperature=0.3, response_schema=self._get_response_schema()
             )
-            analysis = self._parse_json_response(response['content'])
+            analysis = self._parse_json_response(response["content"])
 
             # Extract just the strike recommendations
-            recommendations = analysis.get('strike_recommendations', [])
+            recommendations = analysis.get("strike_recommendations", [])
 
             # Validate recommendations
             recommendations = self._validate_strike_recommendations(recommendations)
@@ -212,12 +239,12 @@ Recommend 3-5 appropriate strikes with full risk analysis.
         """General risk analysis (not used in main flow but required by base class)"""
 
         return {
-            'risk_score': 0.5,
-            'confidence': 0.7,
-            'risk_level': 'medium',
-            'timestamp': datetime.now().isoformat(),
-            'symbol': symbol,
-            'agent': self.name
+            "risk_score": 0.5,
+            "confidence": 0.7,
+            "risk_level": "medium",
+            "timestamp": datetime.now().isoformat(),
+            "symbol": symbol,
+            "agent": self.name,
         }
 
     def _get_mock_options_data(self, symbol: str) -> dict:
@@ -232,28 +259,28 @@ Recommend 3-5 appropriate strikes with full risk analysis.
             strike = current_price + (i * 5)  # $5 intervals
 
             call_data = {
-                'strike': strike,
-                'type': 'call',
-                'delta': max(0.05, min(0.95, 0.5 + (i * 0.1))),
-                'premium': max(0.5, abs(i * 2) + random.uniform(1, 5)),
-                'iv': random.uniform(0.2, 0.6)
+                "strike": strike,
+                "type": "call",
+                "delta": max(0.05, min(0.95, 0.5 + (i * 0.1))),
+                "premium": max(0.5, abs(i * 2) + random.uniform(1, 5)),
+                "iv": random.uniform(0.2, 0.6),
             }
 
             put_data = {
-                'strike': strike,
-                'type': 'put',
-                'delta': max(-0.95, min(-0.05, -0.5 - (i * 0.1))),
-                'premium': max(0.5, abs(i * 2) + random.uniform(1, 5)),
-                'iv': random.uniform(0.2, 0.6)
+                "strike": strike,
+                "type": "put",
+                "delta": max(-0.95, min(-0.05, -0.5 - (i * 0.1))),
+                "premium": max(0.5, abs(i * 2) + random.uniform(1, 5)),
+                "iv": random.uniform(0.2, 0.6),
             }
 
             options_chain.extend([call_data, put_data])
 
         return {
-            'current_price': current_price,
-            'iv_rank': random.uniform(10, 90),
-            'days_to_earnings': random.randint(5, 45),
-            'options_chain': options_chain
+            "current_price": current_price,
+            "iv_rank": random.uniform(10, 90),
+            "days_to_earnings": random.randint(5, 45),
+            "options_chain": options_chain,
         }
 
     def _format_options_chain(self, chain: list[dict]) -> str:
@@ -277,23 +304,31 @@ Recommend 3-5 appropriate strikes with full risk analysis.
                 # Ensure required fields with safe float conversion
                 def safe_float(value, default):
                     try:
-                        if isinstance(value, str) and value.lower() in ['unlimited', 'infinite', 'inf']:
+                        if isinstance(value, str) and value.lower() in [
+                            "unlimited",
+                            "infinite",
+                            "inf",
+                        ]:
                             return 10000.0  # Use large number for unlimited
                         return float(value)
                     except (ValueError, TypeError):
                         return default
 
                 validated_rec = {
-                    'strike': safe_float(rec.get('strike'), 150.0),
-                    'option_type': rec.get('option_type', 'call'),
-                    'expiration': rec.get('expiration', (datetime.now() + timedelta(days=30)).strftime('%Y-%m-%d')),
-                    'delta': max(-1.0, min(1.0, safe_float(rec.get('delta'), 0.5))),
-                    'probability_profit': max(0.0, min(1.0, safe_float(rec.get('probability_profit'), 0.5))),
-                    'max_loss': abs(safe_float(rec.get('max_loss'), 500.0)),
-                    'max_gain': abs(safe_float(rec.get('max_gain'), 1000.0)),
-                    'risk_level': rec.get('risk_level', 'medium'),
-                    'premium': abs(safe_float(rec.get('premium'), 5.0)),
-                    'contracts': max(1, int(rec.get('contracts', 1)))
+                    "strike": safe_float(rec.get("strike"), 150.0),
+                    "option_type": rec.get("option_type", "call"),
+                    "expiration": rec.get(
+                        "expiration", (datetime.now() + timedelta(days=30)).strftime("%Y-%m-%d")
+                    ),
+                    "delta": max(-1.0, min(1.0, safe_float(rec.get("delta"), 0.5))),
+                    "probability_profit": max(
+                        0.0, min(1.0, safe_float(rec.get("probability_profit"), 0.5))
+                    ),
+                    "max_loss": abs(safe_float(rec.get("max_loss"), 500.0)),
+                    "max_gain": abs(safe_float(rec.get("max_gain"), 1000.0)),
+                    "risk_level": rec.get("risk_level", "medium"),
+                    "premium": abs(safe_float(rec.get("premium"), 5.0)),
+                    "contracts": max(1, int(rec.get("contracts", 1))),
                 }
                 validated.append(validated_rec)
 
@@ -302,32 +337,32 @@ Recommend 3-5 appropriate strikes with full risk analysis.
     def _get_fallback_strikes(self, signal: dict, user_profile: dict) -> list[dict]:
         """Fallback strike recommendations"""
 
-        direction = signal.get('direction', 'HOLD')
-        risk_level = user_profile.get('risk_level', 'moderate')
+        direction = signal.get("direction", "HOLD")
+        risk_level = user_profile.get("risk_level", "moderate")
 
         # Simple fallback based on direction
-        if direction in ['BUY', 'STRONG_BUY']:
-            option_type = 'call'
-            delta_range = (0.45, 0.65) if risk_level == 'aggressive' else (0.25, 0.45)
-        elif direction in ['SELL', 'STRONG_SELL']:
-            option_type = 'put'
-            delta_range = (-0.65, -0.45) if risk_level == 'aggressive' else (-0.45, -0.25)
+        if direction in ["BUY", "STRONG_BUY"]:
+            option_type = "call"
+            delta_range = (0.45, 0.65) if risk_level == "aggressive" else (0.25, 0.45)
+        elif direction in ["SELL", "STRONG_SELL"]:
+            option_type = "put"
+            delta_range = (-0.65, -0.45) if risk_level == "aggressive" else (-0.45, -0.25)
         else:
-            option_type = 'call'
+            option_type = "call"
             delta_range = (0.35, 0.55)
 
         return [
             {
-                'strike': 150.0,
-                'option_type': option_type,
-                'expiration': (datetime.now() + timedelta(days=30)).strftime('%Y-%m-%d'),
-                'delta': (delta_range[0] + delta_range[1]) / 2,
-                'probability_profit': 0.5,
-                'max_loss': 500.0,
-                'max_gain': 1000.0,
-                'risk_level': risk_level,
-                'premium': 5.0,
-                'contracts': 1,
-                'note': 'Fallback recommendation'
+                "strike": 150.0,
+                "option_type": option_type,
+                "expiration": (datetime.now() + timedelta(days=30)).strftime("%Y-%m-%d"),
+                "delta": (delta_range[0] + delta_range[1]) / 2,
+                "probability_profit": 0.5,
+                "max_loss": 500.0,
+                "max_gain": 1000.0,
+                "risk_level": risk_level,
+                "premium": 5.0,
+                "contracts": 1,
+                "note": "Fallback recommendation",
             }
         ]
