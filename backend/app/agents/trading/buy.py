@@ -2,6 +2,7 @@
 Buy Agent for Neural Options Oracle++
 Intelligent trade execution based on AI analysis and decision engine signals
 """
+
 import asyncio
 import json
 from dataclasses import dataclass
@@ -20,6 +21,7 @@ logger = get_agents_logger()
 @dataclass
 class TradeExecution:
     """Trade execution result"""
+
     symbol: str
     action: str  # 'buy' or 'sell'
     quantity: int
@@ -36,6 +38,7 @@ class TradeExecution:
 @dataclass
 class PositionRecommendation:
     """Position recommendation from buy agent"""
+
     symbol: str
     action: str
     quantity: int
@@ -64,15 +67,17 @@ class BuyAgent(BaseAgent):
         try:
             # Initialize Alpaca client for paper trading
             from alpaca.trading.client import TradingClient
+
             self.alpaca_client = TradingClient(
                 api_key=settings.alpaca_api_key,
                 secret_key=settings.alpaca_secret_key,
-                paper=True  # Paper trading only
+                paper=True,  # Paper trading only
             )
             logger.info("Alpaca trading client initialized for paper trading")
 
             # Initialize OptionsProfitCalculator API
             from backend.app.services.openai_orchestrator import OptionsProfitCalculatorAPI
+
             self.options_api = OptionsProfitCalculatorAPI()
             logger.info("OptionsProfitCalculator API initialized")
 
@@ -112,10 +117,10 @@ class BuyAgent(BaseAgent):
             logger.info(f"🎯 Buy agent analyzing {symbol} for trade execution")
 
             # Extract context from kwargs
-            decision_signal = kwargs.get('decision_signal', {})
-            user_risk_profile = kwargs.get('user_risk_profile', {})
-            market_data = kwargs.get('market_data', {})
-            strike_recommendations = kwargs.get('strike_recommendations', [])
+            decision_signal = kwargs.get("decision_signal", {})
+            user_risk_profile = kwargs.get("user_risk_profile", {})
+            market_data = kwargs.get("market_data", {})
+            strike_recommendations = kwargs.get("strike_recommendations", [])
 
             # Generate buy recommendations
             recommendations = await self._generate_buy_recommendations(
@@ -128,25 +133,25 @@ class BuyAgent(BaseAgent):
             )
 
             return {
-                'symbol': symbol,
-                'recommendations': [rec.__dict__ for rec in recommendations],
-                'execution_plan': execution_plan,
-                'risk_assessment': self._assess_trade_risk(recommendations, user_risk_profile),
-                'confidence': self._calculate_execution_confidence(recommendations),
-                'timestamp': datetime.now().isoformat(),
-                'agent_type': 'buy_agent'
+                "symbol": symbol,
+                "recommendations": [rec.__dict__ for rec in recommendations],
+                "execution_plan": execution_plan,
+                "risk_assessment": self._assess_trade_risk(recommendations, user_risk_profile),
+                "confidence": self._calculate_execution_confidence(recommendations),
+                "timestamp": datetime.now().isoformat(),
+                "agent_type": "buy_agent",
             }
 
         except Exception as e:
             logger.error(f"Buy agent analysis failed for {symbol}: {e}")
             return {
-                'symbol': symbol,
-                'error': str(e),
-                'recommendations': [],
-                'execution_plan': {},
-                'confidence': 0.0,
-                'timestamp': datetime.now().isoformat(),
-                'agent_type': 'buy_agent'
+                "symbol": symbol,
+                "error": str(e),
+                "recommendations": [],
+                "execution_plan": {},
+                "confidence": 0.0,
+                "timestamp": datetime.now().isoformat(),
+                "agent_type": "buy_agent",
             }
 
     async def _generate_buy_recommendations(
@@ -155,7 +160,7 @@ class BuyAgent(BaseAgent):
         decision_signal: dict[str, Any],
         user_risk_profile: dict[str, Any],
         market_data: dict[str, Any],
-        strike_recommendations: list[dict[str, Any]]
+        strike_recommendations: list[dict[str, Any]],
     ) -> list[PositionRecommendation]:
         """Generate buy recommendations based on decision signal"""
 
@@ -163,38 +168,56 @@ class BuyAgent(BaseAgent):
 
         try:
             # Extract signal information
-            direction = decision_signal.get('direction', 'HOLD')
-            confidence = decision_signal.get('confidence', 0.5)
-            strategy_type = decision_signal.get('strategy_type', 'neutral')
+            direction = decision_signal.get("direction", "HOLD")
+            confidence = decision_signal.get("confidence", 0.5)
+            strategy_type = decision_signal.get("strategy_type", "neutral")
 
             # Skip if signal is HOLD or confidence too low
-            if direction == 'HOLD' or confidence < 0.3:
-                logger.info(f"Signal for {symbol} is {direction} with {confidence:.2f} confidence - no buy recommendation")
+            if direction == "HOLD" or confidence < 0.3:
+                logger.info(
+                    f"Signal for {symbol} is {direction} with {confidence:.2f} confidence - no buy recommendation"
+                )
                 return recommendations
 
             # Get current market price
-            current_price = market_data.get('quote', {}).get('price', 0)
+            current_price = market_data.get("quote", {}).get("price", 0)
             if current_price <= 0:
                 logger.warning(f"No valid price data for {symbol}")
                 return recommendations
 
             # Determine position size based on risk profile
-            max_position_size = user_risk_profile.get('max_position_size', 0.05)  # 5% default
-            account_balance = user_risk_profile.get('account_balance', 100000)  # $100k default
+            max_position_size = user_risk_profile.get("max_position_size", 0.05)  # 5% default
+            account_balance = user_risk_profile.get("account_balance", 100000)  # $100k default
             max_trade_value = account_balance * max_position_size
 
             # Generate recommendations based on signal direction
-            if direction in ['BUY', 'STRONG_BUY']:
-                recommendations.extend(await self._generate_bullish_recommendations(
-                    symbol, current_price, max_trade_value, strike_recommendations, confidence, direction
-                ))
-            elif direction in ['SELL', 'STRONG_SELL']:
-                recommendations.extend(await self._generate_bearish_recommendations(
-                    symbol, current_price, max_trade_value, strike_recommendations, confidence, direction
-                ))
+            if direction in ["BUY", "STRONG_BUY"]:
+                recommendations.extend(
+                    await self._generate_bullish_recommendations(
+                        symbol,
+                        current_price,
+                        max_trade_value,
+                        strike_recommendations,
+                        confidence,
+                        direction,
+                    )
+                )
+            elif direction in ["SELL", "STRONG_SELL"]:
+                recommendations.extend(
+                    await self._generate_bearish_recommendations(
+                        symbol,
+                        current_price,
+                        max_trade_value,
+                        strike_recommendations,
+                        confidence,
+                        direction,
+                    )
+                )
 
             # Filter and rank recommendations
-            recommendations = self._filter_and_rank_recommendations(recommendations, user_risk_profile)
+            recommendations = self._filter_and_rank_recommendations(
+                recommendations, user_risk_profile
+            )
 
             logger.info(f"Generated {len(recommendations)} buy recommendations for {symbol}")
             return recommendations
@@ -210,7 +233,7 @@ class BuyAgent(BaseAgent):
         max_trade_value: float,
         strike_recommendations: list[dict[str, Any]],
         confidence: float,
-        direction: str = 'BUY'
+        direction: str = "BUY",
     ) -> list[PositionRecommendation]:
         """Generate bullish (call) recommendations"""
 
@@ -226,20 +249,22 @@ class BuyAgent(BaseAgent):
             # Use strike recommendations if available, otherwise generate our own
             if strike_recommendations:
                 for strike_rec in strike_recommendations[:3]:  # Top 3 recommendations
-                    if isinstance(strike_rec, dict) and strike_rec.get('option_type') == 'call':
+                    if isinstance(strike_rec, dict) and strike_rec.get("option_type") == "call":
                         rec = PositionRecommendation(
                             symbol=symbol,
-                            action='buy',
+                            action="buy",
                             quantity=1,  # Will be calculated based on risk
-                            option_type='call',
-                            strike_price=strike_rec.get('strike', current_price * 1.02),
-                            expiration_date=strike_rec.get('expiration', self._get_next_expiration()),
-                            entry_price=strike_rec.get('entry_price', 5.0),
+                            option_type="call",
+                            strike_price=strike_rec.get("strike", current_price * 1.02),
+                            expiration_date=strike_rec.get(
+                                "expiration", self._get_next_expiration()
+                            ),
+                            entry_price=strike_rec.get("entry_price", 5.0),
                             confidence=confidence,
-                            risk_score=strike_rec.get('risk_score', 0.3),
-                            potential_return=strike_rec.get('potential_return', 0.15),
-                            max_loss=strike_rec.get('max_loss', 0.05),
-                            reasoning=f"AI signal: {direction} with {confidence:.1%} confidence"
+                            risk_score=strike_rec.get("risk_score", 0.3),
+                            potential_return=strike_rec.get("potential_return", 0.15),
+                            max_loss=strike_rec.get("max_loss", 0.05),
+                            reasoning=f"AI signal: {direction} with {confidence:.1%} confidence",
                         )
                         recommendations.append(rec)
             else:
@@ -247,15 +272,15 @@ class BuyAgent(BaseAgent):
                 strikes = [
                     current_price * 1.01,  # Slightly OTM
                     current_price * 1.02,  # OTM
-                    current_price * 0.99   # Slightly ITM
+                    current_price * 0.99,  # Slightly ITM
                 ]
 
                 for i, strike in enumerate(strikes):
                     rec = PositionRecommendation(
                         symbol=symbol,
-                        action='buy',
+                        action="buy",
                         quantity=1,
-                        option_type='call',
+                        option_type="call",
                         strike_price=strike,
                         expiration_date=self._get_next_expiration(),
                         entry_price=5.0 + i * 2.0,  # Estimated option price
@@ -263,7 +288,7 @@ class BuyAgent(BaseAgent):
                         risk_score=0.2 + i * 0.1,
                         potential_return=0.15 + i * 0.05,
                         max_loss=0.05,
-                        reasoning=f"Bullish call recommendation based on {confidence:.1%} confidence signal"
+                        reasoning=f"Bullish call recommendation based on {confidence:.1%} confidence signal",
                     )
                     recommendations.append(rec)
 
@@ -280,7 +305,7 @@ class BuyAgent(BaseAgent):
         max_trade_value: float,
         strike_recommendations: list[dict[str, Any]],
         confidence: float,
-        direction: str = 'SELL'
+        direction: str = "SELL",
     ) -> list[PositionRecommendation]:
         """Generate bearish (put) recommendations"""
 
@@ -290,20 +315,22 @@ class BuyAgent(BaseAgent):
             # Use strike recommendations if available
             if strike_recommendations:
                 for strike_rec in strike_recommendations[:3]:
-                    if isinstance(strike_rec, dict) and strike_rec.get('option_type') == 'put':
+                    if isinstance(strike_rec, dict) and strike_rec.get("option_type") == "put":
                         rec = PositionRecommendation(
                             symbol=symbol,
-                            action='buy',
+                            action="buy",
                             quantity=1,
-                            option_type='put',
-                            strike_price=strike_rec.get('strike', current_price * 0.98),
-                            expiration_date=strike_rec.get('expiration', self._get_next_expiration()),
-                            entry_price=strike_rec.get('entry_price', 4.0),
+                            option_type="put",
+                            strike_price=strike_rec.get("strike", current_price * 0.98),
+                            expiration_date=strike_rec.get(
+                                "expiration", self._get_next_expiration()
+                            ),
+                            entry_price=strike_rec.get("entry_price", 4.0),
                             confidence=confidence,
-                            risk_score=strike_rec.get('risk_score', 0.3),
-                            potential_return=strike_rec.get('potential_return', 0.15),
-                            max_loss=strike_rec.get('max_loss', 0.05),
-                            reasoning=f"AI signal: {direction} with {confidence:.1%} confidence"
+                            risk_score=strike_rec.get("risk_score", 0.3),
+                            potential_return=strike_rec.get("potential_return", 0.15),
+                            max_loss=strike_rec.get("max_loss", 0.05),
+                            reasoning=f"AI signal: {direction} with {confidence:.1%} confidence",
                         )
                         recommendations.append(rec)
             else:
@@ -311,15 +338,15 @@ class BuyAgent(BaseAgent):
                 strikes = [
                     current_price * 0.99,  # Slightly OTM
                     current_price * 0.98,  # OTM
-                    current_price * 1.01   # Slightly ITM
+                    current_price * 1.01,  # Slightly ITM
                 ]
 
                 for i, strike in enumerate(strikes):
                     rec = PositionRecommendation(
                         symbol=symbol,
-                        action='buy',
+                        action="buy",
                         quantity=1,
-                        option_type='put',
+                        option_type="put",
                         strike_price=strike,
                         expiration_date=self._get_next_expiration(),
                         entry_price=4.0 + i * 2.0,
@@ -327,7 +354,7 @@ class BuyAgent(BaseAgent):
                         risk_score=0.2 + i * 0.1,
                         potential_return=0.15 + i * 0.05,
                         max_loss=0.05,
-                        reasoning=f"Bearish put recommendation based on {confidence:.1%} confidence signal"
+                        reasoning=f"Bearish put recommendation based on {confidence:.1%} confidence signal",
                     )
                     recommendations.append(rec)
 
@@ -355,17 +382,15 @@ class BuyAgent(BaseAgent):
         if days_ahead <= 0:  # Target day already happened this week
             days_ahead += 7
         next_friday = today + timedelta(days=days_ahead)
-        return next_friday.strftime('%Y-%m-%d')
+        return next_friday.strftime("%Y-%m-%d")
 
     def _filter_and_rank_recommendations(
-        self,
-        recommendations: list[PositionRecommendation],
-        user_risk_profile: dict[str, Any]
+        self, recommendations: list[PositionRecommendation], user_risk_profile: dict[str, Any]
     ) -> list[PositionRecommendation]:
         """Filter and rank recommendations based on risk profile"""
 
         # Filter by risk tolerance
-        max_risk = user_risk_profile.get('max_risk_score', 0.5)
+        max_risk = user_risk_profile.get("max_risk_score", 0.5)
         filtered = [rec for rec in recommendations if rec.risk_score <= max_risk]
 
         # Sort by risk-adjusted return (potential_return / risk_score)
@@ -378,78 +403,78 @@ class BuyAgent(BaseAgent):
         self,
         symbol: str,
         recommendations: list[PositionRecommendation],
-        user_risk_profile: dict[str, Any]
+        user_risk_profile: dict[str, Any],
     ) -> dict[str, Any]:
         """Create detailed execution plan for recommendations"""
 
         if not recommendations:
-            return {'status': 'no_recommendations', 'message': 'No suitable trades found'}
+            return {"status": "no_recommendations", "message": "No suitable trades found"}
 
         # Select best recommendation
         best_rec = recommendations[0]
 
         # Calculate position size
-        account_balance = user_risk_profile.get('account_balance', 100000)
-        max_position_size = user_risk_profile.get('max_position_size', 0.05)
+        account_balance = user_risk_profile.get("account_balance", 100000)
+        max_position_size = user_risk_profile.get("max_position_size", 0.05)
         max_trade_value = account_balance * max_position_size
 
         # Calculate quantity based on option price and max trade value
         if best_rec.entry_price and best_rec.entry_price > 0:
-            max_contracts = int(max_trade_value / (best_rec.entry_price * 100))  # Options are 100 shares per contract
+            max_contracts = int(
+                max_trade_value / (best_rec.entry_price * 100)
+            )  # Options are 100 shares per contract
             quantity = min(max_contracts, 10)  # Cap at 10 contracts
         else:
             quantity = 1
 
         execution_plan = {
-            'symbol': symbol,
-            'recommended_trade': {
-                'action': best_rec.action,
-                'option_type': best_rec.option_type,
-                'strike_price': best_rec.strike_price,
-                'expiration_date': best_rec.expiration_date,
-                'quantity': quantity,
-                'estimated_price': best_rec.entry_price,
-                'total_cost': quantity * best_rec.entry_price * 100,
-                'confidence': best_rec.confidence,
-                'risk_score': best_rec.risk_score,
-                'potential_return': best_rec.potential_return,
-                'max_loss': best_rec.max_loss,
-                'reasoning': best_rec.reasoning
+            "symbol": symbol,
+            "recommended_trade": {
+                "action": best_rec.action,
+                "option_type": best_rec.option_type,
+                "strike_price": best_rec.strike_price,
+                "expiration_date": best_rec.expiration_date,
+                "quantity": quantity,
+                "estimated_price": best_rec.entry_price,
+                "total_cost": quantity * best_rec.entry_price * 100,
+                "confidence": best_rec.confidence,
+                "risk_score": best_rec.risk_score,
+                "potential_return": best_rec.potential_return,
+                "max_loss": best_rec.max_loss,
+                "reasoning": best_rec.reasoning,
             },
-            'risk_management': {
-                'stop_loss': best_rec.entry_price * 0.5,  # 50% stop loss
-                'take_profit': best_rec.entry_price * 2.0,  # 100% profit target
-                'max_position_size_pct': max_position_size,
-                'portfolio_impact': (quantity * best_rec.entry_price * 100) / account_balance
+            "risk_management": {
+                "stop_loss": best_rec.entry_price * 0.5,  # 50% stop loss
+                "take_profit": best_rec.entry_price * 2.0,  # 100% profit target
+                "max_position_size_pct": max_position_size,
+                "portfolio_impact": (quantity * best_rec.entry_price * 100) / account_balance,
             },
-            'execution_timing': {
-                'recommended_entry': 'market_open',  # or 'immediate'
-                'time_sensitivity': 'medium',
-                'market_conditions': 'favorable'
+            "execution_timing": {
+                "recommended_entry": "market_open",  # or 'immediate'
+                "time_sensitivity": "medium",
+                "market_conditions": "favorable",
             },
-            'alternatives': [
+            "alternatives": [
                 {
-                    'rank': i + 2,
-                    'option_type': rec.option_type,
-                    'strike_price': rec.strike_price,
-                    'confidence': rec.confidence,
-                    'reasoning': rec.reasoning
+                    "rank": i + 2,
+                    "option_type": rec.option_type,
+                    "strike_price": rec.strike_price,
+                    "confidence": rec.confidence,
+                    "reasoning": rec.reasoning,
                 }
                 for i, rec in enumerate(recommendations[1:3])
-            ]
+            ],
         }
 
         return execution_plan
 
     def _assess_trade_risk(
-        self,
-        recommendations: list[PositionRecommendation],
-        user_risk_profile: dict[str, Any]
+        self, recommendations: list[PositionRecommendation], user_risk_profile: dict[str, Any]
     ) -> dict[str, Any]:
         """Assess overall risk of the trade recommendations"""
 
         if not recommendations:
-            return {'risk_level': 'none', 'message': 'No recommendations to assess'}
+            return {"risk_level": "none", "message": "No recommendations to assess"}
 
         # Calculate portfolio risk metrics
         total_risk_score = sum(rec.risk_score for rec in recommendations) / len(recommendations)
@@ -458,26 +483,25 @@ class BuyAgent(BaseAgent):
 
         # Determine risk level
         if total_risk_score < 0.3 and max_potential_loss < 0.05:
-            risk_level = 'low'
+            risk_level = "low"
         elif total_risk_score < 0.6 and max_potential_loss < 0.10:
-            risk_level = 'medium'
+            risk_level = "medium"
         else:
-            risk_level = 'high'
+            risk_level = "high"
 
         return {
-            'risk_level': risk_level,
-            'average_risk_score': total_risk_score,
-            'max_potential_loss': max_potential_loss,
-            'average_confidence': avg_confidence,
-            'recommendation_count': len(recommendations),
-            'risk_tolerance_match': total_risk_score <= user_risk_profile.get('max_risk_score', 0.5),
-            'warnings': self._generate_risk_warnings(recommendations, user_risk_profile)
+            "risk_level": risk_level,
+            "average_risk_score": total_risk_score,
+            "max_potential_loss": max_potential_loss,
+            "average_confidence": avg_confidence,
+            "recommendation_count": len(recommendations),
+            "risk_tolerance_match": total_risk_score
+            <= user_risk_profile.get("max_risk_score", 0.5),
+            "warnings": self._generate_risk_warnings(recommendations, user_risk_profile),
         }
 
     def _generate_risk_warnings(
-        self,
-        recommendations: list[PositionRecommendation],
-        user_risk_profile: dict[str, Any]
+        self, recommendations: list[PositionRecommendation], user_risk_profile: dict[str, Any]
     ) -> list[str]:
         """Generate risk warnings for the recommendations"""
 
@@ -500,7 +524,9 @@ class BuyAgent(BaseAgent):
 
         return warnings
 
-    def _calculate_execution_confidence(self, recommendations: list[PositionRecommendation]) -> float:
+    def _calculate_execution_confidence(
+        self, recommendations: list[PositionRecommendation]
+    ) -> float:
         """Calculate overall confidence in the execution plan"""
 
         if not recommendations:
@@ -518,28 +544,27 @@ class BuyAgent(BaseAgent):
         return total_confidence / total_weight if total_weight > 0 else 0.0
 
     async def execute_trade(
-        self,
-        symbol: str,
-        recommendation: PositionRecommendation,
-        user_risk_profile: dict[str, Any]
+        self, symbol: str, recommendation: PositionRecommendation, user_risk_profile: dict[str, Any]
     ) -> TradeExecution:
         """Execute a trade based on recommendation"""
 
         try:
-            logger.info(f"🎯 Executing trade: {recommendation.action} {recommendation.quantity} {symbol} {recommendation.option_type}")
+            logger.info(
+                f"🎯 Executing trade: {recommendation.action} {recommendation.quantity} {symbol} {recommendation.option_type}"
+            )
 
             # Validate trade before execution
             validation_result = await self._validate_trade(recommendation, user_risk_profile)
-            if not validation_result['valid']:
+            if not validation_result["valid"]:
                 return TradeExecution(
                     symbol=symbol,
                     action=recommendation.action,
                     quantity=recommendation.quantity,
                     price=0.0,
                     total_value=0.0,
-                    order_type='market',
-                    status='rejected',
-                    reasoning=f"Trade validation failed: {validation_result['reason']}"
+                    order_type="market",
+                    status="rejected",
+                    reasoning=f"Trade validation failed: {validation_result['reason']}",
                 )
 
             # Execute the trade (paper trading)
@@ -556,40 +581,36 @@ class BuyAgent(BaseAgent):
                 quantity=recommendation.quantity,
                 price=0.0,
                 total_value=0.0,
-                order_type='market',
-                status='rejected',
-                reasoning=f"Execution failed: {e!s}"
+                order_type="market",
+                status="rejected",
+                reasoning=f"Execution failed: {e!s}",
             )
 
     async def _validate_trade(
-        self,
-        recommendation: PositionRecommendation,
-        user_risk_profile: dict[str, Any]
+        self, recommendation: PositionRecommendation, user_risk_profile: dict[str, Any]
     ) -> dict[str, Any]:
         """Validate trade before execution"""
 
         # Check risk limits
-        if recommendation.risk_score > user_risk_profile.get('max_risk_score', 0.5):
-            return {'valid': False, 'reason': 'Risk score exceeds user limits'}
+        if recommendation.risk_score > user_risk_profile.get("max_risk_score", 0.5):
+            return {"valid": False, "reason": "Risk score exceeds user limits"}
 
         # Check confidence
         if recommendation.confidence < 0.3:
-            return {'valid': False, 'reason': 'Confidence too low for execution'}
+            return {"valid": False, "reason": "Confidence too low for execution"}
 
         # Check position size
-        max_position_size = user_risk_profile.get('max_position_size', 0.05)
-        account_balance = user_risk_profile.get('account_balance', 100000)
+        max_position_size = user_risk_profile.get("max_position_size", 0.05)
+        account_balance = user_risk_profile.get("account_balance", 100000)
         trade_value = recommendation.quantity * recommendation.entry_price * 100
 
         if trade_value > account_balance * max_position_size:
-            return {'valid': False, 'reason': 'Position size exceeds limits'}
+            return {"valid": False, "reason": "Position size exceeds limits"}
 
-        return {'valid': True, 'reason': 'Trade validated successfully'}
+        return {"valid": True, "reason": "Trade validated successfully"}
 
     async def _execute_paper_trade(
-        self,
-        symbol: str,
-        recommendation: PositionRecommendation
+        self, symbol: str, recommendation: PositionRecommendation
     ) -> TradeExecution:
         """Execute paper trade using Alpaca API"""
 
@@ -603,21 +624,21 @@ class BuyAgent(BaseAgent):
                 option_symbol = f"{symbol}{recommendation.expiration_date.replace('-', '')}{recommendation.option_type[0].upper()}{int(recommendation.strike_price * 1000):08d}"
 
                 order_data = {
-                    'symbol': option_symbol,
-                    'qty': recommendation.quantity,
-                    'side': recommendation.action,
-                    'type': 'market',
-                    'time_in_force': 'day',
-                    'class': 'option'
+                    "symbol": option_symbol,
+                    "qty": recommendation.quantity,
+                    "side": recommendation.action,
+                    "type": "market",
+                    "time_in_force": "day",
+                    "class": "option",
                 }
             else:
                 # Stock trade
                 order_data = {
-                    'symbol': symbol,
-                    'qty': recommendation.quantity,
-                    'side': recommendation.action,
-                    'type': 'market',
-                    'time_in_force': 'day'
+                    "symbol": symbol,
+                    "qty": recommendation.quantity,
+                    "side": recommendation.action,
+                    "type": "market",
+                    "time_in_force": "day",
                 }
 
             # Submit order to Alpaca
@@ -634,22 +655,30 @@ class BuyAgent(BaseAgent):
                 symbol=symbol,
                 action=recommendation.action,
                 quantity=recommendation.quantity,
-                price=float(order_status.filled_avg_price) if order_status.filled_avg_price else recommendation.entry_price,
-                total_value=float(order_status.filled_qty) * float(order_status.filled_avg_price) if order_status.filled_avg_price else recommendation.quantity * recommendation.entry_price,
-                order_type='market',
+                price=float(order_status.filled_avg_price)
+                if order_status.filled_avg_price
+                else recommendation.entry_price,
+                total_value=float(order_status.filled_qty) * float(order_status.filled_avg_price)
+                if order_status.filled_avg_price
+                else recommendation.quantity * recommendation.entry_price,
+                order_type="market",
                 option_details={
-                    'type': recommendation.option_type,
-                    'strike': recommendation.strike_price,
-                    'expiration': recommendation.expiration_date
-                } if recommendation.option_type else None,
+                    "type": recommendation.option_type,
+                    "strike": recommendation.strike_price,
+                    "expiration": recommendation.expiration_date,
+                }
+                if recommendation.option_type
+                else None,
                 execution_time=datetime.now(),
                 trade_id=order.id,
                 status=order_status.status,
-                reasoning=recommendation.reasoning
+                reasoning=recommendation.reasoning,
             )
 
             # Log the trade execution
-            logger.info(f"Alpaca paper trade executed: {execution.trade_id} - Status: {execution.status}")
+            logger.info(
+                f"Alpaca paper trade executed: {execution.trade_id} - Status: {execution.status}"
+            )
 
             return execution
 
@@ -657,7 +686,11 @@ class BuyAgent(BaseAgent):
             logger.error(f"Alpaca paper trade execution failed: {e}")
             # Fallback to simulation if Alpaca fails
             execution_price = recommendation.entry_price
-            total_value = recommendation.quantity * execution_price * (100 if recommendation.option_type else 1)
+            total_value = (
+                recommendation.quantity
+                * execution_price
+                * (100 if recommendation.option_type else 1)
+            )
 
             execution = TradeExecution(
                 symbol=symbol,
@@ -665,22 +698,26 @@ class BuyAgent(BaseAgent):
                 quantity=recommendation.quantity,
                 price=execution_price,
                 total_value=total_value,
-                order_type='market',
+                order_type="market",
                 option_details={
-                    'type': recommendation.option_type,
-                    'strike': recommendation.strike_price,
-                    'expiration': recommendation.expiration_date
-                } if recommendation.option_type else None,
+                    "type": recommendation.option_type,
+                    "strike": recommendation.strike_price,
+                    "expiration": recommendation.expiration_date,
+                }
+                if recommendation.option_type
+                else None,
                 execution_time=datetime.now(),
                 trade_id=f"sim_{symbol}_{int(datetime.now().timestamp())}",
-                status='filled',
-                reasoning=f"Simulated execution due to Alpaca error: {e!s}"
+                status="filled",
+                reasoning=f"Simulated execution due to Alpaca error: {e!s}",
             )
 
             logger.info(f"Fallback simulated trade executed: {execution.trade_id}")
             return execution
 
-    async def analyze_option_opportunity(self, symbol: str, budget: float, user_query: str = "") -> dict[str, Any]:
+    async def analyze_option_opportunity(
+        self, symbol: str, budget: float, user_query: str = ""
+    ) -> dict[str, Any]:
         """Analyze option opportunity based on user's buy request with budget"""
         try:
             logger.info(f"🔍 Analyzing option opportunities for {symbol} with ${budget} budget")
@@ -688,22 +725,22 @@ class BuyAgent(BaseAgent):
             # Use OpenAI to format the user request into proper options parameters
             formatted_request = await self._format_user_buy_request(symbol, budget, user_query)
 
-            if formatted_request.get('error'):
+            if formatted_request.get("error"):
                 return {
-                    'symbol': symbol,
-                    'budget': budget,
-                    'error': formatted_request['error'],
-                    'recommendations': []
+                    "symbol": symbol,
+                    "budget": budget,
+                    "error": formatted_request["error"],
+                    "recommendations": [],
                 }
 
             # Get current market data
             current_price = await self._get_current_stock_price(symbol)
             if not current_price:
                 return {
-                    'symbol': symbol,
-                    'budget': budget,
-                    'error': 'Unable to get current stock price',
-                    'recommendations': []
+                    "symbol": symbol,
+                    "budget": budget,
+                    "error": "Unable to get current stock price",
+                    "recommendations": [],
                 }
 
             # Generate options recommendations based on budget and AI analysis
@@ -712,24 +749,21 @@ class BuyAgent(BaseAgent):
             )
 
             return {
-                'symbol': symbol,
-                'budget': budget,
-                'current_price': current_price,
-                'recommendations': recommendations,
-                'formatted_request': formatted_request,
-                'timestamp': datetime.now().isoformat()
+                "symbol": symbol,
+                "budget": budget,
+                "current_price": current_price,
+                "recommendations": recommendations,
+                "formatted_request": formatted_request,
+                "timestamp": datetime.now().isoformat(),
             }
 
         except Exception as e:
             logger.error(f"Failed to analyze option opportunity for {symbol}: {e}")
-            return {
-                'symbol': symbol,
-                'budget': budget,
-                'error': str(e),
-                'recommendations': []
-            }
+            return {"symbol": symbol, "budget": budget, "error": str(e), "recommendations": []}
 
-    async def _format_user_buy_request(self, symbol: str, budget: float, user_query: str) -> dict[str, Any]:
+    async def _format_user_buy_request(
+        self, symbol: str, budget: float, user_query: str
+    ) -> dict[str, Any]:
         """Use OpenAI to format user buy request into proper options parameters"""
         try:
             prompt = f"""
@@ -766,20 +800,23 @@ class BuyAgent(BaseAgent):
             response = await self.client.chat.completions.create(
                 model=self.model,
                 messages=[
-                    {"role": "system", "content": "You are an options trading expert. Always respond with valid JSON only."},
-                    {"role": "user", "content": prompt}
+                    {
+                        "role": "system",
+                        "content": "You are an options trading expert. Always respond with valid JSON only.",
+                    },
+                    {"role": "user", "content": prompt},
                 ],
                 temperature=0.1,
-                max_tokens=500
+                max_tokens=500,
             )
 
             content = response.choices[0].message.content.strip()
 
             # Parse JSON response
-            if content.startswith('```json'):
-                content = content.replace('```json', '').replace('```', '').strip()
-            elif content.startswith('```'):
-                content = content.replace('```', '').strip()
+            if content.startswith("```json"):
+                content = content.replace("```json", "").replace("```", "").strip()
+            elif content.startswith("```"):
+                content = content.replace("```", "").strip()
 
             formatted_request = json.loads(content)
             logger.info(f"✅ OpenAI formatted buy request: {formatted_request}")
@@ -788,52 +825,49 @@ class BuyAgent(BaseAgent):
         except Exception as e:
             logger.error(f"Failed to format user buy request: {e}")
             return {
-                'error': f'Failed to format request: {e!s}',
-                'strategy': 'buy_call',
-                'option_type': 'call',
-                'reasoning': 'Default fallback strategy'
+                "error": f"Failed to format request: {e!s}",
+                "strategy": "buy_call",
+                "option_type": "call",
+                "reasoning": "Default fallback strategy",
             }
 
     async def _get_current_stock_price(self, symbol: str) -> float | None:
         """Get current stock price"""
         try:
             from backend.app.services.alpaca import AlpacaMarketDataClient
+
             alpaca_md = AlpacaMarketDataClient()
             quote = await alpaca_md.get_current_quote(symbol)
-            return float(quote.get('price', 0)) if quote else None
+            return float(quote.get("price", 0)) if quote else None
         except Exception as e:
             logger.error(f"Failed to get current price for {symbol}: {e}")
             return None
 
     async def _generate_budget_based_recommendations(
-        self,
-        symbol: str,
-        budget: float,
-        current_price: float,
-        formatted_request: dict[str, Any]
+        self, symbol: str, budget: float, current_price: float, formatted_request: dict[str, Any]
     ) -> list[dict[str, Any]]:
         """Generate options recommendations based on budget constraints"""
         try:
             recommendations = []
 
             # Get strategy parameters
-            option_type = formatted_request.get('option_type', 'call')
-            otm_percentage = formatted_request.get('target_strike_otm_percentage', 0.02)
-            expiration_weeks = formatted_request.get('expiration_weeks', 2)
-            max_contracts = min(formatted_request.get('max_contracts', 10), int(budget / 100))
+            option_type = formatted_request.get("option_type", "call")
+            otm_percentage = formatted_request.get("target_strike_otm_percentage", 0.02)
+            expiration_weeks = formatted_request.get("expiration_weeks", 2)
+            max_contracts = min(formatted_request.get("max_contracts", 10), int(budget / 100))
 
             # Calculate target strike prices
-            if option_type == 'call':
+            if option_type == "call":
                 strike_prices = [
-                    current_price * (1 + otm_percentage),      # Slightly OTM
+                    current_price * (1 + otm_percentage),  # Slightly OTM
                     current_price * (1 + otm_percentage * 2),  # More OTM
-                    current_price * 0.99                       # Slightly ITM
+                    current_price * 0.99,  # Slightly ITM
                 ]
             else:  # put
                 strike_prices = [
-                    current_price * (1 - otm_percentage),      # Slightly OTM
+                    current_price * (1 - otm_percentage),  # Slightly OTM
                     current_price * (1 - otm_percentage * 2),  # More OTM
-                    current_price * 1.01                       # Slightly ITM
+                    current_price * 1.01,  # Slightly ITM
                 ]
 
             # Generate expiration date
@@ -859,35 +893,39 @@ class BuyAgent(BaseAgent):
                     total_cost = contracts * estimated_option_price * 100
 
                     recommendation = {
-                        'rank': i + 1,
-                        'alpaca_order_format': {
-                            'symbol': option_symbol,
-                            'qty': str(contracts),
-                            'side': 'buy',
-                            'type': 'market',
-                            'time_in_force': 'day'
+                        "rank": i + 1,
+                        "alpaca_order_format": {
+                            "symbol": option_symbol,
+                            "qty": str(contracts),
+                            "side": "buy",
+                            "type": "market",
+                            "time_in_force": "day",
                         },
-                        'option_details': {
-                            'underlying': symbol,
-                            'type': option_type,
-                            'strike_price': round(strike, 2),
-                            'expiration_date': expiration_date,
-                            'contracts': contracts,
-                            'estimated_price_per_contract': round(estimated_option_price, 2),
-                            'total_estimated_cost': round(total_cost, 2)
+                        "option_details": {
+                            "underlying": symbol,
+                            "type": option_type,
+                            "strike_price": round(strike, 2),
+                            "expiration_date": expiration_date,
+                            "contracts": contracts,
+                            "estimated_price_per_contract": round(estimated_option_price, 2),
+                            "total_estimated_cost": round(total_cost, 2),
                         },
-                        'risk_metrics': {
-                            'budget_utilization': round((total_cost / budget) * 100, 1),
-                            'risk_level': 'medium' if i == 0 else 'high',
-                            'potential_return': f"{15 + i * 10}%",
-                            'max_loss': round(total_cost, 2)
+                        "risk_metrics": {
+                            "budget_utilization": round((total_cost / budget) * 100, 1),
+                            "risk_level": "medium" if i == 0 else "high",
+                            "potential_return": f"{15 + i * 10}%",
+                            "max_loss": round(total_cost, 2),
                         },
-                        'reasoning': formatted_request.get('reasoning', 'AI-generated recommendation')
+                        "reasoning": formatted_request.get(
+                            "reasoning", "AI-generated recommendation"
+                        ),
                     }
 
                     recommendations.append(recommendation)
 
-            logger.info(f"✅ Generated {len(recommendations)} budget-based recommendations for {symbol}")
+            logger.info(
+                f"✅ Generated {len(recommendations)} budget-based recommendations for {symbol}"
+            )
             return recommendations
 
         except Exception as e:
@@ -905,13 +943,15 @@ class BuyAgent(BaseAgent):
             days_ahead += 7
 
         friday = target_date + timedelta(days=days_ahead)
-        return friday.strftime('%Y-%m-%d')
+        return friday.strftime("%Y-%m-%d")
 
-    def _estimate_option_price(self, stock_price: float, strike: float, weeks: int, option_type: str) -> float:
+    def _estimate_option_price(
+        self, stock_price: float, strike: float, weeks: int, option_type: str
+    ) -> float:
         """Estimate option price (simplified Black-Scholes approximation)"""
         try:
             # Simplified estimation based on intrinsic + time value
-            if option_type == 'call':
+            if option_type == "call":
                 intrinsic = max(0, stock_price - strike)
             else:  # put
                 intrinsic = max(0, strike - stock_price)
@@ -926,12 +966,14 @@ class BuyAgent(BaseAgent):
             logger.error(f"Failed to estimate option price: {e}")
             return 2.0  # Default fallback
 
-    def _format_alpaca_option_symbol(self, underlying: str, expiration: str, option_type: str, strike: float) -> str:
+    def _format_alpaca_option_symbol(
+        self, underlying: str, expiration: str, option_type: str, strike: float
+    ) -> str:
         """Format option symbol for Alpaca API: AAPL240119C00190000"""
         try:
             # Convert expiration date to YYMMDD format
-            exp_date = datetime.strptime(expiration, '%Y-%m-%d')
-            exp_str = exp_date.strftime('%y%m%d')
+            exp_date = datetime.strptime(expiration, "%Y-%m-%d")
+            exp_str = exp_date.strftime("%y%m%d")
 
             # Option type: C for call, P for put
             opt_type = option_type[0].upper()
@@ -952,12 +994,14 @@ class BuyAgent(BaseAgent):
     async def get_status(self) -> dict[str, Any]:
         """Get buy agent status"""
         base_status = await super().get_status()
-        base_status.update({
-            'alpaca_connected': self.alpaca_client is not None,
-            'options_api_available': self.options_api is not None,
-            'trading_mode': 'paper_trading',
-            'last_check': datetime.now().isoformat()
-        })
+        base_status.update(
+            {
+                "alpaca_connected": self.alpaca_client is not None,
+                "options_api_available": self.options_api is not None,
+                "trading_mode": "paper_trading",
+                "last_check": datetime.now().isoformat(),
+            }
+        )
         return base_status
 
 
@@ -973,6 +1017,7 @@ def get_buy_agent(openai_client=None) -> BuyAgent:
             import os
 
             from openai import OpenAI
+
             openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
         _buy_agent_instance = BuyAgent(openai_client)
     return _buy_agent_instance
@@ -987,35 +1032,38 @@ async def execute_option_buy(analysis: dict[str, Any], confirmed: bool = False) 
         buy_agent = get_buy_agent()
 
         # Extract recommendation from analysis
-        recommendations = analysis.get('recommendations', [])
+        recommendations = analysis.get("recommendations", [])
         if not recommendations:
             return {"error": "No recommendations in analysis", "status": "failed"}
 
         # Get best recommendation
-        best_rec = recommendations[0] if isinstance(recommendations[0], dict) else recommendations[0].__dict__
+        best_rec = (
+            recommendations[0]
+            if isinstance(recommendations[0], dict)
+            else recommendations[0].__dict__
+        )
 
         # Create PositionRecommendation from dict
         rec = PositionRecommendation(
-            symbol=best_rec.get('symbol', ''),
-            action=best_rec.get('action', 'buy'),
-            quantity=best_rec.get('quantity', 1),
-            option_type=best_rec.get('option_type'),
-            strike_price=best_rec.get('strike_price'),
-            expiration_date=best_rec.get('expiration_date'),
-            entry_price=best_rec.get('entry_price', 0),
-            confidence=best_rec.get('confidence', 0.5),
-            risk_score=best_rec.get('risk_score', 0.3),
-            potential_return=best_rec.get('potential_return', 0.1),
-            max_loss=best_rec.get('max_loss', 0.05),
-            reasoning=best_rec.get('reasoning', 'AI recommendation')
+            symbol=best_rec.get("symbol", ""),
+            action=best_rec.get("action", "buy"),
+            quantity=best_rec.get("quantity", 1),
+            option_type=best_rec.get("option_type"),
+            strike_price=best_rec.get("strike_price"),
+            expiration_date=best_rec.get("expiration_date"),
+            entry_price=best_rec.get("entry_price", 0),
+            confidence=best_rec.get("confidence", 0.5),
+            risk_score=best_rec.get("risk_score", 0.3),
+            potential_return=best_rec.get("potential_return", 0.1),
+            max_loss=best_rec.get("max_loss", 0.05),
+            reasoning=best_rec.get("reasoning", "AI recommendation"),
         )
 
         # Execute the trade
-        user_risk_profile = analysis.get('user_risk_profile', {
-            'max_risk_score': 0.5,
-            'max_position_size': 0.05,
-            'account_balance': 100000
-        })
+        user_risk_profile = analysis.get(
+            "user_risk_profile",
+            {"max_risk_score": 0.5, "max_position_size": 0.05, "account_balance": 100000},
+        )
 
         execution = await buy_agent.execute_trade(rec.symbol, rec, user_risk_profile)
 
@@ -1028,7 +1076,9 @@ async def execute_option_buy(analysis: dict[str, Any], confirmed: bool = False) 
             "total_value": execution.total_value,
             "option_details": execution.option_details,
             "reasoning": execution.reasoning,
-            "execution_time": execution.execution_time.isoformat() if execution.execution_time else None
+            "execution_time": execution.execution_time.isoformat()
+            if execution.execution_time
+            else None,
         }
 
     except Exception as e:
@@ -1036,7 +1086,9 @@ async def execute_option_buy(analysis: dict[str, Any], confirmed: bool = False) 
         return {"error": str(e), "status": "failed"}
 
 
-async def analyze_option_buy(symbol: str, budget: float, preferences: dict[str, Any] = None) -> dict[str, Any]:
+async def analyze_option_buy(
+    symbol: str, budget: float, preferences: dict[str, Any] = None
+) -> dict[str, Any]:
     """Analyze option buy opportunity for a symbol"""
     try:
         buy_agent = get_buy_agent()
