@@ -125,3 +125,8 @@ def test_feature_engineering_reads_greeks(predictor):
     features = predictor._engineer_features({"greeks": {"delta": 0.4, "gamma": 0.02, "theta": -0.1, "vega": 0.3}})
     assert (features["net_delta"], features["net_gamma"]) == (0.4, 0.02)
     assert (features["net_theta"], features["net_vega"]) == (-0.1, 0.3)
+
+
+def test_volume_ratio_compares_with_the_average(predictor):
+    features = predictor._engineer_features({"call_volume": 300, "put_volume": 100, "avg_volume": 100})
+    assert features["volume_ratio"] == pytest.approx(4.0)
