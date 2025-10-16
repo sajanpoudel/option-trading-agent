@@ -2,6 +2,7 @@
 Multi-Stock Analysis Agent for Neural Options Oracle++
 Analyzes multiple stocks, compares them, and selects the best option based on budget and criteria
 """
+
 import asyncio
 import json
 from dataclasses import dataclass
@@ -20,6 +21,7 @@ logger = get_agents_logger()
 @dataclass
 class StockAnalysis:
     """Individual stock analysis result"""
+
     symbol: str
     name: str
     price: float
@@ -40,6 +42,7 @@ class StockAnalysis:
 @dataclass
 class MultiStockResult:
     """Multi-stock analysis result"""
+
     budget: float
     analyzed_stocks: list[StockAnalysis]
     best_recommendation: StockAnalysis | None
@@ -52,11 +55,7 @@ class MultiStockAnalysisAgent(BaseAgent):
     """Agent for analyzing multiple stocks and selecting the best option"""
 
     def __init__(self, openai_client: OpenAI):
-        super().__init__(
-            client=openai_client,
-            name="Multi-Stock Analysis Agent",
-            model="gpt-4o"
-        )
+        super().__init__(client=openai_client, name="Multi-Stock Analysis Agent", model="gpt-4o")
         self.openai_client = openai_client
 
     def _get_system_instructions(self) -> str:
@@ -97,14 +96,14 @@ Always provide comprehensive analysis with clear reasoning for your recommendati
             if not stocks_to_analyze:
                 logger.error("No stocks available for analysis - hot stocks API may be down")
                 return {
-                    'multi_stock_analysis': {
-                        'error': 'No stocks available for analysis. Hot stocks API may be unavailable.',
-                        'budget': budget_info['budget'],
-                        'analyzed_count': 0,
-                        'best_recommendation': None,
-                        'execution_plan': {},
-                        'risk_assessment': {},
-                        'timestamp': datetime.now().isoformat()
+                    "multi_stock_analysis": {
+                        "error": "No stocks available for analysis. Hot stocks API may be unavailable.",
+                        "budget": budget_info["budget"],
+                        "analyzed_count": 0,
+                        "best_recommendation": None,
+                        "execution_plan": {},
+                        "risk_assessment": {},
+                        "timestamp": datetime.now().isoformat(),
                     }
                 }
 
@@ -129,61 +128,66 @@ Always provide comprehensive analysis with clear reasoning for your recommendati
             risk_assessment = self._assess_portfolio_risk(stock_analyses, best_recommendation)
 
             result = MultiStockResult(
-                budget=budget_info['budget'],
+                budget=budget_info["budget"],
                 analyzed_stocks=stock_analyses,
                 best_recommendation=best_recommendation,
                 execution_plan=execution_plan,
                 risk_assessment=risk_assessment,
-                timestamp=datetime.now()
+                timestamp=datetime.now(),
             )
 
-            logger.info(f"✅ Multi-stock analysis complete. Best recommendation: {best_recommendation.symbol if best_recommendation else 'None'}")
+            logger.info(
+                f"✅ Multi-stock analysis complete. Best recommendation: {best_recommendation.symbol if best_recommendation else 'None'}"
+            )
 
             return {
-                'multi_stock_analysis': {
-                    'budget': result.budget,
-                    'analyzed_count': len(result.analyzed_stocks),
-                    'best_recommendation': {
-                        'symbol': result.best_recommendation.symbol,
-                        'name': result.best_recommendation.name,
-                        'price': result.best_recommendation.price,
-                        'overall_score': result.best_recommendation.overall_score,
-                        'recommendation': result.best_recommendation.recommendation,
-                        'reasoning': result.best_recommendation.reasoning,
-                        'max_shares': result.best_recommendation.max_shares,
-                        'potential_return': result.best_recommendation.potential_return,
-                        'risk_level': result.best_recommendation.risk_level
-                    } if result.best_recommendation else None,
-                    'execution_plan': result.execution_plan,
-                    'risk_assessment': result.risk_assessment,
-                    'all_analyses': [
+                "multi_stock_analysis": {
+                    "budget": result.budget,
+                    "analyzed_count": len(result.analyzed_stocks),
+                    "best_recommendation": {
+                        "symbol": result.best_recommendation.symbol,
+                        "name": result.best_recommendation.name,
+                        "price": result.best_recommendation.price,
+                        "overall_score": result.best_recommendation.overall_score,
+                        "recommendation": result.best_recommendation.recommendation,
+                        "reasoning": result.best_recommendation.reasoning,
+                        "max_shares": result.best_recommendation.max_shares,
+                        "potential_return": result.best_recommendation.potential_return,
+                        "risk_level": result.best_recommendation.risk_level,
+                    }
+                    if result.best_recommendation
+                    else None,
+                    "execution_plan": result.execution_plan,
+                    "risk_assessment": result.risk_assessment,
+                    "all_analyses": [
                         {
-                            'symbol': stock.symbol,
-                            'name': stock.name,
-                            'price': stock.price,
-                            'overall_score': stock.overall_score,
-                            'recommendation': stock.recommendation,
-                            'budget_fit': stock.budget_fit,
-                            'max_shares': stock.max_shares,
-                            'potential_return': stock.potential_return,
-                            'risk_level': stock.risk_level
-                        } for stock in result.analyzed_stocks
+                            "symbol": stock.symbol,
+                            "name": stock.name,
+                            "price": stock.price,
+                            "overall_score": stock.overall_score,
+                            "recommendation": stock.recommendation,
+                            "budget_fit": stock.budget_fit,
+                            "max_shares": stock.max_shares,
+                            "potential_return": stock.potential_return,
+                            "risk_level": stock.risk_level,
+                        }
+                        for stock in result.analyzed_stocks
                     ],
-                    'timestamp': result.timestamp.isoformat()
+                    "timestamp": result.timestamp.isoformat(),
                 }
             }
 
         except Exception as e:
             logger.error(f"Multi-stock analysis failed: {e}")
             return {
-                'multi_stock_analysis': {
-                    'error': str(e),
-                    'budget': 0,
-                    'analyzed_count': 0,
-                    'best_recommendation': None,
-                    'execution_plan': {},
-                    'risk_assessment': {},
-                    'timestamp': datetime.now().isoformat()
+                "multi_stock_analysis": {
+                    "error": str(e),
+                    "budget": 0,
+                    "analyzed_count": 0,
+                    "best_recommendation": None,
+                    "execution_plan": {},
+                    "risk_assessment": {},
+                    "timestamp": datetime.now().isoformat(),
                 }
             }
 
@@ -217,30 +221,33 @@ If no budget is specified, default to $1000.
             response = self.openai_client.chat.completions.create(
                 model="gpt-4o",
                 messages=[
-                    {"role": "system", "content": "You are a financial query parser. Always respond with valid JSON only."},
-                    {"role": "user", "content": prompt}
+                    {
+                        "role": "system",
+                        "content": "You are a financial query parser. Always respond with valid JSON only.",
+                    },
+                    {"role": "user", "content": prompt},
                 ],
                 temperature=0.1,
-                max_tokens=200
+                max_tokens=200,
             )
 
             result = json.loads(response.choices[0].message.content.strip())
 
             # Ensure budget is a number
-            if isinstance(result.get('budget'), str):
-                result['budget'] = float(result['budget'].replace('$', '').replace(',', ''))
+            if isinstance(result.get("budget"), str):
+                result["budget"] = float(result["budget"].replace("$", "").replace(",", ""))
 
             return result
 
         except Exception as e:
             logger.error(f"Failed to extract budget and criteria: {e}")
             return {
-                'budget': 1000,
-                'investment_type': 'stocks',
-                'risk_tolerance': 'moderate',
-                'time_horizon': 'short-term',
-                'sectors': [],
-                'preferences': []
+                "budget": 1000,
+                "investment_type": "stocks",
+                "risk_tolerance": "moderate",
+                "time_horizon": "short-term",
+                "sectors": [],
+                "preferences": [],
             }
 
     async def _get_stocks_to_analyze(self, query: str, context: dict[str, Any] = None) -> list[str]:
@@ -248,20 +255,29 @@ If no budget is specified, default to $1000.
         try:
             # First, get hot stocks from our API
             import aiohttp
+
             async with aiohttp.ClientSession() as session:
-                async with session.get('http://localhost:8080/api/v1/stocks/hot-stocks') as response:
+                async with session.get(
+                    "http://localhost:8080/api/v1/stocks/hot-stocks"
+                ) as response:
                     if response.status == 200:
                         hot_stocks_data = await response.json()
-                        hot_stocks = hot_stocks_data.get('stocks', [])
+                        hot_stocks = hot_stocks_data.get("stocks", [])
 
                         # Extract symbols from hot stocks
-                        hot_symbols = [stock.get('symbol') for stock in hot_stocks if stock.get('symbol')]
+                        hot_symbols = [
+                            stock.get("symbol") for stock in hot_stocks if stock.get("symbol")
+                        ]
 
                         if hot_symbols:
-                            logger.info(f"Retrieved {len(hot_symbols)} hot stocks: {hot_symbols[:10]}")
+                            logger.info(
+                                f"Retrieved {len(hot_symbols)} hot stocks: {hot_symbols[:10]}"
+                            )
 
                             # Use OpenAI to select best stocks from hot stocks based on query
-                            selected_stocks = await self._select_stocks_from_hot_list(query, hot_symbols)
+                            selected_stocks = await self._select_stocks_from_hot_list(
+                                query, hot_symbols
+                            )
                             return selected_stocks[:12]  # Limit to 12 stocks
 
             # If hot stocks API fails, return empty list - no fallback
@@ -279,7 +295,7 @@ If no budget is specified, default to $1000.
 Based on this query: "{query}"
 
 Select 8-12 relevant stocks to analyze from this hot stocks list:
-{', '.join(hot_symbols)}
+{", ".join(hot_symbols)}
 
 Consider:
 1. Popular and liquid stocks
@@ -295,11 +311,14 @@ Respond with a JSON array of stock symbols:
             response = await self.openai_client.chat.completions.create(
                 model="gpt-4o",
                 messages=[
-                    {"role": "system", "content": "You are a stock selection expert. Always respond with valid JSON array only."},
-                    {"role": "user", "content": prompt}
+                    {
+                        "role": "system",
+                        "content": "You are a stock selection expert. Always respond with valid JSON array only.",
+                    },
+                    {"role": "user", "content": prompt},
                 ],
                 temperature=0.3,
-                max_tokens=100
+                max_tokens=100,
             )
 
             stocks = json.loads(response.choices[0].message.content.strip())
@@ -309,25 +328,28 @@ Respond with a JSON array of stock symbols:
             logger.error(f"Failed to select stocks from hot list: {e}")
             return []  # No fallback - return empty list
 
-    async def _analyze_individual_stock(self, symbol: str, budget_info: dict[str, Any]) -> StockAnalysis | None:
+    async def _analyze_individual_stock(
+        self, symbol: str, budget_info: dict[str, Any]
+    ) -> StockAnalysis | None:
         """Analyze an individual stock using real APIs and agents"""
         try:
             # Get real market data from our market data manager
             from backend.app.services.market_data import MarketDataManager
+
             market_data_manager = MarketDataManager()
 
             # Get comprehensive market data
             market_data = await market_data_manager.get_comprehensive_data(symbol)
 
-            if not market_data or not market_data.get('current_price'):
+            if not market_data or not market_data.get("current_price"):
                 logger.error(f"No market data available for {symbol}")
                 return None
 
-            price = market_data['current_price']
-            name = market_data.get('company_name', f'{symbol} Inc.')
+            price = market_data["current_price"]
+            name = market_data.get("company_name", f"{symbol} Inc.")
 
             # Calculate max shares that fit budget
-            max_shares = int(budget_info['budget'] / price)
+            max_shares = int(budget_info["budget"] / price)
             budget_fit = max_shares > 0
 
             # Use our real agents to analyze the stock
@@ -339,11 +361,11 @@ Respond with a JSON array of stock symbols:
 
             # Calculate overall score
             overall_score = (
-                analysis_scores['technical_score'] * 0.3 +
-                analysis_scores['sentiment_score'] * 0.2 +
-                analysis_scores['options_score'] * 0.2 +
-                analysis_scores['historical_score'] * 0.2 +
-                analysis_scores['risk_score'] * 0.1
+                analysis_scores["technical_score"] * 0.3
+                + analysis_scores["sentiment_score"] * 0.2
+                + analysis_scores["options_score"] * 0.2
+                + analysis_scores["historical_score"] * 0.2
+                + analysis_scores["risk_score"] * 0.1
             )
 
             # Determine recommendation
@@ -359,7 +381,7 @@ Respond with a JSON array of stock symbols:
                 recommendation = "SELL"
 
             # Risk level
-            risk_score = analysis_scores['risk_score']
+            risk_score = analysis_scores["risk_score"]
             if risk_score >= 0.6:
                 risk_level = "HIGH"
             elif risk_score >= 0.4:
@@ -376,25 +398,27 @@ Respond with a JSON array of stock symbols:
                 symbol=symbol,
                 name=name,
                 price=price,
-                technical_score=analysis_scores['technical_score'],
-                sentiment_score=analysis_scores['sentiment_score'],
-                options_score=analysis_scores['options_score'],
-                historical_score=analysis_scores['historical_score'],
-                risk_score=analysis_scores['risk_score'],
+                technical_score=analysis_scores["technical_score"],
+                sentiment_score=analysis_scores["sentiment_score"],
+                options_score=analysis_scores["options_score"],
+                historical_score=analysis_scores["historical_score"],
+                risk_score=analysis_scores["risk_score"],
                 overall_score=overall_score,
                 recommendation=recommendation,
                 reasoning=reasoning,
                 budget_fit=budget_fit,
                 max_shares=max_shares,
                 potential_return=potential_return,
-                risk_level=risk_level
+                risk_level=risk_level,
             )
 
         except Exception as e:
             logger.error(f"Failed to analyze individual stock {symbol}: {e}")
             return None
 
-    async def _get_real_analysis_scores(self, symbol: str, market_data: dict[str, Any]) -> dict[str, float] | None:
+    async def _get_real_analysis_scores(
+        self, symbol: str, market_data: dict[str, Any]
+    ) -> dict[str, float] | None:
         """Get real analysis scores using our existing agents"""
         try:
             # Import our agents
@@ -417,7 +441,7 @@ Respond with a JSON array of stock symbols:
                 self._run_sentiment_analysis(sentiment_agent, symbol, market_data),
                 self._run_options_flow_analysis(flow_agent, symbol, market_data),
                 self._run_historical_analysis(history_agent, symbol, market_data),
-                self._run_risk_analysis(risk_agent, symbol, market_data)
+                self._run_risk_analysis(risk_agent, symbol, market_data),
             ]
 
             results = await asyncio.gather(*tasks, return_exceptions=True)
@@ -430,56 +454,64 @@ Respond with a JSON array of stock symbols:
             risk_score = results[4] if not isinstance(results[4], Exception) else 0.5
 
             return {
-                'technical_score': technical_score,
-                'sentiment_score': sentiment_score,
-                'options_score': options_score,
-                'historical_score': historical_score,
-                'risk_score': risk_score
+                "technical_score": technical_score,
+                "sentiment_score": sentiment_score,
+                "options_score": options_score,
+                "historical_score": historical_score,
+                "risk_score": risk_score,
             }
 
         except Exception as e:
             logger.error(f"Failed to get real analysis scores for {symbol}: {e}")
             return None
 
-    async def _run_technical_analysis(self, agent, symbol: str, market_data: dict[str, Any]) -> float:
+    async def _run_technical_analysis(
+        self, agent, symbol: str, market_data: dict[str, Any]
+    ) -> float:
         """Run technical analysis and extract score"""
         try:
-            result = await agent.analyze(f"technical analysis for {symbol}", {'symbol': symbol})
-            analysis = result.get('analysis', {})
-            score = analysis.get('weighted_score', 0.5)
+            result = await agent.analyze(f"technical analysis for {symbol}", {"symbol": symbol})
+            analysis = result.get("analysis", {})
+            score = analysis.get("weighted_score", 0.5)
             return float(score)
         except Exception as e:
             logger.error(f"Technical analysis failed for {symbol}: {e}")
             return 0.5
 
-    async def _run_sentiment_analysis(self, agent, symbol: str, market_data: dict[str, Any]) -> float:
+    async def _run_sentiment_analysis(
+        self, agent, symbol: str, market_data: dict[str, Any]
+    ) -> float:
         """Run sentiment analysis and extract score"""
         try:
-            result = await agent.analyze(f"sentiment analysis for {symbol}", {'symbol': symbol})
-            sentiment = result.get('sentiment', {})
-            score = sentiment.get('overall_sentiment_score', 0.5)
+            result = await agent.analyze(f"sentiment analysis for {symbol}", {"symbol": symbol})
+            sentiment = result.get("sentiment", {})
+            score = sentiment.get("overall_sentiment_score", 0.5)
             return float(score)
         except Exception as e:
             logger.error(f"Sentiment analysis failed for {symbol}: {e}")
             return 0.5
 
-    async def _run_options_flow_analysis(self, agent, symbol: str, market_data: dict[str, Any]) -> float:
+    async def _run_options_flow_analysis(
+        self, agent, symbol: str, market_data: dict[str, Any]
+    ) -> float:
         """Run options flow analysis and extract score"""
         try:
-            result = await agent.analyze(f"options flow analysis for {symbol}", {'symbol': symbol})
-            flow = result.get('options_flow', {})
-            score = flow.get('flow_score', 0.5)
+            result = await agent.analyze(f"options flow analysis for {symbol}", {"symbol": symbol})
+            flow = result.get("options_flow", {})
+            score = flow.get("flow_score", 0.5)
             return float(score)
         except Exception as e:
             logger.error(f"Options flow analysis failed for {symbol}: {e}")
             return 0.5
 
-    async def _run_historical_analysis(self, agent, symbol: str, market_data: dict[str, Any]) -> float:
+    async def _run_historical_analysis(
+        self, agent, symbol: str, market_data: dict[str, Any]
+    ) -> float:
         """Run historical analysis and extract score"""
         try:
-            result = await agent.analyze(f"historical analysis for {symbol}", {'symbol': symbol})
-            history = result.get('historical_analysis', {})
-            score = history.get('pattern_score', 0.5)
+            result = await agent.analyze(f"historical analysis for {symbol}", {"symbol": symbol})
+            history = result.get("historical_analysis", {})
+            score = history.get("pattern_score", 0.5)
             return float(score)
         except Exception as e:
             logger.error(f"Historical analysis failed for {symbol}: {e}")
@@ -488,23 +520,25 @@ Respond with a JSON array of stock symbols:
     async def _run_risk_analysis(self, agent, symbol: str, market_data: dict[str, Any]) -> float:
         """Run risk analysis and extract score"""
         try:
-            result = await agent.analyze(f"risk analysis for {symbol}", {'symbol': symbol})
-            risk = result.get('risk_assessment', {})
-            score = risk.get('risk_score', 0.5)
+            result = await agent.analyze(f"risk analysis for {symbol}", {"symbol": symbol})
+            risk = result.get("risk_assessment", {})
+            score = risk.get("risk_score", 0.5)
             return float(score)
         except Exception as e:
             logger.error(f"Risk analysis failed for {symbol}: {e}")
             return 0.5
 
-    def _calculate_potential_return(self, market_data: dict[str, Any], analysis_scores: dict[str, float]) -> float:
+    def _calculate_potential_return(
+        self, market_data: dict[str, Any], analysis_scores: dict[str, float]
+    ) -> float:
         """Calculate potential return based on technical indicators and analysis"""
         try:
             # Get technical indicators from market data
-            technical_indicators = market_data.get('technical_indicators', {})
+            technical_indicators = market_data.get("technical_indicators", {})
 
             # Calculate potential return based on RSI, MACD, and other indicators
-            rsi = technical_indicators.get('rsi', 50)
-            macd = technical_indicators.get('macd', 0)
+            rsi = technical_indicators.get("rsi", 50)
+            macd = technical_indicators.get("macd", 0)
 
             # RSI-based return potential
             if rsi < 30:  # Oversold
@@ -525,7 +559,9 @@ Respond with a JSON array of stock symbols:
             score_return = (overall_score - 0.5) * 0.20  # -10% to +10%
 
             # Combine all factors
-            potential_return = (rsi_return + macd_return + score_return) * 100  # Convert to percentage
+            potential_return = (
+                rsi_return + macd_return + score_return
+            ) * 100  # Convert to percentage
 
             return max(-20, min(20, potential_return))  # Cap between -20% and +20%
 
@@ -533,7 +569,9 @@ Respond with a JSON array of stock symbols:
             logger.error(f"Failed to calculate potential return: {e}")
             return 0.0
 
-    def _select_best_stock(self, analyses: list[StockAnalysis], budget_info: dict[str, Any]) -> StockAnalysis | None:
+    def _select_best_stock(
+        self, analyses: list[StockAnalysis], budget_info: dict[str, Any]
+    ) -> StockAnalysis | None:
         """Select the best stock based on analysis results"""
         if not analyses:
             return None
@@ -550,44 +588,59 @@ Respond with a JSON array of stock symbols:
 
         return budget_fit_analyses[0]
 
-    def _create_execution_plan(self, recommendation: StockAnalysis | None, budget_info: dict[str, Any]) -> dict[str, Any]:
+    def _create_execution_plan(
+        self, recommendation: StockAnalysis | None, budget_info: dict[str, Any]
+    ) -> dict[str, Any]:
         """Create execution plan for the best recommendation"""
         if not recommendation:
             return {
-                'action': 'no_recommendation',
-                'reason': 'No suitable stocks found within budget',
-                'next_steps': ['Increase budget', 'Consider different stocks', 'Wait for better opportunities']
+                "action": "no_recommendation",
+                "reason": "No suitable stocks found within budget",
+                "next_steps": [
+                    "Increase budget",
+                    "Consider different stocks",
+                    "Wait for better opportunities",
+                ],
             }
 
         return {
-            'action': 'buy',
-            'symbol': recommendation.symbol,
-            'name': recommendation.name,
-            'shares': recommendation.max_shares,
-            'price': recommendation.price,
-            'total_cost': recommendation.max_shares * recommendation.price,
-            'remaining_budget': budget_info['budget'] - (recommendation.max_shares * recommendation.price),
-            'reasoning': recommendation.reasoning,
-            'risk_level': recommendation.risk_level,
-            'potential_return': recommendation.potential_return,
-            'next_steps': [
-                'Review the analysis',
-                'Set stop-loss order',
-                'Monitor position',
-                'Consider taking profits at target'
-            ]
+            "action": "buy",
+            "symbol": recommendation.symbol,
+            "name": recommendation.name,
+            "shares": recommendation.max_shares,
+            "price": recommendation.price,
+            "total_cost": recommendation.max_shares * recommendation.price,
+            "remaining_budget": budget_info["budget"]
+            - (recommendation.max_shares * recommendation.price),
+            "reasoning": recommendation.reasoning,
+            "risk_level": recommendation.risk_level,
+            "potential_return": recommendation.potential_return,
+            "next_steps": [
+                "Review the analysis",
+                "Set stop-loss order",
+                "Monitor position",
+                "Consider taking profits at target",
+            ],
         }
 
-    def _assess_portfolio_risk(self, analyses: list[StockAnalysis], recommendation: StockAnalysis | None) -> dict[str, Any]:
+    def _assess_portfolio_risk(
+        self, analyses: list[StockAnalysis], recommendation: StockAnalysis | None
+    ) -> dict[str, Any]:
         """Assess portfolio risk for the recommendation"""
         if not recommendation:
-            return {'risk_level': 'UNKNOWN', 'diversification': 'N/A', 'recommendations': []}
+            return {"risk_level": "UNKNOWN", "diversification": "N/A", "recommendations": []}
 
         # Calculate portfolio metrics
         avg_risk = sum(a.risk_score for a in analyses) / len(analyses) if analyses else 0
         high_risk_count = len([a for a in analyses if a.risk_score > 0.6])
 
-        risk_level = "HIGH" if recommendation.risk_score > 0.6 else "MODERATE" if recommendation.risk_score > 0.4 else "LOW"
+        risk_level = (
+            "HIGH"
+            if recommendation.risk_score > 0.6
+            else "MODERATE"
+            if recommendation.risk_score > 0.4
+            else "LOW"
+        )
 
         recommendations = []
         if recommendation.risk_score > 0.6:
@@ -597,19 +650,21 @@ Respond with a JSON array of stock symbols:
             recommendations.append("Consider diversifying across different sectors")
 
         return {
-            'risk_level': risk_level,
-            'diversification': 'Single stock - consider diversification',
-            'average_risk': avg_risk,
-            'high_risk_stocks': high_risk_count,
-            'recommendations': recommendations
+            "risk_level": risk_level,
+            "diversification": "Single stock - consider diversification",
+            "average_risk": avg_risk,
+            "high_risk_stocks": high_risk_count,
+            "recommendations": recommendations,
         }
 
     async def get_status(self) -> dict[str, Any]:
         """Get multi-stock analysis agent status"""
         base_status = await super().get_status()
-        base_status.update({
-            'analysis_capability': 'multi_stock_screening_from_hot_stocks',
-            'data_source': 'hot_stocks_api',
-            'last_check': datetime.now().isoformat()
-        })
+        base_status.update(
+            {
+                "analysis_capability": "multi_stock_screening_from_hot_stocks",
+                "data_source": "hot_stocks_api",
+                "last_check": datetime.now().isoformat(),
+            }
+        )
         return base_status
