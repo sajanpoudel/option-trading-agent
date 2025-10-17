@@ -130,3 +130,9 @@ def test_feature_engineering_reads_greeks(predictor):
 def test_volume_ratio_compares_with_the_average(predictor):
     features = predictor._engineer_features({"call_volume": 300, "put_volume": 100, "avg_volume": 100})
     assert features["volume_ratio"] == pytest.approx(4.0)
+
+
+def test_low_put_call_ratio_is_bullish(predictor):
+    prediction = predictor._rule_based_prediction({"put_call_ratio": 0.5}, {})
+    assert prediction.flow_sentiment == "bullish"
+    assert "Low Put/Call ratio (bullish)" in prediction.key_indicators
