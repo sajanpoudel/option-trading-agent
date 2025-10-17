@@ -1,6 +1,7 @@
 """
 Chat Router API - Intelligent text routing for user queries
 """
+
 import asyncio
 from datetime import datetime
 from typing import Any, Dict, List, Optional
@@ -18,6 +19,7 @@ router = APIRouter(prefix="/api/v1/chat", tags=["Chat Router"])
 
 class ChatMessage(BaseModel):
     """Chat message model"""
+
     message: str
     context: dict[str, Any] | None = None
     user_id: str | None = None
@@ -26,6 +28,7 @@ class ChatMessage(BaseModel):
 
 class ChatResponse(BaseModel):
     """Chat response model"""
+
     response: str
     intent: str
     symbol: str | None
@@ -35,8 +38,6 @@ class ChatResponse(BaseModel):
     agents_triggered: list[str] | None = None
     interactive_elements: dict[str, Any] | None = None
     timestamp: str
-
-
 
 
 @router.post("/message", response_model=ChatResponse)
@@ -51,7 +52,7 @@ async def send_chat_message(message_data: ChatMessage):
         context = {
             "user_id": message_data.user_id,
             "session_id": message_data.session_id,
-            **(message_data.context or {})
+            **(message_data.context or {}),
         }
 
         # Route and process with AI
@@ -88,7 +89,7 @@ async def send_chat_message(message_data: ChatMessage):
                             "symbol": symbol,
                             "budget": tool_result.get("budget"),
                             "current_price": tool_result.get("current_price"),
-                            "recommendations": recommendations
+                            "recommendations": recommendations,
                         }
 
                         # Create interactive trading response
@@ -115,12 +116,14 @@ Would you like to execute this trade?"""
 
                         # Add interactive elements for trade confirmation
                         data["interactive_elements"] = {
-                            "tradeActions": [{
-                                "symbol": symbol,
-                                "type": "buy",
-                                "recommendation": best_rec,
-                                "requiresConfirmation": True
-                            }]
+                            "tradeActions": [
+                                {
+                                    "symbol": symbol,
+                                    "type": "buy",
+                                    "recommendation": best_rec,
+                                    "requiresConfirmation": True,
+                                }
+                            ]
                         }
 
         # Generate suggestions based on intent and tools used
@@ -137,7 +140,7 @@ Would you like to execute this trade?"""
             "get_market_trends": ["sentiment", "flow"],
             "portfolio_analysis": ["risk"],
             "generate_quiz": ["education"],
-            "casual_response": []
+            "casual_response": [],
         }
 
         agents_triggered = []
@@ -156,7 +159,7 @@ Would you like to execute this trade?"""
             suggestions=suggestions,
             agents_triggered=agents_triggered,
             interactive_elements=data.get("interactive_elements"),
-            timestamp=datetime.now().isoformat()
+            timestamp=datetime.now().isoformat(),
         )
 
     except Exception as e:
@@ -172,10 +175,10 @@ Would you like to execute this trade?"""
                 "Analyze AAPL stock",
                 "What is delta in options?",
                 "Show trending stocks",
-                "Portfolio overview"
+                "Portfolio overview",
             ],
             agents_triggered=[],
-            timestamp=datetime.now().isoformat()
+            timestamp=datetime.now().isoformat(),
         )
 
 
@@ -191,10 +194,10 @@ async def analyze_intent(text: str):
         result = await route_with_ai(text)
 
         return {
-            'intent': result.get('intent', 'GENERAL_CHAT'),
-            'confidence': result.get('confidence', 0.5),
-            'tools_called': result.get('tools_called', []),
-            'timestamp': result.get('timestamp', datetime.now().isoformat())
+            "intent": result.get("intent", "GENERAL_CHAT"),
+            "confidence": result.get("confidence", 0.5),
+            "tools_called": result.get("tools_called", []),
+            "timestamp": result.get("timestamp", datetime.now().isoformat()),
         }
 
     except Exception as e:
@@ -204,64 +207,60 @@ async def analyze_intent(text: str):
 
 # Helper functions for AI-powered routing
 
+
 def _generate_ai_suggestions(intent: str, symbol: str | None, tools_called: list[str]) -> list[str]:
     """Generate contextual suggestions based on AI analysis"""
     base_suggestions = []
 
     if "analyze_stock" in tools_called and symbol:
-        base_suggestions.extend([
-            f"Technical analysis for {symbol}",
-            f"Options strategies for {symbol}",
-            f"Risk assessment for {symbol}",
-            f"Compare {symbol} to sector"
-        ])
+        base_suggestions.extend(
+            [
+                f"Technical analysis for {symbol}",
+                f"Options strategies for {symbol}",
+                f"Risk assessment for {symbol}",
+                f"Compare {symbol} to sector",
+            ]
+        )
     elif intent == "OPTIONS_EDUCATION":
-        base_suggestions.extend([
-            "What is delta?",
-            "Explain call options",
-            "How do puts work?",
-            "Options Greeks overview"
-        ])
+        base_suggestions.extend(
+            [
+                "What is delta?",
+                "Explain call options",
+                "How do puts work?",
+                "Options Greeks overview",
+            ]
+        )
     elif intent == "MARKET_TRENDS":
-        base_suggestions.extend([
-            "Sector performance",
-            "Top gainers today",
-            "Options flow analysis",
-            "Market sentiment overview"
-        ])
+        base_suggestions.extend(
+            [
+                "Sector performance",
+                "Top gainers today",
+                "Options flow analysis",
+                "Market sentiment overview",
+            ]
+        )
     else:
-        base_suggestions.extend([
-            "Analyze AAPL stock",
-            "What are options?",
-            "Show trending stocks",
-            "Portfolio overview"
-        ])
+        base_suggestions.extend(
+            [
+                "Analyze AAPL stock",
+                "What are options?",
+                "Show trending stocks",
+                "Portfolio overview",
+            ]
+        )
 
     return base_suggestions[:4]  # Return max 4 suggestions
+
 
 def _extract_stock_data(analysis_result: dict[str, Any]) -> dict[str, Any]:
     """Extract stock data for frontend"""
     return {
-        "symbol": analysis_result.get('symbol'),
-        "signal": analysis_result.get('signal', {}),
-        "confidence": analysis_result.get('confidence', 0),
-        "scenario": analysis_result.get('market_scenario'),
-        "timestamp": analysis_result.get('timestamp')
+        "symbol": analysis_result.get("symbol"),
+        "signal": analysis_result.get("signal", {}),
+        "confidence": analysis_result.get("confidence", 0),
+        "scenario": analysis_result.get("market_scenario"),
+        "timestamp": analysis_result.get("timestamp"),
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 # Helper functions moved to AI Intent Router
