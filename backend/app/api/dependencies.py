@@ -1,6 +1,7 @@
 """
 Neural Options Oracle++ API Dependencies
 """
+
 import asyncio
 import time
 from collections import defaultdict
@@ -20,8 +21,7 @@ request_timestamps = defaultdict(lambda: defaultdict(list))
 
 
 async def get_current_session(
-    x_session_token: str | None = Header(None),
-    session_token: str | None = None
+    x_session_token: str | None = Header(None), session_token: str | None = None
 ) -> dict[str, Any]:
     """Get current browser session (dependency)"""
 
@@ -36,17 +36,14 @@ async def get_current_session(
             "created_at": time.time(),
             "last_accessed_at": time.time(),
             "expires_at": time.time() + 86400,
-            "preferences": {}
+            "preferences": {},
         }
 
     # Get session from database
     session = await db_manager.get_session(token)
 
     if not session:
-        raise HTTPException(
-            status_code=401,
-            detail="Invalid or expired session token"
-        )
+        raise HTTPException(status_code=401, detail="Invalid or expired session token")
 
     # Update session activity
     await db_manager.update_session_activity(token)
@@ -63,7 +60,7 @@ def rate_limiter(max_requests: int = 60, time_window: int = 60):
             # Get request object
             request = None
             for arg in args:
-                if hasattr(arg, 'client'):
+                if hasattr(arg, "client"):
                     request = arg
                     break
 
@@ -76,16 +73,14 @@ def rate_limiter(max_requests: int = 60, time_window: int = 60):
 
             # Clean old timestamps
             request_timestamps[client_ip] = [
-                ts for ts in request_timestamps[client_ip]
-                if current_time - ts < time_window
+                ts for ts in request_timestamps[client_ip] if current_time - ts < time_window
             ]
 
             # Check rate limit
             if len(request_timestamps[client_ip]) >= max_requests:
                 logger.warning(f"Rate limit exceeded for IP: {client_ip}")
                 raise HTTPException(
-                    status_code=429,
-                    detail="Rate limit exceeded. Please try again later."
+                    status_code=429, detail="Rate limit exceeded. Please try again later."
                 )
 
             # Add current request
@@ -94,6 +89,7 @@ def rate_limiter(max_requests: int = 60, time_window: int = 60):
             return await func(*args, **kwargs)
 
         return wrapper
+
     return decorator
 
 
@@ -113,10 +109,7 @@ class SessionManager:
         return session.get("risk_profile", "moderate") if session else "moderate"
 
     @staticmethod
-    async def update_session_preferences(
-        session_token: str,
-        preferences: dict[str, Any]
-    ) -> bool:
+    async def update_session_preferences(session_token: str, preferences: dict[str, Any]) -> bool:
         """Update session preferences"""
         try:
             # This would require an update method in db_manager
