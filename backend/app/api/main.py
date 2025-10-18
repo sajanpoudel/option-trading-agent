@@ -1,6 +1,7 @@
 """
 Neural Options Oracle++ FastAPI Main Application
 """
+
 import time
 from contextlib import asynccontextmanager
 from typing import Any, Dict
@@ -35,7 +36,9 @@ async def lifespan(app: FastAPI):
     # Test database connection (non-fatal - app can run without DB)
     db_health = await db_manager.health_check()
     if db_health["status"] != "healthy":
-        logger.warning(f"Database connection failed (app will run with limited functionality): {db_health}")
+        logger.warning(
+            f"Database connection failed (app will run with limited functionality): {db_health}"
+        )
     else:
         logger.info("Database connection established")
 
@@ -60,7 +63,7 @@ app = FastAPI(
     version="1.0.0",
     docs_url="/docs",
     redoc_url="/redoc",
-    lifespan=lifespan
+    lifespan=lifespan,
 )
 
 # Add middleware
@@ -73,10 +76,7 @@ app.add_middleware(
 )
 
 if settings.app_env == "production":
-    app.add_middleware(
-        TrustedHostMiddleware,
-        allowed_hosts=["localhost", "127.0.0.1", "0.0.0.0"]
-    )
+    app.add_middleware(TrustedHostMiddleware, allowed_hosts=["localhost", "127.0.0.1", "0.0.0.0"])
 
 
 # Request/Response middleware for logging
@@ -103,7 +103,7 @@ async def logging_middleware(request: Request, call_next):
             status_code=response.status_code,
             response_time=process_time,
             user_agent=user_agent,
-            ip_address=client_ip
+            ip_address=client_ip,
         )
 
         # Add response headers
@@ -123,7 +123,7 @@ async def logging_middleware(request: Request, call_next):
             status_code=500,
             response_time=process_time,
             user_agent=user_agent,
-            ip_address=client_ip
+            ip_address=client_ip,
         )
 
         raise HTTPException(status_code=500, detail="Internal server error")
@@ -140,8 +140,8 @@ async def http_exception_handler(request: Request, exc: HTTPException):
             "error": exc.detail,
             "status_code": exc.status_code,
             "timestamp": time.time(),
-            "path": request.url.path
-        }
+            "path": request.url.path,
+        },
     )
 
 
@@ -157,8 +157,8 @@ async def general_exception_handler(request: Request, exc: Exception):
             "error": "Internal server error",
             "status_code": 500,
             "timestamp": time.time(),
-            "path": request.url.path
-        }
+            "path": request.url.path,
+        },
     )
 
 
@@ -180,8 +180,8 @@ async def root() -> dict[str, Any]:
             "trading": "/api/v1/trading",
             "education": "/api/v1/education",
             "portfolio": "/api/v1/portfolio",
-            "system": "/api/v1/system"
-        }
+            "system": "/api/v1/system",
+        },
     }
 
 
@@ -194,33 +194,21 @@ async def health_check() -> dict[str, Any]:
     db_health = await db_manager.health_check()
 
     # System health
-    system_health = {
-        "api": "healthy",
-        "database": db_health["status"],
-        "timestamp": time.time()
-    }
+    system_health = {"api": "healthy", "database": db_health["status"], "timestamp": time.time()}
 
     # Overall status
-    overall_status = "healthy" if all(
-        status == "healthy" for status in [
-            system_health["api"],
-            system_health["database"]
-        ]
-    ) else "unhealthy"
+    overall_status = (
+        "healthy"
+        if all(status == "healthy" for status in [system_health["api"], system_health["database"]])
+        else "unhealthy"
+    )
 
-    return {
-        "status": overall_status,
-        "components": system_health,
-        "database_details": db_health
-    }
+    return {"status": overall_status, "components": system_health, "database_details": db_health}
 
 
 # Session management endpoints
 @app.post("/api/v1/session/create")
-async def create_session(
-    request: Request,
-    risk_profile: str = "moderate"
-) -> dict[str, Any]:
+async def create_session(request: Request, risk_profile: str = "moderate") -> dict[str, Any]:
     """Create a new browser session"""
 
     # Get client info
@@ -229,9 +217,7 @@ async def create_session(
 
     # Create session
     session_token = await db_manager.create_browser_session(
-        ip_address=client_ip,
-        user_agent=user_agent,
-        risk_profile=risk_profile
+        ip_address=client_ip, user_agent=user_agent, risk_profile=risk_profile
     )
 
     if not session_token:
@@ -243,14 +229,12 @@ async def create_session(
         "session_token": session_token,
         "risk_profile": risk_profile,
         "expires_in": 86400,  # 24 hours in seconds
-        "created_at": time.time()
+        "created_at": time.time(),
     }
 
 
 @app.get("/api/v1/session/info")
-async def get_session_info(
-    session: dict = Depends(get_current_session)
-) -> dict[str, Any]:
+async def get_session_info(session: dict = Depends(get_current_session)) -> dict[str, Any]:
     """Get current session information"""
 
     return {
@@ -259,7 +243,7 @@ async def get_session_info(
         "created_at": session["created_at"],
         "last_accessed_at": session["last_accessed_at"],
         "expires_at": session["expires_at"],
-        "preferences": session.get("preferences", {})
+        "preferences": session.get("preferences", {}),
     }
 
 
@@ -281,11 +265,13 @@ class ChatMessage(BaseModel):
     message: str
     selectedStock: str | None = None
 
+
 class ChatResponse(BaseModel):
     response: str
     actions: dict[str, Any] | None = None
     suggestions: list[str] | None = None
     agents_triggered: list[str] | None = None
+
 
 @app.post("/api/v1/chat/message", response_model=ChatResponse)
 async def send_chat_message(message_data: ChatMessage):
@@ -295,58 +281,61 @@ async def send_chat_message(message_data: ChatMessage):
 
         # Import the intelligent orchestrator
         from backend.app.api.intelligent_orchestrator import IntelligentOrchestrator
+
         orchestrator = IntelligentOrchestrator()
 
         # Process query with intelligent orchestration
         user_context = {
-            'selectedStock': message_data.selectedStock,
-            'risk_profile': {'risk_level': 'moderate', 'experience': 'intermediate'}
+            "selectedStock": message_data.selectedStock,
+            "risk_profile": {"risk_level": "moderate", "experience": "intermediate"},
         }
 
         orchestration_result = await orchestrator.process_user_query(
-            message_data.message,
-            user_context
+            message_data.message, user_context
         )
 
         # Extract information for chat response
-        ai_response = orchestration_result.get('ai_response', 'Analysis complete.')
-        symbol = orchestration_result.get('symbol')
-        query_type = orchestration_result.get('query_type', 'general')
-        agents_triggered = orchestration_result.get('ai_agents_triggered', [])
+        ai_response = orchestration_result.get("ai_response", "Analysis complete.")
+        symbol = orchestration_result.get("symbol")
+        query_type = orchestration_result.get("query_type", "general")
+        agents_triggered = orchestration_result.get("ai_agents_triggered", [])
 
         # Determine actions based on orchestration results
         actions = {}
         if symbol:
-            actions['analyzeStock'] = symbol
-            actions['showAnalysis'] = True
+            actions["analyzeStock"] = symbol
+            actions["showAnalysis"] = True
 
             # Check if this is a trading request
-            if 'buy' in message_data.message.lower() or 'execute' in message_data.message.lower():
-                actions['showBuyRecommendations'] = True
-                actions['enableTrading'] = True
+            if "buy" in message_data.message.lower() or "execute" in message_data.message.lower():
+                actions["showBuyRecommendations"] = True
+                actions["enableTrading"] = True
 
         # Get suggested actions from orchestrator
-        suggestions = orchestration_result.get('suggested_actions', [
-            "Analyze technical indicators",
-            "Check trading signals",
-            "Review risk assessment",
-            "Show market sentiment"
-        ])
+        suggestions = orchestration_result.get(
+            "suggested_actions",
+            [
+                "Analyze technical indicators",
+                "Check trading signals",
+                "Review risk assessment",
+                "Show market sentiment",
+            ],
+        )
 
         # Add trading-specific suggestions if this is a trading query
-        if 'buy' in message_data.message.lower() or 'execute' in message_data.message.lower():
+        if "buy" in message_data.message.lower() or "execute" in message_data.message.lower():
             suggestions = [
                 "View buy recommendations",
                 "Execute trade",
                 "Review risk assessment",
-                "Check position sizing"
+                "Check position sizing",
             ]
 
         response = ChatResponse(
             response=ai_response,
             actions=actions if actions else None,
             suggestions=suggestions,
-            agents_triggered=agents_triggered
+            agents_triggered=agents_triggered,
         )
 
         logger.info(f"✅ Chat response generated for {symbol}")
@@ -357,9 +346,16 @@ async def send_chat_message(message_data: ChatMessage):
         # Fallback response if orchestration fails
         return ChatResponse(
             response=f"I'm analyzing your request: '{message_data.message}'. Let me gather comprehensive information...",
-            actions={"analyzeStock": message_data.selectedStock} if message_data.selectedStock else None,
-            suggestions=["Try asking about a specific stock", "Request technical analysis", "Ask for trading signals"]
+            actions={"analyzeStock": message_data.selectedStock}
+            if message_data.selectedStock
+            else None,
+            suggestions=[
+                "Try asking about a specific stock",
+                "Request technical analysis",
+                "Ask for trading signals",
+            ],
         )
+
 
 # Hot stocks endpoint for frontend
 @app.get("/api/v1/stocks/hot-stocks")
@@ -382,7 +378,8 @@ async def get_hot_stocks():
         openai_client = None
         try:
             from backend.config.settings import settings
-            if hasattr(settings, 'openai_api_key') and settings.openai_api_key:
+
+            if hasattr(settings, "openai_api_key") and settings.openai_api_key:
                 openai_client = OpenAI(api_key=settings.openai_api_key)
                 logger.info("✅ OpenAI client initialized for web scraping")
             else:
@@ -421,41 +418,46 @@ async def get_hot_stocks():
                 market_data = await orchestrator.market_data_manager.get_comprehensive_data(symbol)
 
                 # Extract real market data
-                quote = market_data.get('quote', {})
-                current_price = float(quote.get('price', 0))
-                volume = float(quote.get('volume', 0))
+                quote = market_data.get("quote", {})
+                current_price = float(quote.get("price", 0))
+                volume = float(quote.get("volume", 0))
 
                 # Debug logging for market data
                 logger.info(f"📊 Market data for {symbol}: price=${current_price}, volume={volume}")
                 logger.info(f"📊 Quote data: {quote}")
 
-
                 # Get change data directly from quote (which now includes yfinance change data)
-                change = float(quote.get('change', 0))
-                change_percent = float(quote.get('change_percent', 0))
+                change = float(quote.get("change", 0))
+                change_percent = float(quote.get("change_percent", 0))
 
                 # If change data is missing, try to calculate from previous close
                 if change == 0 and change_percent == 0:
-                    previous_close = float(quote.get('previous_close', current_price))
+                    previous_close = float(quote.get("previous_close", current_price))
                     change = current_price - previous_close
                     change_percent = (change / previous_close) * 100 if previous_close > 0 else 0
 
                 # Sanity check - if change is too large, log warning but don't zero it out
                 if abs(change_percent) > 20:
-                    logger.warning(f"Large change detected for {symbol}: {change_percent:.1f}% - verify data")
+                    logger.warning(
+                        f"Large change detected for {symbol}: {change_percent:.1f}% - verify data"
+                    )
 
                 # Only zero out if change is completely unreasonable (>50%)
                 if abs(change_percent) > 50:
-                    logger.warning(f"Extreme change detected for {symbol}: {change_percent:.1f}% - using 0%")
+                    logger.warning(
+                        f"Extreme change detected for {symbol}: {change_percent:.1f}% - using 0%"
+                    )
                     change = 0
                     change_percent = 0
 
                 # Generate sparkline from real historical data
-                historical = market_data.get('historical', [])
+                historical = market_data.get("historical", [])
                 sparkline_data = []
                 if historical and len(historical) > 0:
                     recent_prices = historical[-20:]  # Last 20 data points
-                    sparkline_data = [{"value": float(bar.get('close', current_price))} for bar in recent_prices]
+                    sparkline_data = [
+                        {"value": float(bar.get("close", current_price))} for bar in recent_prices
+                    ]
                 else:
                     # Fallback sparkline if no historical data
                     sparkline_data = [{"value": current_price + (i * 0.1)} for i in range(20)]
@@ -466,8 +468,8 @@ async def get_hot_stocks():
 
                 # Add StockTwits sentiment to AI signals
                 if trending_data:
-                    sentiment = trending_data.get('sentiment', 'Neutral')
-                    mentions = trending_data.get('mentions', 0)
+                    sentiment = trending_data.get("sentiment", "Neutral")
+                    mentions = trending_data.get("mentions", 0)
                     ai_signals.append(f"StockTwits: {sentiment}")
                     # Convert mentions to int if it's a string
                     if isinstance(mentions, str):
@@ -479,7 +481,7 @@ async def get_hot_stocks():
                         ai_signals.append(f"{mentions} mentions")
 
                     # Boost AI score based on StockTwits sentiment
-                    sentiment_score = trending_data.get('sentiment_score', 0.5)
+                    sentiment_score = trending_data.get("sentiment_score", 0.5)
                     if sentiment_score is not None:
                         ai_score = max(ai_score, int(sentiment_score * 100))
 
@@ -501,7 +503,8 @@ async def get_hot_stocks():
 
                 hot_stock = {
                     "symbol": symbol,
-                    "name": (trending_data.get('name') if trending_data else None) or market_data.get('company_name', f"{symbol} Inc"),
+                    "name": (trending_data.get("name") if trending_data else None)
+                    or market_data.get("company_name", f"{symbol} Inc"),
                     "price": current_price,
                     "change": change,
                     "changePercent": change_percent,
@@ -509,7 +512,8 @@ async def get_hot_stocks():
                     "sparklineData": sparkline_data,
                     "aiScore": ai_score,
                     "signals": ai_signals or ["Market Data"],
-                    "trending": (trending_data and trending_data.get('trending', False)) or ai_score > 75
+                    "trending": (trending_data and trending_data.get("trending", False))
+                    or ai_score > 75,
                 }
 
                 hot_stocks.append(hot_stock)
@@ -528,7 +532,7 @@ async def get_hot_stocks():
             "total_count": len(hot_stocks),
             "data_source": "stocktwits_trending_with_ai_analysis",
             "trending_source": "stocktwits.com/sentiment/most-active",
-            "symbols_found": symbols
+            "symbols_found": symbols,
         }
 
     except Exception as e:
@@ -539,8 +543,9 @@ async def get_hot_stocks():
             "timestamp": time.time(),
             "total_count": 0,
             "data_source": "error",
-            "error": str(e)
+            "error": str(e),
         }
+
 
 # AI Agents endpoint for frontend
 @app.get("/api/v1/agents/{symbol}")
@@ -551,23 +556,25 @@ async def get_agent_analysis(symbol: str):
 
         # Import the intelligent orchestrator
         from backend.app.api.intelligent_orchestrator import IntelligentOrchestrator
+
         orchestrator = IntelligentOrchestrator()
 
         # Use intelligent orchestrator to get agent-specific data
-        user_context = {'selectedStock': symbol}
-        result = await orchestrator.process_user_query(
-            f"agent analysis for {symbol}",
-            user_context
-        )
+        user_context = {"selectedStock": symbol}
+        result = await orchestrator.process_user_query(f"agent analysis for {symbol}", user_context)
 
         # Extract agent data for frontend component
-        agent_data = result.get('frontend_data', {}).get('agent_analysis', [])
+        agent_data = result.get("frontend_data", {}).get("agent_analysis", [])
 
         return {
             "symbol": symbol,
             "agents": agent_data,
-            "overall_signal": result.get('frontend_data', {}).get('trading_signals', [{}])[0].get('direction', 'HOLD') if result.get('frontend_data', {}).get('trading_signals') else 'HOLD',
-            "timestamp": time.time()
+            "overall_signal": result.get("frontend_data", {})
+            .get("trading_signals", [{}])[0]
+            .get("direction", "HOLD")
+            if result.get("frontend_data", {}).get("trading_signals")
+            else "HOLD",
+            "timestamp": time.time(),
         }
 
     except Exception as e:
@@ -577,8 +584,9 @@ async def get_agent_analysis(symbol: str):
             "agents": [],
             "overall_signal": "HOLD",
             "timestamp": time.time(),
-            "error": str(e)
+            "error": str(e),
         }
+
 
 # Trading signals endpoint for frontend
 @app.get("/api/v1/technical/{symbol}")
@@ -589,29 +597,30 @@ async def get_technical_indicators(symbol: str):
 
         # Import the intelligent orchestrator
         from backend.app.api.intelligent_orchestrator import IntelligentOrchestrator
+
         orchestrator = IntelligentOrchestrator()
 
         # Get technical analysis
-        user_context = {'selectedStock': symbol}
+        user_context = {"selectedStock": symbol}
         result = await orchestrator.process_user_query(
-            f"technical analysis indicators for {symbol}",
-            user_context
+            f"technical analysis indicators for {symbol}", user_context
         )
 
         # Extract technical data
-        technical_data = result.get('frontend_data', {}).get('technical_indicators', {})
-        chart_data = result.get('frontend_data', {}).get('chart_data', {})
+        technical_data = result.get("frontend_data", {}).get("technical_indicators", {})
+        chart_data = result.get("frontend_data", {}).get("chart_data", {})
 
         return {
             "symbol": symbol,
             "indicators": technical_data,
             "chart_data": chart_data,
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
     except Exception as e:
         logger.error(f"❌ Technical indicators error for {symbol}: {e}")
         raise HTTPException(status_code=500, detail=f"Technical indicators failed: {e!s}")
+
 
 @app.get("/api/v1/signals/{symbol}")
 async def get_trading_signals(symbol: str):
@@ -621,21 +630,21 @@ async def get_trading_signals(symbol: str):
 
         # Import the intelligent orchestrator
         from backend.app.api.intelligent_orchestrator import IntelligentOrchestrator
+
         orchestrator = IntelligentOrchestrator()
 
         # Get comprehensive analysis from our backend
         user_context = {
-            'selectedStock': symbol,
-            'risk_profile': {'risk_level': 'moderate', 'experience': 'intermediate'}
+            "selectedStock": symbol,
+            "risk_profile": {"risk_level": "moderate", "experience": "intermediate"},
         }
 
         analysis_result = await orchestrator.process_user_query(
-            f"trading signals for {symbol}",
-            user_context
+            f"trading signals for {symbol}", user_context
         )
 
         # Extract trading signals from analysis
-        trading_signals = analysis_result.get('frontend_data', {}).get('trading_signals', [])
+        trading_signals = analysis_result.get("frontend_data", {}).get("trading_signals", [])
 
         logger.info(f"✅ Generated {len(trading_signals)} real trading signals for {symbol}")
 
@@ -644,7 +653,7 @@ async def get_trading_signals(symbol: str):
             "symbol": symbol,
             "timestamp": time.time(),
             "total_signals": len(trading_signals),
-            "data_source": "ai_agent_analysis"
+            "data_source": "ai_agent_analysis",
         }
 
     except Exception as e:
@@ -655,8 +664,9 @@ async def get_trading_signals(symbol: str):
             "timestamp": time.time(),
             "total_signals": 0,
             "data_source": "error",
-            "error": str(e)
+            "error": str(e),
         }
+
 
 # Trading command endpoint for chat
 @app.post("/api/v1/chat/trade")
@@ -667,50 +677,51 @@ async def process_trading_command(message_data: ChatMessage):
 
         # Import the intelligent orchestrator
         from backend.app.api.intelligent_orchestrator import IntelligentOrchestrator
+
         orchestrator = IntelligentOrchestrator()
 
         # Set up user context for trading
         user_context = {
-            'selectedStock': message_data.selectedStock,
-            'risk_profile': {
-                'risk_level': 'moderate',
-                'experience': 'intermediate',
-                'max_position_size': 0.05,
-                'account_balance': 100000
-            }
+            "selectedStock": message_data.selectedStock,
+            "risk_profile": {
+                "risk_level": "moderate",
+                "experience": "intermediate",
+                "max_position_size": 0.05,
+                "account_balance": 100000,
+            },
         }
 
         # Process the trading query
         result = await orchestrator.process_user_query(message_data.message, user_context)
 
         # Extract buy agent results
-        buy_agent_result = result.get('frontend_data', {}).get('buy_agent', {})
-        buy_analysis = buy_agent_result.get('buy_analysis', {})
+        buy_agent_result = result.get("frontend_data", {}).get("buy_agent", {})
+        buy_analysis = buy_agent_result.get("buy_analysis", {})
 
         # Format response for trading
         trading_response = {
-            'symbol': result.get('symbol'),
-            'query': message_data.message,
-            'trading_analysis': {
-                'recommendations': buy_analysis.get('recommendations', []),
-                'execution_plan': buy_analysis.get('execution_plan', {}),
-                'risk_assessment': buy_analysis.get('risk_assessment', {}),
-                'confidence': buy_analysis.get('confidence', 0.0)
+            "symbol": result.get("symbol"),
+            "query": message_data.message,
+            "trading_analysis": {
+                "recommendations": buy_analysis.get("recommendations", []),
+                "execution_plan": buy_analysis.get("execution_plan", {}),
+                "risk_assessment": buy_analysis.get("risk_assessment", {}),
+                "confidence": buy_analysis.get("confidence", 0.0),
             },
-            'ai_response': result.get('ai_response', 'Trading analysis complete.'),
-            'actions': {
-                'showBuyRecommendations': len(buy_analysis.get('recommendations', [])) > 0,
-                'enableTrading': True,
-                'symbol': result.get('symbol')
+            "ai_response": result.get("ai_response", "Trading analysis complete."),
+            "actions": {
+                "showBuyRecommendations": len(buy_analysis.get("recommendations", [])) > 0,
+                "enableTrading": True,
+                "symbol": result.get("symbol"),
             },
-            'suggestions': [
+            "suggestions": [
                 "Review buy recommendations",
                 "Execute trade",
                 "Adjust position size",
-                "Set stop loss"
+                "Set stop loss",
             ],
-            'agents_triggered': result.get('ai_agents_triggered', []),
-            'timestamp': time.time()
+            "agents_triggered": result.get("ai_agents_triggered", []),
+            "timestamp": time.time(),
         }
 
         logger.info(f"✅ Trading command processed for {result.get('symbol')}")
@@ -719,18 +730,18 @@ async def process_trading_command(message_data: ChatMessage):
     except Exception as e:
         logger.error(f"❌ Trading command error: {e}")
         return {
-            'error': str(e),
-            'symbol': message_data.selectedStock,
-            'trading_analysis': {
-                'recommendations': [],
-                'execution_plan': {'status': 'error'},
-                'risk_assessment': {'risk_level': 'unknown'},
-                'confidence': 0.0
+            "error": str(e),
+            "symbol": message_data.selectedStock,
+            "trading_analysis": {
+                "recommendations": [],
+                "execution_plan": {"status": "error"},
+                "risk_assessment": {"risk_level": "unknown"},
+                "confidence": 0.0,
             },
-            'ai_response': f"I encountered an error processing your trading request: {e!s}",
-            'actions': {},
-            'suggestions': ["Try again", "Check symbol", "Review risk profile"],
-            'timestamp': time.time()
+            "ai_response": f"I encountered an error processing your trading request: {e!s}",
+            "actions": {},
+            "suggestions": ["Try again", "Check symbol", "Review risk profile"],
+            "timestamp": time.time(),
         }
 
 
@@ -768,23 +779,21 @@ async def analyze_option_opportunity(request: dict[str, Any]):
         logger.error(f"❌ Option analysis failed: {e}")
         raise HTTPException(status_code=500, detail=f"Option analysis failed: {e!s}")
 
+
 @app.post("/api/v1/options/execute")
 async def execute_options_purchase(request: dict[str, Any]):
     """Execute options purchase after user confirmation"""
     try:
         logger.info(f"🚀 Executing options purchase: {request.get('type', 'unknown')}")
 
-        purchase_type = request.get('type')
-        analysis = request.get('analysis', {})
-        budget = request.get('budget', 0)
-        symbol = request.get('symbol')
-        confirmed = request.get('confirmed', False)
+        purchase_type = request.get("type")
+        analysis = request.get("analysis", {})
+        budget = request.get("budget", 0)
+        symbol = request.get("symbol")
+        confirmed = request.get("confirmed", False)
 
         if not confirmed:
-            return JSONResponse(
-                status_code=400,
-                content={"error": "User confirmation required"}
-            )
+            return JSONResponse(status_code=400, content={"error": "User confirmation required"})
 
         if purchase_type == "single_option":
             # Execute single option purchase
@@ -796,17 +805,16 @@ async def execute_options_purchase(request: dict[str, Any]):
             # Execute multi-options portfolio purchase
             from backend.app.agents.trading.multi_options import execute_multi_options_buy
 
-            portfolio_data = {"recommended_portfolio": analysis.get('recommended_portfolio', [])}
+            portfolio_data = {"recommended_portfolio": analysis.get("recommended_portfolio", [])}
             result = await execute_multi_options_buy(portfolio_data, confirmed=True)
 
         else:
             return JSONResponse(
-                status_code=400,
-                content={"error": f"Unknown purchase type: {purchase_type}"}
+                status_code=400, content={"error": f"Unknown purchase type: {purchase_type}"}
             )
 
         # Log successful execution
-        if result.get('status') == 'executed' or result.get('portfolio_status') == 'executed':
+        if result.get("status") == "executed" or result.get("portfolio_status") == "executed":
             logger.info(f"✅ Options purchase executed successfully: {result}")
         else:
             logger.warning(f"⚠️ Options purchase failed: {result}")
@@ -816,11 +824,7 @@ async def execute_options_purchase(request: dict[str, Any]):
     except Exception as e:
         logger.error(f"❌ Options execution error: {e}")
         return JSONResponse(
-            status_code=500,
-            content={
-                "error": f"Execution failed: {e!s}",
-                "status": "failed"
-            }
+            status_code=500, content={"error": f"Execution failed: {e!s}", "status": "failed"}
         )
 
 
@@ -830,5 +834,5 @@ if __name__ == "__main__":
         host=settings.app_host,
         port=settings.app_port,
         reload=settings.app_debug,
-        log_level=settings.log_level.lower()
+        log_level=settings.log_level.lower(),
     )
