@@ -1,6 +1,7 @@
 """
 Neural Options Oracle++ System API Routes
 """
+
 import asyncio
 import time
 from typing import Any, Dict, List
@@ -31,15 +32,15 @@ async def system_info() -> dict[str, Any]:
             "health": "/health",
             "analytics": "/analytics",
             "config": "/config",
-            "metrics": "/metrics"
+            "metrics": "/metrics",
         },
         "features": [
             "System health monitoring",
             "Performance metrics",
             "Configuration management",
             "Usage analytics",
-            "Error tracking"
-        ]
+            "Error tracking",
+        ],
     }
 
 
@@ -54,7 +55,7 @@ async def get_system_status() -> dict[str, Any]:
         # Get system resource usage
         cpu_percent = psutil.cpu_percent(interval=1)
         memory = psutil.virtual_memory()
-        disk = psutil.disk_usage('/')
+        disk = psutil.disk_usage("/")
 
         # Get network info if available
         try:
@@ -63,7 +64,7 @@ async def get_system_status() -> dict[str, Any]:
                 "bytes_sent": network.bytes_sent,
                 "bytes_received": network.bytes_recv,
                 "packets_sent": network.packets_sent,
-                "packets_received": network.packets_recv
+                "packets_received": network.packets_recv,
             }
         except Exception:
             network_stats = {}
@@ -73,7 +74,7 @@ async def get_system_status() -> dict[str, Any]:
             "environment": settings.app_env,
             "debug_mode": settings.app_debug,
             "log_level": settings.log_level,
-            "cors_origins": settings.cors_origins
+            "cors_origins": settings.cors_origins,
         }
 
         return {
@@ -84,18 +85,18 @@ async def get_system_status() -> dict[str, Any]:
                 "memory": {
                     "total_gb": round(memory.total / (1024**3), 2),
                     "available_gb": round(memory.available / (1024**3), 2),
-                    "used_percent": memory.percent
+                    "used_percent": memory.percent,
                 },
                 "disk": {
                     "total_gb": round(disk.total / (1024**3), 2),
                     "free_gb": round(disk.free / (1024**3), 2),
-                    "used_percent": round((disk.used / disk.total) * 100, 2)
+                    "used_percent": round((disk.used / disk.total) * 100, 2),
                 },
-                "network": network_stats
+                "network": network_stats,
             },
             "database": db_health,
             "application": app_status,
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
     except Exception as e:
@@ -115,21 +116,21 @@ async def detailed_health_check() -> dict[str, Any]:
         health_checks["database"] = {
             "status": db_health["status"],
             "response_time_ms": 50,  # Mock response time
-            "connection_pool": "healthy"
+            "connection_pool": "healthy",
         }
 
         # API health
         health_checks["api"] = {
             "status": "healthy",
             "response_time_ms": 10,
-            "active_connections": 5
+            "active_connections": 5,
         }
 
         # External services health (mock)
         health_checks["external_services"] = {
             "openai": {"status": "healthy", "last_check": time.time()},
             "alpaca": {"status": "healthy", "last_check": time.time()},
-            "jigsawstack": {"status": "healthy", "last_check": time.time()}
+            "jigsawstack": {"status": "healthy", "last_check": time.time()},
         }
 
         # Overall health
@@ -142,22 +143,16 @@ async def detailed_health_check() -> dict[str, Any]:
             "overall_status": "healthy" if all_healthy else "degraded",
             "components": health_checks,
             "timestamp": time.time(),
-            "version": "1.0.0"
+            "version": "1.0.0",
         }
 
     except Exception as e:
         logger.error(f"Health check failed: {e}")
-        return {
-            "overall_status": "unhealthy",
-            "error": str(e),
-            "timestamp": time.time()
-        }
+        return {"overall_status": "unhealthy", "error": str(e), "timestamp": time.time()}
 
 
 @router.get("/analytics")
-async def get_system_analytics(
-    session: dict = Depends(get_current_session)
-) -> dict[str, Any]:
+async def get_system_analytics(session: dict = Depends(get_current_session)) -> dict[str, Any]:
     """Get comprehensive system analytics"""
 
     try:
@@ -174,8 +169,8 @@ async def get_system_analytics(
                 "/api/v1/analysis/analyze": {"count": 450, "avg_time": 2500},
                 "/api/v1/trading/execute": {"count": 125, "avg_time": 800},
                 "/api/v1/education/content": {"count": 300, "avg_time": 200},
-                "/api/v1/portfolio/summary": {"count": 375, "avg_time": 100}
-            }
+                "/api/v1/portfolio/summary": {"count": 375, "avg_time": 100},
+            },
         }
 
         # User activity (using sessions instead of users)
@@ -183,14 +178,14 @@ async def get_system_analytics(
             "active_sessions": analytics.get("active_sessions", 0),
             "peak_concurrent_sessions": 15,
             "avg_session_duration_minutes": 45,
-            "total_analyses_today": analytics.get("signals_last_24h", 0)
+            "total_analyses_today": analytics.get("signals_last_24h", 0),
         }
 
         return {
             "database_analytics": analytics,
             "api_statistics": api_stats,
             "session_statistics": user_stats,
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
     except Exception as e:
@@ -200,8 +195,7 @@ async def get_system_analytics(
 
 @router.get("/config")
 async def get_system_config(
-    key: str = None,
-    session: dict = Depends(get_current_session)
+    key: str = None, session: dict = Depends(get_current_session)
 ) -> dict[str, Any]:
     """Get system configuration"""
 
@@ -209,11 +203,7 @@ async def get_system_config(
         if key:
             # Get specific config value
             value = await db_manager.get_system_config(key)
-            return {
-                "key": key,
-                "value": value,
-                "found": value is not None
-            }
+            return {"key": key, "value": value, "found": value is not None}
 
         # Get all public configuration
         public_config = {
@@ -223,10 +213,10 @@ async def get_system_config(
             "paper_trading_balance": settings.paper_trading_balance,
             "rate_limits": {
                 "per_minute": settings.rate_limit_per_minute,
-                "burst": settings.rate_limit_burst
+                "burst": settings.rate_limit_burst,
             },
             "cors_origins": settings.cors_origins,
-            "environment": settings.app_env
+            "environment": settings.app_env,
         }
 
         return public_config
@@ -238,10 +228,7 @@ async def get_system_config(
 
 @router.post("/config")
 async def update_system_config(
-    key: str,
-    value: Any,
-    description: str = None,
-    session: dict = Depends(get_current_session)
+    key: str, value: Any, description: str = None, session: dict = Depends(get_current_session)
 ) -> dict[str, Any]:
     """Update system configuration"""
 
@@ -254,7 +241,7 @@ async def update_system_config(
                 "success": True,
                 "key": key,
                 "value": value,
-                "message": "Configuration updated successfully"
+                "message": "Configuration updated successfully",
             }
         else:
             raise HTTPException(status_code=500, detail="Failed to update configuration")
@@ -266,8 +253,7 @@ async def update_system_config(
 
 @router.get("/metrics")
 async def get_system_metrics(
-    metric_type: str = "all",
-    session: dict = Depends(get_current_session)
+    metric_type: str = "all", session: dict = Depends(get_current_session)
 ) -> dict[str, Any]:
     """Get detailed system metrics"""
 
@@ -278,17 +264,21 @@ async def get_system_metrics(
             metrics["performance"] = {
                 "cpu_usage": psutil.cpu_percent(),
                 "memory_usage": psutil.virtual_memory().percent,
-                "disk_usage": psutil.disk_usage('/').percent,
-                "load_average": psutil.getloadavg() if hasattr(psutil, 'getloadavg') else [0, 0, 0]
+                "disk_usage": psutil.disk_usage("/").percent,
+                "load_average": psutil.getloadavg() if hasattr(psutil, "getloadavg") else [0, 0, 0],
             }
 
         if metric_type in ["all", "business"]:
             analytics = await db_manager.get_system_analytics()
             metrics["business"] = {
                 "total_analyses_today": analytics.get("signals_last_24h", 0),
-                "active_positions": analytics.get("portfolio_summary", {}).get("total_positions", 0),
-                "total_portfolio_value": analytics.get("portfolio_summary", {}).get("total_value", 0),
-                "session_count": analytics.get("active_sessions", 0)
+                "active_positions": analytics.get("portfolio_summary", {}).get(
+                    "total_positions", 0
+                ),
+                "total_portfolio_value": analytics.get("portfolio_summary", {}).get(
+                    "total_value", 0
+                ),
+                "session_count": analytics.get("active_sessions", 0),
             }
 
         if metric_type in ["all", "errors"]:
@@ -299,15 +289,11 @@ async def get_system_metrics(
                 "critical_errors": 0,
                 "most_common_errors": [
                     {"error": "API timeout", "count": 3},
-                    {"error": "Invalid symbol", "count": 2}
-                ]
+                    {"error": "Invalid symbol", "count": 2},
+                ],
             }
 
-        return {
-            "metrics": metrics,
-            "metric_type": metric_type,
-            "timestamp": time.time()
-        }
+        return {"metrics": metrics, "metric_type": metric_type, "timestamp": time.time()}
 
     except Exception as e:
         logger.error(f"Failed to get system metrics: {e}")
@@ -319,7 +305,7 @@ async def get_system_logs(
     level: str = "INFO",
     limit: int = 100,
     component: str = None,
-    session: dict = Depends(get_current_session)
+    session: dict = Depends(get_current_session),
 ) -> dict[str, Any]:
     """Get system logs (mock implementation)"""
 
@@ -331,22 +317,22 @@ async def get_system_logs(
                 "level": "INFO",
                 "component": "api",
                 "message": "Analysis completed for AAPL",
-                "context": {"symbol": "AAPL", "duration": "2.5s"}
+                "context": {"symbol": "AAPL", "duration": "2.5s"},
             },
             {
                 "timestamp": time.time() - 600,
                 "level": "WARNING",
                 "component": "database",
                 "message": "Slow query detected",
-                "context": {"query_time": "1.2s"}
+                "context": {"query_time": "1.2s"},
             },
             {
                 "timestamp": time.time() - 900,
                 "level": "ERROR",
                 "component": "agents",
                 "message": "OpenAI API rate limit exceeded",
-                "context": {"retry_after": "60s"}
-            }
+                "context": {"retry_after": "60s"},
+            },
         ]
 
         # Filter by level
@@ -363,11 +349,7 @@ async def get_system_logs(
         return {
             "logs": mock_logs,
             "total_count": len(mock_logs),
-            "filters": {
-                "level": level,
-                "component": component,
-                "limit": limit
-            }
+            "filters": {"level": level, "component": component, "limit": limit},
         }
 
     except Exception as e:
@@ -377,8 +359,7 @@ async def get_system_logs(
 
 @router.post("/maintenance")
 async def trigger_maintenance_task(
-    task_type: str,
-    session: dict = Depends(get_current_session)
+    task_type: str, session: dict = Depends(get_current_session)
 ) -> dict[str, Any]:
     """Trigger system maintenance tasks"""
 
@@ -389,7 +370,7 @@ async def trigger_maintenance_task(
                 "task": "cleanup",
                 "deleted_records": 150,
                 "freed_space_mb": 25,
-                "duration_seconds": 5.2
+                "duration_seconds": 5.2,
             }
         elif task_type == "backup":
             # Mock backup task
@@ -397,40 +378,33 @@ async def trigger_maintenance_task(
                 "task": "backup",
                 "backup_size_mb": 125,
                 "backup_location": "s3://backups/neural-oracle/",
-                "duration_seconds": 30.5
+                "duration_seconds": 30.5,
             }
         else:
             raise HTTPException(status_code=400, detail="Unknown maintenance task type")
 
         logger.info(f"Maintenance task completed: {task_type}")
 
-        return {
-            "success": True,
-            "task_type": task_type,
-            "result": result,
-            "timestamp": time.time()
-        }
+        return {"success": True, "task_type": task_type, "result": result, "timestamp": time.time()}
 
     except Exception as e:
         logger.error(f"Maintenance task failed: {e}")
         raise HTTPException(status_code=500, detail="Failed to execute maintenance task")
 
+
 @router.get("/ingestion/status")
 async def get_ingestion_status() -> dict[str, Any]:
     """
     Get Big Data Ingestion Layer status (Lambda Architecture)
-    
+
     Returns status of:
-    - Kafka (Speed Layer) - producer/consumer stats  
+    - Kafka (Speed Layer) - producer/consumer stats
     - Dask (Batch Layer) - cluster info
     - Real-time streams - market/options/sentiment
     """
     try:
         status = ingestion_manager.get_status()
-        return {
-            "ingestion_layer": status,
-            "timestamp": time.time()
-        }
+        return {"ingestion_layer": status, "timestamp": time.time()}
 
     except Exception as e:
         logger.error(f"Failed to get ingestion status: {e}")
