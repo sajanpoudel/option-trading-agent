@@ -2,6 +2,7 @@
 AI-Powered Intent Router with Tool Calling
 Uses OpenAI's tool calling to intelligently route and process user requests
 """
+
 import asyncio
 import json
 from datetime import datetime
@@ -33,22 +34,22 @@ class AIIntentRouter:
                         "properties": {
                             "symbol": {
                                 "type": "string",
-                                "description": "Stock symbol to analyze (e.g., AAPL, TSLA)"
+                                "description": "Stock symbol to analyze (e.g., AAPL, TSLA)",
                             },
                             "analysis_type": {
                                 "type": "string",
                                 "enum": ["full", "technical", "sentiment", "options", "risk"],
-                                "description": "Type of analysis to perform"
+                                "description": "Type of analysis to perform",
                             },
                             "time_horizon": {
                                 "type": "string",
                                 "enum": ["short", "medium", "long"],
-                                "description": "Investment time horizon"
-                            }
+                                "description": "Investment time horizon",
+                            },
                         },
-                        "required": ["symbol"]
-                    }
-                }
+                        "required": ["symbol"],
+                    },
+                },
             },
             {
                 "type": "function",
@@ -60,21 +61,21 @@ class AIIntentRouter:
                         "properties": {
                             "concept": {
                                 "type": "string",
-                                "description": "Trading concept to explain (e.g., delta, put options, call options)"
+                                "description": "Trading concept to explain (e.g., delta, put options, call options)",
                             },
                             "difficulty": {
                                 "type": "string",
                                 "enum": ["beginner", "intermediate", "advanced"],
-                                "description": "Explanation difficulty level"
+                                "description": "Explanation difficulty level",
                             },
                             "context": {
                                 "type": "string",
-                                "description": "Additional context for the explanation"
-                            }
+                                "description": "Additional context for the explanation",
+                            },
                         },
-                        "required": ["concept"]
-                    }
-                }
+                        "required": ["concept"],
+                    },
+                },
             },
             {
                 "type": "function",
@@ -86,17 +87,17 @@ class AIIntentRouter:
                         "properties": {
                             "sector": {
                                 "type": "string",
-                                "description": "Specific sector to focus on (optional)"
+                                "description": "Specific sector to focus on (optional)",
                             },
                             "limit": {
                                 "type": "integer",
                                 "description": "Number of trending stocks to return",
-                                "default": 10
-                            }
+                                "default": 10,
+                            },
                         },
-                        "required": []
-                    }
-                }
+                        "required": [],
+                    },
+                },
             },
             {
                 "type": "function",
@@ -109,12 +110,12 @@ class AIIntentRouter:
                             "analysis_type": {
                                 "type": "string",
                                 "enum": ["performance", "risk", "rebalancing", "summary"],
-                                "description": "Type of portfolio analysis"
+                                "description": "Type of portfolio analysis",
                             }
                         },
-                        "required": []
-                    }
-                }
+                        "required": [],
+                    },
+                },
             },
             {
                 "type": "function",
@@ -126,22 +127,22 @@ class AIIntentRouter:
                         "properties": {
                             "topic": {
                                 "type": "string",
-                                "description": "Quiz topic (e.g., options_basics, technical_analysis)"
+                                "description": "Quiz topic (e.g., options_basics, technical_analysis)",
                             },
                             "difficulty": {
                                 "type": "string",
                                 "enum": ["beginner", "intermediate", "advanced"],
-                                "description": "Quiz difficulty level"
+                                "description": "Quiz difficulty level",
                             },
                             "question_count": {
                                 "type": "integer",
                                 "description": "Number of questions to generate",
-                                "default": 5
-                            }
+                                "default": 5,
+                            },
                         },
-                        "required": ["topic"]
-                    }
-                }
+                        "required": ["topic"],
+                    },
+                },
             },
             {
                 "type": "function",
@@ -153,16 +154,16 @@ class AIIntentRouter:
                         "properties": {
                             "message": {
                                 "type": "string",
-                                "description": "The casual message to respond to"
+                                "description": "The casual message to respond to",
                             },
                             "context": {
                                 "type": "string",
-                                "description": "Additional context about the conversation"
-                            }
+                                "description": "Additional context about the conversation",
+                            },
                         },
-                        "required": ["message"]
-                    }
-                }
+                        "required": ["message"],
+                    },
+                },
             },
             {
                 "type": "function",
@@ -174,21 +175,21 @@ class AIIntentRouter:
                         "properties": {
                             "symbol": {
                                 "type": "string",
-                                "description": "Stock symbol to buy options for (e.g., AAPL, TSLA)"
+                                "description": "Stock symbol to buy options for (e.g., AAPL, TSLA)",
                             },
                             "budget": {
                                 "type": "number",
-                                "description": "Budget available for option purchase (default: 500 if not specified)"
+                                "description": "Budget available for option purchase (default: 500 if not specified)",
                             },
                             "risk_tolerance": {
                                 "type": "string",
                                 "enum": ["conservative", "moderate", "aggressive"],
-                                "description": "User's risk tolerance level"
-                            }
+                                "description": "User's risk tolerance level",
+                            },
                         },
-                        "required": ["symbol"]
-                    }
-                }
+                        "required": ["symbol"],
+                    },
+                },
             },
             {
                 "type": "function",
@@ -200,28 +201,30 @@ class AIIntentRouter:
                         "properties": {
                             "budget": {
                                 "type": "number",
-                                "description": "Total budget for options portfolio"
+                                "description": "Total budget for options portfolio",
                             },
                             "risk_tolerance": {
                                 "type": "string",
                                 "enum": ["conservative", "moderate", "aggressive"],
-                                "description": "User's risk tolerance level"
+                                "description": "User's risk tolerance level",
                             },
                             "diversification": {
                                 "type": "string",
                                 "enum": ["low", "moderate", "high"],
-                                "description": "Desired diversification level"
-                            }
+                                "description": "Desired diversification level",
+                            },
                         },
-                        "required": ["budget"]
-                    }
-                }
-            }
+                        "required": ["budget"],
+                    },
+                },
+            },
         ]
 
         logger.info("AI Intent Router initialized with tool calling capabilities")
 
-    async def route_and_process(self, user_message: str, context: dict[str, Any] = None) -> dict[str, Any]:
+    async def route_and_process(
+        self, user_message: str, context: dict[str, Any] = None
+    ) -> dict[str, Any]:
         """
         Use OpenAI to determine intent and call appropriate tools
         Returns formatted response ready for user display
@@ -267,7 +270,7 @@ You can call multiple tools if needed.
 
             messages = [
                 {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_message}
+                {"role": "user", "content": user_message},
             ]
 
             # Make OpenAI call with tool calling
@@ -277,7 +280,7 @@ You can call multiple tools if needed.
                 messages=messages,
                 tools=self.available_tools,
                 tool_choice="auto",
-                temperature=0.1
+                temperature=0.1,
             )
 
             # Process the response
@@ -310,7 +313,7 @@ You can call multiple tools if needed.
                     "tool_results": tool_results,  # Include tool results for frontend
                     "confidence": 0.9,  # High confidence when using tools
                     "formatted": True,
-                    "timestamp": datetime.now().isoformat()
+                    "timestamp": datetime.now().isoformat(),
                 }
 
                 # Add symbol if found
@@ -327,7 +330,7 @@ You can call multiple tools if needed.
                     "tools_called": [],
                     "confidence": 0.7,
                     "formatted": True,
-                    "timestamp": datetime.now().isoformat()
+                    "timestamp": datetime.now().isoformat(),
                 }
 
         except Exception as e:
@@ -386,7 +389,7 @@ You can call multiple tools if needed.
                 "tool": "analyze_stock",
                 "symbol": symbol,
                 "analysis_result": result,
-                "success": True
+                "success": True,
             }
 
         except Exception as e:
@@ -407,7 +410,7 @@ You can call multiple tools if needed.
                 "tool": "explain_concept",
                 "concept": concept,
                 "explanation": explanation,
-                "success": True
+                "success": True,
             }
 
         except Exception as e:
@@ -422,7 +425,7 @@ You can call multiple tools if needed.
             return {
                 "tool": "get_market_trends",
                 "trends": "Market trends data would be here",
-                "success": True
+                "success": True,
             }
 
         except Exception as e:
@@ -435,7 +438,7 @@ You can call multiple tools if needed.
             return {
                 "tool": "portfolio_analysis",
                 "analysis": "Portfolio analysis would be here",
-                "success": True
+                "success": True,
             }
 
         except Exception as e:
@@ -454,11 +457,7 @@ You can call multiple tools if needed.
             request = QuizRequest(topic=topic, difficulty=difficulty, question_count=count)
             quiz = await quiz_api(request, session={})
 
-            return {
-                "tool": "generate_quiz",
-                "quiz": quiz,
-                "success": True
-            }
+            return {"tool": "generate_quiz", "quiz": quiz, "success": True}
 
         except Exception as e:
             return {"tool": "generate_quiz", "error": str(e), "success": False}
@@ -471,22 +470,18 @@ You can call multiple tools if needed.
             "hello": "Hello! I'm here to help with your options trading and stock analysis. What would you like to explore today?",
             "how are you": "I'm doing great, thanks for asking! Ready to help you analyze stocks and learn about options trading.",
             "thanks": "You're very welcome! Feel free to ask about any stocks or trading concepts.",
-            "bye": "Goodbye! Come back anytime you need help with trading analysis or have questions about options."
+            "bye": "Goodbye! Come back anytime you need help with trading analysis or have questions about options.",
         }
 
         # Simple matching for common phrases
         for key, response in casual_responses.items():
             if key in message.lower():
-                return {
-                    "tool": "casual_response",
-                    "response": response,
-                    "success": True
-                }
+                return {"tool": "casual_response", "response": response, "success": True}
 
         return {
             "tool": "casual_response",
             "response": "I'm here to help with options trading and stock analysis. What can I assist you with?",
-            "success": True
+            "success": True,
         }
 
     async def _buy_option(self, args: dict) -> dict[str, Any]:
@@ -501,7 +496,7 @@ You can call multiple tools if needed.
             preferences = {
                 "risk_tolerance": risk_tolerance,
                 "strategy": "growth",
-                "time_horizon": "short"
+                "time_horizon": "short",
             }
 
             analysis = await analyze_option_buy(symbol, budget, preferences)
@@ -512,7 +507,7 @@ You can call multiple tools if needed.
                 "budget": budget,
                 "analysis": analysis,
                 "requires_confirmation": True,
-                "success": True
+                "success": True,
             }
 
         except Exception as e:
@@ -530,7 +525,7 @@ You can call multiple tools if needed.
             preferences = {
                 "risk_tolerance": risk_tolerance,
                 "diversification": diversification,
-                "strategy": "growth"
+                "strategy": "growth",
             }
 
             portfolio = await analyze_multi_options_buy(budget, preferences)
@@ -540,17 +535,14 @@ You can call multiple tools if needed.
                 "budget": budget,
                 "portfolio": portfolio,
                 "requires_confirmation": True,
-                "success": True
+                "success": True,
             }
 
         except Exception as e:
             return {"tool": "buy_multiple_options", "error": str(e), "success": False}
 
     async def _format_final_response(
-        self,
-        user_message: str,
-        ai_message,
-        tool_results: list[dict]
+        self, user_message: str, ai_message, tool_results: list[dict]
     ) -> str:
         """Let OpenAI format the final human-readable response"""
         try:
@@ -558,7 +550,7 @@ You can call multiple tools if needed.
             context = {
                 "user_message": user_message,
                 "tool_results": tool_results,
-                "tools_used": [result.get("tool", "unknown") for result in tool_results]
+                "tools_used": [result.get("tool", "unknown") for result in tool_results],
             }
 
             format_prompt = f"""
@@ -584,7 +576,7 @@ Make the response human-readable and engaging!
                 model="gpt-4o",
                 messages=[{"role": "user", "content": format_prompt}],
                 temperature=0.3,
-                max_tokens=1000
+                max_tokens=1000,
             )
 
             return response.choices[0].message.content
@@ -645,12 +637,13 @@ Make the response human-readable and engaging!
             "confidence": 0.0,
             "formatted": True,
             "timestamp": datetime.now().isoformat(),
-            "error": True
+            "error": True,
         }
 
 
 # Global instance
 ai_intent_router = AIIntentRouter()
+
 
 async def route_with_ai(message: str, context: dict[str, Any] = None) -> dict[str, Any]:
     """
