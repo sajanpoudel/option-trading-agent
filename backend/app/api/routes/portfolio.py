@@ -1,6 +1,7 @@
 """
 Neural Options Oracle++ Portfolio API Routes
 """
+
 import time
 from typing import Any, Dict, List, Optional
 
@@ -18,6 +19,7 @@ router = APIRouter()
 # Response Models
 class PortfolioSummary(BaseModel):
     """Portfolio summary response"""
+
     total_value: float
     total_positions: int
     unrealized_pnl: float
@@ -30,6 +32,7 @@ class PortfolioSummary(BaseModel):
 
 class PortfolioGreeks(BaseModel):
     """Portfolio Greeks response"""
+
     total_delta: float
     total_gamma: float
     total_theta: float
@@ -40,6 +43,7 @@ class PortfolioGreeks(BaseModel):
 
 class RiskMetrics(BaseModel):
     """Risk metrics response"""
+
     var_95: float  # Value at Risk 95%
     max_loss_scenario: float
     beta: float
@@ -62,22 +66,20 @@ async def portfolio_info() -> dict[str, Any]:
             "greeks": "/greeks",
             "risk": "/risk",
             "performance": "/performance",
-            "allocation": "/allocation"
+            "allocation": "/allocation",
         },
         "features": [
             "Real-time portfolio tracking",
             "Greeks aggregation",
             "Risk analytics",
             "Performance attribution",
-            "Asset allocation analysis"
-        ]
+            "Asset allocation analysis",
+        ],
     }
 
 
 @router.get("/summary")
-async def get_portfolio_summary(
-    session: dict = Depends(get_current_session)
-) -> PortfolioSummary:
+async def get_portfolio_summary(session: dict = Depends(get_current_session)) -> PortfolioSummary:
     """Get portfolio summary"""
 
     try:
@@ -96,7 +98,7 @@ async def get_portfolio_summary(
                 "total_unrealized_pnl": 2500.0,
                 "avg_return_percent": 5.0,
                 "cash_balance": 47500.0,
-                "buying_power": 95000.0
+                "buying_power": 95000.0,
             }
 
         # Calculate additional metrics
@@ -112,7 +114,7 @@ async def get_portfolio_summary(
             cash_balance=portfolio_data.get("cash_balance", 50000.0),
             buying_power=portfolio_data.get("buying_power", 100000.0),
             day_change=day_change,
-            day_change_percent=day_change_percent
+            day_change_percent=day_change_percent,
         )
 
     except Exception as e:
@@ -122,8 +124,7 @@ async def get_portfolio_summary(
 
 @router.get("/positions")
 async def get_portfolio_positions(
-    include_closed: bool = False,
-    session: dict = Depends(get_current_session)
+    include_closed: bool = False, session: dict = Depends(get_current_session)
 ) -> list[dict[str, Any]]:
     """Get all portfolio positions"""
 
@@ -154,7 +155,7 @@ async def get_portfolio_positions(
                     "theta": -0.12,
                     "vega": 0.18,
                     "status": "open",
-                    "entry_date": time.time() - 86400
+                    "entry_date": time.time() - 86400,
                 },
                 {
                     "id": "pos_2",
@@ -166,8 +167,8 @@ async def get_portfolio_positions(
                     "unrealized_pnl": 550.0,
                     "unrealized_pnl_percent": 1.45,
                     "status": "open",
-                    "entry_date": time.time() - 172800
-                }
+                    "entry_date": time.time() - 172800,
+                },
             ]
 
         return positions
@@ -178,9 +179,7 @@ async def get_portfolio_positions(
 
 
 @router.get("/greeks")
-async def get_portfolio_greeks(
-    session: dict = Depends(get_current_session)
-) -> PortfolioGreeks:
+async def get_portfolio_greeks(session: dict = Depends(get_current_session)) -> PortfolioGreeks:
     """Get aggregated portfolio Greeks"""
 
     try:
@@ -211,7 +210,7 @@ async def get_portfolio_greeks(
             total_theta=total_theta,
             total_vega=total_vega,
             total_rho=total_rho,
-            net_exposure=net_exposure
+            net_exposure=net_exposure,
         )
 
     except Exception as e:
@@ -220,9 +219,7 @@ async def get_portfolio_greeks(
 
 
 @router.get("/risk")
-async def get_risk_metrics(
-    session: dict = Depends(get_current_session)
-) -> RiskMetrics:
+async def get_risk_metrics(session: dict = Depends(get_current_session)) -> RiskMetrics:
     """Get portfolio risk metrics"""
 
     try:
@@ -235,8 +232,8 @@ async def get_risk_metrics(
             concentration_risk={
                 "AAPL": 0.35,  # 35% concentration in AAPL
                 "MSFT": 0.25,  # 25% in MSFT
-                "tech_sector": 0.70  # 70% in tech
-            }
+                "tech_sector": 0.70,  # 70% in tech
+            },
         )
 
         return risk_metrics
@@ -248,8 +245,7 @@ async def get_risk_metrics(
 
 @router.get("/performance")
 async def get_portfolio_performance(
-    period: str = "1M",
-    session: dict = Depends(get_current_session)
+    period: str = "1M", session: dict = Depends(get_current_session)
 ) -> dict[str, Any]:
     """Get portfolio performance analytics"""
 
@@ -269,19 +265,15 @@ async def get_portfolio_performance(
             "daily_returns": [
                 {"date": "2024-01-01", "return": 0.5},
                 {"date": "2024-01-02", "return": -0.2},
-                {"date": "2024-01-03", "return": 1.1}
+                {"date": "2024-01-03", "return": 1.1},
             ],
-            "monthly_returns": {
-                "2024-01": 2.5,
-                "2023-12": 1.8,
-                "2023-11": -0.5
-            },
+            "monthly_returns": {"2024-01": 2.5, "2023-12": 1.8, "2023-11": -0.5},
             "benchmark_comparison": {
                 "portfolio_return": 5.0,
                 "spy_return": 3.2,
                 "alpha": 1.8,
-                "beta": 1.25
-            }
+                "beta": 1.25,
+            },
         }
 
         return performance_data
@@ -292,9 +284,7 @@ async def get_portfolio_performance(
 
 
 @router.get("/allocation")
-async def get_asset_allocation(
-    session: dict = Depends(get_current_session)
-) -> dict[str, Any]:
+async def get_asset_allocation(session: dict = Depends(get_current_session)) -> dict[str, Any]:
     """Get portfolio asset allocation"""
 
     try:
@@ -303,36 +293,26 @@ async def get_asset_allocation(
 
         # Mock allocation data
         allocation_data = {
-            "by_asset_class": {
-                "stocks": 45.0,
-                "options": 35.0,
-                "cash": 20.0
-            },
+            "by_asset_class": {"stocks": 45.0, "options": 35.0, "cash": 20.0},
             "by_sector": {
                 "technology": 70.0,
                 "healthcare": 15.0,
                 "financials": 10.0,
-                "consumer": 5.0
+                "consumer": 5.0,
             },
-            "by_symbol": {
-                "AAPL": 35.0,
-                "MSFT": 25.0,
-                "GOOGL": 15.0,
-                "NVDA": 10.0,
-                "others": 15.0
-            },
+            "by_symbol": {"AAPL": 35.0, "MSFT": 25.0, "GOOGL": 15.0, "NVDA": 10.0, "others": 15.0},
             "by_strategy": {
                 "long_calls": 20.0,
                 "covered_calls": 15.0,
                 "long_stock": 45.0,
-                "cash": 20.0
+                "cash": 20.0,
             },
             "concentration_metrics": {
                 "max_position_size": 35.0,
                 "top_3_concentration": 75.0,
                 "number_of_positions": len(positions) or 5,
-                "diversification_ratio": 0.65
-            }
+                "diversification_ratio": 0.65,
+            },
         }
 
         return allocation_data
@@ -344,7 +324,7 @@ async def get_asset_allocation(
 
 @router.get("/alerts")
 async def get_portfolio_alerts(
-    session: dict = Depends(get_current_session)
+    session: dict = Depends(get_current_session),
 ) -> list[dict[str, Any]]:
     """Get portfolio alerts and notifications"""
 
@@ -358,7 +338,7 @@ async def get_portfolio_alerts(
                 "title": "High Concentration Risk",
                 "message": "70% of portfolio is concentrated in technology sector",
                 "timestamp": time.time() - 3600,
-                "action_required": False
+                "action_required": False,
             },
             {
                 "id": "alert_2",
@@ -367,7 +347,7 @@ async def get_portfolio_alerts(
                 "title": "Option Expiring Soon",
                 "message": "AAPL $150 Call expires in 3 days",
                 "timestamp": time.time() - 1800,
-                "action_required": True
+                "action_required": True,
             },
             {
                 "id": "alert_3",
@@ -376,8 +356,8 @@ async def get_portfolio_alerts(
                 "title": "Strong Performance",
                 "message": "Portfolio up 5.2% this month, outperforming benchmark",
                 "timestamp": time.time() - 86400,
-                "action_required": False
-            }
+                "action_required": False,
+            },
         ]
 
         return alerts
@@ -389,19 +369,14 @@ async def get_portfolio_alerts(
 
 @router.post("/rebalance")
 async def suggest_rebalancing(
-    target_allocation: dict[str, float],
-    session: dict = Depends(get_current_session)
+    target_allocation: dict[str, float], session: dict = Depends(get_current_session)
 ) -> dict[str, Any]:
     """Suggest portfolio rebalancing actions"""
 
     try:
         # Mock rebalancing suggestions
         suggestions = {
-            "current_allocation": {
-                "AAPL": 35.0,
-                "MSFT": 25.0,
-                "cash": 40.0
-            },
+            "current_allocation": {"AAPL": 35.0, "MSFT": 25.0, "cash": 40.0},
             "target_allocation": target_allocation,
             "rebalancing_actions": [
                 {
@@ -410,7 +385,7 @@ async def suggest_rebalancing(
                     "current_percent": 35.0,
                     "target_percent": target_allocation.get("AAPL", 30.0),
                     "shares_to_trade": -25,
-                    "dollar_amount": -3750.0
+                    "dollar_amount": -3750.0,
                 },
                 {
                     "symbol": "NVDA",
@@ -418,19 +393,19 @@ async def suggest_rebalancing(
                     "current_percent": 0.0,
                     "target_percent": target_allocation.get("NVDA", 10.0),
                     "shares_to_trade": 15,
-                    "dollar_amount": 5000.0
-                }
+                    "dollar_amount": 5000.0,
+                },
             ],
             "estimated_costs": {
                 "commission": 0.0,  # Paper trading
                 "market_impact": 25.0,
-                "total_cost": 25.0
+                "total_cost": 25.0,
             },
             "benefits": {
                 "improved_diversification": True,
                 "reduced_concentration_risk": True,
-                "expected_return_impact": 0.2
-            }
+                "expected_return_impact": 0.2,
+            },
         }
 
         return suggestions
