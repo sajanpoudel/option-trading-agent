@@ -1,6 +1,7 @@
 """
 Neural Options Oracle++ Trading API Routes
 """
+
 import time
 from typing import Any, Dict, List, Optional
 
@@ -18,6 +19,7 @@ router = APIRouter()
 # Request/Response Models
 class PaperTradeRequest(BaseModel):
     """Paper trade execution request"""
+
     symbol: str = Field(..., description="Stock symbol")
     action: str = Field(..., description="buy or sell")
     quantity: int = Field(..., description="Number of shares/contracts")
@@ -28,6 +30,7 @@ class PaperTradeRequest(BaseModel):
 
 class BuyAnalysisRequest(BaseModel):
     """Buy analysis request"""
+
     symbol: str = Field(..., description="Stock symbol to analyze")
     user_query: str | None = Field(None, description="User's trading query")
     risk_profile: dict[str, Any] | None = Field(None, description="User risk profile")
@@ -35,6 +38,7 @@ class BuyAnalysisRequest(BaseModel):
 
 class TradeExecutionRequest(BaseModel):
     """Trade execution request"""
+
     symbol: str = Field(..., description="Stock symbol")
     recommendation_id: str = Field(..., description="ID of the recommendation to execute")
     quantity: int | None = Field(None, description="Override quantity")
@@ -43,6 +47,7 @@ class TradeExecutionRequest(BaseModel):
 
 class TradeResponse(BaseModel):
     """Trade execution response"""
+
     trade_id: str
     status: str
     symbol: str
@@ -55,6 +60,7 @@ class TradeResponse(BaseModel):
 
 class PositionResponse(BaseModel):
     """Position information response"""
+
     position_id: str
     symbol: str
     quantity: int
@@ -80,23 +86,22 @@ async def trading_info() -> dict[str, Any]:
             "execute": "/execute",
             "positions": "/positions",
             "orders": "/orders",
-            "portfolio": "/portfolio"
+            "portfolio": "/portfolio",
         },
         "features": [
             "Paper trading execution",
             "Real-time position tracking",
             "Options trading support",
             "Portfolio management",
-            "Risk management"
-        ]
+            "Risk management",
+        ],
     }
 
 
 @router.post("/execute")
 @rate_limiter(max_requests=20, time_window=60)
 async def execute_paper_trade(
-    trade_request: PaperTradeRequest,
-    session: dict = Depends(get_current_session)
+    trade_request: PaperTradeRequest, session: dict = Depends(get_current_session)
 ) -> TradeResponse:
     """Execute paper trade"""
 
@@ -133,13 +138,21 @@ async def execute_paper_trade(
         position_data = {
             "symbol": symbol,
             "position_type": position_type,
-            "option_type": trade_request.option_details.get("type") if trade_request.option_details else None,
-            "strike_price": trade_request.option_details.get("strike") if trade_request.option_details else None,
-            "expiration_date": trade_request.option_details.get("expiration") if trade_request.option_details else None,
-            "quantity": trade_request.quantity if trade_request.action == "buy" else -trade_request.quantity,
+            "option_type": trade_request.option_details.get("type")
+            if trade_request.option_details
+            else None,
+            "strike_price": trade_request.option_details.get("strike")
+            if trade_request.option_details
+            else None,
+            "expiration_date": trade_request.option_details.get("expiration")
+            if trade_request.option_details
+            else None,
+            "quantity": trade_request.quantity
+            if trade_request.action == "buy"
+            else -trade_request.quantity,
             "entry_price": execution_price,
             "current_price": execution_price,
-            "entry_order_id": f"paper_{symbol}_{int(time.time())}"
+            "entry_order_id": f"paper_{symbol}_{int(time.time())}",
         }
 
         position_id = await db_manager.create_position(position_data)
@@ -151,7 +164,7 @@ async def execute_paper_trade(
             "quantity": trade_request.quantity,
             "price": execution_price,
             "total_value": total_value,
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
         logger.info(f"Paper trade executed: {symbol} @ ${execution_price}")
@@ -167,9 +180,7 @@ async def execute_paper_trade(
 
 @router.get("/positions")
 async def get_positions(
-    symbol: str | None = None,
-    status: str = "open",
-    session: dict = Depends(get_current_session)
+    symbol: str | None = None, status: str = "open", session: dict = Depends(get_current_session)
 ) -> list[PositionResponse]:
     """Get current positions"""
 
@@ -192,7 +203,7 @@ async def get_positions(
                 unrealized_pnl=pos["unrealized_pnl"] or 0,
                 unrealized_pnl_percent=pos["unrealized_pnl_percent"] or 0,
                 position_type=pos["position_type"],
-                status=pos["status"]
+                status=pos["status"],
             )
             position_responses.append(response)
 
@@ -205,8 +216,7 @@ async def get_positions(
 
 @router.get("/positions/{position_id}")
 async def get_position_details(
-    position_id: str,
-    session: dict = Depends(get_current_session)
+    position_id: str, session: dict = Depends(get_current_session)
 ) -> dict[str, Any]:
     """Get detailed position information"""
 
@@ -228,10 +238,10 @@ async def get_position_details(
                 "delta": 0.65,
                 "gamma": 0.05,
                 "theta": -0.12,
-                "vega": 0.18
+                "vega": 0.18,
             },
             "entry_date": time.time() - 3600,
-            "status": "open"
+            "status": "open",
         }
 
     except Exception as e:
@@ -242,8 +252,7 @@ async def get_position_details(
 @router.post("/positions/{position_id}/close")
 @rate_limiter(max_requests=20, time_window=60)
 async def close_position(
-    position_id: str,
-    session: dict = Depends(get_current_session)
+    position_id: str, session: dict = Depends(get_current_session)
 ) -> dict[str, Any]:
     """Close a position"""
 
@@ -257,7 +266,7 @@ async def close_position(
             "close_price": 157.30,
             "realized_pnl": 205.0,
             "close_timestamp": time.time(),
-            "message": "Position closed successfully"
+            "message": "Position closed successfully",
         }
 
     except Exception as e:
@@ -270,7 +279,7 @@ async def get_orders(
     symbol: str | None = None,
     status: str = "all",
     limit: int = 20,
-    session: dict = Depends(get_current_session)
+    session: dict = Depends(get_current_session),
 ) -> list[dict[str, Any]]:
     """Get order history"""
 
@@ -286,7 +295,7 @@ async def get_orders(
                 "status": "filled",
                 "fill_price": 155.25,
                 "submitted_at": time.time() - (i * 3600),
-                "filled_at": time.time() - (i * 3600) + 60
+                "filled_at": time.time() - (i * 3600) + 60,
             }
             for i in range(min(limit, 5))
         ]
@@ -299,9 +308,7 @@ async def get_orders(
 
 
 @router.get("/portfolio/summary")
-async def get_portfolio_summary(
-    session: dict = Depends(get_current_session)
-) -> dict[str, Any]:
+async def get_portfolio_summary(session: dict = Depends(get_current_session)) -> dict[str, Any]:
     """Get portfolio summary"""
 
     try:
@@ -320,7 +327,7 @@ async def get_portfolio_summary(
                 "portfolio_gamma": 8.5,
                 "portfolio_theta": -45.0,
                 "portfolio_vega": 180.0,
-                "calculated_at": time.time()
+                "calculated_at": time.time(),
             }
 
         return portfolio_summary
@@ -332,8 +339,7 @@ async def get_portfolio_summary(
 
 @router.get("/portfolio/performance")
 async def get_portfolio_performance(
-    period: str = "1m",
-    session: dict = Depends(get_current_session)
+    period: str = "1m", session: dict = Depends(get_current_session)
 ) -> dict[str, Any]:
     """Get portfolio performance metrics"""
 
@@ -352,9 +358,9 @@ async def get_portfolio_performance(
                 "winning": 10,
                 "losing": 5,
                 "avg_win": 450.0,
-                "avg_loss": -180.0
+                "avg_loss": -180.0,
             },
-            "calculated_at": time.time()
+            "calculated_at": time.time(),
         }
 
         return performance
@@ -367,8 +373,7 @@ async def get_portfolio_performance(
 @router.post("/analyze-buy")
 @rate_limiter(max_requests=10, time_window=60)
 async def analyze_buy_opportunity(
-    request: BuyAnalysisRequest,
-    session: dict = Depends(get_current_session)
+    request: BuyAnalysisRequest, session: dict = Depends(get_current_session)
 ) -> dict[str, Any]:
     """Analyze buy opportunity using AI agents"""
 
@@ -383,13 +388,14 @@ async def analyze_buy_opportunity(
 
         # Set up user context
         user_context = {
-            'selectedStock': symbol,
-            'risk_profile': request.risk_profile or {
-                'risk_level': 'moderate',
-                'experience': 'intermediate',
-                'max_position_size': 0.05,
-                'account_balance': 100000
-            }
+            "selectedStock": symbol,
+            "risk_profile": request.risk_profile
+            or {
+                "risk_level": "moderate",
+                "experience": "intermediate",
+                "max_position_size": 0.05,
+                "account_balance": 100000,
+            },
         }
 
         # Process the buy request
@@ -397,18 +403,18 @@ async def analyze_buy_opportunity(
         result = await orchestrator.process_user_query(user_query, user_context)
 
         # Extract buy recommendations
-        buy_agent_result = result.get('frontend_data', {}).get('buy_agent', {})
-        buy_analysis = buy_agent_result.get('buy_analysis', {})
+        buy_agent_result = result.get("frontend_data", {}).get("buy_agent", {})
+        buy_analysis = buy_agent_result.get("buy_analysis", {})
 
         return {
-            'symbol': symbol,
-            'analysis_complete': True,
-            'buy_recommendations': buy_analysis.get('recommendations', []),
-            'execution_plan': buy_analysis.get('execution_plan', {}),
-            'risk_assessment': buy_analysis.get('risk_assessment', {}),
-            'confidence': buy_analysis.get('confidence', 0.0),
-            'timestamp': time.time(),
-            'user_query': user_query
+            "symbol": symbol,
+            "analysis_complete": True,
+            "buy_recommendations": buy_analysis.get("recommendations", []),
+            "execution_plan": buy_analysis.get("execution_plan", {}),
+            "risk_assessment": buy_analysis.get("risk_assessment", {}),
+            "confidence": buy_analysis.get("confidence", 0.0),
+            "timestamp": time.time(),
+            "user_query": user_query,
         }
 
     except Exception as e:
@@ -419,8 +425,7 @@ async def analyze_buy_opportunity(
 @router.post("/execute-recommendation")
 @rate_limiter(max_requests=5, time_window=60)
 async def execute_trade_recommendation(
-    request: TradeExecutionRequest,
-    session: dict = Depends(get_current_session)
+    request: TradeExecutionRequest, session: dict = Depends(get_current_session)
 ) -> TradeResponse:
     """Execute a trade based on AI recommendation"""
 
@@ -442,17 +447,17 @@ async def execute_trade_recommendation(
         # In a real implementation, you would fetch the actual recommendation by ID
         recommendation = PositionRecommendation(
             symbol=symbol,
-            action='buy',
+            action="buy",
             quantity=request.quantity or 1,
-            option_type='call',
+            option_type="call",
             strike_price=150.0,  # Mock strike
-            expiration_date='2024-01-19',  # Mock expiration
+            expiration_date="2024-01-19",  # Mock expiration
             entry_price=5.0,  # Mock entry price
             confidence=0.8,
             risk_score=0.3,
             potential_return=0.15,
             max_loss=0.05,
-            reasoning="AI-generated recommendation"
+            reasoning="AI-generated recommendation",
         )
 
         # Execute the trade
@@ -467,7 +472,7 @@ async def execute_trade_recommendation(
             price=execution.price,
             total_value=execution.total_value,
             timestamp=time.time(),
-            estimated_fill_time=time.time() + 60  # 1 minute estimated fill
+            estimated_fill_time=time.time() + 60,  # 1 minute estimated fill
         )
 
         logger.info(f"✅ Trade executed: {execution.trade_id} - {execution.status}")
@@ -480,8 +485,7 @@ async def execute_trade_recommendation(
 
 @router.get("/buy-recommendations/{symbol}")
 async def get_buy_recommendations(
-    symbol: str,
-    session: dict = Depends(get_current_session)
+    symbol: str, session: dict = Depends(get_current_session)
 ) -> dict[str, Any]:
     """Get buy recommendations for a symbol"""
 
@@ -496,29 +500,29 @@ async def get_buy_recommendations(
 
         # Set up user context
         user_context = {
-            'selectedStock': symbol,
-            'risk_profile': {
-                'risk_level': 'moderate',
-                'experience': 'intermediate',
-                'max_position_size': 0.05,
-                'account_balance': 100000
-            }
+            "selectedStock": symbol,
+            "risk_profile": {
+                "risk_level": "moderate",
+                "experience": "intermediate",
+                "max_position_size": 0.05,
+                "account_balance": 100000,
+            },
         }
 
         # Process buy analysis
         result = await orchestrator.process_user_query(f"buy {symbol}", user_context)
 
         # Extract buy recommendations
-        buy_agent_result = result.get('frontend_data', {}).get('buy_agent', {})
-        buy_analysis = buy_agent_result.get('buy_analysis', {})
+        buy_agent_result = result.get("frontend_data", {}).get("buy_agent", {})
+        buy_analysis = buy_agent_result.get("buy_analysis", {})
 
         return {
-            'symbol': symbol,
-            'recommendations': buy_analysis.get('recommendations', []),
-            'execution_plan': buy_analysis.get('execution_plan', {}),
-            'risk_assessment': buy_analysis.get('risk_assessment', {}),
-            'confidence': buy_analysis.get('confidence', 0.0),
-            'timestamp': time.time()
+            "symbol": symbol,
+            "recommendations": buy_analysis.get("recommendations", []),
+            "execution_plan": buy_analysis.get("execution_plan", {}),
+            "risk_assessment": buy_analysis.get("risk_assessment", {}),
+            "confidence": buy_analysis.get("confidence", 0.0),
+            "timestamp": time.time(),
         }
 
     except Exception as e:
