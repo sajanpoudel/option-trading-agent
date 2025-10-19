@@ -1,6 +1,7 @@
 """
 Neural Options Oracle++ Education API Routes
 """
+
 import time
 from typing import Any, Dict, List, Optional
 
@@ -18,13 +19,19 @@ router = APIRouter()
 # Request/Response Models
 class ContentRequest(BaseModel):
     """Educational content request"""
+
     topic: str | None = Field(None, description="Topic filter")
-    difficulty: str | None = Field(None, description="Difficulty level: beginner, intermediate, advanced")
-    content_type: str | None = Field(None, description="Content type: lesson, quiz, interactive, video")
+    difficulty: str | None = Field(
+        None, description="Difficulty level: beginner, intermediate, advanced"
+    )
+    content_type: str | None = Field(
+        None, description="Content type: lesson, quiz, interactive, video"
+    )
 
 
 class ContentResponse(BaseModel):
     """Educational content response"""
+
     content_id: str
     title: str
     topic: str
@@ -39,6 +46,7 @@ class ContentResponse(BaseModel):
 
 class QuizRequest(BaseModel):
     """Quiz generation request"""
+
     topic: str = Field(..., description="Quiz topic")
     difficulty: str = Field("beginner", description="Difficulty level")
     question_count: int = Field(5, description="Number of questions")
@@ -46,6 +54,7 @@ class QuizRequest(BaseModel):
 
 class QuizResponse(BaseModel):
     """Quiz response"""
+
     quiz_id: str
     topic: str
     difficulty: str
@@ -67,7 +76,7 @@ async def education_info() -> dict[str, Any]:
             "content": "/content",
             "quiz": "/quiz",
             "explain": "/explain",
-            "glossary": "/glossary"
+            "glossary": "/glossary",
         },
         "features": [
             "Adaptive educational content",
@@ -75,8 +84,8 @@ async def education_info() -> dict[str, Any]:
             "Real-time explanations",
             "Personalized learning paths",
             "Options trading education",
-            "Risk management training"
-        ]
+            "Risk management training",
+        ],
     }
 
 
@@ -86,17 +95,14 @@ async def get_educational_content(
     difficulty: str | None = None,
     content_type: str | None = None,
     limit: int = 10,
-    session: dict = Depends(get_current_session)
+    session: dict = Depends(get_current_session),
 ) -> list[ContentResponse]:
     """Get educational content with filtering"""
 
     try:
         # Get content from database
         content_list = await db_manager.get_educational_content(
-            topic=topic,
-            difficulty=difficulty,
-            content_type=content_type,
-            limit=limit
+            topic=topic, difficulty=difficulty, content_type=content_type, limit=limit
         )
 
         # If no content in database, return mock content
@@ -116,24 +122,24 @@ async def get_educational_content(
                             "Call options give you the right to buy",
                             "Put options give you the right to sell",
                             "Strike price is the contract price",
-                            "Expiration date is when the contract expires"
+                            "Expiration date is when the contract expires",
                         ],
                         "examples": [
                             {
                                 "scenario": "Buying a call option on AAPL",
-                                "explanation": "If you think AAPL will go up, you can buy a call option."
+                                "explanation": "If you think AAPL will go up, you can buy a call option.",
                             }
-                        ]
+                        ],
                     },
                     "prerequisites": [],
                     "learning_objectives": [
                         "Understand basic options terminology",
                         "Distinguish between calls and puts",
-                        "Identify key option components"
+                        "Identify key option components",
                     ],
                     "tags": ["options", "basics", "beginner"],
                     "is_active": True,
-                    "created_at": time.time()
+                    "created_at": time.time(),
                 },
                 {
                     "id": "content_2",
@@ -149,24 +155,24 @@ async def get_educational_content(
                             "Support and resistance levels",
                             "Moving averages",
                             "Volume indicators",
-                            "Chart patterns"
+                            "Chart patterns",
                         ],
                         "practical_tips": [
                             "Look for trends in price movement",
                             "Use multiple timeframes",
-                            "Consider volume confirmation"
-                        ]
+                            "Consider volume confirmation",
+                        ],
                     },
                     "prerequisites": [],
                     "learning_objectives": [
                         "Read basic stock charts",
                         "Identify trends and patterns",
-                        "Understand key technical indicators"
+                        "Understand key technical indicators",
                     ],
                     "tags": ["technical_analysis", "charts", "beginner"],
                     "is_active": True,
-                    "created_at": time.time()
-                }
+                    "created_at": time.time(),
+                },
             ]
 
         # Convert to response format
@@ -182,7 +188,7 @@ async def get_educational_content(
                 content=content["content"],
                 prerequisites=content["prerequisites"],
                 learning_objectives=content["learning_objectives"],
-                tags=content["tags"]
+                tags=content["tags"],
             )
             responses.append(response)
 
@@ -195,8 +201,7 @@ async def get_educational_content(
 
 @router.get("/content/{content_id}")
 async def get_content_by_id(
-    content_id: str,
-    session: dict = Depends(get_current_session)
+    content_id: str, session: dict = Depends(get_current_session)
 ) -> ContentResponse:
     """Get specific educational content by ID"""
 
@@ -216,22 +221,22 @@ async def get_content_by_id(
                     "gamma": "Measures how delta changes",
                     "theta": "Measures time decay",
                     "vega": "Measures volatility sensitivity",
-                    "rho": "Measures interest rate sensitivity"
+                    "rho": "Measures interest rate sensitivity",
                 },
                 "practical_examples": [
                     {
                         "scenario": "High delta call option",
-                        "explanation": "A call with 0.7 delta will gain $0.70 for every $1 stock increase"
+                        "explanation": "A call with 0.7 delta will gain $0.70 for every $1 stock increase",
                     }
-                ]
+                ],
             },
             "prerequisites": ["options_basics_001"],
             "learning_objectives": [
                 "Understand all five Greeks",
                 "Apply Greeks to trading decisions",
-                "Calculate risk exposure"
+                "Calculate risk exposure",
             ],
-            "tags": ["greeks", "options", "intermediate"]
+            "tags": ["greeks", "options", "intermediate"],
         }
 
         return ContentResponse(**mock_content)
@@ -243,8 +248,7 @@ async def get_content_by_id(
 
 @router.post("/quiz")
 async def generate_quiz(
-    quiz_request: QuizRequest,
-    session: dict = Depends(get_current_session)
+    quiz_request: QuizRequest, session: dict = Depends(get_current_session)
 ) -> QuizResponse:
     """Generate adaptive quiz based on topic and difficulty"""
 
@@ -260,25 +264,30 @@ async def generate_quiz(
                     "type": "multiple_choice",
                     "options": ["Call Option", "Put Option", "Stock", "Bond"],
                     "correct_answer": "Call Option",
-                    "explanation": "A call option gives you the right, but not obligation, to buy a stock at the strike price."
+                    "explanation": "A call option gives you the right, but not obligation, to buy a stock at the strike price.",
                 },
                 {
                     "id": "q2",
                     "question": "What happens when an option expires out-of-the-money?",
                     "type": "multiple_choice",
-                    "options": ["It becomes worthless", "You must exercise it", "It automatically exercises", "You get a refund"],
+                    "options": [
+                        "It becomes worthless",
+                        "You must exercise it",
+                        "It automatically exercises",
+                        "You get a refund",
+                    ],
                     "correct_answer": "It becomes worthless",
-                    "explanation": "Out-of-the-money options expire worthless as there's no financial benefit to exercising them."
-                }
+                    "explanation": "Out-of-the-money options expire worthless as there's no financial benefit to exercising them.",
+                },
             ]
 
         quiz_response = {
             "quiz_id": f"quiz_{quiz_request.topic}_{int(time.time())}",
             "topic": quiz_request.topic,
             "difficulty": quiz_request.difficulty,
-            "questions": mock_questions[:quiz_request.question_count],
+            "questions": mock_questions[: quiz_request.question_count],
             "estimated_duration_minutes": quiz_request.question_count * 2,
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
         return QuizResponse(**quiz_response)
@@ -292,7 +301,7 @@ async def generate_quiz(
 async def explain_concept(
     concept: str,
     context: dict[str, Any] | None = None,
-    session: dict = Depends(get_current_session)
+    session: dict = Depends(get_current_session),
 ) -> dict[str, Any]:
     """Get AI-powered explanation of trading concepts"""
 
@@ -304,31 +313,34 @@ async def explain_concept(
                 "technical_explanation": "Delta represents the rate of change of the option price with respect to changes in the underlying asset's price.",
                 "practical_example": "If an option has a delta of 0.5, and the stock goes up $1, the option price increases by about $0.50.",
                 "related_concepts": ["gamma", "hedge_ratio", "probability"],
-                "visual_aids": ["delta_chart.png", "option_payoff_diagram.png"]
+                "visual_aids": ["delta_chart.png", "option_payoff_diagram.png"],
             },
             "implied_volatility": {
                 "simple_explanation": "Implied volatility is the market's expectation of how much a stock price will move.",
                 "technical_explanation": "IV is derived from option prices using models like Black-Scholes, representing expected volatility.",
                 "practical_example": "High IV means options are expensive because traders expect big price movements.",
                 "related_concepts": ["vega", "volatility_smile", "time_decay"],
-                "visual_aids": ["iv_chart.png", "volatility_surface.png"]
-            }
+                "visual_aids": ["iv_chart.png", "volatility_surface.png"],
+            },
         }
 
-        explanation = explanations.get(concept.lower(), {
-            "simple_explanation": f"Explanation for {concept} will be generated by AI agents.",
-            "technical_explanation": "Detailed technical explanation coming soon.",
-            "practical_example": "Practical example will be provided.",
-            "related_concepts": [],
-            "visual_aids": []
-        })
+        explanation = explanations.get(
+            concept.lower(),
+            {
+                "simple_explanation": f"Explanation for {concept} will be generated by AI agents.",
+                "technical_explanation": "Detailed technical explanation coming soon.",
+                "practical_example": "Practical example will be provided.",
+                "related_concepts": [],
+                "visual_aids": [],
+            },
+        )
 
         return {
             "concept": concept,
             "explanation": explanation,
             "difficulty_level": session.get("experience_level", "beginner"),
             "personalized": True,
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
     except Exception as e:
@@ -340,7 +352,7 @@ async def explain_concept(
 async def get_trading_glossary(
     search: str | None = None,
     category: str | None = None,
-    session: dict = Depends(get_current_session)
+    session: dict = Depends(get_current_session),
 ) -> dict[str, Any]:
     """Get trading terminology glossary"""
 
@@ -352,45 +364,43 @@ async def get_trading_glossary(
                 "category": "options",
                 "definition": "A contract giving the buyer the right to buy shares at a specific price within a certain time period.",
                 "example": "Buying a AAPL $150 call expiring in 30 days",
-                "related_terms": ["put_option", "strike_price", "expiration"]
+                "related_terms": ["put_option", "strike_price", "expiration"],
             },
             "delta": {
                 "term": "Delta",
                 "category": "greeks",
                 "definition": "Measures the rate of change of option price with respect to changes in the underlying asset price.",
                 "example": "A delta of 0.5 means the option price changes by $0.50 for every $1 change in stock price",
-                "related_terms": ["gamma", "theta", "vega"]
+                "related_terms": ["gamma", "theta", "vega"],
             },
             "implied_volatility": {
                 "term": "Implied Volatility",
                 "category": "volatility",
                 "definition": "Market's forecast of a likely movement in a security's price, derived from option prices.",
                 "example": "High IV indicates traders expect large price movements",
-                "related_terms": ["historical_volatility", "vega", "volatility_smile"]
-            }
+                "related_terms": ["historical_volatility", "vega", "volatility_smile"],
+            },
         }
 
         # Filter by search term if provided
         if search:
             search_lower = search.lower()
             glossary_terms = {
-                k: v for k, v in glossary_terms.items()
+                k: v
+                for k, v in glossary_terms.items()
                 if search_lower in k or search_lower in v["term"].lower()
             }
 
         # Filter by category if provided
         if category:
-            glossary_terms = {
-                k: v for k, v in glossary_terms.items()
-                if v["category"] == category
-            }
+            glossary_terms = {k: v for k, v in glossary_terms.items() if v["category"] == category}
 
         return {
             "glossary": glossary_terms,
             "total_terms": len(glossary_terms),
             "categories": ["options", "greeks", "volatility", "technical_analysis"],
             "search_query": search,
-            "category_filter": category
+            "category_filter": category,
         }
 
     except Exception as e:
@@ -402,7 +412,7 @@ async def get_trading_glossary(
 async def get_learning_path(
     current_level: str = "beginner",
     interests: list[str] | None = Query(default=None),
-    session: dict = Depends(get_current_session)
+    session: dict = Depends(get_current_session),
 ) -> dict[str, Any]:
     """Get personalized learning path"""
     interests = interests or []
@@ -414,36 +424,36 @@ async def get_learning_path(
                 {
                     "module": "Stock Market Basics",
                     "duration_minutes": 30,
-                    "topics": ["stocks", "market_basics", "buying_selling"]
+                    "topics": ["stocks", "market_basics", "buying_selling"],
                 },
                 {
                     "module": "Introduction to Options",
                     "duration_minutes": 45,
-                    "topics": ["options_basics", "calls_puts", "terminology"]
+                    "topics": ["options_basics", "calls_puts", "terminology"],
                 },
                 {
                     "module": "Basic Strategies",
                     "duration_minutes": 60,
-                    "topics": ["covered_calls", "protective_puts", "basic_spreads"]
-                }
+                    "topics": ["covered_calls", "protective_puts", "basic_spreads"],
+                },
             ],
             "intermediate": [
                 {
                     "module": "Options Greeks",
                     "duration_minutes": 45,
-                    "topics": ["delta", "gamma", "theta", "vega"]
+                    "topics": ["delta", "gamma", "theta", "vega"],
                 },
                 {
                     "module": "Advanced Strategies",
                     "duration_minutes": 75,
-                    "topics": ["iron_condor", "butterfly", "straddle"]
+                    "topics": ["iron_condor", "butterfly", "straddle"],
                 },
                 {
                     "module": "Risk Management",
                     "duration_minutes": 60,
-                    "topics": ["position_sizing", "stop_losses", "hedging"]
-                }
-            ]
+                    "topics": ["position_sizing", "stop_losses", "hedging"],
+                },
+            ],
         }
 
         path = learning_paths.get(current_level, learning_paths["beginner"])
@@ -454,7 +464,7 @@ async def get_learning_path(
             "total_duration_minutes": sum(module["duration_minutes"] for module in path),
             "estimated_completion_days": 14,
             "interests": interests,
-            "next_milestone": "Complete Options Basics Quiz"
+            "next_milestone": "Complete Options Basics Quiz",
         }
 
     except Exception as e:
