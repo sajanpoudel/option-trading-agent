@@ -1,6 +1,7 @@
 """
 Neural Options Oracle++ Analysis API Routes
 """
+
 import asyncio
 import time
 from typing import Any, Dict, List, Optional
@@ -19,13 +20,17 @@ router = APIRouter()
 # Request/Response Models
 class AnalysisRequest(BaseModel):
     """Stock analysis request"""
+
     symbol: str = Field(..., description="Stock symbol to analyze", example="AAPL")
     risk_profile: str | None = Field("moderate", description="Risk profile override")
-    analysis_type: str | None = Field("full", description="Analysis type: full, quick, technical_only")
+    analysis_type: str | None = Field(
+        "full", description="Analysis type: full, quick, technical_only"
+    )
 
 
 class AnalysisResponse(BaseModel):
     """Stock analysis response"""
+
     symbol: str
     analysis_id: str
     signal: dict[str, Any]
@@ -39,6 +44,7 @@ class AnalysisResponse(BaseModel):
 
 class QuickAnalysisResponse(BaseModel):
     """Quick analysis response"""
+
     symbol: str
     direction: str
     strength: str
@@ -61,7 +67,7 @@ async def analysis_info() -> dict[str, Any]:
             "analyze": "/analyze/{symbol}",
             "quick": "/quick/{symbol}",
             "history": "/history",
-            "supported_symbols": "/symbols"
+            "supported_symbols": "/symbols",
         },
         "features": [
             "Multi-agent AI analysis",
@@ -69,8 +75,8 @@ async def analysis_info() -> dict[str, Any]:
             "Real-time market data",
             "Options Greeks calculation",
             "Sentiment analysis",
-            "Educational content generation"
-        ]
+            "Educational content generation",
+        ],
     }
 
 
@@ -80,7 +86,7 @@ async def analyze_stock(
     symbol: str,
     request: AnalysisRequest,
     background_tasks: BackgroundTasks,
-    session: dict = Depends(get_current_session)
+    session: dict = Depends(get_current_session),
 ) -> AnalysisResponse:
     """Comprehensive stock analysis using AI agents"""
 
@@ -104,7 +110,7 @@ async def analyze_stock(
                 "direction": "BUY",
                 "strength": "moderate",
                 "confidence_score": 0.75,
-                "market_scenario": "strong_uptrend"
+                "market_scenario": "strong_uptrend",
             },
             "agent_results": {
                 "technical": {
@@ -116,24 +122,16 @@ async def analyze_stock(
                         "rsi": {"signal": 0.6, "value": 68.5},
                         "bb": {"signal": 0.4, "value": "upper"},
                         "macd": {"signal": 0.9, "value": 2.3},
-                        "vwap": {"signal": 0.7, "value": 154.8}
-                    }
+                        "vwap": {"signal": 0.7, "value": 154.8},
+                    },
                 },
                 "sentiment": {
                     "aggregate_sentiment": 0.65,
                     "confidence": 0.78,
-                    "sources": ["stocktwits", "reddit", "twitter"]
+                    "sources": ["stocktwits", "reddit", "twitter"],
                 },
-                "flow": {
-                    "ml_prediction": 0.58,
-                    "unusual_activity": True,
-                    "put_call_ratio": 0.45
-                },
-                "history": {
-                    "pattern_score": 0.62,
-                    "similar_patterns": 15,
-                    "success_rate": 0.68
-                }
+                "flow": {"ml_prediction": 0.58, "unusual_activity": True, "put_call_ratio": 0.45},
+                "history": {"pattern_score": 0.62, "similar_patterns": 15, "success_rate": 0.68},
             },
             "strike_recommendations": [
                 {
@@ -142,33 +140,28 @@ async def analyze_stock(
                     "option_type": "call",
                     "delta": 0.65,
                     "premium": 2.50,
-                    "risk_reward": "moderate"
+                    "risk_reward": "moderate",
                 }
             ],
             "educational_content": {
                 "explanation": f"Analysis suggests {symbol} is in a strong uptrend with bullish sentiment.",
                 "key_concepts": ["technical_analysis", "options_basics", "risk_management"],
-                "recommended_reading": []
+                "recommended_reading": [],
             },
             "confidence": 0.75,
             "timestamp": time.time(),
-            "processing_time": time.time() - start_time
+            "processing_time": time.time() - start_time,
         }
 
         # Save analysis to database - flatten signal data for database storage
         signal_data_for_db = {
             **mock_analysis_result,
             **mock_analysis_result["signal"],  # Flatten signal fields to top level
-            "agent_weights": {
-                "technical": 0.6,
-                "sentiment": 0.1,
-                "flow": 0.1,
-                "history": 0.2
-            },
+            "agent_weights": {"technical": 0.6, "sentiment": 0.1, "flow": 0.1, "history": 0.2},
             "technical_analysis": mock_analysis_result["agent_results"]["technical"],
             "sentiment_analysis": mock_analysis_result["agent_results"]["sentiment"],
             "flow_analysis": mock_analysis_result["agent_results"]["flow"],
-            "historical_analysis": mock_analysis_result["agent_results"]["history"]
+            "historical_analysis": mock_analysis_result["agent_results"]["history"],
         }
         signal_id = await db_manager.save_trading_signal(signal_data_for_db)
         mock_analysis_result["analysis_id"] = signal_id or mock_analysis_result["analysis_id"]
@@ -178,7 +171,7 @@ async def analyze_stock(
             generate_educational_content,
             symbol,
             mock_analysis_result["signal"],
-            session.get("risk_profile", "moderate")
+            session.get("risk_profile", "moderate"),
         )
 
         logger.info(f"Analysis completed for {symbol} in {time.time() - start_time:.2f}s")
@@ -193,8 +186,7 @@ async def analyze_stock(
 @router.get("/quick/{symbol}")
 @rate_limiter(max_requests=60, time_window=60)
 async def quick_analysis(
-    symbol: str,
-    session: dict = Depends(get_current_session)
+    symbol: str, session: dict = Depends(get_current_session)
 ) -> QuickAnalysisResponse:
     """Quick analysis for rapid decision making"""
 
@@ -212,9 +204,9 @@ async def quick_analysis(
             "key_insights": [
                 "Strong technical momentum",
                 "Positive sentiment trend",
-                "Above key moving averages"
+                "Above key moving averages",
             ],
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
         return QuickAnalysisResponse(**mock_quick_result)
@@ -226,16 +218,13 @@ async def quick_analysis(
 
 @router.get("/history")
 async def get_analysis_history(
-    limit: int = 10,
-    symbol: str | None = None,
-    session: dict = Depends(get_current_session)
+    limit: int = 10, symbol: str | None = None, session: dict = Depends(get_current_session)
 ) -> list[dict[str, Any]]:
     """Get analysis history"""
 
     try:
         signals = await db_manager.get_trading_signals(
-            symbol=symbol.upper() if symbol else None,
-            limit=limit
+            symbol=symbol.upper() if symbol else None, limit=limit
         )
 
         return signals
@@ -255,7 +244,7 @@ async def get_supported_symbols() -> dict[str, Any]:
         "sp500": ["AAPL", "GOOGL", "MSFT", "AMZN", "NVDA", "TSLA", "META", "V", "JNJ", "WMT"],
         "options_enabled": True,
         "total_available": 5000,
-        "last_updated": time.time()
+        "last_updated": time.time(),
     }
 
     return supported_symbols
@@ -263,8 +252,7 @@ async def get_supported_symbols() -> dict[str, Any]:
 
 @router.get("/status/{analysis_id}")
 async def get_analysis_status(
-    analysis_id: str,
-    session: dict = Depends(get_current_session)
+    analysis_id: str, session: dict = Depends(get_current_session)
 ) -> dict[str, Any]:
     """Get analysis status by ID"""
 
@@ -278,7 +266,7 @@ async def get_analysis_status(
             "status": "completed",
             "progress": 100,
             "estimated_completion": None,
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
     except Exception as e:
@@ -288,9 +276,7 @@ async def get_analysis_status(
 
 # Background tasks
 async def generate_educational_content(
-    symbol: str,
-    signal: dict[str, Any],
-    risk_profile: str
+    symbol: str, signal: dict[str, Any], risk_profile: str
 ) -> None:
     """Generate educational content in background"""
 
@@ -309,9 +295,9 @@ async def generate_educational_content(
                 "key_points": [
                     "Technical indicators show momentum",
                     "Sentiment is generally positive",
-                    "Consider your risk tolerance"
-                ]
-            }
+                    "Consider your risk tolerance",
+                ],
+            },
         }
 
         await db_manager.save_educational_content(educational_content)
