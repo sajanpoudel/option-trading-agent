@@ -102,28 +102,19 @@ class IngestionManager:
     def _register_consumer_handlers(self):
         """Register message handlers for Kafka topics"""
         # Handle market ticks
-        kafka_consumer.register_handler(
-            KafkaTopics.MARKET_TICKS,
-            self._handle_market_tick
-        )
+        kafka_consumer.register_handler(KafkaTopics.MARKET_TICKS, self._handle_market_tick)
 
         # Handle options flow
-        kafka_consumer.register_handler(
-            KafkaTopics.OPTIONS_FLOW,
-            self._handle_options_flow
-        )
+        kafka_consumer.register_handler(KafkaTopics.OPTIONS_FLOW, self._handle_options_flow)
 
         # Handle sentiment events
-        kafka_consumer.register_handler(
-            KafkaTopics.SENTIMENT,
-            self._handle_sentiment
-        )
+        kafka_consumer.register_handler(KafkaTopics.SENTIMENT, self._handle_sentiment)
 
         logger.info("Registered Kafka consumer handlers")
 
     async def _handle_market_tick(self, event: dict[str, Any]):
         """Process market tick events from Kafka"""
-        symbol = event.get('symbol')
+        symbol = event.get("symbol")
         if symbol:
             # Store in buffer for serving layer
             self._latest_ticks[symbol] = event
@@ -131,26 +122,30 @@ class IngestionManager:
 
     async def _handle_options_flow(self, event: dict[str, Any]):
         """Process options flow events from Kafka"""
-        symbol = event.get('symbol')
+        symbol = event.get("symbol")
         if symbol:
             # Store in buffer (keep last 100 flows per symbol)
             if symbol not in self._latest_flows:
                 self._latest_flows[symbol] = []
             self._latest_flows[symbol].append(event)
             self._latest_flows[symbol] = self._latest_flows[symbol][-100:]  # Keep last 100
-            logger.debug(f"Processed options flow: {symbol} {event.get('option_type')} ${event.get('strike')}")
+            logger.debug(
+                f"Processed options flow: {symbol} {event.get('option_type')} ${event.get('strike')}"
+            )
 
     async def _handle_sentiment(self, event: dict[str, Any]):
         """Process sentiment events from Kafka"""
-        symbol = event.get('symbol')
+        symbol = event.get("symbol")
         if symbol:
             # Store latest sentiment
             self._latest_sentiment[symbol] = event
-            logger.debug(f"Processed sentiment: {symbol} score={event.get('sentiment_score', 0):.2f}")
+            logger.debug(
+                f"Processed sentiment: {symbol} score={event.get('sentiment_score', 0):.2f}"
+            )
 
     async def _start_streams(self):
         """Start real-time data streams"""
-        default_symbols = ['SPY', 'QQQ', 'AAPL', 'TSLA', 'NVDA']
+        default_symbols = ["SPY", "QQQ", "AAPL", "TSLA", "NVDA"]
 
         await market_stream.start(default_symbols)
         await options_stream.start(default_symbols)
@@ -167,10 +162,7 @@ class IngestionManager:
     # ===== BATCH LAYER (Dask) =====
 
     async def run_batch_job(
-        self,
-        job_type: str,
-        symbols: list[str],
-        **kwargs
+        self, job_type: str, symbols: list[str], **kwargs
     ) -> list[dict[str, Any]]:
         """
         Run a batch processing job on Dask cluster
@@ -190,9 +182,7 @@ class IngestionManager:
 
         try:
             results = await dask_cluster.submit_async(
-                BatchTasks.batch_process_symbols,
-                symbols,
-                job_type
+                BatchTasks.batch_process_symbols, symbols, job_type
             )
             return results or []
 
@@ -220,10 +210,7 @@ class IngestionManager:
 
     def is_streaming(self, symbol: str) -> bool:
         """Check if real-time data is available for a symbol"""
-        return (
-            market_stream.is_streaming and
-            symbol in market_stream.subscribed_symbols
-        )
+        return market_stream.is_streaming and symbol in market_stream.subscribed_symbols
 
     async def subscribe_symbol(self, symbol: str):
         """Add a symbol to real-time streams"""
@@ -241,25 +228,24 @@ class IngestionManager:
     def get_status(self) -> dict[str, Any]:
         """Get comprehensive status of ingestion layer"""
         return {
-            'is_running': self.is_running,
-            'uptime_seconds': (
-                (datetime.utcnow() - self._start_time).total_seconds()
-                if self._start_time else 0
+            "is_running": self.is_running,
+            "uptime_seconds": (
+                (datetime.utcnow() - self._start_time).total_seconds() if self._start_time else 0
             ),
-            'kafka': {
-                'enabled': ingestion_settings.kafka_enabled,
-                'producer': kafka_producer.get_stats(),
-                'consumer': kafka_consumer.get_stats()
+            "kafka": {
+                "enabled": ingestion_settings.kafka_enabled,
+                "producer": kafka_producer.get_stats(),
+                "consumer": kafka_consumer.get_stats(),
             },
-            'dask': {
-                'enabled': ingestion_settings.dask_enabled,
-                'cluster': dask_cluster.get_stats()
+            "dask": {
+                "enabled": ingestion_settings.dask_enabled,
+                "cluster": dask_cluster.get_stats(),
             },
-            'streams': {
-                'market': market_stream.get_stats(),
-                'options': options_stream.get_stats(),
-                'sentiment': sentiment_stream.get_stats()
-            }
+            "streams": {
+                "market": market_stream.get_stats(),
+                "options": options_stream.get_stats(),
+                "sentiment": sentiment_stream.get_stats(),
+            },
         }
 
     def get_health(self) -> dict[str, Any]:
@@ -267,16 +253,16 @@ class IngestionManager:
         status = self.get_status()
 
         return {
-            'healthy': self.is_running,
-            'components': {
-                'kafka_producer': kafka_producer.is_running,
-                'kafka_consumer': kafka_consumer.is_running,
-                'dask_cluster': dask_cluster.is_connected,
-                'market_stream': market_stream.is_streaming,
-                'options_stream': options_stream.is_streaming,
-                'sentiment_stream': sentiment_stream.is_streaming
+            "healthy": self.is_running,
+            "components": {
+                "kafka_producer": kafka_producer.is_running,
+                "kafka_consumer": kafka_consumer.is_running,
+                "dask_cluster": dask_cluster.is_connected,
+                "market_stream": market_stream.is_streaming,
+                "options_stream": options_stream.is_streaming,
+                "sentiment_stream": sentiment_stream.is_streaming,
             },
-            'timestamp': datetime.utcnow().isoformat()
+            "timestamp": datetime.utcnow().isoformat(),
         }
 
 
