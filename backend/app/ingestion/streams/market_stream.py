@@ -37,7 +37,7 @@ class MarketDataStream:
             self.subscribed_symbols.update(symbols)
         else:
             # Default watchlist
-            self.subscribed_symbols.update(['SPY', 'QQQ', 'AAPL', 'TSLA', 'NVDA'])
+            self.subscribed_symbols.update(["SPY", "QQQ", "AAPL", "TSLA", "NVDA"])
 
         self.is_streaming = True
         self._stream_task = asyncio.create_task(self._stream_loop())
@@ -81,9 +81,7 @@ class MarketDataStream:
 
                     # Publish to Kafka
                     await kafka_producer.publish(
-                        topic=KafkaTopics.MARKET_TICKS,
-                        event=tick_event,
-                        key=symbol
+                        topic=KafkaTopics.MARKET_TICKS, event=tick_event, key=symbol
                     )
 
                 # Adjust interval based on market hours
@@ -114,47 +112,35 @@ class MarketDataStream:
             alpaca_client = AlpacaMarketDataClient()
             quote = await alpaca_client.get_current_quote(symbol)
 
-            if quote and 'price' in quote:
+            if quote and "price" in quote:
                 return MarketTickEvent.create(
                     symbol=symbol,
-                    price=quote.get('price', 0),
-                    volume=quote.get('volume', 0),
-                    bid=quote.get('bid', quote.get('price', 0) - 0.01),
-                    ask=quote.get('ask', quote.get('price', 0) + 0.01),
-                    bid_size=quote.get('bid_size', 0),
-                    ask_size=quote.get('ask_size', 0)
+                    price=quote.get("price", 0),
+                    volume=quote.get("volume", 0),
+                    bid=quote.get("bid", quote.get("price", 0) - 0.01),
+                    ask=quote.get("ask", quote.get("price", 0) + 0.01),
+                    bid_size=quote.get("bid_size", 0),
+                    ask_size=quote.get("ask_size", 0),
                 )
 
             # Fallback if no data
             return MarketTickEvent.create(
-                symbol=symbol,
-                price=0,
-                volume=0,
-                bid=0,
-                ask=0,
-                bid_size=0,
-                ask_size=0
+                symbol=symbol, price=0, volume=0, bid=0, ask=0, bid_size=0, ask_size=0
             )
 
         except Exception as e:
             logger.error(f"Error getting real market tick for {symbol}: {e}")
             # Return zero data on error
             return MarketTickEvent.create(
-                symbol=symbol,
-                price=0,
-                volume=0,
-                bid=0,
-                ask=0,
-                bid_size=0,
-                ask_size=0
+                symbol=symbol, price=0, volume=0, bid=0, ask=0, bid_size=0, ask_size=0
             )
 
     def get_stats(self) -> dict:
         """Get stream statistics"""
         return {
-            'is_streaming': self.is_streaming,
-            'subscribed_symbols': list(self.subscribed_symbols),
-            'symbol_count': len(self.subscribed_symbols)
+            "is_streaming": self.is_streaming,
+            "subscribed_symbols": list(self.subscribed_symbols),
+            "symbol_count": len(self.subscribed_symbols),
         }
 
 
