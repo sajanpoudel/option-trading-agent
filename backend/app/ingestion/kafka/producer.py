@@ -13,6 +13,7 @@ from loguru import logger
 try:
     from aiokafka import AIOKafkaProducer
     from aiokafka.errors import KafkaError
+
     KAFKA_AVAILABLE = True
 except ImportError:
     KAFKA_AVAILABLE = False
@@ -42,14 +43,14 @@ class KafkaProducerManager:
         try:
             self.producer = AIOKafkaProducer(
                 bootstrap_servers=ingestion_settings.kafka_bootstrap_servers,
-                value_serializer=lambda v: json.dumps(v).encode('utf-8'),
+                value_serializer=lambda v: json.dumps(v).encode("utf-8"),
                 compression_type=ingestion_settings.kafka_compression_type,
-                acks='all',  # Wait for all replicas
+                acks="all",  # Wait for all replicas
                 retries=3,
                 max_in_flight_requests_per_connection=5,
                 enable_idempotence=True,  # Exactly-once semantics
                 linger_ms=10,  # Batch window
-                batch_size=16384  # 16KB batches
+                batch_size=16384,  # 16KB batches
             )
 
             await self.producer.start()
@@ -72,10 +73,7 @@ class KafkaProducerManager:
                 self.is_running = False
 
     async def publish(
-        self,
-        topic: KafkaTopics,
-        event: dict[str, Any],
-        key: str | None = None
+        self, topic: KafkaTopics, event: dict[str, Any], key: str | None = None
     ) -> bool:
         """
         Publish an event to a Kafka topic
@@ -94,14 +92,10 @@ class KafkaProducerManager:
 
         try:
             # Use symbol as partition key for consistent routing
-            partition_key = key.encode('utf-8') if key else None
+            partition_key = key.encode("utf-8") if key else None
 
             # Send asynchronously
-            await self.producer.send_and_wait(
-                topic.value,
-                value=event,
-                key=partition_key
-            )
+            await self.producer.send_and_wait(topic.value, value=event, key=partition_key)
 
             self._message_count += 1
 
@@ -118,10 +112,7 @@ class KafkaProducerManager:
             return False
 
     async def publish_batch(
-        self,
-        topic: KafkaTopics,
-        events: list[dict[str, Any]],
-        keys: list[str] | None = None
+        self, topic: KafkaTopics, events: list[dict[str, Any]], keys: list[str] | None = None
     ) -> int:
         """
         Publish multiple events efficiently
@@ -154,10 +145,10 @@ class KafkaProducerManager:
     def get_stats(self) -> dict[str, Any]:
         """Get producer statistics"""
         return {
-            'is_running': self.is_running,
-            'total_messages': self._message_count,
-            'kafka_enabled': ingestion_settings.kafka_enabled,
-            'kafka_available': KAFKA_AVAILABLE
+            "is_running": self.is_running,
+            "total_messages": self._message_count,
+            "kafka_enabled": ingestion_settings.kafka_enabled,
+            "kafka_available": KAFKA_AVAILABLE,
         }
 
 
