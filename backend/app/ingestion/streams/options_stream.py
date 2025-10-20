@@ -36,7 +36,7 @@ class OptionsFlowStream:
             self.subscribed_symbols.update(symbols)
         else:
             # Default high-volume options symbols
-            self.subscribed_symbols.update(['SPY', 'QQQ', 'TSLA', 'AAPL', 'NVDA'])
+            self.subscribed_symbols.update(["SPY", "QQQ", "TSLA", "AAPL", "NVDA"])
 
         self.is_streaming = True
         self._stream_task = asyncio.create_task(self._stream_loop())
@@ -67,9 +67,7 @@ class OptionsFlowStream:
                     for event in flow_events:
                         # Publish to Kafka
                         await kafka_producer.publish(
-                            topic=KafkaTopics.OPTIONS_FLOW,
-                            event=event,
-                            key=symbol
+                            topic=KafkaTopics.OPTIONS_FLOW, event=event, key=symbol
                         )
                         self._flow_count += 1
 
@@ -106,49 +104,49 @@ class OptionsFlowStream:
             alpaca_client = AlpacaMarketDataClient()
             options_data = await alpaca_client.get_options_data(symbol)
 
-            if not options_data or 'options_chain' not in options_data:
+            if not options_data or "options_chain" not in options_data:
                 return flows
 
             # Analyze options chain for unusual activity
-            for exp_date, chain_data in options_data.get('options_chain', {}).items():
-                calls = chain_data.get('calls', [])
-                puts = chain_data.get('puts', [])
+            for exp_date, chain_data in options_data.get("options_chain", {}).items():
+                calls = chain_data.get("calls", [])
+                puts = chain_data.get("puts", [])
 
                 # Check calls for unusual volume
                 for call in calls[:5]:  # Top 5 calls only to avoid spam
-                    volume = call.get('volume', 0)
-                    oi = call.get('openInterest', 1)
+                    volume = call.get("volume", 0)
+                    oi = call.get("openInterest", 1)
 
                     # Unusual if volume > 2x open interest and volume > 100
                     if volume > 100 and volume > (oi * 2):
                         flow = OptionsFlowEvent.create(
                             symbol=symbol,
-                            option_type='CALL',
-                            strike=call.get('strike', 0),
+                            option_type="CALL",
+                            strike=call.get("strike", 0),
                             expiry=exp_date,
-                            premium=call.get('lastPrice', 0),
+                            premium=call.get("lastPrice", 0),
                             volume=volume,
                             open_interest=oi,
-                            implied_volatility=call.get('impliedVolatility', 0)
+                            implied_volatility=call.get("impliedVolatility", 0),
                         )
                         flows.append(flow)
 
                 # Check puts for unusual volume
                 for put in puts[:5]:  # Top 5 puts only
-                    volume = put.get('volume', 0)
-                    oi = put.get('openInterest', 1)
+                    volume = put.get("volume", 0)
+                    oi = put.get("openInterest", 1)
 
                     # Unusual if volume > 2x open interest and volume > 100
                     if volume > 100 and volume > (oi * 2):
                         flow = OptionsFlowEvent.create(
                             symbol=symbol,
-                            option_type='PUT',
-                            strike=put.get('strike', 0),
+                            option_type="PUT",
+                            strike=put.get("strike", 0),
                             expiry=exp_date,
-                            premium=put.get('lastPrice', 0),
+                            premium=put.get("lastPrice", 0),
                             volume=volume,
                             open_interest=oi,
-                            implied_volatility=put.get('impliedVolatility', 0)
+                            implied_volatility=put.get("impliedVolatility", 0),
                         )
                         flows.append(flow)
 
@@ -163,9 +161,9 @@ class OptionsFlowStream:
     def get_stats(self) -> dict:
         """Get stream statistics"""
         return {
-            'is_streaming': self.is_streaming,
-            'subscribed_symbols': list(self.subscribed_symbols),
-            'total_flows_detected': self._flow_count
+            "is_streaming": self.is_streaming,
+            "subscribed_symbols": list(self.subscribed_symbols),
+            "total_flows_detected": self._flow_count,
         }
 
 
