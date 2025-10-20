@@ -14,6 +14,7 @@ from loguru import logger
 try:
     from aiokafka import AIOKafkaConsumer
     from aiokafka.errors import KafkaError
+
     KAFKA_AVAILABLE = True
 except ImportError:
     KAFKA_AVAILABLE = False
@@ -80,9 +81,7 @@ class KafkaConsumerManager:
         logger.info(f"Kafka consumers stopped. Stats: {dict(self._stats)}")
 
     def register_handler(
-        self,
-        topic: KafkaTopics,
-        handler: Callable[[dict[str, Any]], Awaitable[None]]
+        self, topic: KafkaTopics, handler: Callable[[dict[str, Any]], Awaitable[None]]
     ):
         """
         Register a message handler for a topic
@@ -94,31 +93,25 @@ class KafkaConsumerManager:
         self.handlers[topic] = handler
         logger.info(f"Registered handler for topic: {topic}")
 
-    async def _start_consumer(
-        self,
-        topic: KafkaTopics,
-        handler: Callable
-    ):
+    async def _start_consumer(self, topic: KafkaTopics, handler: Callable):
         """Start a consumer for a specific topic"""
         try:
             consumer = AIOKafkaConsumer(
                 topic.value,
                 bootstrap_servers=ingestion_settings.kafka_bootstrap_servers,
                 group_id=ingestion_settings.kafka_consumer_group,
-                value_deserializer=lambda m: json.loads(m.decode('utf-8')),
+                value_deserializer=lambda m: json.loads(m.decode("utf-8")),
                 auto_offset_reset=ingestion_settings.kafka_auto_offset_reset,
                 enable_auto_commit=ingestion_settings.kafka_enable_auto_commit,
                 max_poll_records=500,  # Fetch up to 500 records per poll
-                session_timeout_ms=30000
+                session_timeout_ms=30000,
             )
 
             await consumer.start()
             self.consumers[topic.value] = consumer
 
             # Start background task to consume messages
-            task = asyncio.create_task(
-                self._consume_messages(topic, consumer, handler)
-            )
+            task = asyncio.create_task(self._consume_messages(topic, consumer, handler))
             self._consumer_tasks.append(task)
 
             logger.info(f"Started consumer for topic: {topic}")
@@ -127,10 +120,7 @@ class KafkaConsumerManager:
             logger.error(f"Failed to start consumer for {topic}: {e}")
 
     async def _consume_messages(
-        self,
-        topic: KafkaTopics,
-        consumer: AIOKafkaConsumer,
-        handler: Callable
+        self, topic: KafkaTopics, consumer: AIOKafkaConsumer, handler: Callable
     ):
         """Background task to consume and process messages"""
         try:
@@ -143,9 +133,7 @@ class KafkaConsumerManager:
                     self._stats[topic.value] += 1
 
                     if self._stats[topic.value] % 1000 == 0:
-                        logger.debug(
-                            f"Processed {self._stats[topic.value]} messages from {topic}"
-                        )
+                        logger.debug(f"Processed {self._stats[topic.value]} messages from {topic}")
 
                 except Exception as e:
                     logger.error(f"Error processing message from {topic}: {e}")
@@ -159,11 +147,11 @@ class KafkaConsumerManager:
     def get_stats(self) -> dict[str, Any]:
         """Get consumer statistics"""
         return {
-            'is_running': self.is_running,
-            'active_topics': list(self.consumers.keys()),
-            'message_counts': dict(self._stats),
-            'kafka_enabled': ingestion_settings.kafka_enabled,
-            'kafka_available': KAFKA_AVAILABLE
+            "is_running": self.is_running,
+            "active_topics": list(self.consumers.keys()),
+            "message_counts": dict(self._stats),
+            "kafka_enabled": ingestion_settings.kafka_enabled,
+            "kafka_available": KAFKA_AVAILABLE,
         }
 
 
