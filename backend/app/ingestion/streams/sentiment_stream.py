@@ -36,7 +36,7 @@ class SentimentStream:
             self.subscribed_symbols.update(symbols)
         else:
             # Default watchlist for sentiment
-            self.subscribed_symbols.update(['SPY', 'QQQ', 'AAPL', 'TSLA', 'NVDA'])
+            self.subscribed_symbols.update(["SPY", "QQQ", "AAPL", "TSLA", "NVDA"])
 
         self.is_streaming = True
         self._stream_task = asyncio.create_task(self._stream_loop())
@@ -67,9 +67,7 @@ class SentimentStream:
                     for event in sentiment_events:
                         # Publish to Kafka
                         await kafka_producer.publish(
-                            topic=KafkaTopics.SENTIMENT,
-                            event=event,
-                            key=symbol
+                            topic=KafkaTopics.SENTIMENT, event=event, key=symbol
                         )
                         self._event_count += 1
 
@@ -109,9 +107,10 @@ class SentimentStream:
                 None,
                 lambda: client.chat.completions.create(
                     model="gpt-4o",
-                    messages=[{
-                        "role": "user",
-                        "content": f"""Search the web for the latest news and social media sentiment about {symbol} stock.
+                    messages=[
+                        {
+                            "role": "user",
+                            "content": f"""Search the web for the latest news and social media sentiment about {symbol} stock.
 
 Return ONLY a JSON object with this exact structure (no markdown, no explanation):
 {{
@@ -119,20 +118,22 @@ Return ONLY a JSON object with this exact structure (no markdown, no explanation
     "confidence": <number between 0.0 and 1.0>,
     "summary": "<brief 1-sentence summary>",
     "source": "<news|twitter|reddit|financial_blog>"
-}}"""
-                    }],
-                    temperature=0.3
-                )
+}}""",
+                        }
+                    ],
+                    temperature=0.3,
+                ),
             )
 
             content = response.choices[0].message.content.strip()
 
             # Parse JSON response
             import json
+
             # Remove markdown code blocks if present
-            if content.startswith('```'):
-                content = content.split('\n', 1)[1].rsplit('\n', 1)[0]
-                if content.startswith('json'):
+            if content.startswith("```"):
+                content = content.split("\n", 1)[1].rsplit("\n", 1)[0]
+                if content.startswith("json"):
                     content = content[4:].strip()
 
             sentiment_data = json.loads(content)
@@ -140,15 +141,17 @@ Return ONLY a JSON object with this exact structure (no markdown, no explanation
             # Create sentiment event from OpenAI analysis
             event = SentimentEvent.create(
                 symbol=symbol,
-                score=sentiment_data.get('sentiment_score', 0.0),
-                source=sentiment_data.get('source', 'openai_web_search'),
-                confidence=sentiment_data.get('confidence', 0.5),
-                text_snippet=sentiment_data.get('summary', f"Sentiment for {symbol}"),
-                url=f"https://openai.com/search/{symbol}"
+                score=sentiment_data.get("sentiment_score", 0.0),
+                source=sentiment_data.get("source", "openai_web_search"),
+                confidence=sentiment_data.get("confidence", 0.5),
+                text_snippet=sentiment_data.get("summary", f"Sentiment for {symbol}"),
+                url=f"https://openai.com/search/{symbol}",
             )
             events.append(event)
 
-            logger.info(f"Got sentiment for {symbol}: {sentiment_data.get('sentiment_score', 0):.2f}")
+            logger.info(
+                f"Got sentiment for {symbol}: {sentiment_data.get('sentiment_score', 0):.2f}"
+            )
 
         except json.JSONDecodeError as e:
             logger.error(f"Failed to parse OpenAI sentiment response for {symbol}: {e}")
@@ -160,9 +163,9 @@ Return ONLY a JSON object with this exact structure (no markdown, no explanation
     def get_stats(self) -> dict:
         """Get stream statistics"""
         return {
-            'is_streaming': self.is_streaming,
-            'subscribed_symbols': list(self.subscribed_symbols),
-            'total_events': self._event_count
+            "is_streaming": self.is_streaming,
+            "subscribed_symbols": list(self.subscribed_symbols),
+            "total_events": self._event_count,
         }
 
 
