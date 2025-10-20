@@ -11,6 +11,7 @@ from loguru import logger
 try:
     import dask.dataframe as dd
     from dask.distributed import Client, as_completed
+
     DASK_AVAILABLE = True
 except ImportError:
     DASK_AVAILABLE = False
@@ -42,9 +43,9 @@ class DaskClusterManager:
                 None,
                 lambda: Client(
                     ingestion_settings.dask_scheduler_address,
-                    timeout='30s',
-                    name='neural-oracle-client'
-                )
+                    timeout="30s",
+                    name="neural-oracle-client",
+                ),
             )
 
             self.is_connected = True
@@ -67,10 +68,7 @@ class DaskClusterManager:
         """Disconnect from Dask cluster"""
         if self.client and self.is_connected:
             try:
-                await asyncio.get_event_loop().run_in_executor(
-                    None,
-                    self.client.close
-                )
+                await asyncio.get_event_loop().run_in_executor(None, self.client.close)
                 logger.info(f"Dask cluster disconnected. Jobs submitted: {self._jobs_submitted}")
             except Exception as e:
                 logger.error(f"Error disconnecting from Dask: {e}")
@@ -112,10 +110,7 @@ class DaskClusterManager:
             return future
 
         try:
-            result = await asyncio.get_event_loop().run_in_executor(
-                None,
-                future.result
-            )
+            result = await asyncio.get_event_loop().run_in_executor(None, future.result)
             return result
         except Exception as e:
             logger.error(f"Error getting Dask result: {e}")
@@ -150,26 +145,26 @@ class DaskClusterManager:
         """Get information about the Dask cluster"""
         if not self.is_connected:
             return {
-                'connected': False,
-                'dask_enabled': ingestion_settings.dask_enabled,
-                'dask_available': DASK_AVAILABLE
+                "connected": False,
+                "dask_enabled": ingestion_settings.dask_enabled,
+                "dask_available": DASK_AVAILABLE,
             }
 
         try:
             scheduler_info = self.client.scheduler_info()
 
             return {
-                'connected': True,
-                'workers': len(scheduler_info['workers']),
-                'cores': sum(w['nthreads'] for w in scheduler_info['workers'].values()),
-                'memory': sum(w['memory_limit'] for w in scheduler_info['workers'].values()),
-                'scheduler': ingestion_settings.dask_scheduler_address,
-                'jobs_submitted': self._jobs_submitted
+                "connected": True,
+                "workers": len(scheduler_info["workers"]),
+                "cores": sum(w["nthreads"] for w in scheduler_info["workers"].values()),
+                "memory": sum(w["memory_limit"] for w in scheduler_info["workers"].values()),
+                "scheduler": ingestion_settings.dask_scheduler_address,
+                "jobs_submitted": self._jobs_submitted,
             }
 
         except Exception as e:
             logger.error(f"Error getting cluster info: {e}")
-            return {'error': str(e)}
+            return {"error": str(e)}
 
     def get_stats(self) -> dict[str, Any]:
         """Get cluster statistics"""
