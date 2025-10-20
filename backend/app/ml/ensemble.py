@@ -26,11 +26,12 @@ logger = get_data_logger()
 @dataclass
 class EnsembleSignal:
     """Comprehensive ensemble trading signal"""
+
     symbol: str
     final_score: float  # -1 to 1 scale
-    confidence: float   # 0 to 1 scale
-    direction: str      # 'BUY', 'SELL', 'HOLD'
-    strength: str       # 'strong', 'moderate', 'weak'
+    confidence: float  # 0 to 1 scale
+    direction: str  # 'BUY', 'SELL', 'HOLD'
+    strength: str  # 'strong', 'moderate', 'weak'
     component_scores: dict[str, float]
     component_weights: dict[str, float]
     market_regime: str
@@ -51,42 +52,30 @@ class EnsembleDecisionModel:
         self.volatility_predictor = prophet_volatility_predictor
 
         # Base weights for different components
-        self.base_weights = {
-            'sentiment': 0.20,
-            'flow': 0.30,
-            'volatility': 0.25,
-            'technical': 0.25
-        }
+        self.base_weights = {"sentiment": 0.20, "flow": 0.30, "volatility": 0.25, "technical": 0.25}
 
         # Dynamic weight adjustments based on market conditions
         self.weight_adjustments = {
-            'high_vol': {
-                'sentiment': -0.05, 'flow': 0.05, 'volatility': 0.05, 'technical': -0.05
+            "high_vol": {"sentiment": -0.05, "flow": 0.05, "volatility": 0.05, "technical": -0.05},
+            "low_vol": {"sentiment": 0.05, "flow": -0.05, "volatility": -0.05, "technical": 0.05},
+            "earnings_week": {
+                "sentiment": 0.10,
+                "flow": 0.10,
+                "volatility": 0.05,
+                "technical": -0.25,
             },
-            'low_vol': {
-                'sentiment': 0.05, 'flow': -0.05, 'volatility': -0.05, 'technical': 0.05
-            },
-            'earnings_week': {
-                'sentiment': 0.10, 'flow': 0.10, 'volatility': 0.05, 'technical': -0.25
-            },
-            'fomc_week': {
-                'sentiment': 0.05, 'flow': 0.05, 'volatility': 0.15, 'technical': -0.25
-            }
+            "fomc_week": {"sentiment": 0.05, "flow": 0.05, "volatility": 0.15, "technical": -0.25},
         }
 
         # Confidence thresholds
-        self.confidence_thresholds = {
-            'high': 0.75,
-            'medium': 0.50,
-            'low': 0.25
-        }
+        self.confidence_thresholds = {"high": 0.75, "medium": 0.50, "low": 0.25}
 
         # Signal thresholds
         self.signal_thresholds = {
-            'strong_buy': 0.65,
-            'buy': 0.30,
-            'sell': -0.30,
-            'strong_sell': -0.65
+            "strong_buy": 0.65,
+            "buy": 0.30,
+            "sell": -0.30,
+            "strong_sell": -0.65,
         }
 
         logger.info("Ensemble Decision Model initialized")
@@ -96,7 +85,7 @@ class EnsembleDecisionModel:
         symbol: str,
         market_data: dict[str, Any],
         sentiment_data: dict[str, Any] | None = None,
-        options_data: dict[str, Any] | None = None
+        options_data: dict[str, Any] | None = None,
     ) -> EnsembleSignal:
         """Generate comprehensive trading signal using ensemble approach"""
 
@@ -112,7 +101,7 @@ class EnsembleDecisionModel:
                 self._get_sentiment_score(sentiment_data or {}),
                 self._get_flow_score(options_data or {}),
                 self._get_volatility_score(symbol, market_data),
-                self._get_technical_score(market_data)
+                self._get_technical_score(market_data),
             ]
 
             sentiment_score, flow_score, volatility_score, technical_score = await asyncio.gather(
@@ -121,10 +110,10 @@ class EnsembleDecisionModel:
 
             # Handle any exceptions in component predictions
             component_scores = {
-                'sentiment': self._safe_score(sentiment_score, 0.0),
-                'flow': self._safe_score(flow_score, 0.0),
-                'volatility': self._safe_score(volatility_score, 0.0),
-                'technical': self._safe_score(technical_score, 0.0)
+                "sentiment": self._safe_score(sentiment_score, 0.0),
+                "flow": self._safe_score(flow_score, 0.0),
+                "volatility": self._safe_score(volatility_score, 0.0),
+                "technical": self._safe_score(technical_score, 0.0),
             }
 
             # Adjust weights based on market regime
@@ -173,11 +162,13 @@ class EnsembleDecisionModel:
                 risk_assessment=risk_assessment,
                 key_insights=key_insights,
                 recommended_strategies=recommended_strategies,
-                timestamp=datetime.now()
+                timestamp=datetime.now(),
             )
 
             processing_time = (datetime.now() - start_time).total_seconds()
-            logger.info(f"Ensemble signal generated for {symbol}: {direction} ({confidence:.2f} confidence) in {processing_time:.2f}s")
+            logger.info(
+                f"Ensemble signal generated for {symbol}: {direction} ({confidence:.2f} confidence) in {processing_time:.2f}s"
+            )
 
             return signal
 
@@ -190,41 +181,41 @@ class EnsembleDecisionModel:
 
         try:
             # Check VIX level if available
-            vix_level = market_data.get('vix', {}).get('price', 20)
+            vix_level = market_data.get("vix", {}).get("price", 20)
 
             # Check current volatility
-            technical = market_data.get('technical', {})
-            current_vol = technical.get('volatility', 25)
+            technical = market_data.get("technical", {})
+            current_vol = technical.get("volatility", 25)
 
             # Check market trend
-            trend_strength = technical.get('trend_strength', 0)
+            trend_strength = technical.get("trend_strength", 0)
 
             # Determine regime
             if vix_level > 30 or current_vol > 40:
-                regime = 'high_vol'
+                regime = "high_vol"
             elif vix_level < 15 or current_vol < 15:
-                regime = 'low_vol'
+                regime = "low_vol"
             elif abs(trend_strength) > 0.7:
-                regime = 'trending'
+                regime = "trending"
             else:
-                regime = 'normal'
+                regime = "normal"
 
             # Check for special events (simplified)
             current_date = datetime.now()
 
             # FOMC week (simplified - would use real calendar)
             if current_date.month in [3, 6, 9, 12] and 15 <= current_date.day <= 21:
-                regime = 'fomc_week'
+                regime = "fomc_week"
 
             # Earnings season (simplified)
             if current_date.month in [1, 4, 7, 10]:
-                regime = 'earnings_season'
+                regime = "earnings_season"
 
             return regime
 
         except Exception as e:
             logger.warning(f"Market regime detection failed: {e}")
-            return 'normal'
+            return "normal"
 
     async def _get_sentiment_score(self, sentiment_data: dict[str, Any]) -> float:
         """Get sentiment score from OpenAI analyzer"""
@@ -237,22 +228,26 @@ class EnsembleDecisionModel:
             text_items = []
 
             # News sentiment
-            if 'news' in sentiment_data:
-                for article in sentiment_data['news'][:5]:  # Top 5 articles
-                    text_items.append({
-                        'text': article.get('title', '') + ' ' + article.get('summary', ''),
-                        'context': 'financial_news',
-                        'source': 'news'
-                    })
+            if "news" in sentiment_data:
+                for article in sentiment_data["news"][:5]:  # Top 5 articles
+                    text_items.append(
+                        {
+                            "text": article.get("title", "") + " " + article.get("summary", ""),
+                            "context": "financial_news",
+                            "source": "news",
+                        }
+                    )
 
             # Social sentiment
-            if 'social' in sentiment_data:
-                for post in sentiment_data['social'][:10]:  # Top 10 posts
-                    text_items.append({
-                        'text': post.get('text', ''),
-                        'context': 'social_media',
-                        'source': 'social'
-                    })
+            if "social" in sentiment_data:
+                for post in sentiment_data["social"][:10]:  # Top 10 posts
+                    text_items.append(
+                        {
+                            "text": post.get("text", ""),
+                            "context": "social_media",
+                            "source": "social",
+                        }
+                    )
 
             if not text_items:
                 return 0.0
@@ -261,7 +256,7 @@ class EnsembleDecisionModel:
             sentiment_results = await self.sentiment_analyzer.analyze_multiple_texts(text_items)
 
             # Aggregate with source weights
-            source_weights = {'news': 0.6, 'social': 0.4}
+            source_weights = {"news": 0.6, "social": 0.4}
             aggregate_result = await self.sentiment_analyzer.aggregate_sentiments(
                 sentiment_results, source_weights
             )
@@ -282,11 +277,7 @@ class EnsembleDecisionModel:
             flow_prediction = await self.flow_predictor.predict_flow(options_data)
 
             # Convert categorical prediction to score
-            sentiment_scores = {
-                'bullish': 0.7,
-                'bearish': -0.7,
-                'neutral': 0.0
-            }
+            sentiment_scores = {"bullish": 0.7, "bearish": -0.7, "neutral": 0.0}
 
             base_score = sentiment_scores.get(flow_prediction.flow_sentiment, 0.0)
 
@@ -295,7 +286,7 @@ class EnsembleDecisionModel:
 
             # Boost for unusual activity
             if flow_prediction.unusual_activity_score > 0.5:
-                adjusted_score *= (1 + flow_prediction.unusual_activity_score * 0.3)
+                adjusted_score *= 1 + flow_prediction.unusual_activity_score * 0.3
 
             return np.clip(adjusted_score, -1.0, 1.0)
 
@@ -308,10 +299,10 @@ class EnsembleDecisionModel:
 
         try:
             # Get historical price data
-            if 'price_history' not in market_data:
+            if "price_history" not in market_data:
                 return 0.0
 
-            price_df = pd.DataFrame(market_data['price_history'])
+            price_df = pd.DataFrame(market_data["price_history"])
 
             # Get volatility forecast
             vol_forecast = await self.volatility_predictor.predict_volatility(
@@ -320,17 +311,17 @@ class EnsembleDecisionModel:
 
             # Convert volatility trend to score
             trend_scores = {
-                'increasing': -0.3,  # Increasing vol = bearish
-                'decreasing': 0.3,   # Decreasing vol = bullish
-                'stable': 0.0
+                "increasing": -0.3,  # Increasing vol = bearish
+                "decreasing": 0.3,  # Decreasing vol = bullish
+                "stable": 0.0,
             }
 
             trend_score = trend_scores.get(vol_forecast.volatility_trend, 0.0)
 
             # Adjust for regime
-            if vol_forecast.market_regime == 'high_vol':
+            if vol_forecast.market_regime == "high_vol":
                 trend_score *= 0.7  # Reduce impact in high vol
-            elif vol_forecast.market_regime == 'low_vol':
+            elif vol_forecast.market_regime == "low_vol":
                 trend_score *= 1.3  # Increase impact in low vol
 
             # Adjust by forecast accuracy
@@ -344,23 +335,23 @@ class EnsembleDecisionModel:
         """Get technical analysis score from market data"""
 
         try:
-            technical = market_data.get('technical', {})
+            technical = market_data.get("technical", {})
 
             if not technical:
                 return 0.0
 
             # Combine multiple technical indicators
-            rsi = technical.get('rsi', 50)
-            macd = technical.get('macd', 0)
-            bb_position = technical.get('bollinger_position', 0.5)
-            trend_strength = technical.get('trend_strength', 0)
+            rsi = technical.get("rsi", 50)
+            macd = technical.get("macd", 0)
+            bb_position = technical.get("bollinger_position", 0.5)
+            trend_strength = technical.get("trend_strength", 0)
 
             # RSI score (-1 to 1)
             rsi_score = 0.0
             if rsi > 70:
                 rsi_score = -0.5  # Overbought
             elif rsi < 30:
-                rsi_score = 0.5   # Oversold
+                rsi_score = 0.5  # Oversold
             else:
                 rsi_score = (50 - rsi) / 40  # Normalized around 50
 
@@ -375,10 +366,7 @@ class EnsembleDecisionModel:
 
             # Weighted combination
             technical_score = (
-                rsi_score * 0.30 +
-                macd_score * 0.25 +
-                bb_score * 0.20 +
-                trend_score * 0.25
+                rsi_score * 0.30 + macd_score * 0.25 + bb_score * 0.20 + trend_score * 0.25
             )
 
             return np.clip(technical_score, -1.0, 1.0)
@@ -417,7 +405,9 @@ class EnsembleDecisionModel:
 
         return weights
 
-    def _calculate_ensemble_score(self, scores: dict[str, float], weights: dict[str, float]) -> float:
+    def _calculate_ensemble_score(
+        self, scores: dict[str, float], weights: dict[str, float]
+    ) -> float:
         """Calculate weighted ensemble score"""
 
         weighted_score = 0.0
@@ -436,10 +426,7 @@ class EnsembleDecisionModel:
         return np.clip(weighted_score, -1.0, 1.0)
 
     def _calculate_ensemble_confidence(
-        self,
-        scores: dict[str, float],
-        weights: dict[str, float],
-        market_regime: str
+        self, scores: dict[str, float], weights: dict[str, float], market_regime: str
     ) -> float:
         """Calculate overall ensemble confidence"""
 
@@ -457,12 +444,12 @@ class EnsembleDecisionModel:
 
         # Market regime adjustment
         regime_multipliers = {
-            'high_vol': 0.8,    # Lower confidence in high vol
-            'low_vol': 1.1,     # Higher confidence in low vol
-            'trending': 1.0,
-            'normal': 1.0,
-            'fomc_week': 0.7,   # Lower confidence during FOMC
-            'earnings_season': 0.8
+            "high_vol": 0.8,  # Lower confidence in high vol
+            "low_vol": 1.1,  # Higher confidence in low vol
+            "trending": 1.0,
+            "normal": 1.0,
+            "fomc_week": 0.7,  # Lower confidence during FOMC
+            "earnings_season": 0.8,
         }
 
         regime_multiplier = regime_multipliers.get(market_regime, 1.0)
@@ -478,57 +465,56 @@ class EnsembleDecisionModel:
         abs_score = abs(score)
 
         # Determine direction
-        if score >= self.signal_thresholds['strong_buy']:
-            direction = 'STRONG_BUY'
-        elif score >= self.signal_thresholds['buy']:
-            direction = 'BUY'
-        elif score <= self.signal_thresholds['strong_sell']:
-            direction = 'STRONG_SELL'
-        elif score <= self.signal_thresholds['sell']:
-            direction = 'SELL'
+        if score >= self.signal_thresholds["strong_buy"]:
+            direction = "STRONG_BUY"
+        elif score >= self.signal_thresholds["buy"]:
+            direction = "BUY"
+        elif score <= self.signal_thresholds["strong_sell"]:
+            direction = "STRONG_SELL"
+        elif score <= self.signal_thresholds["sell"]:
+            direction = "SELL"
         else:
-            direction = 'HOLD'
+            direction = "HOLD"
 
         # Determine strength based on confidence and score magnitude
         strength_score = (abs_score + confidence) / 2
 
-        if strength_score >= self.confidence_thresholds['high']:
-            strength = 'strong'
-        elif strength_score >= self.confidence_thresholds['medium']:
-            strength = 'moderate'
+        if strength_score >= self.confidence_thresholds["high"]:
+            strength = "strong"
+        elif strength_score >= self.confidence_thresholds["medium"]:
+            strength = "moderate"
         else:
-            strength = 'weak'
+            strength = "weak"
 
         return direction, strength
 
-    async def _get_detailed_volatility_forecast(self, symbol: str, market_data: dict[str, Any]) -> dict[str, Any]:
+    async def _get_detailed_volatility_forecast(
+        self, symbol: str, market_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Get detailed volatility forecast information"""
 
         try:
-            if 'price_history' not in market_data:
-                return {'status': 'no_data'}
+            if "price_history" not in market_data:
+                return {"status": "no_data"}
 
-            price_df = pd.DataFrame(market_data['price_history'])
+            price_df = pd.DataFrame(market_data["price_history"])
             vol_forecast = await self.volatility_predictor.predict_volatility(symbol, price_df)
 
             return {
-                'current_volatility': vol_forecast.current_volatility,
-                'predicted_volatility': vol_forecast.predicted_volatility,
-                'trend': vol_forecast.volatility_trend,
-                'regime': vol_forecast.market_regime,
-                'accuracy': vol_forecast.forecast_accuracy,
-                'confidence_bands': vol_forecast.confidence_intervals
+                "current_volatility": vol_forecast.current_volatility,
+                "predicted_volatility": vol_forecast.predicted_volatility,
+                "trend": vol_forecast.volatility_trend,
+                "regime": vol_forecast.market_regime,
+                "accuracy": vol_forecast.forecast_accuracy,
+                "confidence_bands": vol_forecast.confidence_intervals,
             }
 
         except Exception as e:
             logger.warning(f"Detailed volatility forecast failed: {e}")
-            return {'status': 'error', 'message': str(e)}
+            return {"status": "error", "message": str(e)}
 
     def _assess_ensemble_risk(
-        self,
-        scores: dict[str, float],
-        volatility_forecast: dict[str, Any],
-        market_regime: str
+        self, scores: dict[str, float], volatility_forecast: dict[str, Any], market_regime: str
     ) -> dict[str, Any]:
         """Assess overall risk of the ensemble signal"""
 
@@ -544,12 +530,12 @@ class EnsembleDecisionModel:
                 risk_score += 0.3
 
         # Volatility risk
-        if volatility_forecast.get('regime') == 'high_vol':
+        if volatility_forecast.get("regime") == "high_vol":
             risk_factors.append("High volatility environment")
             risk_score += 0.2
 
         # Market regime risk
-        risky_regimes = ['fomc_week', 'earnings_season', 'high_vol']
+        risky_regimes = ["fomc_week", "earnings_season", "high_vol"]
         if market_regime in risky_regimes:
             risk_factors.append(f"Risky market regime: {market_regime}")
             risk_score += 0.2
@@ -562,17 +548,17 @@ class EnsembleDecisionModel:
 
         # Overall risk level
         if risk_score >= 0.6:
-            risk_level = 'high'
+            risk_level = "high"
         elif risk_score >= 0.3:
-            risk_level = 'medium'
+            risk_level = "medium"
         else:
-            risk_level = 'low'
+            risk_level = "low"
 
         return {
-            'risk_level': risk_level,
-            'risk_score': min(1.0, risk_score),
-            'risk_factors': risk_factors,
-            'recommendation': 'Reduce position size' if risk_level == 'high' else 'Normal sizing'
+            "risk_level": risk_level,
+            "risk_score": min(1.0, risk_score),
+            "risk_factors": risk_factors,
+            "recommendation": "Reduce position size" if risk_level == "high" else "Normal sizing",
         }
 
     def _generate_insights(
@@ -580,7 +566,7 @@ class EnsembleDecisionModel:
         scores: dict[str, float],
         weights: dict[str, float],
         market_regime: str,
-        volatility_forecast: dict[str, Any]
+        volatility_forecast: dict[str, Any],
     ) -> list[str]:
         """Generate key insights from ensemble analysis"""
 
@@ -593,12 +579,12 @@ class EnsembleDecisionModel:
             insights.append(f"Primary driver: {max_component[0]} analysis ({direction})")
 
         # Market regime insight
-        if market_regime != 'normal':
+        if market_regime != "normal":
             insights.append(f"Operating in {market_regime.replace('_', ' ')} market regime")
 
         # Volatility insight
-        vol_trend = volatility_forecast.get('trend', 'stable')
-        if vol_trend != 'stable':
+        vol_trend = volatility_forecast.get("trend", "stable")
+        if vol_trend != "stable":
             insights.append(f"Volatility expected to be {vol_trend}")
 
         # Score agreement
@@ -622,29 +608,29 @@ class EnsembleDecisionModel:
         direction: str,
         strength: str,
         volatility_forecast: dict[str, Any],
-        risk_assessment: dict[str, Any]
+        risk_assessment: dict[str, Any],
     ) -> list[str]:
         """Recommend options strategies based on signal and market conditions"""
 
         strategies = []
-        vol_regime = volatility_forecast.get('regime', 'medium_vol')
+        vol_regime = volatility_forecast.get("regime", "medium_vol")
 
-        if direction in ['BUY', 'STRONG_BUY']:
-            if vol_regime == 'low_vol':
+        if direction in ["BUY", "STRONG_BUY"]:
+            if vol_regime == "low_vol":
                 strategies.append("Long calls (low IV advantage)")
                 strategies.append("Bull call spreads")
-            elif vol_regime == 'high_vol':
+            elif vol_regime == "high_vol":
                 strategies.append("Cash-secured puts")
                 strategies.append("Bull put spreads")
             else:
                 strategies.append("Long calls")
                 strategies.append("Call debit spreads")
 
-        elif direction in ['SELL', 'STRONG_SELL']:
-            if vol_regime == 'low_vol':
+        elif direction in ["SELL", "STRONG_SELL"]:
+            if vol_regime == "low_vol":
                 strategies.append("Long puts")
                 strategies.append("Bear call spreads")
-            elif vol_regime == 'high_vol':
+            elif vol_regime == "high_vol":
                 strategies.append("Covered calls")
                 strategies.append("Bear put spreads")
             else:
@@ -652,7 +638,7 @@ class EnsembleDecisionModel:
                 strategies.append("Put debit spreads")
 
         else:  # HOLD
-            if vol_regime == 'high_vol':
+            if vol_regime == "high_vol":
                 strategies.append("Iron condors")
                 strategies.append("Short strangles")
             else:
@@ -660,8 +646,8 @@ class EnsembleDecisionModel:
                 strategies.append("Calendar spreads")
 
         # Adjust for risk level
-        if risk_assessment['risk_level'] == 'high':
-            strategies = [s for s in strategies if 'spread' in s.lower() or 'covered' in s.lower()]
+        if risk_assessment["risk_level"] == "high":
+            strategies = [s for s in strategies if "spread" in s.lower() or "covered" in s.lower()]
             strategies.append("Consider smaller position sizes")
 
         return strategies[:4]  # Return top 4 strategies
@@ -673,16 +659,16 @@ class EnsembleDecisionModel:
             symbol=symbol,
             final_score=0.0,
             confidence=0.3,
-            direction='HOLD',
-            strength='weak',
-            component_scores={'sentiment': 0.0, 'flow': 0.0, 'volatility': 0.0, 'technical': 0.0},
+            direction="HOLD",
+            strength="weak",
+            component_scores={"sentiment": 0.0, "flow": 0.0, "volatility": 0.0, "technical": 0.0},
             component_weights=self.base_weights,
-            market_regime='unknown',
-            volatility_forecast={'status': 'failed'},
-            risk_assessment={'risk_level': 'high', 'risk_factors': ['Ensemble failure']},
-            key_insights=['Ensemble model failed - using conservative approach'],
-            recommended_strategies=['Hold position', 'Wait for clearer signals'],
-            timestamp=datetime.now()
+            market_regime="unknown",
+            volatility_forecast={"status": "failed"},
+            risk_assessment={"risk_level": "high", "risk_factors": ["Ensemble failure"]},
+            key_insights=["Ensemble model failed - using conservative approach"],
+            recommended_strategies=["Hold position", "Wait for clearer signals"],
+            timestamp=datetime.now(),
         )
 
 
