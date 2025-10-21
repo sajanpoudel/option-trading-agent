@@ -15,6 +15,7 @@ import pandas as pd
 try:
     from prophet import Prophet
     from prophet.plot import plot_components_plotly, plot_plotly
+
     PROPHET_AVAILABLE = True
 except ImportError:
     PROPHET_AVAILABLE = False
@@ -31,6 +32,7 @@ logger = get_data_logger()
 @dataclass
 class VolatilityForecast:
     """Volatility forecast result"""
+
     symbol: str
     forecast_horizon_days: int
     current_volatility: float
@@ -55,24 +57,20 @@ class ProphetVolatilityPredictor:
 
         # Prophet parameters optimized for volatility data
         self.prophet_params = {
-            'growth': 'linear',
-            'yearly_seasonality': False,
-            'weekly_seasonality': True,
-            'daily_seasonality': False,
-            'seasonality_mode': 'multiplicative',
-            'changepoint_prior_scale': 0.05,
-            'seasonality_prior_scale': 10.0,
-            'holidays_prior_scale': 10.0,
-            'mcmc_samples': 0,
-            'uncertainty_samples': 1000
+            "growth": "linear",
+            "yearly_seasonality": False,
+            "weekly_seasonality": True,
+            "daily_seasonality": False,
+            "seasonality_mode": "multiplicative",
+            "changepoint_prior_scale": 0.05,
+            "seasonality_prior_scale": 10.0,
+            "holidays_prior_scale": 10.0,
+            "mcmc_samples": 0,
+            "uncertainty_samples": 1000,
         }
 
         # Volatility thresholds for different market regimes
-        self.vol_regimes = {
-            'low_vol': 20.0,
-            'medium_vol': 35.0,
-            'high_vol': 50.0
-        }
+        self.vol_regimes = {"low_vol": 20.0, "medium_vol": 35.0, "high_vol": 50.0}
 
         if not PROPHET_AVAILABLE:
             logger.warning("Prophet not available, using statistical fallback")
@@ -80,10 +78,7 @@ class ProphetVolatilityPredictor:
             logger.info("Prophet Volatility Predictor initialized")
 
     async def predict_volatility(
-        self,
-        symbol: str,
-        historical_data: pd.DataFrame,
-        horizon_days: int = 30
+        self, symbol: str, historical_data: pd.DataFrame, horizon_days: int = 30
     ) -> VolatilityForecast:
         """Predict volatility for given symbol and horizon"""
 
@@ -114,19 +109,19 @@ class ProphetVolatilityPredictor:
             forecast = model.predict(future)
 
             # Extract current and predicted values
-            current_vol = df['y'].iloc[-1] if len(df) > 0 else 20.0
-            predicted_vol = forecast['yhat'].iloc[-1]
+            current_vol = df["y"].iloc[-1] if len(df) > 0 else 20.0
+            predicted_vol = forecast["yhat"].iloc[-1]
 
             # Calculate confidence intervals
             confidence_intervals = {
-                'lower_80': forecast['yhat_lower'].iloc[-1],
-                'upper_80': forecast['yhat_upper'].iloc[-1],
-                'lower_95': forecast['yhat_lower'].iloc[-1] * 0.9,
-                'upper_95': forecast['yhat_upper'].iloc[-1] * 1.1
+                "lower_80": forecast["yhat_lower"].iloc[-1],
+                "upper_80": forecast["yhat_upper"].iloc[-1],
+                "lower_95": forecast["yhat_lower"].iloc[-1] * 0.9,
+                "upper_95": forecast["yhat_upper"].iloc[-1] * 1.1,
             }
 
             # Analyze trend
-            trend_data = forecast['trend'].tail(7)  # Last 7 days
+            trend_data = forecast["trend"].tail(7)  # Last 7 days
             volatility_trend = self._analyze_trend(trend_data)
 
             # Extract seasonal components
@@ -152,13 +147,15 @@ class ProphetVolatilityPredictor:
                 market_regime=market_regime,
                 forecast_accuracy=accuracy,
                 key_drivers=key_drivers,
-                timestamp=datetime.now()
+                timestamp=datetime.now(),
             )
 
             # Store forecast in history
             self._store_forecast_history(symbol, result)
 
-            logger.info(f"Volatility forecast for {symbol}: {predicted_vol:.1f}% ({volatility_trend})")
+            logger.info(
+                f"Volatility forecast for {symbol}: {predicted_vol:.1f}% ({volatility_trend})"
+            )
             return result
 
         except Exception as e:
@@ -170,53 +167,55 @@ class ProphetVolatilityPredictor:
 
         try:
             # Ensure we have required columns
-            required_cols = ['close', 'high', 'low']
+            required_cols = ["close", "high", "low"]
             if not all(col in df.columns for col in required_cols):
                 raise ValueError(f"Missing required columns: {required_cols}")
 
             # Calculate realized volatility (Parkinson estimator)
             df = df.copy()
-            df['log_hl'] = np.log(df['high'] / df['low'])
-            df['parkinson_vol'] = np.sqrt(252 * (df['log_hl'] ** 2) / (4 * np.log(2))) * 100
+            df["log_hl"] = np.log(df["high"] / df["low"])
+            df["parkinson_vol"] = np.sqrt(252 * (df["log_hl"] ** 2) / (4 * np.log(2))) * 100
 
             # Calculate Garman-Klass volatility if we have volume
-            if 'volume' in df.columns:
-                df['log_co'] = np.log(df['close'] / df['close'].shift(1))
-                df['gk_vol'] = np.sqrt(252 * (
-                    0.5 * (df['log_hl'] ** 2) -
-                    (2 * np.log(2) - 1) * (df['log_co'] ** 2)
-                )) * 100
-                volatility_col = 'gk_vol'
+            if "volume" in df.columns:
+                df["log_co"] = np.log(df["close"] / df["close"].shift(1))
+                df["gk_vol"] = (
+                    np.sqrt(
+                        252
+                        * (0.5 * (df["log_hl"] ** 2) - (2 * np.log(2) - 1) * (df["log_co"] ** 2))
+                    )
+                    * 100
+                )
+                volatility_col = "gk_vol"
             else:
-                volatility_col = 'parkinson_vol'
+                volatility_col = "parkinson_vol"
 
             # Prepare Prophet dataframe
-            prophet_df = pd.DataFrame({
-                'ds': df.index,
-                'y': df[volatility_col].rolling(window=5).mean()  # 5-day smoothing
-            })
+            prophet_df = pd.DataFrame(
+                {
+                    "ds": df.index,
+                    "y": df[volatility_col].rolling(window=5).mean(),  # 5-day smoothing
+                }
+            )
 
             # Remove NaN values
             prophet_df = prophet_df.dropna()
 
             # Ensure ds is datetime
-            prophet_df['ds'] = pd.to_datetime(prophet_df['ds'])
+            prophet_df["ds"] = pd.to_datetime(prophet_df["ds"])
 
             # Cap extreme values
-            prophet_df['y'] = np.clip(prophet_df['y'], 5, 200)  # Cap between 5% and 200%
+            prophet_df["y"] = np.clip(prophet_df["y"], 5, 200)  # Cap between 5% and 200%
 
             return prophet_df
 
         except Exception as e:
             logger.error(f"Data preparation failed: {e}")
             # Fallback to simple close-based volatility
-            returns = df['close'].pct_change().dropna()
+            returns = df["close"].pct_change().dropna()
             vol = returns.rolling(window=20).std() * np.sqrt(252) * 100
 
-            return pd.DataFrame({
-                'ds': vol.index,
-                'y': vol.values
-            }).dropna()
+            return pd.DataFrame({"ds": vol.index, "y": vol.values}).dropna()
 
     def _get_or_create_model(self, symbol: str) -> Prophet:
         """Get existing model or create new one for symbol"""
@@ -226,19 +225,11 @@ class ProphetVolatilityPredictor:
 
             # Add custom seasonalities
             model.add_seasonality(
-                name='monthly',
-                period=30.5,
-                fourier_order=5,
-                mode='multiplicative'
+                name="monthly", period=30.5, fourier_order=5, mode="multiplicative"
             )
 
             # Add market hours seasonality
-            model.add_seasonality(
-                name='intraday',
-                period=1,
-                fourier_order=3,
-                mode='additive'
-            )
+            model.add_seasonality(name="intraday", period=1, fourier_order=3, mode="additive")
 
             self.models[symbol] = model
             logger.info(f"Created new Prophet model for {symbol}")
@@ -250,21 +241,21 @@ class ProphetVolatilityPredictor:
 
         try:
             # Add market regime indicators
-            future['is_weekend'] = future['ds'].dt.weekday >= 5
-            future['month'] = future['ds'].dt.month
-            future['quarter'] = future['ds'].dt.quarter
+            future["is_weekend"] = future["ds"].dt.weekday >= 5
+            future["month"] = future["ds"].dt.month
+            future["quarter"] = future["ds"].dt.quarter
 
             # Add FOMC meeting indicator (simplified)
             fomc_months = [2, 5, 7, 9, 11, 12]  # Typical FOMC meeting months
-            future['fomc_month'] = future['ds'].dt.month.isin(fomc_months)
+            future["fomc_month"] = future["ds"].dt.month.isin(fomc_months)
 
             # Add earnings season indicator
             earnings_months = [1, 4, 7, 10]  # Quarterly earnings seasons
-            future['earnings_season'] = future['ds'].dt.month.isin(earnings_months)
+            future["earnings_season"] = future["ds"].dt.month.isin(earnings_months)
 
             # Add market stress indicators (would need real data in production)
-            future['vix_regime'] = 0.0  # Placeholder
-            future['market_trend'] = 0.0  # Placeholder
+            future["vix_regime"] = 0.0  # Placeholder
+            future["market_trend"] = 0.0  # Placeholder
 
             return future
 
@@ -277,7 +268,7 @@ class ProphetVolatilityPredictor:
 
         try:
             if len(trend_data) < 2:
-                return 'stable'
+                return "stable"
 
             # Calculate trend slope
             x = np.arange(len(trend_data))
@@ -285,14 +276,14 @@ class ProphetVolatilityPredictor:
 
             # Classify trend
             if slope > 0.5:
-                return 'increasing'
+                return "increasing"
             elif slope < -0.5:
-                return 'decreasing'
+                return "decreasing"
             else:
-                return 'stable'
+                return "stable"
 
         except Exception:
-            return 'stable'
+            return "stable"
 
     def _extract_seasonal_components(self, forecast: pd.DataFrame) -> dict[str, Any]:
         """Extract seasonal components from forecast"""
@@ -301,43 +292,45 @@ class ProphetVolatilityPredictor:
             components = {}
 
             # Weekly seasonality
-            if 'weekly' in forecast.columns:
-                weekly_peak = forecast['weekly'].tail(7).idxmax()
-                weekly_effect = forecast['weekly'].tail(7).max() - forecast['weekly'].tail(7).min()
-                components['weekly'] = {
-                    'peak_day': weekly_peak % 7,
-                    'effect_magnitude': float(weekly_effect)
+            if "weekly" in forecast.columns:
+                weekly_peak = forecast["weekly"].tail(7).idxmax()
+                weekly_effect = forecast["weekly"].tail(7).max() - forecast["weekly"].tail(7).min()
+                components["weekly"] = {
+                    "peak_day": weekly_peak % 7,
+                    "effect_magnitude": float(weekly_effect),
                 }
 
             # Monthly seasonality
-            if 'monthly' in forecast.columns:
-                monthly_effect = forecast['monthly'].tail(30).max() - forecast['monthly'].tail(30).min()
-                components['monthly'] = {
-                    'effect_magnitude': float(monthly_effect)
-                }
+            if "monthly" in forecast.columns:
+                monthly_effect = (
+                    forecast["monthly"].tail(30).max() - forecast["monthly"].tail(30).min()
+                )
+                components["monthly"] = {"effect_magnitude": float(monthly_effect)}
 
             # Overall seasonality strength
-            if 'weekly' in forecast.columns and 'monthly' in forecast.columns:
-                total_seasonal = abs(forecast['weekly'].std()) + abs(forecast['monthly'].std())
-                components['total_seasonal_strength'] = float(total_seasonal)
+            if "weekly" in forecast.columns and "monthly" in forecast.columns:
+                total_seasonal = abs(forecast["weekly"].std()) + abs(forecast["monthly"].std())
+                components["total_seasonal_strength"] = float(total_seasonal)
 
             return components
 
         except Exception as e:
             logger.warning(f"Failed to extract seasonal components: {e}")
-            return {'seasonal_strength': 'unknown'}
+            return {"seasonal_strength": "unknown"}
 
     def _classify_volatility_regime(self, predicted_vol: float) -> str:
         """Classify predicted volatility into market regime"""
 
-        if predicted_vol <= self.vol_regimes['low_vol']:
-            return 'low_vol'
-        elif predicted_vol <= self.vol_regimes['medium_vol']:
-            return 'medium_vol'
+        if predicted_vol <= self.vol_regimes["low_vol"]:
+            return "low_vol"
+        elif predicted_vol <= self.vol_regimes["medium_vol"]:
+            return "medium_vol"
         else:
-            return 'high_vol'
+            return "high_vol"
 
-    def _calculate_forecast_accuracy(self, symbol: str, forecast: pd.DataFrame, actual: pd.DataFrame) -> float:
+    def _calculate_forecast_accuracy(
+        self, symbol: str, forecast: pd.DataFrame, actual: pd.DataFrame
+    ) -> float:
         """Calculate forecast accuracy using historical performance"""
 
         try:
@@ -352,10 +345,10 @@ class ProphetVolatilityPredictor:
             # Calculate MAE for recent forecasts
             errors = []
             for h in history[-10:]:  # Last 10 forecasts
-                forecast_date = datetime.fromisoformat(h['timestamp'])
-                actual_vol = actual[actual.index >= forecast_date]['y'].mean()
+                forecast_date = datetime.fromisoformat(h["timestamp"])
+                actual_vol = actual[actual.index >= forecast_date]["y"].mean()
                 if not pd.isna(actual_vol):
-                    error = abs(h['predicted_volatility'] - actual_vol)
+                    error = abs(h["predicted_volatility"] - actual_vol)
                     errors.append(error)
 
             if errors:
@@ -369,40 +362,44 @@ class ProphetVolatilityPredictor:
         except Exception:
             return 0.7
 
-    def _identify_volatility_drivers(self, forecast: pd.DataFrame, historical_data: pd.DataFrame) -> list[str]:
+    def _identify_volatility_drivers(
+        self, forecast: pd.DataFrame, historical_data: pd.DataFrame
+    ) -> list[str]:
         """Identify key drivers of volatility forecast"""
 
         drivers = []
 
         try:
             # Trend component
-            trend_change = forecast['trend'].iloc[-1] - forecast['trend'].iloc[-7]
+            trend_change = forecast["trend"].iloc[-1] - forecast["trend"].iloc[-7]
             if abs(trend_change) > 2:
                 drivers.append(f"Strong trend component ({trend_change:+.1f}%)")
 
             # Seasonal effects
-            if 'weekly' in forecast.columns:
-                weekly_effect = forecast['weekly'].tail(7).max() - forecast['weekly'].tail(7).min()
+            if "weekly" in forecast.columns:
+                weekly_effect = forecast["weekly"].tail(7).max() - forecast["weekly"].tail(7).min()
                 if weekly_effect > 3:
                     drivers.append("Significant weekly seasonality")
 
             # Market regime
-            current_vol = forecast['yhat'].iloc[-1]
+            current_vol = forecast["yhat"].iloc[-1]
             if current_vol > 40:
                 drivers.append("High volatility regime")
             elif current_vol < 15:
                 drivers.append("Low volatility regime")
 
             # Volume impact (if available)
-            if 'volume' in historical_data.columns:
-                recent_volume = historical_data['volume'].tail(5).mean()
-                avg_volume = historical_data['volume'].mean()
+            if "volume" in historical_data.columns:
+                recent_volume = historical_data["volume"].tail(5).mean()
+                avg_volume = historical_data["volume"].mean()
                 if recent_volume > avg_volume * 1.5:
                     drivers.append("Elevated trading volume")
 
             # Price momentum
-            if 'close' in historical_data.columns:
-                price_change = (historical_data['close'].iloc[-1] / historical_data['close'].iloc[-20] - 1) * 100
+            if "close" in historical_data.columns:
+                price_change = (
+                    historical_data["close"].iloc[-1] / historical_data["close"].iloc[-20] - 1
+                ) * 100
                 if abs(price_change) > 10:
                     drivers.append(f"Strong price momentum ({price_change:+.1f}%)")
 
@@ -420,11 +417,11 @@ class ProphetVolatilityPredictor:
                 self.forecast_history[symbol] = []
 
             forecast_record = {
-                'timestamp': forecast.timestamp.isoformat(),
-                'predicted_volatility': forecast.predicted_volatility,
-                'forecast_horizon': forecast.forecast_horizon_days,
-                'market_regime': forecast.market_regime,
-                'trend': forecast.volatility_trend
+                "timestamp": forecast.timestamp.isoformat(),
+                "predicted_volatility": forecast.predicted_volatility,
+                "forecast_horizon": forecast.forecast_horizon_days,
+                "market_regime": forecast.market_regime,
+                "trend": forecast.volatility_trend,
             }
 
             self.forecast_history[symbol].append(forecast_record)
@@ -436,12 +433,14 @@ class ProphetVolatilityPredictor:
         except Exception as e:
             logger.warning(f"Failed to store forecast history: {e}")
 
-    def _statistical_prediction(self, symbol: str, df: pd.DataFrame, horizon_days: int) -> VolatilityForecast:
+    def _statistical_prediction(
+        self, symbol: str, df: pd.DataFrame, horizon_days: int
+    ) -> VolatilityForecast:
         """Statistical fallback when Prophet is not available or data is insufficient"""
 
         try:
             # Calculate historical volatility
-            returns = df['close'].pct_change().dropna()
+            returns = df["close"].pct_change().dropna()
 
             # Different window sizes for analysis
             vol_5d = returns.tail(5).std() * np.sqrt(252) * 100
@@ -449,7 +448,7 @@ class ProphetVolatilityPredictor:
             vol_60d = returns.tail(60).std() * np.sqrt(252) * 100
 
             # Weighted average with more weight on recent data
-            current_vol = (vol_5d * 0.5 + vol_20d * 0.3 + vol_60d * 0.2)
+            current_vol = vol_5d * 0.5 + vol_20d * 0.3 + vol_60d * 0.2
 
             # Simple trend analysis
             vol_series = returns.rolling(window=20).std() * np.sqrt(252) * 100
@@ -464,11 +463,11 @@ class ProphetVolatilityPredictor:
 
             # Determine trend
             if recent_trend > 2:
-                trend = 'increasing'
+                trend = "increasing"
             elif recent_trend < -2:
-                trend = 'decreasing'
+                trend = "decreasing"
             else:
-                trend = 'stable'
+                trend = "stable"
 
             return VolatilityForecast(
                 symbol=symbol,
@@ -477,29 +476,31 @@ class ProphetVolatilityPredictor:
                 predicted_volatility=float(predicted_vol),
                 volatility_trend=trend,
                 confidence_intervals={
-                    'lower_80': float(predicted_vol * 0.8),
-                    'upper_80': float(predicted_vol * 1.2),
-                    'lower_95': float(predicted_vol * 0.7),
-                    'upper_95': float(predicted_vol * 1.3)
+                    "lower_80": float(predicted_vol * 0.8),
+                    "upper_80": float(predicted_vol * 1.2),
+                    "lower_95": float(predicted_vol * 0.7),
+                    "upper_95": float(predicted_vol * 1.3),
                 },
-                seasonal_components={'method': 'statistical'},
+                seasonal_components={"method": "statistical"},
                 market_regime=self._classify_volatility_regime(predicted_vol),
                 forecast_accuracy=0.6,  # Lower accuracy for statistical method
                 key_drivers=[f"{horizon_days}-day statistical projection"],
-                timestamp=datetime.now()
+                timestamp=datetime.now(),
             )
 
         except Exception as e:
             logger.error(f"Statistical prediction failed: {e}")
             return self._fallback_prediction(symbol, df, horizon_days)
 
-    def _fallback_prediction(self, symbol: str, df: pd.DataFrame, horizon_days: int) -> VolatilityForecast:
+    def _fallback_prediction(
+        self, symbol: str, df: pd.DataFrame, horizon_days: int
+    ) -> VolatilityForecast:
         """Ultimate fallback prediction"""
 
         try:
             # Very simple volatility estimate
-            if 'close' in df.columns and len(df) > 1:
-                returns = df['close'].pct_change().dropna()
+            if "close" in df.columns and len(df) > 1:
+                returns = df["close"].pct_change().dropna()
                 vol = returns.std() * np.sqrt(252) * 100 if len(returns) > 0 else 25.0
             else:
                 vol = 25.0  # Default volatility
@@ -509,18 +510,18 @@ class ProphetVolatilityPredictor:
                 forecast_horizon_days=horizon_days,
                 current_volatility=vol,
                 predicted_volatility=vol,
-                volatility_trend='stable',
+                volatility_trend="stable",
                 confidence_intervals={
-                    'lower_80': vol * 0.8,
-                    'upper_80': vol * 1.2,
-                    'lower_95': vol * 0.7,
-                    'upper_95': vol * 1.3
+                    "lower_80": vol * 0.8,
+                    "upper_80": vol * 1.2,
+                    "lower_95": vol * 0.7,
+                    "upper_95": vol * 1.3,
                 },
-                seasonal_components={'method': 'fallback'},
+                seasonal_components={"method": "fallback"},
                 market_regime=self._classify_volatility_regime(vol),
                 forecast_accuracy=0.5,
-                key_drivers=['fallback_method'],
-                timestamp=datetime.now()
+                key_drivers=["fallback_method"],
+                timestamp=datetime.now(),
             )
 
         except Exception:
@@ -530,16 +531,23 @@ class ProphetVolatilityPredictor:
                 forecast_horizon_days=horizon_days,
                 current_volatility=25.0,
                 predicted_volatility=25.0,
-                volatility_trend='stable',
-                confidence_intervals={'lower_80': 20.0, 'upper_80': 30.0, 'lower_95': 17.5, 'upper_95': 32.5},
-                seasonal_components={'method': 'default'},
-                market_regime='medium_vol',
+                volatility_trend="stable",
+                confidence_intervals={
+                    "lower_80": 20.0,
+                    "upper_80": 30.0,
+                    "lower_95": 17.5,
+                    "upper_95": 32.5,
+                },
+                seasonal_components={"method": "default"},
+                market_regime="medium_vol",
                 forecast_accuracy=0.5,
-                key_drivers=['default_values'],
-                timestamp=datetime.now()
+                key_drivers=["default_values"],
+                timestamp=datetime.now(),
             )
 
-    async def batch_predict(self, symbols: list[str], market_data: dict[str, pd.DataFrame]) -> dict[str, VolatilityForecast]:
+    async def batch_predict(
+        self, symbols: list[str], market_data: dict[str, pd.DataFrame]
+    ) -> dict[str, VolatilityForecast]:
         """Predict volatility for multiple symbols"""
 
         try:
@@ -548,7 +556,7 @@ class ProphetVolatilityPredictor:
                 if symbol in market_data:
                     task = asyncio.create_task(
                         self.predict_volatility(symbol, market_data[symbol]),
-                        name=f"vol_forecast_{symbol}"
+                        name=f"vol_forecast_{symbol}",
                     )
                     tasks.append((symbol, task))
 
@@ -571,13 +579,13 @@ class ProphetVolatilityPredictor:
         """Get status of volatility prediction models"""
 
         return {
-            'prophet_available': PROPHET_AVAILABLE,
-            'models_trained': len(self.models),
-            'symbols_tracked': list(self.models.keys()),
-            'forecast_history_count': sum(len(h) for h in self.forecast_history.values()),
-            'volatility_regimes': self.vol_regimes,
-            'parameters': self.prophet_params,
-            'last_updated': datetime.now().isoformat()
+            "prophet_available": PROPHET_AVAILABLE,
+            "models_trained": len(self.models),
+            "symbols_tracked": list(self.models.keys()),
+            "forecast_history_count": sum(len(h) for h in self.forecast_history.values()),
+            "volatility_regimes": self.vol_regimes,
+            "parameters": self.prophet_params,
+            "last_updated": datetime.now().isoformat(),
         }
 
 
