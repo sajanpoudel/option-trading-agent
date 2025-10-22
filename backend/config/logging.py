@@ -1,6 +1,7 @@
 """
 Neural Options Oracle++ Logging Configuration
 """
+
 import sys
 from typing import Any, Dict
 
@@ -25,10 +26,7 @@ def setup_logging() -> None:
 
     # File logging format
     file_format = (
-        "{time:YYYY-MM-DD HH:mm:ss.SSS} | "
-        "{level: <8} | "
-        "{name}:{function}:{line} | "
-        "{message}"
+        "{time:YYYY-MM-DD HH:mm:ss.SSS} | {level: <8} | {name}:{function}:{line} | {message}"
     )
 
     # Add console handler
@@ -38,7 +36,7 @@ def setup_logging() -> None:
         level=settings.log_level,
         colorize=True,
         backtrace=True,
-        diagnose=True
+        diagnose=True,
     )
 
     # Add file handler for all logs
@@ -49,7 +47,7 @@ def setup_logging() -> None:
         rotation="10 MB",
         retention="7 days",
         backtrace=True,
-        diagnose=True
+        diagnose=True,
     )
 
     # Add separate file handler for errors
@@ -60,7 +58,7 @@ def setup_logging() -> None:
         rotation="5 MB",
         retention="30 days",
         backtrace=True,
-        diagnose=True
+        diagnose=True,
     )
 
     # Add API access log handler
@@ -70,7 +68,7 @@ def setup_logging() -> None:
         level="INFO",
         rotation="50 MB",
         retention="14 days",
-        filter=lambda record: "API_ACCESS" in record["extra"]
+        filter=lambda record: "API_ACCESS" in record["extra"],
     )
 
     logger.info("Logging configuration initialized")
@@ -98,23 +96,30 @@ class LoggingContexts:
 def get_api_logger():
     return get_logger(LoggingContexts.API)
 
+
 def get_agents_logger():
     return get_logger(LoggingContexts.AGENTS)
+
 
 def get_database_logger():
     return get_logger(LoggingContexts.DATABASE)
 
+
 def get_trading_logger():
     return get_logger(LoggingContexts.TRADING)
+
 
 def get_ml_logger():
     return get_logger(LoggingContexts.ML_MODELS)
 
+
 def get_data_logger():
     return get_logger(LoggingContexts.DATA_PIPELINE)
 
+
 def get_education_logger():
     return get_logger(LoggingContexts.EDUCATION)
+
 
 def get_core_logger():
     return get_logger(LoggingContexts.CORE)
@@ -126,10 +131,9 @@ def log_api_access(
     status_code: int,
     response_time: float,
     user_agent: str = None,
-    ip_address: str = None
+    ip_address: str = None,
 ) -> None:
     """Log API access"""
     logger.bind(API_ACCESS=True).info(
-        f"{method} {path} {status_code} {response_time:.3f}s "
-        f"UA: {user_agent} IP: {ip_address}"
+        f"{method} {path} {status_code} {response_time:.3f}s UA: {user_agent} IP: {ip_address}"
     )
