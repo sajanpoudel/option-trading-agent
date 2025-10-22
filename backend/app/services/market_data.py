@@ -2,6 +2,7 @@
 Market Data Manager
 Centralized market data coordination and caching with OpenAI intelligence
 """
+
 import asyncio
 import json
 from datetime import datetime, timedelta
@@ -17,6 +18,7 @@ from .openai_orchestrator import OpenAIMarketIntelligence
 # Import ingestion layer for real-time data
 try:
     from backend.app.ingestion import ingestion_manager
+
     INGESTION_AVAILABLE = True
 except ImportError:
     INGESTION_AVAILABLE = False
@@ -52,20 +54,22 @@ class MarketDataManager:
                 tick = ingestion_manager.get_latest_tick(symbol)
                 if tick:
                     quote_data = {
-                        'price': tick.get('price', 0),
-                        'volume': tick.get('volume', 0),
-                        'bid': tick.get('bid', 0),
-                        'ask': tick.get('ask', 0),
-                        'timestamp': tick.get('timestamp')
+                        "price": tick.get("price", 0),
+                        "volume": tick.get("volume", 0),
+                        "bid": tick.get("bid", 0),
+                        "ask": tick.get("ask", 0),
+                        "timestamp": tick.get("timestamp"),
                     }
                     logger.info(f"Using real-time data from ingestion layer for {symbol}")
 
             # Fetch data in parallel (fallback to API if ingestion not available)
             tasks = [
-                self.alpaca_client.get_current_quote(symbol) if not quote_data else asyncio.sleep(0),
+                self.alpaca_client.get_current_quote(symbol)
+                if not quote_data
+                else asyncio.sleep(0),
                 self.alpaca_client.get_technical_indicators(symbol),
                 self.alpaca_client.get_options_data(symbol),
-                self.alpaca_client.get_historical_data(symbol, period="5d", interval="1d")
+                self.alpaca_client.get_historical_data(symbol, period="5d", interval="1d"),
             ]
 
             api_quote, technical_data, options_data, historical_df = await asyncio.gather(*tasks)
@@ -83,25 +87,27 @@ class MarketDataManager:
 
                 historical_data = [
                     {
-                        'date': row.name.strftime('%Y-%m-%d') if hasattr(row.name, 'strftime') else str(row.name),
-                        'open': float(row.get('open', row.get('Open', 0))),
-                        'high': float(row.get('high', row.get('High', 0))),
-                        'low': float(row.get('low', row.get('Low', 0))),
-                        'close': float(row.get('close', row.get('Close', 0))),
-                        'volume': int(row.get('volume', row.get('Volume', 0)))
+                        "date": row.name.strftime("%Y-%m-%d")
+                        if hasattr(row.name, "strftime")
+                        else str(row.name),
+                        "open": float(row.get("open", row.get("Open", 0))),
+                        "high": float(row.get("high", row.get("High", 0))),
+                        "low": float(row.get("low", row.get("Low", 0))),
+                        "close": float(row.get("close", row.get("Close", 0))),
+                        "volume": int(row.get("volume", row.get("Volume", 0))),
                     }
                     for _, row in df.iterrows()
                 ]
 
             # Combine all data
             comprehensive_data = {
-                'symbol': symbol,
-                'timestamp': datetime.now().isoformat(),
-                'quote': quote_data,
-                'technical': technical_data,
-                'options': options_data,
-                'historical': historical_data,
-                'market_conditions': await self._get_market_conditions()
+                "symbol": symbol,
+                "timestamp": datetime.now().isoformat(),
+                "quote": quote_data,
+                "technical": technical_data,
+                "options": options_data,
+                "historical": historical_data,
+                "market_conditions": await self._get_market_conditions(),
             }
 
             # Cache the data
@@ -134,24 +140,26 @@ class MarketDataManager:
 
             # Combine everything
             comprehensive_analysis = {
-                'symbol': symbol,
-                'timestamp': datetime.now().isoformat(),
-                'ai_intelligence': {
-                    'options_analysis': intelligence.options_analysis,
-                    'news_sentiment': intelligence.news_sentiment,
-                    'social_sentiment': intelligence.social_sentiment,
-                    'technical_signals': intelligence.technical_signals,
-                    'market_outlook': intelligence.market_outlook,
-                    'confidence_score': intelligence.confidence_score
+                "symbol": symbol,
+                "timestamp": datetime.now().isoformat(),
+                "ai_intelligence": {
+                    "options_analysis": intelligence.options_analysis,
+                    "news_sentiment": intelligence.news_sentiment,
+                    "social_sentiment": intelligence.social_sentiment,
+                    "technical_signals": intelligence.technical_signals,
+                    "market_outlook": intelligence.market_outlook,
+                    "confidence_score": intelligence.confidence_score,
                 },
-                'market_data': basic_data,
-                'analysis_type': 'openai_comprehensive'
+                "market_data": basic_data,
+                "analysis_type": "openai_comprehensive",
             }
 
             # Cache the AI analysis
             await self._cache_ai_analysis(symbol, comprehensive_analysis)
 
-            logger.info(f"Comprehensive AI analysis completed for {symbol} with {intelligence.confidence_score:.1%} confidence")
+            logger.info(
+                f"Comprehensive AI analysis completed for {symbol} with {intelligence.confidence_score:.1%} confidence"
+            )
             return comprehensive_analysis
 
         except Exception as e:
@@ -169,7 +177,7 @@ class MarketDataManager:
             for symbol, result in zip(symbols, results):
                 if isinstance(result, Exception):
                     logger.warning(f"Quote failed for {symbol}: {result}")
-                    quotes[symbol] = {'error': str(result)}
+                    quotes[symbol] = {"error": str(result)}
                 else:
                     quotes[symbol] = result
 
@@ -184,54 +192,54 @@ class MarketDataManager:
 
         try:
             # Get SPY for market direction (VIX not available in Alpaca)
-            spy_data = await self.alpaca_client.get_technical_indicators('SPY')
+            spy_data = await self.alpaca_client.get_technical_indicators("SPY")
 
             # Use default VIX level since ^VIX is not available in Alpaca
             vix_level = 20.0  # Default moderate volatility
 
             return {
-                'vix': vix_level,
-                'market_trend': self._determine_market_trend(spy_data),
-                'volatility_regime': self._determine_volatility_regime(vix_level),
-                'timestamp': datetime.now().isoformat()
+                "vix": vix_level,
+                "market_trend": self._determine_market_trend(spy_data),
+                "volatility_regime": self._determine_volatility_regime(vix_level),
+                "timestamp": datetime.now().isoformat(),
             }
 
         except Exception as e:
             logger.warning(f"Market conditions fetch failed: {e}")
             return {
-                'vix': 20.0,
-                'market_trend': 'neutral',
-                'volatility_regime': 'medium',
-                'timestamp': datetime.now().isoformat()
+                "vix": 20.0,
+                "market_trend": "neutral",
+                "volatility_regime": "medium",
+                "timestamp": datetime.now().isoformat(),
             }
 
     def _determine_market_trend(self, spy_data: dict) -> str:
         """Determine overall market trend from SPY data"""
 
         try:
-            current_price = spy_data.get('current_price', 400)
-            ma20 = spy_data.get('ma20', 400)
-            ma50 = spy_data.get('ma50', 400)
+            current_price = spy_data.get("current_price", 400)
+            ma20 = spy_data.get("ma20", 400)
+            ma50 = spy_data.get("ma50", 400)
 
             if current_price > ma20 > ma50:
-                return 'bullish'
+                return "bullish"
             elif current_price < ma20 < ma50:
-                return 'bearish'
+                return "bearish"
             else:
-                return 'neutral'
+                return "neutral"
 
         except Exception:
-            return 'neutral'
+            return "neutral"
 
     def _determine_volatility_regime(self, vix_level: float) -> str:
         """Determine volatility regime based on VIX"""
 
         if vix_level < 15:
-            return 'low'
+            return "low"
         elif vix_level > 25:
-            return 'high'
+            return "high"
         else:
-            return 'medium'
+            return "medium"
 
     async def _get_cached_data(self, symbol: str) -> dict[str, Any] | None:
         """Get cached market data"""
@@ -240,14 +248,20 @@ class MarketDataManager:
             # Query database cache
             result = await asyncio.create_task(
                 asyncio.to_thread(
-                    db_manager.client.table('market_data_cache').select('*').eq('symbol', symbol).single().execute
+                    db_manager.client.table("market_data_cache")
+                    .select("*")
+                    .eq("symbol", symbol)
+                    .single()
+                    .execute
                 )
             )
 
             if result.data:
-                cache_time = datetime.fromisoformat(result.data['last_updated'].replace('Z', '+00:00'))
+                cache_time = datetime.fromisoformat(
+                    result.data["last_updated"].replace("Z", "+00:00")
+                )
                 if datetime.now(cache_time.tzinfo) - cache_time < timedelta(seconds=self.cache_ttl):
-                    return result.data['price_data']
+                    return result.data["price_data"]
 
         except Exception as e:
             logger.debug(f"Cache read failed for {symbol}: {e}")
@@ -262,17 +276,17 @@ class MarketDataManager:
             serializable_data = self._make_json_serializable(data)
 
             cache_record = {
-                'symbol': symbol,
-                'price_data': serializable_data,
-                'technical_indicators': serializable_data.get('technical', {}),
-                'options_chain': serializable_data.get('options', {}),
-                'last_updated': datetime.now().isoformat()
+                "symbol": symbol,
+                "price_data": serializable_data,
+                "technical_indicators": serializable_data.get("technical", {}),
+                "options_chain": serializable_data.get("options", {}),
+                "last_updated": datetime.now().isoformat(),
             }
 
             # Upsert to database
             await asyncio.create_task(
                 asyncio.to_thread(
-                    db_manager.client.table('market_data_cache').upsert(cache_record).execute
+                    db_manager.client.table("market_data_cache").upsert(cache_record).execute
                 )
             )
 
@@ -296,7 +310,7 @@ class MarketDataManager:
         elif isinstance(data, Decimal):
             return float(data)
         elif isinstance(data, pd.DataFrame):
-            return data.to_dict('records')
+            return data.to_dict("records")
         else:
             return data
 
@@ -307,14 +321,22 @@ class MarketDataManager:
             # Query database cache for AI analysis (longer TTL: 15 minutes)
             result = await asyncio.create_task(
                 asyncio.to_thread(
-                    db_manager.client.table('ai_analysis_cache').select('*').eq('symbol', symbol).single().execute
+                    db_manager.client.table("ai_analysis_cache")
+                    .select("*")
+                    .eq("symbol", symbol)
+                    .single()
+                    .execute
                 )
             )
 
             if result.data:
-                cache_time = datetime.fromisoformat(result.data['last_updated'].replace('Z', '+00:00'))
-                if datetime.now(cache_time.tzinfo) - cache_time < timedelta(seconds=900):  # 15 minutes
-                    return result.data['analysis_data']
+                cache_time = datetime.fromisoformat(
+                    result.data["last_updated"].replace("Z", "+00:00")
+                )
+                if datetime.now(cache_time.tzinfo) - cache_time < timedelta(
+                    seconds=900
+                ):  # 15 minutes
+                    return result.data["analysis_data"]
 
         except Exception as e:
             logger.debug(f"AI analysis cache read failed for {symbol}: {e}")
@@ -326,16 +348,16 @@ class MarketDataManager:
 
         try:
             cache_record = {
-                'symbol': symbol,
-                'analysis_data': analysis,
-                'confidence_score': analysis['ai_intelligence']['confidence_score'],
-                'last_updated': datetime.now().isoformat()
+                "symbol": symbol,
+                "analysis_data": analysis,
+                "confidence_score": analysis["ai_intelligence"]["confidence_score"],
+                "last_updated": datetime.now().isoformat(),
             }
 
             # Upsert to database
             await asyncio.create_task(
                 asyncio.to_thread(
-                    db_manager.client.table('ai_analysis_cache').upsert(cache_record).execute
+                    db_manager.client.table("ai_analysis_cache").upsert(cache_record).execute
                 )
             )
 
@@ -348,51 +370,47 @@ class MarketDataManager:
         """Fallback AI analysis when intelligence fails"""
 
         return {
-            'symbol': symbol,
-            'timestamp': datetime.now().isoformat(),
-            'ai_intelligence': {
-                'options_analysis': {'flow_sentiment': 'neutral', 'confidence': 0.0},
-                'news_sentiment': {'sentiment_score': 0.0, 'confidence': 0.0},
-                'social_sentiment': {'overall_sentiment': 0.0, 'confidence': 0.0},
-                'technical_signals': {'trend_direction': 'neutral', 'confidence': 0.0},
-                'market_outlook': {'price_target_consensus': 0.0, 'confidence': 0.0},
-                'confidence_score': 0.0
+            "symbol": symbol,
+            "timestamp": datetime.now().isoformat(),
+            "ai_intelligence": {
+                "options_analysis": {"flow_sentiment": "neutral", "confidence": 0.0},
+                "news_sentiment": {"sentiment_score": 0.0, "confidence": 0.0},
+                "social_sentiment": {"overall_sentiment": 0.0, "confidence": 0.0},
+                "technical_signals": {"trend_direction": "neutral", "confidence": 0.0},
+                "market_outlook": {"price_target_consensus": 0.0, "confidence": 0.0},
+                "confidence_score": 0.0,
             },
-            'market_data': self._get_fallback_comprehensive_data(symbol),
-            'analysis_type': 'fallback_ai',
-            'error': 'AI analysis failed - using fallback data'
+            "market_data": self._get_fallback_comprehensive_data(symbol),
+            "analysis_type": "fallback_ai",
+            "error": "AI analysis failed - using fallback data",
         }
 
     def _get_fallback_comprehensive_data(self, symbol: str) -> dict[str, Any]:
         """Fallback comprehensive data"""
 
         return {
-            'symbol': symbol,
-            'timestamp': datetime.now().isoformat(),
-            'quote': {
-                'symbol': symbol,
-                'price': 100.0,
-                'source': 'fallback'
+            "symbol": symbol,
+            "timestamp": datetime.now().isoformat(),
+            "quote": {"symbol": symbol, "price": 100.0, "source": "fallback"},
+            "technical": {
+                "current_price": 100.0,
+                "rsi": 50.0,
+                "macd": 0.0,
+                "volatility": 25.0,
+                "source": "fallback",
             },
-            'technical': {
-                'current_price': 100.0,
-                'rsi': 50.0,
-                'macd': 0.0,
-                'volatility': 25.0,
-                'source': 'fallback'
+            "options": {
+                "symbol": symbol,
+                "put_call_ratio": 1.0,
+                "total_volume": 1000,
+                "source": "fallback",
             },
-            'options': {
-                'symbol': symbol,
-                'put_call_ratio': 1.0,
-                'total_volume': 1000,
-                'source': 'fallback'
+            "market_conditions": {
+                "vix": 20.0,
+                "market_trend": "neutral",
+                "volatility_regime": "medium",
             },
-            'market_conditions': {
-                'vix': 20.0,
-                'market_trend': 'neutral',
-                'volatility_regime': 'medium'
-            },
-            'error': 'Using fallback data'
+            "error": "Using fallback data",
         }
 
 
