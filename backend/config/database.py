@@ -1,6 +1,7 @@
 """
 Neural Options Oracle++ Database Configuration and Manager
 """
+
 import asyncio
 import os
 import uuid
@@ -37,7 +38,7 @@ class SupabaseManager:
                 "status": "healthy",
                 "connection": "active",
                 "timestamp": datetime.now().isoformat(),
-                "config_count": result.count or 0
+                "config_count": result.count or 0,
             }
         except Exception as e:
             logger.error(f"Database health check failed: {e}")
@@ -45,7 +46,7 @@ class SupabaseManager:
                 "status": "unhealthy",
                 "connection": "failed",
                 "error": str(e),
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
 
     # ========================
@@ -57,7 +58,7 @@ class SupabaseManager:
         ip_address: str = None,
         user_agent: str = None,
         device_info: dict = None,
-        risk_profile: str = "moderate"
+        risk_profile: str = "moderate",
     ) -> str:
         """Create a new browser session (no authentication)"""
 
@@ -71,7 +72,7 @@ class SupabaseManager:
             "risk_profile": risk_profile,
             "preferences": {},
             "expires_at": (datetime.now() + timedelta(hours=24)).isoformat(),
-            "is_active": True
+            "is_active": True,
         }
 
         try:
@@ -86,13 +87,15 @@ class SupabaseManager:
         """Get browser session data"""
 
         try:
-            result = self.client.table("browser_sessions")\
-                .select("*")\
-                .eq("session_token", session_token)\
-                .eq("is_active", True)\
-                .gt("expires_at", datetime.now().isoformat())\
-                .single()\
+            result = (
+                self.client.table("browser_sessions")
+                .select("*")
+                .eq("session_token", session_token)
+                .eq("is_active", True)
+                .gt("expires_at", datetime.now().isoformat())
+                .single()
                 .execute()
+            )
 
             if result.data:
                 logger.debug(f"Session retrieved: {session_token}")
@@ -109,10 +112,12 @@ class SupabaseManager:
         """Update session last accessed time"""
 
         try:
-            result = self.client.table("browser_sessions")\
-                .update({"last_accessed_at": datetime.now().isoformat()})\
-                .eq("session_token", session_token)\
+            result = (
+                self.client.table("browser_sessions")
+                .update({"last_accessed_at": datetime.now().isoformat()})
+                .eq("session_token", session_token)
                 .execute()
+            )
 
             return len(result.data) > 0
         except Exception as e:
@@ -126,26 +131,26 @@ class SupabaseManager:
     def _normalize_scenario_for_db(self, scenario: str) -> str:
         """Convert scenario format to match database enum"""
         if not scenario:
-            return 'range_bound'
+            return "range_bound"
 
         scenario_mapping = {
-            'RANGE_BOUND': 'range_bound',
-            'STRONG_UPTREND': 'strong_uptrend',
-            'STRONG_DOWNTREND': 'strong_downtrend',
-            'BREAKOUT': 'breakout',
-            'POTENTIAL_REVERSAL': 'potential_reversal',
-            'HIGH_VOLATILITY': 'high_volatility',
-            'LOW_VOLATILITY': 'low_volatility',
-            'range_bound': 'range_bound',
-            'strong_uptrend': 'strong_uptrend',
-            'strong_downtrend': 'strong_downtrend',
-            'breakout': 'breakout',
-            'potential_reversal': 'potential_reversal',
-            'high_volatility': 'high_volatility',
-            'low_volatility': 'low_volatility'
+            "RANGE_BOUND": "range_bound",
+            "STRONG_UPTREND": "strong_uptrend",
+            "STRONG_DOWNTREND": "strong_downtrend",
+            "BREAKOUT": "breakout",
+            "POTENTIAL_REVERSAL": "potential_reversal",
+            "HIGH_VOLATILITY": "high_volatility",
+            "LOW_VOLATILITY": "low_volatility",
+            "range_bound": "range_bound",
+            "strong_uptrend": "strong_uptrend",
+            "strong_downtrend": "strong_downtrend",
+            "breakout": "breakout",
+            "potential_reversal": "potential_reversal",
+            "high_volatility": "high_volatility",
+            "low_volatility": "low_volatility",
         }
 
-        return scenario_mapping.get(scenario, 'range_bound')
+        return scenario_mapping.get(scenario, "range_bound")
 
     async def save_trading_signal(self, signal_data: dict) -> str | None:
         """Save trading signal to database"""
@@ -165,7 +170,7 @@ class SupabaseManager:
             "strike_recommendations": signal_data.get("strike_recommendations", []),
             "educational_content": signal_data.get("educational_content", {}),
             "expires_at": (datetime.now() + timedelta(hours=24)).isoformat(),
-            "created_at": datetime.now().isoformat()
+            "created_at": datetime.now().isoformat(),
         }
 
         try:
@@ -178,10 +183,7 @@ class SupabaseManager:
             return None
 
     async def get_trading_signals(
-        self,
-        symbol: str = None,
-        limit: int = 10,
-        include_expired: bool = False
+        self, symbol: str = None, limit: int = 10, include_expired: bool = False
     ) -> list[dict]:
         """Get trading signals with optional filtering"""
 
@@ -228,7 +230,7 @@ class SupabaseManager:
             "rho": position_data.get("rho"),
             "status": "open",
             "entry_order_id": position_data.get("entry_order_id"),
-            "entry_date": datetime.now().isoformat()
+            "entry_date": datetime.now().isoformat(),
         }
 
         try:
@@ -240,20 +242,14 @@ class SupabaseManager:
             logger.error(f"Failed to create position: {e}")
             return None
 
-    async def update_position_pnl(
-        self,
-        position_id: str,
-        current_price: float
-    ) -> dict | None:
+    async def update_position_pnl(self, position_id: str, current_price: float) -> dict | None:
         """Update position P&L in real-time"""
 
         try:
             # Get current position
-            position_result = self.client.table("positions")\
-                .select("*")\
-                .eq("id", position_id)\
-                .single()\
-                .execute()
+            position_result = (
+                self.client.table("positions").select("*").eq("id", position_id).single().execute()
+            )
 
             if not position_result.data:
                 logger.warning(f"Position not found: {position_id}")
@@ -271,20 +267,21 @@ class SupabaseManager:
                 # Stock P&L
                 unrealized_pnl = (current_price - entry_price) * quantity
 
-            unrealized_pnl_percent = ((current_price - entry_price) / entry_price) * 100 if entry_price > 0 else 0
+            unrealized_pnl_percent = (
+                ((current_price - entry_price) / entry_price) * 100 if entry_price > 0 else 0
+            )
 
             # Update position
             update_data = {
                 "current_price": current_price,
                 "unrealized_pnl": unrealized_pnl,
                 "unrealized_pnl_percent": unrealized_pnl_percent,
-                "updated_at": datetime.now().isoformat()
+                "updated_at": datetime.now().isoformat(),
             }
 
-            result = self.client.table("positions")\
-                .update(update_data)\
-                .eq("id", position_id)\
-                .execute()
+            result = (
+                self.client.table("positions").update(update_data).eq("id", position_id).execute()
+            )
 
             updated_position = result.data[0] if result.data else None
             logger.debug(f"Position P&L updated: {position_id}, P&L: ${unrealized_pnl:.2f}")
@@ -297,11 +294,13 @@ class SupabaseManager:
         """Get all open positions"""
 
         try:
-            result = self.client.table("positions")\
-                .select("*")\
-                .eq("status", "open")\
-                .order("entry_date", desc=True)\
+            result = (
+                self.client.table("positions")
+                .select("*")
+                .eq("status", "open")
+                .order("entry_date", desc=True)
                 .execute()
+            )
 
             logger.debug(f"Retrieved {len(result.data) if result.data else 0} open positions")
             return result.data or []
@@ -327,7 +326,7 @@ class SupabaseManager:
             "learning_objectives": content_data.get("learning_objectives", []),
             "estimated_duration_minutes": content_data.get("estimated_duration_minutes", 15),
             "tags": content_data.get("tags", []),
-            "is_active": True
+            "is_active": True,
         }
 
         try:
@@ -340,18 +339,12 @@ class SupabaseManager:
             return None
 
     async def get_educational_content(
-        self,
-        topic: str = None,
-        difficulty: str = None,
-        content_type: str = None,
-        limit: int = 20
+        self, topic: str = None, difficulty: str = None, content_type: str = None, limit: int = 20
     ) -> list[dict]:
         """Get educational content with filtering"""
 
         try:
-            query = self.client.table("educational_content")\
-                .select("*")\
-                .eq("is_active", True)
+            query = self.client.table("educational_content").select("*").eq("is_active", True)
 
             if topic:
                 query = query.eq("topic", topic)
@@ -363,7 +356,9 @@ class SupabaseManager:
             query = query.order("created_at", desc=True).limit(limit)
 
             result = query.execute()
-            logger.debug(f"Retrieved {len(result.data) if result.data else 0} educational content items")
+            logger.debug(
+                f"Retrieved {len(result.data) if result.data else 0} educational content items"
+            )
             return result.data or []
         except Exception as e:
             logger.error(f"Failed to get educational content: {e}")
@@ -381,37 +376,40 @@ class SupabaseManager:
             portfolio_result = self.client.table("system_portfolio_summary").select("*").execute()
 
             # Get trading performance using the view
-            performance_result = self.client.table("system_trading_performance").select("*").execute()
+            performance_result = (
+                self.client.table("system_trading_performance").select("*").execute()
+            )
 
             # Get active sessions count
-            sessions_result = self.client.table("browser_sessions")\
-                .select("count", count="exact")\
-                .eq("is_active", True)\
-                .gt("expires_at", datetime.now().isoformat())\
+            sessions_result = (
+                self.client.table("browser_sessions")
+                .select("count", count="exact")
+                .eq("is_active", True)
+                .gt("expires_at", datetime.now().isoformat())
                 .execute()
+            )
 
             # Get recent signals count
-            signals_result = self.client.table("trading_signals")\
-                .select("count", count="exact")\
-                .gt("created_at", (datetime.now() - timedelta(hours=24)).isoformat())\
+            signals_result = (
+                self.client.table("trading_signals")
+                .select("count", count="exact")
+                .gt("created_at", (datetime.now() - timedelta(hours=24)).isoformat())
                 .execute()
+            )
 
             analytics = {
                 "portfolio_summary": portfolio_result.data if portfolio_result.data else {},
                 "trading_performance": performance_result.data if performance_result.data else {},
                 "active_sessions": sessions_result.count or 0,
                 "signals_last_24h": signals_result.count or 0,
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
 
             logger.debug("System analytics retrieved successfully")
             return analytics
         except Exception as e:
             logger.error(f"Failed to get system analytics: {e}")
-            return {
-                "error": str(e),
-                "timestamp": datetime.now().isoformat()
-            }
+            return {"error": str(e), "timestamp": datetime.now().isoformat()}
 
     # ========================
     # SCHEMA INITIALIZATION
@@ -420,21 +418,22 @@ class SupabaseManager:
     async def execute_sql(self, sql: str) -> bool:
         """Execute raw SQL command"""
         try:
-            result = self.client.rpc('exec_sql', {'sql': sql}).execute()
+            result = self.client.rpc("exec_sql", {"sql": sql}).execute()
             return True
         except Exception as e:
             logger.error(f"SQL execution failed: {e}")
             # Try alternative approach using raw HTTP request
             try:
                 import requests
+
                 response = requests.post(
                     f"{self.url}/rest/v1/rpc/exec_sql",
                     json={"sql": sql},
                     headers={
                         "apikey": self.service_key,
                         "Authorization": f"Bearer {self.service_key}",
-                        "Content-Type": "application/json"
-                    }
+                        "Content-Type": "application/json",
+                    },
                 )
                 return response.status_code == 200
             except Exception as e2:
@@ -452,7 +451,7 @@ class SupabaseManager:
                     "config_key": "app_version",
                     "config_value": "1.0.0",
                     "description": "Neural Options Oracle++ Version",
-                    "updated_at": datetime.now().isoformat()
+                    "updated_at": datetime.now().isoformat(),
                 }
                 self.client.table("system_config").insert(system_config_data).execute()
                 logger.info("✅ system_config table verified/created")
@@ -471,11 +470,13 @@ class SupabaseManager:
                     "expires_at": (datetime.now() + timedelta(hours=1)).isoformat(),
                     "is_active": False,
                     "created_at": datetime.now().isoformat(),
-                    "last_accessed_at": datetime.now().isoformat()
+                    "last_accessed_at": datetime.now().isoformat(),
                 }
                 result = self.client.table("browser_sessions").insert(session_data).execute()
                 # Delete the test record
-                self.client.table("browser_sessions").delete().eq("session_token", "test_init").execute()
+                self.client.table("browser_sessions").delete().eq(
+                    "session_token", "test_init"
+                ).execute()
                 logger.info("✅ browser_sessions table verified/created")
             except Exception as e:
                 logger.warning(f"browser_sessions table creation failed: {e}")
@@ -488,7 +489,7 @@ class SupabaseManager:
                     "sector": "Technology",
                     "market_cap": 3000000000000,
                     "is_active": True,
-                    "created_at": datetime.now().isoformat()
+                    "created_at": datetime.now().isoformat(),
                 }
                 result = self.client.table("stocks").insert(stock_data).execute()
                 # Delete the test record
@@ -514,7 +515,7 @@ class SupabaseManager:
                     "strike_recommendations": [],
                     "educational_content": {},
                     "expires_at": (datetime.now() + timedelta(hours=24)).isoformat(),
-                    "created_at": datetime.now().isoformat()
+                    "created_at": datetime.now().isoformat(),
                 }
                 result = self.client.table("trading_signals").insert(signal_data).execute()
                 signal_id = result.data[0]["id"]
@@ -536,7 +537,7 @@ class SupabaseManager:
                     "entry_price": 5.0,
                     "current_price": 5.0,
                     "status": "open",
-                    "entry_date": datetime.now().isoformat()
+                    "entry_date": datetime.now().isoformat(),
                 }
                 result = self.client.table("positions").insert(position_data).execute()
                 position_id = result.data[0]["id"]
@@ -557,7 +558,7 @@ class SupabaseManager:
     async def create_session(self, session_data: dict) -> str:
         """Create session - alias for create_browser_session"""
         return await self.create_browser_session(
-            risk_profile=session_data.get('risk_profile', 'moderate')
+            risk_profile=session_data.get("risk_profile", "moderate")
         )
 
     # ========================
@@ -568,11 +569,13 @@ class SupabaseManager:
         """Get system configuration value"""
 
         try:
-            result = self.client.table("system_config")\
-                .select("config_value")\
-                .eq("config_key", key)\
-                .single()\
+            result = (
+                self.client.table("system_config")
+                .select("config_value")
+                .eq("config_key", key)
+                .single()
                 .execute()
+            )
 
             if result.data:
                 return result.data["config_value"]
@@ -589,13 +592,11 @@ class SupabaseManager:
                 "config_key": key,
                 "config_value": value,
                 "description": description,
-                "updated_at": datetime.now().isoformat()
+                "updated_at": datetime.now().isoformat(),
             }
 
             # Try to update first, then insert if not exists
-            result = self.client.table("system_config")\
-                .upsert(config_data)\
-                .execute()
+            result = self.client.table("system_config").upsert(config_data).execute()
 
             logger.info(f"System config updated: {key}")
             return True
