@@ -136,3 +136,8 @@ def test_low_put_call_ratio_is_bullish(predictor):
     prediction = predictor._rule_based_prediction({"put_call_ratio": 0.5}, {})
     assert prediction.flow_sentiment == "bullish"
     assert "Low Put/Call ratio (bullish)" in prediction.key_indicators
+
+
+def test_high_put_call_ratio_is_bearish(predictor):
+    prediction = predictor._rule_based_prediction({"put_call_ratio": 1.6}, {})
+    assert prediction.flow_sentiment == "bearish"
