@@ -22,9 +22,11 @@ from .alpaca import AlpacaMarketDataClient
 
 logger = get_data_logger()
 
+
 @dataclass
 class OptionsAnalysis:
     """Complete options analysis result"""
+
     symbol: str
     total_call_volume: int
     total_put_volume: int
@@ -35,9 +37,11 @@ class OptionsAnalysis:
     flow_sentiment: str
     confidence: float
 
+
 @dataclass
 class MarketIntelligence:
     """Comprehensive market intelligence"""
+
     symbol: str
     timestamp: datetime
     options_analysis: OptionsAnalysis
@@ -46,6 +50,7 @@ class MarketIntelligence:
     technical_signals: dict[str, Any]
     market_outlook: dict[str, Any]
     confidence_score: float
+
 
 class OptionsProfitCalculatorAPI:
     """Enhanced OptionsProfitCalculator integration"""
@@ -57,7 +62,9 @@ class OptionsProfitCalculatorAPI:
     async def __aenter__(self):
         self.session = aiohttp.ClientSession(
             timeout=aiohttp.ClientTimeout(total=10),
-            headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'}
+            headers={
+                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
+            },
         )
         return self
 
@@ -71,14 +78,16 @@ class OptionsProfitCalculatorAPI:
             # Get raw options data
             raw_data = await self._fetch_options_data(symbol)
 
-            if not raw_data or 'options' not in raw_data:
+            if not raw_data or "options" not in raw_data:
                 logger.warning(f"No options data received for {symbol}")
                 return {}
 
             # Parse and analyze options data
             analysis = self._analyze_options_chain(raw_data, symbol)
 
-            logger.info(f"Retrieved comprehensive options data for {symbol}: {analysis['total_contracts']} contracts across {len(analysis['expirations'])} expirations")
+            logger.info(
+                f"Retrieved comprehensive options data for {symbol}: {analysis['total_contracts']} contracts across {len(analysis['expirations'])} expirations"
+            )
 
             return analysis
 
@@ -89,10 +98,7 @@ class OptionsProfitCalculatorAPI:
     async def _fetch_options_data(self, symbol: str) -> dict[str, Any]:
         """Fetch raw options data from API"""
         try:
-            params = {
-                'stock': symbol.upper(),
-                'reqId': 3
-            }
+            params = {"stock": symbol.upper(), "reqId": 3}
 
             async with self.session.get(self.base_url, params=params) as response:
                 if response.status == 200:
@@ -109,136 +115,143 @@ class OptionsProfitCalculatorAPI:
     def _analyze_options_chain(self, raw_data: dict[str, Any], symbol: str) -> dict[str, Any]:
         """Comprehensive analysis of options chain data"""
 
-        options_data = raw_data.get('options', {})
+        options_data = raw_data.get("options", {})
         analysis = {
-            'symbol': symbol,
-            'timestamp': datetime.now(),
-            'expirations': [],
-            'total_contracts': 0,
-            'total_call_volume': 0,
-            'total_put_volume': 0,
-            'total_call_oi': 0,
-            'total_put_oi': 0,
-            'unusual_activity': [],
-            'key_strikes': [],
-            'volume_by_expiration': {},
-            'oi_by_expiration': {}
+            "symbol": symbol,
+            "timestamp": datetime.now(),
+            "expirations": [],
+            "total_contracts": 0,
+            "total_call_volume": 0,
+            "total_put_volume": 0,
+            "total_call_oi": 0,
+            "total_put_oi": 0,
+            "unusual_activity": [],
+            "key_strikes": [],
+            "volume_by_expiration": {},
+            "oi_by_expiration": {},
         }
 
         for expiration_date, exp_data in options_data.items():
             exp_analysis = {
-                'expiration': expiration_date,
-                'calls': [],
-                'puts': [],
-                'total_call_vol': 0,
-                'total_put_vol': 0,
-                'total_call_oi': 0,
-                'total_put_oi': 0
+                "expiration": expiration_date,
+                "calls": [],
+                "puts": [],
+                "total_call_vol": 0,
+                "total_put_vol": 0,
+                "total_call_oi": 0,
+                "total_put_oi": 0,
             }
 
             # Analyze calls
-            if 'c' in exp_data:
-                for strike_str, option_data in exp_data['c'].items():
+            if "c" in exp_data:
+                for strike_str, option_data in exp_data["c"].items():
                     strike = float(strike_str)
-                    volume = int(option_data.get('v', 0))
-                    oi = int(option_data.get('oi', 0))
-                    last = float(option_data.get('l', 0))
-                    bid = float(option_data.get('b', 0))
-                    ask = float(option_data.get('a', 0))
+                    volume = int(option_data.get("v", 0))
+                    oi = int(option_data.get("oi", 0))
+                    last = float(option_data.get("l", 0))
+                    bid = float(option_data.get("b", 0))
+                    ask = float(option_data.get("a", 0))
 
                     call_info = {
-                        'strike': strike,
-                        'volume': volume,
-                        'open_interest': oi,
-                        'last': last,
-                        'bid': bid,
-                        'ask': ask,
-                        'spread': ask - bid if ask > bid else 0,
-                        'type': 'call'
+                        "strike": strike,
+                        "volume": volume,
+                        "open_interest": oi,
+                        "last": last,
+                        "bid": bid,
+                        "ask": ask,
+                        "spread": ask - bid if ask > bid else 0,
+                        "type": "call",
                     }
 
-                    exp_analysis['calls'].append(call_info)
-                    exp_analysis['total_call_vol'] += volume
-                    exp_analysis['total_call_oi'] += oi
+                    exp_analysis["calls"].append(call_info)
+                    exp_analysis["total_call_vol"] += volume
+                    exp_analysis["total_call_oi"] += oi
 
                     # Detect unusual activity
                     if volume > 1000 or (volume > 0 and volume > oi * 2):
-                        analysis['unusual_activity'].append({
-                            'strike': strike,
-                            'expiration': expiration_date,
-                            'type': 'call',
-                            'volume': volume,
-                            'open_interest': oi,
-                            'reason': 'high_volume' if volume > 1000 else 'volume_vs_oi'
-                        })
+                        analysis["unusual_activity"].append(
+                            {
+                                "strike": strike,
+                                "expiration": expiration_date,
+                                "type": "call",
+                                "volume": volume,
+                                "open_interest": oi,
+                                "reason": "high_volume" if volume > 1000 else "volume_vs_oi",
+                            }
+                        )
 
             # Analyze puts
-            if 'p' in exp_data:
-                for strike_str, option_data in exp_data['p'].items():
+            if "p" in exp_data:
+                for strike_str, option_data in exp_data["p"].items():
                     strike = float(strike_str)
-                    volume = int(option_data.get('v', 0))
-                    oi = int(option_data.get('oi', 0))
-                    last = float(option_data.get('l', 0))
-                    bid = float(option_data.get('b', 0))
-                    ask = float(option_data.get('a', 0))
+                    volume = int(option_data.get("v", 0))
+                    oi = int(option_data.get("oi", 0))
+                    last = float(option_data.get("l", 0))
+                    bid = float(option_data.get("b", 0))
+                    ask = float(option_data.get("a", 0))
 
                     put_info = {
-                        'strike': strike,
-                        'volume': volume,
-                        'open_interest': oi,
-                        'last': last,
-                        'bid': bid,
-                        'ask': ask,
-                        'spread': ask - bid if ask > bid else 0,
-                        'type': 'put'
+                        "strike": strike,
+                        "volume": volume,
+                        "open_interest": oi,
+                        "last": last,
+                        "bid": bid,
+                        "ask": ask,
+                        "spread": ask - bid if ask > bid else 0,
+                        "type": "put",
                     }
 
-                    exp_analysis['puts'].append(put_info)
-                    exp_analysis['total_put_vol'] += volume
-                    exp_analysis['total_put_oi'] += oi
+                    exp_analysis["puts"].append(put_info)
+                    exp_analysis["total_put_vol"] += volume
+                    exp_analysis["total_put_oi"] += oi
 
                     # Detect unusual activity
                     if volume > 1000 or (volume > 0 and volume > oi * 2):
-                        analysis['unusual_activity'].append({
-                            'strike': strike,
-                            'expiration': expiration_date,
-                            'type': 'put',
-                            'volume': volume,
-                            'open_interest': oi,
-                            'reason': 'high_volume' if volume > 1000 else 'volume_vs_oi'
-                        })
+                        analysis["unusual_activity"].append(
+                            {
+                                "strike": strike,
+                                "expiration": expiration_date,
+                                "type": "put",
+                                "volume": volume,
+                                "open_interest": oi,
+                                "reason": "high_volume" if volume > 1000 else "volume_vs_oi",
+                            }
+                        )
 
             # Add to main analysis
-            analysis['expirations'].append(exp_analysis)
-            analysis['total_call_volume'] += exp_analysis['total_call_vol']
-            analysis['total_put_volume'] += exp_analysis['total_put_vol']
-            analysis['total_call_oi'] += exp_analysis['total_call_oi']
-            analysis['total_put_oi'] += exp_analysis['total_put_oi']
-            analysis['volume_by_expiration'][expiration_date] = {
-                'calls': exp_analysis['total_call_vol'],
-                'puts': exp_analysis['total_put_vol']
+            analysis["expirations"].append(exp_analysis)
+            analysis["total_call_volume"] += exp_analysis["total_call_vol"]
+            analysis["total_put_volume"] += exp_analysis["total_put_vol"]
+            analysis["total_call_oi"] += exp_analysis["total_call_oi"]
+            analysis["total_put_oi"] += exp_analysis["total_put_oi"]
+            analysis["volume_by_expiration"][expiration_date] = {
+                "calls": exp_analysis["total_call_vol"],
+                "puts": exp_analysis["total_put_vol"],
             }
-            analysis['oi_by_expiration'][expiration_date] = {
-                'calls': exp_analysis['total_call_oi'],
-                'puts': exp_analysis['total_put_oi']
+            analysis["oi_by_expiration"][expiration_date] = {
+                "calls": exp_analysis["total_call_oi"],
+                "puts": exp_analysis["total_put_oi"],
             }
 
         # Calculate key metrics
-        total_volume = analysis['total_call_volume'] + analysis['total_put_volume']
-        analysis['total_contracts'] = total_volume
-        analysis['put_call_ratio'] = (analysis['total_put_volume'] / max(analysis['total_call_volume'], 1))
+        total_volume = analysis["total_call_volume"] + analysis["total_put_volume"]
+        analysis["total_contracts"] = total_volume
+        analysis["put_call_ratio"] = analysis["total_put_volume"] / max(
+            analysis["total_call_volume"], 1
+        )
 
         # Identify key strikes (highest volume/OI)
         all_options = []
-        for exp in analysis['expirations']:
-            all_options.extend(exp['calls'])
-            all_options.extend(exp['puts'])
+        for exp in analysis["expirations"]:
+            all_options.extend(exp["calls"])
+            all_options.extend(exp["puts"])
 
         # Sort by volume and take top strikes
-        sorted_by_volume = sorted(all_options, key=lambda x: x['volume'], reverse=True)
-        analysis['key_strikes'] = sorted_by_volume[:10]  # Top 10 by volume
+        sorted_by_volume = sorted(all_options, key=lambda x: x["volume"], reverse=True)
+        analysis["key_strikes"] = sorted_by_volume[:10]  # Top 10 by volume
 
         return analysis
+
 
 class OpenAIMarketIntelligence:
     """OpenAI-powered market intelligence using web search"""
@@ -260,7 +273,7 @@ class OpenAIMarketIntelligence:
                 self._get_news_intelligence(symbol),
                 self._get_social_intelligence(symbol),
                 self._get_technical_intelligence(symbol),
-                self._get_market_outlook(symbol)
+                self._get_market_outlook(symbol),
             ]
 
             results = await asyncio.gather(*tasks, return_exceptions=True)
@@ -282,7 +295,7 @@ class OpenAIMarketIntelligence:
                 social_sentiment=social_sentiment,
                 technical_signals=technical_signals,
                 market_outlook=market_outlook,
-                confidence_score=overall_confidence
+                confidence_score=overall_confidence,
             )
 
         except Exception as e:
@@ -305,18 +318,18 @@ class OpenAIMarketIntelligence:
             Analyze this comprehensive options data for {symbol}:
             
             REAL OPTIONS DATA:
-            - Total Call Volume: {options_data.get('total_call_volume', 0):,}
-            - Total Put Volume: {options_data.get('total_put_volume', 0):,}
-            - Put/Call Ratio: {options_data.get('put_call_ratio', 0):.2f}
-            - Total Call OI: {options_data.get('total_call_oi', 0):,}
-            - Total Put OI: {options_data.get('total_put_oi', 0):,}
-            - Unusual Activity Events: {len(options_data.get('unusual_activity', []))}
+            - Total Call Volume: {options_data.get("total_call_volume", 0):,}
+            - Total Put Volume: {options_data.get("total_put_volume", 0):,}
+            - Put/Call Ratio: {options_data.get("put_call_ratio", 0):.2f}
+            - Total Call OI: {options_data.get("total_call_oi", 0):,}
+            - Total Put OI: {options_data.get("total_put_oi", 0):,}
+            - Unusual Activity Events: {len(options_data.get("unusual_activity", []))}
             
             TOP VOLUME STRIKES:
-            {self._format_key_strikes(options_data.get('key_strikes', [])[:5])}
+            {self._format_key_strikes(options_data.get("key_strikes", [])[:5])}
             
             EXPIRATION ANALYSIS:
-            {self._format_expiration_data(options_data.get('volume_by_expiration', {}))}
+            {self._format_expiration_data(options_data.get("volume_by_expiration", {}))}
             
             Provide professional options flow analysis in JSON format:
             {{
@@ -336,14 +349,17 @@ class OpenAIMarketIntelligence:
             response = await self.client.chat.completions.create(
                 model="gpt-4o",
                 messages=[
-                    {"role": "system", "content": "You are a professional options flow analyst with expertise in detecting institutional positioning and unusual activity."},
-                    {"role": "user", "content": prompt}
+                    {
+                        "role": "system",
+                        "content": "You are a professional options flow analyst with expertise in detecting institutional positioning and unusual activity.",
+                    },
+                    {"role": "user", "content": prompt},
                 ],
-                temperature=0.2
+                temperature=0.2,
             )
 
             analysis = self._extract_json_response(response.choices[0].message.content)
-            analysis['raw_options_data'] = options_data  # Include raw data
+            analysis["raw_options_data"] = options_data  # Include raw data
 
             return analysis
 
@@ -382,10 +398,13 @@ class OpenAIMarketIntelligence:
             response = await self.client.chat.completions.create(
                 model="gpt-4o",
                 messages=[
-                    {"role": "system", "content": "You are a financial news analyst specializing in market-moving events and their impact on options trading."},
-                    {"role": "user", "content": prompt}
+                    {
+                        "role": "system",
+                        "content": "You are a financial news analyst specializing in market-moving events and their impact on options trading.",
+                    },
+                    {"role": "user", "content": prompt},
                 ],
-                temperature=0.2
+                temperature=0.2,
             )
 
             return self._extract_json_response(response.choices[0].message.content)
@@ -425,10 +444,13 @@ class OpenAIMarketIntelligence:
             response = await self.client.chat.completions.create(
                 model="gpt-4o-mini",
                 messages=[
-                    {"role": "system", "content": "You are a social media sentiment analyst specializing in retail investor sentiment and options trading discussions."},
-                    {"role": "user", "content": prompt}
+                    {
+                        "role": "system",
+                        "content": "You are a social media sentiment analyst specializing in retail investor sentiment and options trading discussions.",
+                    },
+                    {"role": "user", "content": prompt},
                 ],
-                temperature=0.3
+                temperature=0.3,
             )
 
             return self._extract_json_response(response.choices[0].message.content)
@@ -448,16 +470,16 @@ class OpenAIMarketIntelligence:
             Analyze the technical indicators for {symbol}:
             
             REAL TECHNICAL DATA:
-            - Current Price: ${technical_data.get('current_price', 0):.2f}
-            - RSI: {technical_data.get('rsi', 50):.2f}
-            - MACD: {technical_data.get('macd', 0):.4f}
-            - MACD Signal: {technical_data.get('macd_signal', 0):.4f}
-            - BB Upper: ${technical_data.get('bb_upper', 0):.2f}
-            - BB Lower: ${technical_data.get('bb_lower', 0):.2f}
-            - Volume: {technical_data.get('volume', 0):,}
-            - Volatility: {technical_data.get('volatility', 0):.2f}%
-            - Support: ${technical_data.get('support', 0):.2f}
-            - Resistance: ${technical_data.get('resistance', 0):.2f}
+            - Current Price: ${technical_data.get("current_price", 0):.2f}
+            - RSI: {technical_data.get("rsi", 50):.2f}
+            - MACD: {technical_data.get("macd", 0):.4f}
+            - MACD Signal: {technical_data.get("macd_signal", 0):.4f}
+            - BB Upper: ${technical_data.get("bb_upper", 0):.2f}
+            - BB Lower: ${technical_data.get("bb_lower", 0):.2f}
+            - Volume: {technical_data.get("volume", 0):,}
+            - Volatility: {technical_data.get("volatility", 0):.2f}%
+            - Support: ${technical_data.get("support", 0):.2f}
+            - Resistance: ${technical_data.get("resistance", 0):.2f}
             
             Provide technical analysis in JSON format:
             {{
@@ -479,14 +501,17 @@ class OpenAIMarketIntelligence:
             response = await self.client.chat.completions.create(
                 model="gpt-4o",
                 messages=[
-                    {"role": "system", "content": "You are a technical analyst specializing in options trading and technical indicators."},
-                    {"role": "user", "content": prompt}
+                    {
+                        "role": "system",
+                        "content": "You are a technical analyst specializing in options trading and technical indicators.",
+                    },
+                    {"role": "user", "content": prompt},
                 ],
-                temperature=0.2
+                temperature=0.2,
             )
 
             analysis = self._extract_json_response(response.choices[0].message.content)
-            analysis['raw_technical_data'] = technical_data  # Include raw data
+            analysis["raw_technical_data"] = technical_data  # Include raw data
 
             return analysis
 
@@ -530,10 +555,13 @@ class OpenAIMarketIntelligence:
             response = await self.client.chat.completions.create(
                 model="gpt-4o",
                 messages=[
-                    {"role": "system", "content": "You are a comprehensive market strategist with expertise in equity analysis and options market dynamics."},
-                    {"role": "user", "content": prompt}
+                    {
+                        "role": "system",
+                        "content": "You are a comprehensive market strategist with expertise in equity analysis and options market dynamics.",
+                    },
+                    {"role": "user", "content": prompt},
                 ],
-                temperature=0.2
+                temperature=0.2,
             )
 
             return self._extract_json_response(response.choices[0].message.content)
@@ -545,7 +573,7 @@ class OpenAIMarketIntelligence:
     def _extract_json_response(self, response: str) -> dict[str, Any]:
         """Extract JSON from OpenAI response"""
         try:
-            json_match = re.search(r'\{.*\}', response, re.DOTALL)
+            json_match = re.search(r"\{.*\}", response, re.DOTALL)
             if json_match:
                 return json.loads(json_match.group())
             return {}
@@ -560,7 +588,9 @@ class OpenAIMarketIntelligence:
 
         formatted = []
         for strike in strikes:
-            formatted.append(f"${strike['strike']:.0f} {strike['type'].upper()}: Vol={strike['volume']:,}, OI={strike['open_interest']:,}")
+            formatted.append(
+                f"${strike['strike']:.0f} {strike['type'].upper()}: Vol={strike['volume']:,}, OI={strike['open_interest']:,}"
+            )
 
         return "\n".join(formatted)
 
@@ -571,8 +601,8 @@ class OpenAIMarketIntelligence:
 
         formatted = []
         for exp_date, volumes in exp_data.items():
-            call_vol = volumes.get('calls', 0)
-            put_vol = volumes.get('puts', 0)
+            call_vol = volumes.get("calls", 0)
+            put_vol = volumes.get("puts", 0)
             formatted.append(f"{exp_date}: Calls={call_vol:,}, Puts={put_vol:,}")
 
         return "\n".join(formatted)
@@ -593,8 +623,9 @@ class OpenAIMarketIntelligence:
             social_sentiment={},
             technical_signals={},
             market_outlook={},
-            confidence_score=0.0
+            confidence_score=0.0,
         )
+
 
 # Test function
 async def test_openai_orchestrator():
@@ -621,6 +652,7 @@ async def test_openai_orchestrator():
     except Exception as e:
         print(f"❌ Error in analysis: {e}")
         return None
+
 
 if __name__ == "__main__":
     asyncio.run(test_openai_orchestrator())
