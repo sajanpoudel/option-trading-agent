@@ -1,6 +1,7 @@
 """
 Neural Options Oracle++ Configuration Settings
 """
+
 import os
 from typing import List, Optional
 
@@ -10,6 +11,7 @@ from pydantic_settings import BaseSettings
 
 class DatabaseSettings(BaseModel):
     """Database configuration"""
+
     supabase_url: str
     supabase_anon_key: str
     supabase_service_key: str
@@ -17,6 +19,7 @@ class DatabaseSettings(BaseModel):
 
 class AIModelSettings(BaseModel):
     """AI model configuration"""
+
     openai_api_key: str
     gemini_api_key: str
     jigsawstack_api_key: str
@@ -24,6 +27,7 @@ class AIModelSettings(BaseModel):
 
 class TradingSettings(BaseModel):
     """Trading API configuration"""
+
     alpaca_api_key: str
     alpaca_secret_key: str
     alpaca_base_url: str = "https://paper-api.alpaca.markets"
@@ -31,12 +35,14 @@ class TradingSettings(BaseModel):
 
 class ExternalDataSettings(BaseModel):
     """External data API configuration"""
+
     stocktwits_access_token: str | None = None
     news_api_key: str | None = None
 
 
 class AppSettings(BaseModel):
     """Application settings"""
+
     env: str = "development"
     debug: bool = True
     host: str = "0.0.0.0"
@@ -106,7 +112,7 @@ class Settings(BaseSettings):
         return DatabaseSettings(
             supabase_url=self.supabase_url,
             supabase_anon_key=self.supabase_anon_key,
-            supabase_service_key=self.supabase_service_key
+            supabase_service_key=self.supabase_service_key,
         )
 
     @property
@@ -115,7 +121,7 @@ class Settings(BaseSettings):
         return AIModelSettings(
             openai_api_key=self.openai_api_key,
             gemini_api_key=self.gemini_api_key,
-            jigsawstack_api_key=self.jigsawstack_api_key
+            jigsawstack_api_key=self.jigsawstack_api_key,
         )
 
     @property
@@ -124,15 +130,14 @@ class Settings(BaseSettings):
         return TradingSettings(
             alpaca_api_key=self.alpaca_api_key,
             alpaca_secret_key=self.alpaca_secret_key,
-            alpaca_base_url=self.alpaca_base_url
+            alpaca_base_url=self.alpaca_base_url,
         )
 
     @property
     def external_data(self) -> ExternalDataSettings:
         """Get external data settings"""
         return ExternalDataSettings(
-            stocktwits_access_token=self.stocktwits_access_token,
-            news_api_key=self.news_api_key
+            stocktwits_access_token=self.stocktwits_access_token, news_api_key=self.news_api_key
         )
 
     @property
@@ -150,7 +155,7 @@ class Settings(BaseSettings):
             analysis_timeout_seconds=self.analysis_timeout_seconds,
             max_concurrent_analysis=self.max_concurrent_analysis,
             default_risk_profile=self.default_risk_profile,
-            paper_trading_balance=self.paper_trading_balance
+            paper_trading_balance=self.paper_trading_balance,
         )
 
 
