@@ -1,5 +1,4 @@
-"""
-Options Flow Analysis Agent
+"""Options Flow Analysis Agent
 OpenAI Agents SDK v0.3.0 Implementation
 """
 
@@ -127,7 +126,6 @@ OUTPUT FORMAT (JSON):
 
     async def analyze(self, symbol: str, **kwargs) -> dict[str, Any]:
         """Analyze options flow for the symbol"""
-
         try:
             logger.info(f"Starting options flow analysis for {symbol}")
 
@@ -207,7 +205,6 @@ Provide comprehensive flow analysis with this REAL options data.
 
     def _validate_flow_analysis(self, analysis: dict, symbol: str) -> dict:
         """Validate flow analysis"""
-
         if "flow_score" not in analysis:
             analysis["flow_score"] = 0.0
         if "confidence" not in analysis:
