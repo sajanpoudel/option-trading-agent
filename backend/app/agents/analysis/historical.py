@@ -1,5 +1,4 @@
-"""
-Historical Pattern Analysis Agent
+"""Historical Pattern Analysis Agent
 OpenAI Agents SDK v0.3.0 Implementation
 """
 
@@ -130,7 +129,6 @@ OUTPUT FORMAT (JSON):
 
     async def analyze(self, symbol: str, **kwargs) -> dict[str, Any]:
         """Analyze historical patterns for the symbol"""
-
         try:
             logger.info(f"Starting historical pattern analysis for {symbol}")
 
@@ -208,7 +206,6 @@ Provide comprehensive pattern analysis.
 
     def _validate_pattern_analysis(self, analysis: dict, symbol: str) -> dict:
         """Validate pattern analysis"""
-
         if "pattern_score" not in analysis:
             analysis["pattern_score"] = 0.0
         if "confidence" not in analysis:
