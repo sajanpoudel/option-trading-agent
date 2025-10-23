@@ -1,5 +1,4 @@
-"""
-Neural Options Oracle++ AI Agent System
+"""Neural Options Oracle++ AI Agent System
 Reorganized agent structure for better maintainability
 """
 
