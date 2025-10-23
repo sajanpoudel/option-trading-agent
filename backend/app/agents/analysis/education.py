@@ -1,5 +1,4 @@
-"""
-Education Agent
+"""Education Agent
 OpenAI Agents SDK v0.3.0 Implementation
 """
 
@@ -163,7 +162,6 @@ OUTPUT FORMAT (JSON):
         self, symbol: str, signal: dict[str, Any], agent_results: dict[str, Any]
     ) -> dict[str, Any]:
         """Generate educational explanation for trading decision"""
-
         try:
             logger.info(f"Generating educational content for {symbol} signal")
 
@@ -243,7 +241,6 @@ Create educational content that explains WHY this decision was made and what the
 
     def _validate_explanation(self, explanation: dict, symbol: str, signal: dict) -> dict:
         """Validate educational explanation"""
-
         # Ensure basic structure
         if "explanation" not in explanation:
             explanation["explanation"] = {
@@ -283,7 +280,6 @@ Create educational content that explains WHY this decision was made and what the
 
     def _get_fallback_explanation(self, symbol: str, signal: dict) -> dict:
         """Fallback educational explanation"""
-
         direction = signal.get("direction", "HOLD")
 
         return {
