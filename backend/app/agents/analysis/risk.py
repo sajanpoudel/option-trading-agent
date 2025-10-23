@@ -1,5 +1,4 @@
-"""
-Risk Management Agent
+"""Risk Management Agent
 OpenAI Agents SDK v0.3.0 Implementation
 """
 
@@ -177,7 +176,6 @@ OUTPUT FORMAT (JSON):
         self, signal: dict[str, Any], user_risk_profile: dict[str, Any]
     ) -> list[dict[str, Any]]:
         """Recommend option strikes based on signal and risk profile"""
-
         try:
             logger.info(
                 f"Generating strike recommendations for {signal.get('direction', 'UNKNOWN')}"
@@ -237,7 +235,6 @@ Recommend 3-5 appropriate strikes with full risk analysis.
 
     async def analyze(self, symbol: str, **kwargs) -> dict[str, Any]:
         """General risk analysis (not used in main flow but required by base class)"""
-
         return {
             "risk_score": 0.5,
             "confidence": 0.7,
@@ -285,7 +282,6 @@ Recommend 3-5 appropriate strikes with full risk analysis.
 
     def _format_options_chain(self, chain: list[dict]) -> str:
         """Format options chain for prompt"""
-
         formatted = []
         for opt in chain[:10]:  # Limit to first 10 for brevity
             formatted.append(
@@ -297,7 +293,6 @@ Recommend 3-5 appropriate strikes with full risk analysis.
 
     def _validate_strike_recommendations(self, recommendations: list[dict]) -> list[dict]:
         """Validate strike recommendations"""
-
         validated = []
         for rec in recommendations:
             if isinstance(rec, dict):
@@ -336,7 +331,6 @@ Recommend 3-5 appropriate strikes with full risk analysis.
 
     def _get_fallback_strikes(self, signal: dict, user_profile: dict) -> list[dict]:
         """Fallback strike recommendations"""
-
         direction = signal.get("direction", "HOLD")
         risk_level = user_profile.get("risk_level", "moderate")
 
