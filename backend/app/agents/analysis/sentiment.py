@@ -1,5 +1,4 @@
-"""
-Sentiment Analysis Agent
+"""Sentiment Analysis Agent
 OpenAI Agents SDK v0.3.0 Implementation - REAL DATA ONLY
 """
 
@@ -123,7 +122,6 @@ OUTPUT FORMAT (JSON):
 
     async def analyze(self, symbol: str, **kwargs) -> dict[str, Any]:
         """Analyze market sentiment for the symbol using real web search data"""
-
         try:
             logger.info(f"Starting REAL sentiment analysis for {symbol}")
 
@@ -398,7 +396,6 @@ OUTPUT FORMAT (JSON):
 
     def _validate_sentiment_analysis(self, analysis: dict, symbol: str) -> dict:
         """Validate sentiment analysis"""
-
         if "aggregate_score" not in analysis:
             analysis["aggregate_score"] = 0.0
         if "confidence" not in analysis:
