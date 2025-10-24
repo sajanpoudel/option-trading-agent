@@ -1,5 +1,4 @@
-"""
-Intelligent Agent Orchestration System
+"""Intelligent Agent Orchestration System
 Analyzes user queries and triggers appropriate AI agents with full visualization data
 Replaces ALL mock data in frontend with real AI-generated analysis
 """
@@ -54,8 +53,7 @@ class QueryClassifier:
         # No fallback patterns - we use OpenAI for all classification
 
     async def classify_query(self, query: str) -> dict[str, float]:
-        """
-        Intelligently classify user query using OpenAI to understand intent
+        """Intelligently classify user query using OpenAI to understand intent
         Returns dict with category names and confidence scores (0-1)
         """
         try:
@@ -199,8 +197,7 @@ Symbol:"""
 
 
 class IntelligentOrchestrator:
-    """
-    Intelligent orchestration of AI agents based on user queries
+    """Intelligent orchestration of AI agents based on user queries
     Generates complete analysis with all visualization data
     """
 
@@ -247,8 +244,7 @@ class IntelligentOrchestrator:
     async def process_user_query(
         self, query: str, user_context: dict[str, Any] | None = None
     ) -> dict[str, Any]:
-        """
-        Main entry point: Process user query and orchestrate appropriate agents
+        """Main entry point: Process user query and orchestrate appropriate agents
         Returns complete analysis with all visualization data
         """
         logger.info(f"🧠 Processing user query: {query}")
@@ -361,7 +357,6 @@ class IntelligentOrchestrator:
         user_context: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         """Orchestrate the execution of selected agents"""
-
         results = {}
 
         try:
@@ -784,7 +779,6 @@ class IntelligentOrchestrator:
         analysis_result: dict[str, Any],
     ) -> dict[str, Any]:
         """Generate intelligent response based on query type and analysis results"""
-
         # Determine primary query type
         primary_type = max(query_scores.items(), key=lambda x: x[1])[0]
 
@@ -1049,7 +1043,6 @@ class IntelligentOrchestrator:
         self, query: str, symbol: str, primary_type: str, analysis_result: dict[str, Any]
     ) -> str:
         """Generate contextual AI response based on analysis"""
-
         if primary_type == "technical_analysis":
             return self._generate_technical_response(symbol, analysis_result)
         elif primary_type == "sentiment_analysis":
