@@ -1,5 +1,4 @@
-"""
-Multi-Stock Analysis Agent for Neural Options Oracle++
+"""Multi-Stock Analysis Agent for Neural Options Oracle++
 Analyzes multiple stocks, compares them, and selects the best option based on budget and criteria
 """
 
@@ -80,8 +79,7 @@ Always provide comprehensive analysis with clear reasoning for your recommendati
 """
 
     async def analyze(self, query: str, context: dict[str, Any] = None) -> dict[str, Any]:
-        """
-        Analyze multiple stocks and select the best option based on budget
+        """Analyze multiple stocks and select the best option based on budget
         """
         logger.info(f"🔍 Starting multi-stock analysis for query: {query}")
 
