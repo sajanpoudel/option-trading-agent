@@ -1,5 +1,4 @@
-"""
-Neural Options Oracle++ API Dependencies
+"""Neural Options Oracle++ API Dependencies
 """
 
 import asyncio
@@ -24,7 +23,6 @@ async def get_current_session(
     x_session_token: str | None = Header(None), session_token: str | None = None
 ) -> dict[str, Any]:
     """Get current browser session (dependency)"""
-
     token = x_session_token or session_token
 
     if not token:
