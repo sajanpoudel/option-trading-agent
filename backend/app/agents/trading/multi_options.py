@@ -1,5 +1,4 @@
-"""
-Multi-Options Buy Agent
+"""Multi-Options Buy Agent
 Analyzes hot stocks and creates optimized options portfolio within budget
 """
 
@@ -27,8 +26,7 @@ class MultiOptionsBuyAgent:
     async def analyze_best_options_portfolio(
         self, total_budget: float, user_preferences: dict[str, Any] = None
     ) -> dict[str, Any]:
-        """
-        Analyze hot stocks and create optimized options portfolio within budget
+        """Analyze hot stocks and create optimized options portfolio within budget
         """
         try:
             logger.info(f"🔥 Analyzing best options portfolio with ${total_budget} budget")
@@ -100,7 +98,6 @@ class MultiOptionsBuyAgent:
         user_preferences: dict[str, Any],
     ) -> dict[str, Any]:
         """Use AI to create optimized options portfolio"""
-
         # Prepare data for AI analysis
         opportunities_summary = []
         for opp in opportunities:
@@ -243,7 +240,6 @@ class MultiOptionsBuyAgent:
         self, portfolio: dict[str, Any], confirmed: bool = False
     ) -> dict[str, Any]:
         """Execute the entire options portfolio if confirmed"""
-
         if not confirmed:
             return {"error": "User confirmation required before execution"}
 
