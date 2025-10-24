@@ -1,5 +1,4 @@
-"""
-Buy Agent for Neural Options Oracle++
+"""Buy Agent for Neural Options Oracle++
 Intelligent trade execution based on AI analysis and decision engine signals
 """
 
@@ -163,7 +162,6 @@ class BuyAgent(BaseAgent):
         strike_recommendations: list[dict[str, Any]],
     ) -> list[PositionRecommendation]:
         """Generate buy recommendations based on decision signal"""
-
         recommendations = []
 
         try:
@@ -236,7 +234,6 @@ class BuyAgent(BaseAgent):
         direction: str = "BUY",
     ) -> list[PositionRecommendation]:
         """Generate bullish (call) recommendations"""
-
         recommendations = []
 
         try:
@@ -308,7 +305,6 @@ class BuyAgent(BaseAgent):
         direction: str = "SELL",
     ) -> list[PositionRecommendation]:
         """Generate bearish (put) recommendations"""
-
         recommendations = []
 
         try:
@@ -388,7 +384,6 @@ class BuyAgent(BaseAgent):
         self, recommendations: list[PositionRecommendation], user_risk_profile: dict[str, Any]
     ) -> list[PositionRecommendation]:
         """Filter and rank recommendations based on risk profile"""
-
         # Filter by risk tolerance
         max_risk = user_risk_profile.get("max_risk_score", 0.5)
         filtered = [rec for rec in recommendations if rec.risk_score <= max_risk]
@@ -406,7 +401,6 @@ class BuyAgent(BaseAgent):
         user_risk_profile: dict[str, Any],
     ) -> dict[str, Any]:
         """Create detailed execution plan for recommendations"""
-
         if not recommendations:
             return {"status": "no_recommendations", "message": "No suitable trades found"}
 
@@ -472,7 +466,6 @@ class BuyAgent(BaseAgent):
         self, recommendations: list[PositionRecommendation], user_risk_profile: dict[str, Any]
     ) -> dict[str, Any]:
         """Assess overall risk of the trade recommendations"""
-
         if not recommendations:
             return {"risk_level": "none", "message": "No recommendations to assess"}
 
@@ -504,7 +497,6 @@ class BuyAgent(BaseAgent):
         self, recommendations: list[PositionRecommendation], user_risk_profile: dict[str, Any]
     ) -> list[str]:
         """Generate risk warnings for the recommendations"""
-
         warnings = []
 
         # Check risk score
@@ -528,7 +520,6 @@ class BuyAgent(BaseAgent):
         self, recommendations: list[PositionRecommendation]
     ) -> float:
         """Calculate overall confidence in the execution plan"""
-
         if not recommendations:
             return 0.0
 
@@ -547,7 +538,6 @@ class BuyAgent(BaseAgent):
         self, symbol: str, recommendation: PositionRecommendation, user_risk_profile: dict[str, Any]
     ) -> TradeExecution:
         """Execute a trade based on recommendation"""
-
         try:
             logger.info(
                 f"🎯 Executing trade: {recommendation.action} {recommendation.quantity} {symbol} {recommendation.option_type}"
@@ -590,7 +580,6 @@ class BuyAgent(BaseAgent):
         self, recommendation: PositionRecommendation, user_risk_profile: dict[str, Any]
     ) -> dict[str, Any]:
         """Validate trade before execution"""
-
         # Check risk limits
         if recommendation.risk_score > user_risk_profile.get("max_risk_score", 0.5):
             return {"valid": False, "reason": "Risk score exceeds user limits"}
@@ -613,7 +602,6 @@ class BuyAgent(BaseAgent):
         self, symbol: str, recommendation: PositionRecommendation
     ) -> TradeExecution:
         """Execute paper trade using Alpaca API"""
-
         try:
             if not self.alpaca_client:
                 raise Exception("Alpaca client not initialized")
