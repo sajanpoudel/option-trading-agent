@@ -1,5 +1,4 @@
-"""
-Technical Analysis Agent
+"""Technical Analysis Agent
 OpenAI Agents SDK v0.3.0 Implementation
 """
 
@@ -239,7 +238,6 @@ Remember: You are the primary decision driver with 60% weight in the final syste
 
     async def analyze(self, symbol: str, timeframe: str = "1d", **kwargs) -> dict[str, Any]:
         """Analyze technical indicators for the given symbol"""
-
         try:
             logger.info(f"Starting technical analysis for {symbol}")
 
@@ -323,7 +321,6 @@ Please provide a comprehensive technical analysis with scenario detection and we
 
     def _validate_analysis(self, analysis: dict, symbol: str, market_data: dict) -> dict[str, Any]:
         """Validate and enhance the analysis response"""
-
         # Ensure required fields exist
         if "scenario" not in analysis:
             analysis["scenario"] = "range_bound"
