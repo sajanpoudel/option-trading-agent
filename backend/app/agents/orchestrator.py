@@ -1,5 +1,4 @@
-"""
-Neural Options Oracle++ Master Orchestrator
+"""Neural Options Oracle++ Master Orchestrator
 OpenAI Agents SDK v0.3.0 Implementation
 """
 
@@ -81,7 +80,6 @@ class OptionsOracleOrchestrator:
         self, symbol: str, user_risk_profile: dict, analysis_type: str = "full"
     ) -> dict[str, Any]:
         """Complete stock analysis using all agents"""
-
         if not self.initialized:
             await self.initialize()
 
@@ -166,7 +164,6 @@ class OptionsOracleOrchestrator:
         self, symbol: str, user_risk_profile: dict, user_query: str = None
     ) -> dict[str, Any]:
         """Execute buy request using buy agent"""
-
         if not self.initialized:
             await self.initialize()
 
@@ -219,7 +216,6 @@ class OptionsOracleOrchestrator:
 
     async def _detect_market_scenario(self, symbol: str, agent_results: dict) -> str:
         """Detect current market scenario for dynamic weight adjustment"""
-
         try:
             tech_data = agent_results.get("technical", {})
             sentiment_data = agent_results.get("sentiment", {})
@@ -245,7 +241,6 @@ class OptionsOracleOrchestrator:
 
     def _adjust_weights_for_scenario(self, scenario: str) -> dict[str, float]:
         """Dynamically adjust agent weights based on market scenario"""
-
         weights = self.base_weights.copy()
 
         scenario_adjustments = {
@@ -291,7 +286,6 @@ class OptionsOracleOrchestrator:
 
     def _calculate_weighted_decision(self, agent_results: dict, weights: dict[str, float]) -> float:
         """Calculate final weighted decision score"""
-
         weighted_score = 0.0
         total_weight = 0.0
 
@@ -327,7 +321,6 @@ class OptionsOracleOrchestrator:
         self, symbol: str, decision_score: float, agent_results: dict, scenario: str
     ) -> dict[str, Any]:
         """Generate trading signal from decision score"""
-
         # Signal thresholds
         thresholds = {"strong_buy": 0.6, "buy": 0.3, "sell": -0.3, "strong_sell": -0.6}
 
@@ -371,7 +364,6 @@ class OptionsOracleOrchestrator:
 
     def _generate_signal_reasoning(self, agent_results: dict, decision_score: float) -> str:
         """Generate human-readable reasoning for the signal"""
-
         reasoning_parts = []
 
         # Technical reasoning
@@ -403,7 +395,6 @@ class OptionsOracleOrchestrator:
 
     def _calculate_overall_confidence(self, agent_results: dict) -> float:
         """Calculate overall confidence score"""
-
         confidences = []
         for agent_name, result in agent_results.items():
             if "confidence" in result and isinstance(result["confidence"], (int, float)):
@@ -415,7 +406,6 @@ class OptionsOracleOrchestrator:
 
     async def _save_analysis_to_db(self, analysis: dict) -> None:
         """Save analysis results to database"""
-
         try:
             signal_data = {
                 "symbol": analysis["symbol"],
@@ -441,7 +431,6 @@ class OptionsOracleOrchestrator:
 
     async def get_agent_status(self) -> dict[str, Any]:
         """Get status of all agents"""
-
         status = {
             "initialized": self.initialized,
             "agents": {},
