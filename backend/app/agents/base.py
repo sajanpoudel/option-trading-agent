@@ -1,5 +1,4 @@
-"""
-Base Agent Class for Neural Options Oracle++
+"""Base Agent Class for Neural Options Oracle++
 OpenAI Agents SDK v0.3.0 Implementation
 """
 
@@ -52,7 +51,6 @@ class BaseAgent(ABC):
         response_schema: dict | None = None,
     ) -> dict[str, Any]:
         """Make a completion request to OpenAI"""
-
         try:
             # Check if client is available
             if not self.client:
