@@ -1,5 +1,4 @@
-"""
-Neural Options Oracle++ Education API Routes
+"""Neural Options Oracle++ Education API Routes
 """
 
 import time
@@ -67,7 +66,6 @@ class QuizResponse(BaseModel):
 @router.get("/")
 async def education_info() -> dict[str, Any]:
     """Get education API information"""
-
     return {
         "name": "Education API",
         "version": "1.0.0",
@@ -98,7 +96,6 @@ async def get_educational_content(
     session: dict = Depends(get_current_session),
 ) -> list[ContentResponse]:
     """Get educational content with filtering"""
-
     try:
         # Get content from database
         content_list = await db_manager.get_educational_content(
@@ -204,7 +201,6 @@ async def get_content_by_id(
     content_id: str, session: dict = Depends(get_current_session)
 ) -> ContentResponse:
     """Get specific educational content by ID"""
-
     try:
         # Mock content response
         mock_content = {
@@ -251,7 +247,6 @@ async def generate_quiz(
     quiz_request: QuizRequest, session: dict = Depends(get_current_session)
 ) -> QuizResponse:
     """Generate adaptive quiz based on topic and difficulty"""
-
     try:
         # Mock quiz generation - will be replaced with AI-generated content
         mock_questions = []
@@ -304,7 +299,6 @@ async def explain_concept(
     session: dict = Depends(get_current_session),
 ) -> dict[str, Any]:
     """Get AI-powered explanation of trading concepts"""
-
     try:
         # Mock explanation - will be replaced with AI agent
         explanations = {
@@ -355,7 +349,6 @@ async def get_trading_glossary(
     session: dict = Depends(get_current_session),
 ) -> dict[str, Any]:
     """Get trading terminology glossary"""
-
     try:
         # Mock glossary data
         glossary_terms = {
