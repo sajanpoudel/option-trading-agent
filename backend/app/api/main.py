@@ -1,5 +1,4 @@
-"""
-Neural Options Oracle++ FastAPI Main Application
+"""Neural Options Oracle++ FastAPI Main Application
 """
 
 import time
@@ -26,7 +25,6 @@ logger = get_api_logger()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Application lifespan management"""
-
     # Startup
     logger.info("Starting Neural Options Oracle++ API Server")
 
@@ -83,7 +81,6 @@ if settings.app_env == "production":
 @app.middleware("http")
 async def logging_middleware(request: Request, call_next):
     """Log all API requests and responses"""
-
     start_time = time.time()
 
     # Get client info
@@ -133,7 +130,6 @@ async def logging_middleware(request: Request, call_next):
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request: Request, exc: HTTPException):
     """Handle HTTP exceptions"""
-
     return JSONResponse(
         status_code=exc.status_code,
         content={
@@ -148,7 +144,6 @@ async def http_exception_handler(request: Request, exc: HTTPException):
 @app.exception_handler(Exception)
 async def general_exception_handler(request: Request, exc: Exception):
     """Handle general exceptions"""
-
     logger.error(f"Unhandled exception: {exc}")
 
     return JSONResponse(
@@ -166,7 +161,6 @@ async def general_exception_handler(request: Request, exc: Exception):
 @app.get("/")
 async def root() -> dict[str, Any]:
     """Root endpoint with API information"""
-
     return {
         "name": "Neural Options Oracle++ API",
         "version": "1.0.0",
@@ -189,7 +183,6 @@ async def root() -> dict[str, Any]:
 @app.get("/health")
 async def health_check() -> dict[str, Any]:
     """Health check endpoint"""
-
     # Check database
     db_health = await db_manager.health_check()
 
@@ -210,7 +203,6 @@ async def health_check() -> dict[str, Any]:
 @app.post("/api/v1/session/create")
 async def create_session(request: Request, risk_profile: str = "moderate") -> dict[str, Any]:
     """Create a new browser session"""
-
     # Get client info
     client_ip = request.client.host if request.client else "unknown"
     user_agent = request.headers.get("user-agent")
@@ -236,7 +228,6 @@ async def create_session(request: Request, risk_profile: str = "moderate") -> di
 @app.get("/api/v1/session/info")
 async def get_session_info(session: dict = Depends(get_current_session)) -> dict[str, Any]:
     """Get current session information"""
-
     return {
         "session_token": session["session_token"],
         "risk_profile": session["risk_profile"],
