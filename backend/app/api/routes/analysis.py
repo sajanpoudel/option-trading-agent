@@ -1,5 +1,4 @@
-"""
-Neural Options Oracle++ Analysis API Routes
+"""Neural Options Oracle++ Analysis API Routes
 """
 
 import asyncio
@@ -58,7 +57,6 @@ class QuickAnalysisResponse(BaseModel):
 @router.get("/")
 async def analysis_info() -> dict[str, Any]:
     """Get analysis API information"""
-
     return {
         "name": "Analysis API",
         "version": "1.0.0",
@@ -89,7 +87,6 @@ async def analyze_stock(
     session: dict = Depends(get_current_session),
 ) -> AnalysisResponse:
     """Comprehensive stock analysis using AI agents"""
-
     start_time = time.time()
     symbol = symbol.upper()
 
@@ -189,7 +186,6 @@ async def quick_analysis(
     symbol: str, session: dict = Depends(get_current_session)
 ) -> QuickAnalysisResponse:
     """Quick analysis for rapid decision making"""
-
     symbol = symbol.upper()
     logger.info(f"Quick analysis for {symbol}")
 
@@ -221,7 +217,6 @@ async def get_analysis_history(
     limit: int = 10, symbol: str | None = None, session: dict = Depends(get_current_session)
 ) -> list[dict[str, Any]]:
     """Get analysis history"""
-
     try:
         signals = await db_manager.get_trading_signals(
             symbol=symbol.upper() if symbol else None, limit=limit
@@ -237,7 +232,6 @@ async def get_analysis_history(
 @router.get("/symbols")
 async def get_supported_symbols() -> dict[str, Any]:
     """Get list of supported symbols"""
-
     # Mock data - in production this would come from data providers
     supported_symbols = {
         "popular": ["AAPL", "GOOGL", "MSFT", "TSLA", "AMZN", "NVDA", "META", "NFLX"],
@@ -255,7 +249,6 @@ async def get_analysis_status(
     analysis_id: str, session: dict = Depends(get_current_session)
 ) -> dict[str, Any]:
     """Get analysis status by ID"""
-
     try:
         # Get analysis from database
         signals = await db_manager.get_trading_signals(limit=1)
@@ -279,7 +272,6 @@ async def generate_educational_content(
     symbol: str, signal: dict[str, Any], risk_profile: str
 ) -> None:
     """Generate educational content in background"""
-
     try:
         logger.info(f"Generating educational content for {symbol}")
 
