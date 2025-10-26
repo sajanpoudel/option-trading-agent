@@ -1,5 +1,4 @@
-"""
-Neural Options Oracle++ Portfolio API Routes
+"""Neural Options Oracle++ Portfolio API Routes
 """
 
 import time
@@ -55,7 +54,6 @@ class RiskMetrics(BaseModel):
 @router.get("/")
 async def portfolio_info() -> dict[str, Any]:
     """Get portfolio API information"""
-
     return {
         "name": "Portfolio API",
         "version": "1.0.0",
@@ -81,7 +79,6 @@ async def portfolio_info() -> dict[str, Any]:
 @router.get("/summary")
 async def get_portfolio_summary(session: dict = Depends(get_current_session)) -> PortfolioSummary:
     """Get portfolio summary"""
-
     try:
         # Get real portfolio data from database
         analytics = await db_manager.get_system_analytics()
@@ -127,7 +124,6 @@ async def get_portfolio_positions(
     include_closed: bool = False, session: dict = Depends(get_current_session)
 ) -> list[dict[str, Any]]:
     """Get all portfolio positions"""
-
     try:
         if include_closed:
             # Would need to implement get_all_positions method
@@ -181,7 +177,6 @@ async def get_portfolio_positions(
 @router.get("/greeks")
 async def get_portfolio_greeks(session: dict = Depends(get_current_session)) -> PortfolioGreeks:
     """Get aggregated portfolio Greeks"""
-
     try:
         # Get positions with Greeks
         positions = await db_manager.get_open_positions()
@@ -221,7 +216,6 @@ async def get_portfolio_greeks(session: dict = Depends(get_current_session)) -> 
 @router.get("/risk")
 async def get_risk_metrics(session: dict = Depends(get_current_session)) -> RiskMetrics:
     """Get portfolio risk metrics"""
-
     try:
         # Mock risk calculations - in production would use historical data
         risk_metrics = RiskMetrics(
@@ -248,7 +242,6 @@ async def get_portfolio_performance(
     period: str = "1M", session: dict = Depends(get_current_session)
 ) -> dict[str, Any]:
     """Get portfolio performance analytics"""
-
     try:
         # Mock performance data
         performance_data = {
@@ -286,7 +279,6 @@ async def get_portfolio_performance(
 @router.get("/allocation")
 async def get_asset_allocation(session: dict = Depends(get_current_session)) -> dict[str, Any]:
     """Get portfolio asset allocation"""
-
     try:
         # Calculate allocation from positions
         positions = await db_manager.get_open_positions()
@@ -327,7 +319,6 @@ async def get_portfolio_alerts(
     session: dict = Depends(get_current_session),
 ) -> list[dict[str, Any]]:
     """Get portfolio alerts and notifications"""
-
     try:
         # Mock alerts
         alerts = [
@@ -372,7 +363,6 @@ async def suggest_rebalancing(
     target_allocation: dict[str, float], session: dict = Depends(get_current_session)
 ) -> dict[str, Any]:
     """Suggest portfolio rebalancing actions"""
-
     try:
         # Mock rebalancing suggestions
         suggestions = {
