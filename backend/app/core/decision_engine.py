@@ -1,5 +1,4 @@
-"""
-Decision Engine Implementation
+"""Decision Engine Implementation
 Core decision engine implementing the flowchart logic with dynamic weight assignment
 """
 
@@ -90,7 +89,6 @@ class RiskBasedStrikeSelector:
         self, signal: dict, symbol: str, user_profile: dict
     ) -> list[StrikeRecommendation]:
         """Select optimal strikes based on risk profile and signal"""
-
         try:
             risk_level = user_profile.get("risk_level", "moderate")
             profile_params = self.risk_profiles[risk_level]
@@ -222,7 +220,6 @@ class DecisionEngine:
 
     async def process_stock(self, symbol: str, user_risk_profile: dict) -> dict:
         """Main decision processing pipeline"""
-
         logger.info(f"Processing decision for {symbol}")
 
         try:
@@ -283,7 +280,6 @@ class DecisionEngine:
 
     def _adjust_weights_for_scenario(self, scenario: str) -> ScenarioWeights:
         """Dynamically adjust weights based on market scenario"""
-
         # Start with base weights
         weights = ScenarioWeights(
             technical=self.base_weights.technical,
@@ -330,7 +326,6 @@ class DecisionEngine:
 
     def _calculate_weighted_decision(self, agent_results: dict, weights: ScenarioWeights) -> float:
         """Calculate final weighted decision score"""
-
         try:
             # Extract scores from agent results
             technical_score = agent_results.get("technical", {}).get("weighted_score", 0.0)
@@ -391,7 +386,6 @@ class DecisionEngine:
 
     def _generate_signal(self, decision_score: float, ensemble_signal, agent_results: dict) -> dict:
         """Generate trading signal from decision score and ensemble"""
-
         # Use ensemble signal as primary, decision score as confirmation
         final_score = (decision_score + ensemble_signal.final_score) / 2
 
@@ -427,7 +421,6 @@ class DecisionEngine:
 
     def _select_options_strategy(self, direction: str, scenario: str) -> str:
         """Select optimal options strategy based on direction and scenario"""
-
         if direction in ["STRONG_BUY", "BUY"]:
             if scenario in ["high_volatility", "breakout"]:
                 return "long_call_spread"
@@ -448,7 +441,6 @@ class DecisionEngine:
 
     def _generate_reasoning(self, agent_results: dict, score: float) -> str:
         """Generate human-readable reasoning for the decision"""
-
         technical = agent_results.get("technical", {})
         sentiment = agent_results.get("sentiment", {})
 
@@ -469,7 +461,6 @@ class DecisionEngine:
         self, agent_results: dict, ensemble_signal, weights: ScenarioWeights
     ) -> float:
         """Calculate overall confidence in the decision"""
-
         try:
             # Base confidence from ensemble
             base_confidence = ensemble_signal.confidence
@@ -493,7 +484,6 @@ class DecisionEngine:
 
     def _fallback_decision(self, symbol: str, user_risk_profile: dict) -> dict:
         """Fallback decision when processing fails"""
-
         return {
             "symbol": symbol,
             "scenario": "unknown",
