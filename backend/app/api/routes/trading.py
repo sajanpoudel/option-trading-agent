@@ -1,5 +1,4 @@
-"""
-Neural Options Oracle++ Trading API Routes
+"""Neural Options Oracle++ Trading API Routes
 """
 
 import time
@@ -76,7 +75,6 @@ class PositionResponse(BaseModel):
 @router.get("/")
 async def trading_info() -> dict[str, Any]:
     """Get trading API information"""
-
     return {
         "name": "Trading API",
         "version": "1.0.0",
@@ -104,7 +102,6 @@ async def execute_paper_trade(
     trade_request: PaperTradeRequest, session: dict = Depends(get_current_session)
 ) -> TradeResponse:
     """Execute paper trade"""
-
     symbol = trade_request.symbol.upper()
     logger.info(f"Executing paper trade: {trade_request.action} {trade_request.quantity} {symbol}")
 
@@ -183,7 +180,6 @@ async def get_positions(
     symbol: str | None = None, status: str = "open", session: dict = Depends(get_current_session)
 ) -> list[PositionResponse]:
     """Get current positions"""
-
     try:
         positions = await db_manager.get_open_positions()
 
@@ -219,7 +215,6 @@ async def get_position_details(
     position_id: str, session: dict = Depends(get_current_session)
 ) -> dict[str, Any]:
     """Get detailed position information"""
-
     try:
         # Mock position details - in production would query database
         return {
@@ -255,7 +250,6 @@ async def close_position(
     position_id: str, session: dict = Depends(get_current_session)
 ) -> dict[str, Any]:
     """Close a position"""
-
     try:
         # Mock position close - will be replaced with actual implementation
         logger.info(f"Closing position: {position_id}")
@@ -282,7 +276,6 @@ async def get_orders(
     session: dict = Depends(get_current_session),
 ) -> list[dict[str, Any]]:
     """Get order history"""
-
     try:
         # Mock order history
         orders = [
@@ -310,7 +303,6 @@ async def get_orders(
 @router.get("/portfolio/summary")
 async def get_portfolio_summary(session: dict = Depends(get_current_session)) -> dict[str, Any]:
     """Get portfolio summary"""
-
     try:
         # Get portfolio data from database
         analytics = await db_manager.get_system_analytics()
@@ -342,7 +334,6 @@ async def get_portfolio_performance(
     period: str = "1m", session: dict = Depends(get_current_session)
 ) -> dict[str, Any]:
     """Get portfolio performance metrics"""
-
     try:
         # Mock performance data
         performance = {
@@ -376,7 +367,6 @@ async def analyze_buy_opportunity(
     request: BuyAnalysisRequest, session: dict = Depends(get_current_session)
 ) -> dict[str, Any]:
     """Analyze buy opportunity using AI agents"""
-
     symbol = request.symbol.upper()
     logger.info(f"🎯 Analyzing buy opportunity for {symbol}")
 
@@ -428,7 +418,6 @@ async def execute_trade_recommendation(
     request: TradeExecutionRequest, session: dict = Depends(get_current_session)
 ) -> TradeResponse:
     """Execute a trade based on AI recommendation"""
-
     symbol = request.symbol.upper()
     logger.info(f"🎯 Executing trade recommendation for {symbol}")
 
@@ -488,7 +477,6 @@ async def get_buy_recommendations(
     symbol: str, session: dict = Depends(get_current_session)
 ) -> dict[str, Any]:
     """Get buy recommendations for a symbol"""
-
     symbol = symbol.upper()
     logger.info(f"📊 Getting buy recommendations for {symbol}")
 
