@@ -1,5 +1,4 @@
-"""
-AI-Powered Intent Router with Tool Calling
+"""AI-Powered Intent Router with Tool Calling
 Uses OpenAI's tool calling to intelligently route and process user requests
 """
 
@@ -225,8 +224,7 @@ class AIIntentRouter:
     async def route_and_process(
         self, user_message: str, context: dict[str, Any] = None
     ) -> dict[str, Any]:
-        """
-        Use OpenAI to determine intent and call appropriate tools
+        """Use OpenAI to determine intent and call appropriate tools
         Returns formatted response ready for user display
         """
         try:
@@ -646,7 +644,6 @@ ai_intent_router = AIIntentRouter()
 
 
 async def route_with_ai(message: str, context: dict[str, Any] = None) -> dict[str, Any]:
-    """
-    Main function to route messages using AI with tool calling
+    """Main function to route messages using AI with tool calling
     """
     return await ai_intent_router.route_and_process(message, context or {})
