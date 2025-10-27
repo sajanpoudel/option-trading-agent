@@ -1,5 +1,4 @@
-"""
-Dask Batch Layer - Large-scale Data Processing
+"""Dask Batch Layer - Large-scale Data Processing
 """
 
 from .cluster import DaskClusterManager
