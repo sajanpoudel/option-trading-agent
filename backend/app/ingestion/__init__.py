@@ -1,5 +1,4 @@
-"""
-Data Ingestion Layer - Lambda Architecture Implementation
+"""Data Ingestion Layer - Lambda Architecture Implementation
 Combines real-time streaming (Kafka) with batch processing (Dask)
 """
 
