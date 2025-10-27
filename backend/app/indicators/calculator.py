@@ -1,5 +1,4 @@
-"""
-Professional Technical Indicators Calculator
+"""Professional Technical Indicators Calculator
 Using stock-indicators library for accurate calculations
 """
 
@@ -38,7 +37,6 @@ class TechnicalIndicatorsCalculator:
         self, df: pd.DataFrame, symbol: str = None
     ) -> dict[str, Any]:
         """Calculate comprehensive technical indicators using professional library"""
-
         try:
             if df.empty:
                 return self._get_fallback_indicators()
@@ -124,7 +122,6 @@ class TechnicalIndicatorsCalculator:
 
     def _convert_to_quotes(self, df: pd.DataFrame) -> list[Quote]:
         """Convert pandas DataFrame to Quote objects"""
-
         try:
             # Debug: Log the DataFrame structure
             logger.debug(f"DataFrame columns: {list(df.columns)}")
@@ -178,7 +175,6 @@ class TechnicalIndicatorsCalculator:
 
     def _calculate_moving_averages(self, quotes: list[Quote]) -> dict[str, float]:
         """Calculate multiple types of moving averages"""
-
         ma_data = {}
 
         try:
@@ -234,7 +230,6 @@ class TechnicalIndicatorsCalculator:
 
     def _calculate_oscillators(self, quotes: list[Quote]) -> dict[str, float]:
         """Calculate oscillator indicators"""
-
         oscillators = {}
 
         try:
@@ -273,7 +268,6 @@ class TechnicalIndicatorsCalculator:
 
     def _calculate_trend_indicators(self, quotes: list[Quote]) -> dict[str, Any]:
         """Calculate trend-following indicators"""
-
         trend_data = {}
 
         try:
@@ -348,7 +342,6 @@ class TechnicalIndicatorsCalculator:
         self, quotes: list[Quote], df: pd.DataFrame
     ) -> dict[str, Any]:
         """Calculate volatility-based indicators"""
-
         # Define column names for consistency
         close_col = "close" if "close" in df.columns else "Close"
 
@@ -434,7 +427,6 @@ class TechnicalIndicatorsCalculator:
 
     def _calculate_volume_indicators(self, quotes: list[Quote]) -> dict[str, Any]:
         """Calculate volume-based indicators"""
-
         volume_data = {}
 
         try:
@@ -485,7 +477,6 @@ class TechnicalIndicatorsCalculator:
 
     def _calculate_support_resistance(self, quotes: list[Quote]) -> dict[str, Any]:
         """Calculate support and resistance levels"""
-
         sr_data = {}
 
         try:
@@ -560,7 +551,6 @@ class TechnicalIndicatorsCalculator:
 
     def _calculate_patterns(self, quotes: list[Quote]) -> dict[str, Any]:
         """Calculate pattern recognition indicators"""
-
         patterns = {}
 
         try:
@@ -610,7 +600,6 @@ class TechnicalIndicatorsCalculator:
 
     def _calculate_advanced_indicators(self, quotes: list[Quote]) -> dict[str, Any]:
         """Calculate advanced technical indicators"""
-
         advanced = {}
 
         try:
@@ -804,7 +793,6 @@ class TechnicalIndicatorsCalculator:
 
     def _get_fallback_indicators(self) -> dict[str, Any]:
         """Fallback indicators when calculation fails"""
-
         base_price = 150.0
 
         return {
