@@ -1,5 +1,4 @@
-"""
-Ingestion Layer Configuration
+"""Ingestion Layer Configuration
 Environment-driven settings with sensible defaults
 """
 
