@@ -1,5 +1,4 @@
-"""
-Neural Options Oracle++ System API Routes
+"""Neural Options Oracle++ System API Routes
 """
 
 import asyncio
@@ -22,7 +21,6 @@ router = APIRouter()
 @router.get("/")
 async def system_info() -> dict[str, Any]:
     """Get system API information"""
-
     return {
         "name": "System API",
         "version": "1.0.0",
@@ -47,7 +45,6 @@ async def system_info() -> dict[str, Any]:
 @router.get("/status")
 async def get_system_status() -> dict[str, Any]:
     """Get comprehensive system status"""
-
     try:
         # System health checks
         db_health = await db_manager.health_check()
@@ -107,7 +104,6 @@ async def get_system_status() -> dict[str, Any]:
 @router.get("/health")
 async def detailed_health_check() -> dict[str, Any]:
     """Detailed health check for all system components"""
-
     try:
         health_checks = {}
 
@@ -154,7 +150,6 @@ async def detailed_health_check() -> dict[str, Any]:
 @router.get("/analytics")
 async def get_system_analytics(session: dict = Depends(get_current_session)) -> dict[str, Any]:
     """Get comprehensive system analytics"""
-
     try:
         # Get analytics from database
         analytics = await db_manager.get_system_analytics()
@@ -198,7 +193,6 @@ async def get_system_config(
     key: str = None, session: dict = Depends(get_current_session)
 ) -> dict[str, Any]:
     """Get system configuration"""
-
     try:
         if key:
             # Get specific config value
@@ -231,7 +225,6 @@ async def update_system_config(
     key: str, value: Any, description: str = None, session: dict = Depends(get_current_session)
 ) -> dict[str, Any]:
     """Update system configuration"""
-
     try:
         # In a real system, you'd want admin authentication here
         success = await db_manager.set_system_config(key, value, description)
@@ -256,7 +249,6 @@ async def get_system_metrics(
     metric_type: str = "all", session: dict = Depends(get_current_session)
 ) -> dict[str, Any]:
     """Get detailed system metrics"""
-
     try:
         metrics = {}
 
@@ -308,7 +300,6 @@ async def get_system_logs(
     session: dict = Depends(get_current_session),
 ) -> dict[str, Any]:
     """Get system logs (mock implementation)"""
-
     try:
         # Mock log entries - in production would read from log files
         mock_logs = [
@@ -362,7 +353,6 @@ async def trigger_maintenance_task(
     task_type: str, session: dict = Depends(get_current_session)
 ) -> dict[str, Any]:
     """Trigger system maintenance tasks"""
-
     try:
         if task_type == "cleanup":
             # Mock cleanup task
@@ -394,8 +384,7 @@ async def trigger_maintenance_task(
 
 @router.get("/ingestion/status")
 async def get_ingestion_status() -> dict[str, Any]:
-    """
-    Get Big Data Ingestion Layer status (Lambda Architecture)
+    """Get Big Data Ingestion Layer status (Lambda Architecture)
 
     Returns status of:
     - Kafka (Speed Layer) - producer/consumer stats
