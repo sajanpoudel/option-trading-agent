@@ -1,5 +1,4 @@
-"""
-Dask Distributed Cluster Manager
+"""Dask Distributed Cluster Manager
 Connects to external Dask scheduler for batch processing
 """
 
@@ -21,8 +20,7 @@ from ..config import ingestion_settings
 
 
 class DaskClusterManager:
-    """
-    Manager for Dask distributed cluster
+    """Manager for Dask distributed cluster
     Handles connection, job submission, and resource management
     """
 
@@ -76,8 +74,7 @@ class DaskClusterManager:
                 self.is_connected = False
 
     def submit_task(self, func: callable, *args, **kwargs):
-        """
-        Submit a task to the Dask cluster
+        """Submit a task to the Dask cluster
 
         Args:
             func: Function to execute
@@ -117,8 +114,7 @@ class DaskClusterManager:
             return None
 
     def map_tasks(self, func: callable, items: list):
-        """
-        Map a function over a list of items in parallel
+        """Map a function over a list of items in parallel
 
         Args:
             func: Function to apply
