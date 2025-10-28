@@ -1,5 +1,4 @@
-"""
-Ingestion Manager - Unified Interface for Lambda Architecture
+"""Ingestion Manager - Unified Interface for Lambda Architecture
 Coordinates Kafka (Speed Layer) + Dask (Batch Layer) + Serving Layer
 """
 
@@ -21,8 +20,7 @@ from .streams.sentiment_stream import sentiment_stream
 
 
 class IngestionManager:
-    """
-    Unified interface for the Lambda Architecture ingestion layer
+    """Unified interface for the Lambda Architecture ingestion layer
 
     Responsibilities:
     1. Manage Kafka producers/consumers (Speed Layer)
@@ -40,8 +38,7 @@ class IngestionManager:
         self._latest_sentiment: dict[str, dict[str, Any]] = {}  # Buffer for sentiment
 
     async def start(self):
-        """
-        Start the ingestion layer components
+        """Start the ingestion layer components
         Non-blocking - starts available components only
         """
         self._start_time = datetime.utcnow()
@@ -164,8 +161,7 @@ class IngestionManager:
     async def run_batch_job(
         self, job_type: str, symbols: list[str], **kwargs
     ) -> list[dict[str, Any]]:
-        """
-        Run a batch processing job on Dask cluster
+        """Run a batch processing job on Dask cluster
 
         Args:
             job_type: Type of job ('features', 'flow', 'sentiment')
@@ -193,8 +189,7 @@ class IngestionManager:
     # ===== SERVING LAYER (Unified View) =====
 
     def get_latest_tick(self, symbol: str) -> dict[str, Any] | None:
-        """
-        Get latest market tick for a symbol from Kafka buffer
+        """Get latest market tick for a symbol from Kafka buffer
 
         Args:
             symbol: Stock symbol
