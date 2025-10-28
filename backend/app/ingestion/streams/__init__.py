@@ -1,5 +1,4 @@
-"""
-Real-time Data Streams
+"""Real-time Data Streams
 Connects to external data sources and publishes to Kafka
 """
 
