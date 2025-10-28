@@ -1,5 +1,4 @@
-"""
-Kafka Producer - Publishing Events to Speed Layer
+"""Kafka Producer - Publishing Events to Speed Layer
 High-performance async producer with batching and compression
 """
 
@@ -24,8 +23,7 @@ from .topics import KafkaTopics
 
 
 class KafkaProducerManager:
-    """
-    Async Kafka Producer for real-time event streaming
+    """Async Kafka Producer for real-time event streaming
     Optimized for high-throughput with batching and compression
     """
 
@@ -75,8 +73,7 @@ class KafkaProducerManager:
     async def publish(
         self, topic: KafkaTopics, event: dict[str, Any], key: str | None = None
     ) -> bool:
-        """
-        Publish an event to a Kafka topic
+        """Publish an event to a Kafka topic
 
         Args:
             topic: Target topic (from KafkaTopics enum)
@@ -114,8 +111,7 @@ class KafkaProducerManager:
     async def publish_batch(
         self, topic: KafkaTopics, events: list[dict[str, Any]], keys: list[str] | None = None
     ) -> int:
-        """
-        Publish multiple events efficiently
+        """Publish multiple events efficiently
 
         Args:
             topic: Target topic
