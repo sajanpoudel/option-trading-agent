@@ -1,5 +1,4 @@
-"""
-Kafka Consumer - Processing Real-time Events from Speed Layer
+"""Kafka Consumer - Processing Real-time Events from Speed Layer
 Async consumer with configurable message handlers
 """
 
@@ -24,8 +23,7 @@ from .topics import KafkaTopics
 
 
 class KafkaConsumerManager:
-    """
-    Async Kafka Consumer for processing real-time events
+    """Async Kafka Consumer for processing real-time events
     Supports multiple topic subscriptions with custom handlers
     """
 
@@ -83,8 +81,7 @@ class KafkaConsumerManager:
     def register_handler(
         self, topic: KafkaTopics, handler: Callable[[dict[str, Any]], Awaitable[None]]
     ):
-        """
-        Register a message handler for a topic
+        """Register a message handler for a topic
 
         Args:
             topic: Topic to consume from
