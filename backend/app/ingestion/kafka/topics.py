@@ -1,5 +1,4 @@
-"""
-Kafka Topic Definitions and Schemas
+"""Kafka Topic Definitions and Schemas
 Centralized topic configuration for maintainability
 """
 
