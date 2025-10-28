@@ -1,5 +1,4 @@
-"""
-Dask Batch Processing Tasks
+"""Dask Batch Processing Tasks
 Distributed data processing jobs for historical analysis
 """
 
@@ -25,8 +24,7 @@ except ImportError:
 
 
 class BatchTasks:
-    """
-    Collection of batch processing tasks for the Batch Layer
+    """Collection of batch processing tasks for the Batch Layer
     These run on Dask cluster for large-scale historical data processing
     """
 
@@ -35,8 +33,7 @@ class BatchTasks:
     def calculate_historical_features(
         symbol: str, start_date: datetime, end_date: datetime
     ) -> dict[str, Any]:
-        """
-        Calculate historical technical features for a symbol
+        """Calculate historical technical features for a symbol
 
         Args:
             symbol: Stock symbol
@@ -60,8 +57,7 @@ class BatchTasks:
     @staticmethod
     @delayed
     def aggregate_options_flow(symbol: str, window_hours: int = 24) -> dict[str, Any]:
-        """
-        Aggregate options flow data over a time window
+        """Aggregate options flow data over a time window
 
         Args:
             symbol: Stock symbol
@@ -88,8 +84,7 @@ class BatchTasks:
     @staticmethod
     @delayed
     def compute_sentiment_trends(symbol: str, days: int = 7) -> dict[str, Any]:
-        """
-        Compute sentiment trends over multiple days
+        """Compute sentiment trends over multiple days
 
         Args:
             symbol: Stock symbol
@@ -116,8 +111,7 @@ class BatchTasks:
     def batch_process_symbols(
         symbols: list[str], task_type: str = "features"
     ) -> list[dict[str, Any]]:
-        """
-        Process multiple symbols in parallel using Dask
+        """Process multiple symbols in parallel using Dask
 
         Args:
             symbols: List of symbols to process
@@ -156,8 +150,7 @@ class BatchTasks:
 
     @staticmethod
     def create_feature_dataframe(data: list[dict[str, Any]]) -> pd.DataFrame:
-        """
-        Convert batch results to pandas DataFrame
+        """Convert batch results to pandas DataFrame
 
         Args:
             data: List of feature dictionaries
@@ -176,8 +169,7 @@ class BatchTasks:
     def window_aggregation(
         df: pd.DataFrame, window: str = "1H", agg_cols: list[str] = None
     ) -> pd.DataFrame:
-        """
-        Perform time-window aggregation on streaming data
+        """Perform time-window aggregation on streaming data
 
         Args:
             df: Input DataFrame with timestamp
