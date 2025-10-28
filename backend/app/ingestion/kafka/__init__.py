@@ -1,5 +1,4 @@
-"""
-Kafka Speed Layer - Real-time Event Streaming
+"""Kafka Speed Layer - Real-time Event Streaming
 """
 
 from .producer import KafkaProducerManager
