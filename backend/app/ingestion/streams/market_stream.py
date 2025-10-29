@@ -1,5 +1,4 @@
-"""
-Market Data Stream - Real-time Stock Quotes
+"""Market Data Stream - Real-time Stock Quotes
 Connects to Alpaca WebSocket and publishes to Kafka
 """
 
@@ -16,8 +15,7 @@ from ..kafka.topics import KafkaTopics, MarketTickEvent
 
 
 class MarketDataStream:
-    """
-    Real-time market data streaming from Alpaca
+    """Real-time market data streaming from Alpaca
     Publishes tick data to Kafka for downstream processing
     """
 
@@ -27,8 +25,7 @@ class MarketDataStream:
         self._stream_task: asyncio.Task | None = None
 
     async def start(self, symbols: list[str] = None):
-        """
-        Start streaming market data
+        """Start streaming market data
 
         Args:
             symbols: List of symbols to stream (default: SPY, QQQ, AAPL)
@@ -68,8 +65,7 @@ class MarketDataStream:
         logger.info(f"Unsubscribed from {symbol}")
 
     async def _stream_loop(self):
-        """
-        Main streaming loop
+        """Main streaming loop
         In production, this would connect to Alpaca WebSocket
         For demo, simulates tick data
         """
@@ -93,8 +89,7 @@ class MarketDataStream:
             logger.error(f"Error in market stream loop: {e}")
 
     async def _get_market_tick(self, symbol: str) -> dict:
-        """
-        Get current market tick for a symbol
+        """Get current market tick for a symbol
 
         Connects to real market data via yfinance (fallback from Alpaca WebSocket)
 
