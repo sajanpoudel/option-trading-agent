@@ -1,5 +1,4 @@
-"""
-Prophet Volatility Forecasting Model
+"""Prophet Volatility Forecasting Model
 Advanced time series forecasting for implied volatility and market volatility prediction
 """
 
@@ -81,7 +80,6 @@ class ProphetVolatilityPredictor:
         self, symbol: str, historical_data: pd.DataFrame, horizon_days: int = 30
     ) -> VolatilityForecast:
         """Predict volatility for given symbol and horizon"""
-
         try:
             if not PROPHET_AVAILABLE:
                 return self._fallback_prediction(symbol, historical_data, horizon_days)
@@ -164,7 +162,6 @@ class ProphetVolatilityPredictor:
 
     def _prepare_volatility_data(self, df: pd.DataFrame, symbol: str) -> pd.DataFrame:
         """Prepare data for Prophet model"""
-
         try:
             # Ensure we have required columns
             required_cols = ["close", "high", "low"]
@@ -219,7 +216,6 @@ class ProphetVolatilityPredictor:
 
     def _get_or_create_model(self, symbol: str) -> Prophet:
         """Get existing model or create new one for symbol"""
-
         if symbol not in self.models:
             model = Prophet(**self.prophet_params)
 
@@ -238,7 +234,6 @@ class ProphetVolatilityPredictor:
 
     def _add_custom_regressors(self, future: pd.DataFrame, symbol: str) -> pd.DataFrame:
         """Add custom regressors to future dataframe"""
-
         try:
             # Add market regime indicators
             future["is_weekend"] = future["ds"].dt.weekday >= 5
@@ -265,7 +260,6 @@ class ProphetVolatilityPredictor:
 
     def _analyze_trend(self, trend_data: pd.Series) -> str:
         """Analyze volatility trend from recent data"""
-
         try:
             if len(trend_data) < 2:
                 return "stable"
@@ -287,7 +281,6 @@ class ProphetVolatilityPredictor:
 
     def _extract_seasonal_components(self, forecast: pd.DataFrame) -> dict[str, Any]:
         """Extract seasonal components from forecast"""
-
         try:
             components = {}
 
@@ -320,7 +313,6 @@ class ProphetVolatilityPredictor:
 
     def _classify_volatility_regime(self, predicted_vol: float) -> str:
         """Classify predicted volatility into market regime"""
-
         if predicted_vol <= self.vol_regimes["low_vol"]:
             return "low_vol"
         elif predicted_vol <= self.vol_regimes["medium_vol"]:
@@ -332,7 +324,6 @@ class ProphetVolatilityPredictor:
         self, symbol: str, forecast: pd.DataFrame, actual: pd.DataFrame
     ) -> float:
         """Calculate forecast accuracy using historical performance"""
-
         try:
             if symbol not in self.forecast_history:
                 return 0.7  # Default accuracy
@@ -366,7 +357,6 @@ class ProphetVolatilityPredictor:
         self, forecast: pd.DataFrame, historical_data: pd.DataFrame
     ) -> list[str]:
         """Identify key drivers of volatility forecast"""
-
         drivers = []
 
         try:
@@ -411,7 +401,6 @@ class ProphetVolatilityPredictor:
 
     def _store_forecast_history(self, symbol: str, forecast: VolatilityForecast) -> None:
         """Store forecast in history for accuracy tracking"""
-
         try:
             if symbol not in self.forecast_history:
                 self.forecast_history[symbol] = []
@@ -437,7 +426,6 @@ class ProphetVolatilityPredictor:
         self, symbol: str, df: pd.DataFrame, horizon_days: int
     ) -> VolatilityForecast:
         """Statistical fallback when Prophet is not available or data is insufficient"""
-
         try:
             # Calculate historical volatility
             returns = df["close"].pct_change().dropna()
@@ -496,7 +484,6 @@ class ProphetVolatilityPredictor:
         self, symbol: str, df: pd.DataFrame, horizon_days: int
     ) -> VolatilityForecast:
         """Ultimate fallback prediction"""
-
         try:
             # Very simple volatility estimate
             if "close" in df.columns and len(df) > 1:
@@ -549,7 +536,6 @@ class ProphetVolatilityPredictor:
         self, symbols: list[str], market_data: dict[str, pd.DataFrame]
     ) -> dict[str, VolatilityForecast]:
         """Predict volatility for multiple symbols"""
-
         try:
             tasks = []
             for symbol in symbols:
@@ -577,7 +563,6 @@ class ProphetVolatilityPredictor:
 
     def get_model_status(self) -> dict[str, Any]:
         """Get status of volatility prediction models"""
-
         return {
             "prophet_available": PROPHET_AVAILABLE,
             "models_trained": len(self.models),
