@@ -1,5 +1,4 @@
-"""
-LightGBM Options Flow Predictor
+"""LightGBM Options Flow Predictor
 High-performance gradient boosting for options flow analysis and unusual activity detection
 """
 
@@ -84,7 +83,6 @@ class LightGBMFlowPredictor:
 
     async def predict_flow(self, flow_data: dict[str, Any]) -> FlowPrediction:
         """Predict options flow sentiment and unusual activity"""
-
         try:
             if not LIGHTGBM_AVAILABLE:
                 return self._fallback_prediction(flow_data)
@@ -139,7 +137,6 @@ class LightGBMFlowPredictor:
 
     def _engineer_features(self, flow_data: dict[str, Any]) -> dict[str, float]:
         """Engineer features from raw options flow data"""
-
         features = {}
 
         try:
@@ -215,7 +212,6 @@ class LightGBMFlowPredictor:
 
     def _rule_based_prediction(self, features: dict[str, float], flow_data: dict) -> FlowPrediction:
         """Rule-based prediction when ML model is not available"""
-
         try:
             score = 0.0
             indicators = []
@@ -289,7 +285,6 @@ class LightGBMFlowPredictor:
 
     def _calculate_unusual_activity_score(self, features: dict[str, float]) -> float:
         """Calculate unusual activity score from features"""
-
         score = 0.0
 
         # Volume anomaly
@@ -315,7 +310,6 @@ class LightGBMFlowPredictor:
 
     def _identify_key_indicators(self, features: dict[str, float]) -> list[str]:
         """Identify most important indicators from features"""
-
         indicators = []
 
         # Check each feature category
@@ -341,7 +335,6 @@ class LightGBMFlowPredictor:
 
     def _assess_risk_level(self, unusual_score: float, confidence: float) -> str:
         """Assess overall risk level"""
-
         combined_score = (unusual_score + (1 - confidence)) / 2
 
         if combined_score > 0.7:
@@ -353,7 +346,6 @@ class LightGBMFlowPredictor:
 
     def _calculate_avg_days_to_expiry(self, flow_data: dict) -> float:
         """Calculate average days to expiry for the options chain"""
-
         try:
             expirations = flow_data.get("expirations", [])
             if not expirations:
@@ -376,7 +368,6 @@ class LightGBMFlowPredictor:
 
     def _calculate_itm_otm_ratio(self, strikes: list, current_price: float) -> float:
         """Calculate in-the-money to out-of-the-money ratio"""
-
         if not strikes:
             return 1.0
 
@@ -402,7 +393,6 @@ class LightGBMFlowPredictor:
 
     def _get_default_features(self) -> dict[str, float]:
         """Get default feature values when feature engineering fails"""
-
         return {
             "put_call_ratio": 1.0,
             "call_volume_pct": 0.5,
@@ -417,7 +407,6 @@ class LightGBMFlowPredictor:
 
     def _prepare_features(self, features: dict[str, float]) -> np.ndarray:
         """Prepare features for model input"""
-
         if not self.feature_names:
             self.feature_names = list(features.keys())
 
@@ -430,7 +419,6 @@ class LightGBMFlowPredictor:
 
     def _fallback_prediction(self, flow_data: dict) -> FlowPrediction:
         """Fallback prediction when all else fails"""
-
         return FlowPrediction(
             flow_sentiment="neutral",
             confidence=0.3,
@@ -444,7 +432,6 @@ class LightGBMFlowPredictor:
 
     async def train_model(self, training_data: list[dict[str, Any]]) -> bool:
         """Train the LightGBM model with historical options flow data"""
-
         if not LIGHTGBM_AVAILABLE:
             logger.warning("Cannot train LightGBM model - library not available")
             return False
@@ -503,7 +490,6 @@ class LightGBMFlowPredictor:
 
     def _prepare_training_data(self, training_data: list[dict]) -> tuple[np.ndarray, np.ndarray]:
         """Prepare training data for model"""
-
         X = []
         y = []
 
@@ -527,7 +513,6 @@ class LightGBMFlowPredictor:
 
     def get_model_info(self) -> dict[str, Any]:
         """Get model information and performance metrics"""
-
         return {
             "model_type": "LightGBM" if LIGHTGBM_AVAILABLE else "Rule-based",
             "is_trained": self.is_trained,
