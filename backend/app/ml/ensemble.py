@@ -1,5 +1,4 @@
-"""
-Ensemble Decision Model
+"""Ensemble Decision Model
 Combines OpenAI sentiment, LightGBM flow prediction, Prophet volatility, and market data
 for comprehensive trading signal generation
 """
@@ -88,7 +87,6 @@ class EnsembleDecisionModel:
         options_data: dict[str, Any] | None = None,
     ) -> EnsembleSignal:
         """Generate comprehensive trading signal using ensemble approach"""
-
         try:
             logger.info(f"Generating ensemble signal for {symbol}")
             start_time = datetime.now()
@@ -178,7 +176,6 @@ class EnsembleDecisionModel:
 
     async def _detect_market_regime(self, symbol: str, market_data: dict[str, Any]) -> str:
         """Detect current market regime for dynamic weight adjustment"""
-
         try:
             # Check VIX level if available
             vix_level = market_data.get("vix", {}).get("price", 20)
@@ -219,7 +216,6 @@ class EnsembleDecisionModel:
 
     async def _get_sentiment_score(self, sentiment_data: dict[str, Any]) -> float:
         """Get sentiment score from OpenAI analyzer"""
-
         try:
             if not sentiment_data:
                 return 0.0
@@ -269,7 +265,6 @@ class EnsembleDecisionModel:
 
     async def _get_flow_score(self, options_data: dict[str, Any]) -> float:
         """Get flow score from LightGBM predictor"""
-
         try:
             if not options_data:
                 return 0.0
@@ -296,7 +291,6 @@ class EnsembleDecisionModel:
 
     async def _get_volatility_score(self, symbol: str, market_data: dict[str, Any]) -> float:
         """Get volatility-based score"""
-
         try:
             # Get historical price data
             if "price_history" not in market_data:
@@ -333,7 +327,6 @@ class EnsembleDecisionModel:
 
     async def _get_technical_score(self, market_data: dict[str, Any]) -> float:
         """Get technical analysis score from market data"""
-
         try:
             technical = market_data.get("technical", {})
 
@@ -377,7 +370,6 @@ class EnsembleDecisionModel:
 
     def _safe_score(self, score_result: Any, default: float) -> float:
         """Safely extract score from result, handling exceptions"""
-
         if isinstance(score_result, Exception):
             logger.warning(f"Component prediction failed: {score_result}")
             return default
@@ -389,7 +381,6 @@ class EnsembleDecisionModel:
 
     def _adjust_weights_for_regime(self, market_regime: str) -> dict[str, float]:
         """Adjust component weights based on market regime"""
-
         weights = self.base_weights.copy()
 
         # Apply regime-specific adjustments
@@ -409,7 +400,6 @@ class EnsembleDecisionModel:
         self, scores: dict[str, float], weights: dict[str, float]
     ) -> float:
         """Calculate weighted ensemble score"""
-
         weighted_score = 0.0
         total_weight = 0.0
 
@@ -429,7 +419,6 @@ class EnsembleDecisionModel:
         self, scores: dict[str, float], weights: dict[str, float], market_regime: str
     ) -> float:
         """Calculate overall ensemble confidence"""
-
         # Base confidence from score magnitude
         score_magnitude = np.mean([abs(score) for score in scores.values()])
         magnitude_confidence = min(1.0, score_magnitude * 2)
@@ -461,7 +450,6 @@ class EnsembleDecisionModel:
 
     def _determine_direction_and_strength(self, score: float, confidence: float) -> tuple[str, str]:
         """Determine trading direction and strength from score and confidence"""
-
         abs_score = abs(score)
 
         # Determine direction
@@ -492,7 +480,6 @@ class EnsembleDecisionModel:
         self, symbol: str, market_data: dict[str, Any]
     ) -> dict[str, Any]:
         """Get detailed volatility forecast information"""
-
         try:
             if "price_history" not in market_data:
                 return {"status": "no_data"}
@@ -517,7 +504,6 @@ class EnsembleDecisionModel:
         self, scores: dict[str, float], volatility_forecast: dict[str, Any], market_regime: str
     ) -> dict[str, Any]:
         """Assess overall risk of the ensemble signal"""
-
         risk_factors = []
         risk_score = 0.0
 
@@ -569,7 +555,6 @@ class EnsembleDecisionModel:
         volatility_forecast: dict[str, Any],
     ) -> list[str]:
         """Generate key insights from ensemble analysis"""
-
         insights = []
 
         # Dominant factor
@@ -611,7 +596,6 @@ class EnsembleDecisionModel:
         risk_assessment: dict[str, Any],
     ) -> list[str]:
         """Recommend options strategies based on signal and market conditions"""
-
         strategies = []
         vol_regime = volatility_forecast.get("regime", "medium_vol")
 
@@ -654,7 +638,6 @@ class EnsembleDecisionModel:
 
     def _fallback_signal(self, symbol: str) -> EnsembleSignal:
         """Generate fallback signal when ensemble fails"""
-
         return EnsembleSignal(
             symbol=symbol,
             final_score=0.0,
