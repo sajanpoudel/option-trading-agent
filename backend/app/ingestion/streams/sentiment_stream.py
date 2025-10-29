@@ -1,5 +1,4 @@
-"""
-Sentiment Stream - Real-time News and Social Media Sentiment
+"""Sentiment Stream - Real-time News and Social Media Sentiment
 Monitors news sources and social media for market sentiment
 """
 
@@ -14,8 +13,7 @@ from ..kafka.topics import KafkaTopics, SentimentEvent
 
 
 class SentimentStream:
-    """
-    Real-time sentiment streaming from news and social sources
+    """Real-time sentiment streaming from news and social sources
     Publishes sentiment events to Kafka
     """
 
@@ -26,8 +24,7 @@ class SentimentStream:
         self._event_count = 0
 
     async def start(self, symbols: list[str] = None):
-        """
-        Start streaming sentiment data
+        """Start streaming sentiment data
 
         Args:
             symbols: List of symbols to monitor
@@ -80,8 +77,7 @@ class SentimentStream:
             logger.error(f"Error in sentiment stream loop: {e}")
 
     async def _get_sentiment_updates(self, symbol: str) -> list[dict]:
-        """
-        Get sentiment updates using real OpenAI web search
+        """Get sentiment updates using real OpenAI web search
 
         Uses OpenAI's web search capability to find recent news/social mentions
         and analyze sentiment
