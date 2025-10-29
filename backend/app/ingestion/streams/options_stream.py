@@ -1,5 +1,4 @@
-"""
-Options Flow Stream - Real-time Options Activity
+"""Options Flow Stream - Real-time Options Activity
 Monitors unusual options activity and publishes to Kafka
 """
 
@@ -14,8 +13,7 @@ from ..kafka.topics import KafkaTopics, OptionsFlowEvent
 
 
 class OptionsFlowStream:
-    """
-    Real-time options flow streaming
+    """Real-time options flow streaming
     Detects unusual activity and publishes to Kafka
     """
 
@@ -26,8 +24,7 @@ class OptionsFlowStream:
         self._flow_count = 0
 
     async def start(self, symbols: list[str] = None):
-        """
-        Start streaming options flow
+        """Start streaming options flow
 
         Args:
             symbols: List of symbols to monitor
@@ -80,8 +77,7 @@ class OptionsFlowStream:
             logger.error(f"Error in options flow loop: {e}")
 
     async def _detect_unusual_flow(self, symbol: str) -> list[dict]:
-        """
-        Detect unusual options activity from real yfinance data
+        """Detect unusual options activity from real yfinance data
 
         Checks for:
         1. High volume relative to open interest
