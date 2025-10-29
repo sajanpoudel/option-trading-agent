@@ -1,5 +1,4 @@
-"""
-OpenAI-Based Sentiment Analysis Model
+"""OpenAI-Based Sentiment Analysis Model
 Replaces FinBERT with GPT-4o-mini for better integration and performance
 """
 
@@ -75,7 +74,6 @@ class OpenAISentimentAnalyzer:
 
     async def analyze_text(self, text: str, context: str = "") -> SentimentResult:
         """Analyze sentiment of given text"""
-
         try:
             prompt = self._create_sentiment_prompt(text, context)
 
@@ -115,7 +113,6 @@ class OpenAISentimentAnalyzer:
         self, texts: list[dict[str, str]]
     ) -> dict[str, SentimentResult]:
         """Analyze sentiment for multiple texts with different contexts"""
-
         try:
             tasks = []
             for item in texts:
@@ -145,7 +142,6 @@ class OpenAISentimentAnalyzer:
 
     def _create_sentiment_prompt(self, text: str, context: str = "") -> str:
         """Create optimized prompt for sentiment analysis"""
-
         context_info = f"\nContext: {context}" if context else ""
 
         prompt = f"""
@@ -178,7 +174,6 @@ Guidelines:
 
     def _parse_sentiment_response(self, response: str, original_text: str) -> SentimentResult:
         """Parse OpenAI response into structured sentiment result"""
-
         try:
             # Extract JSON from response
             json_match = re.search(r"\{.*\}", response, re.DOTALL)
@@ -224,7 +219,6 @@ Guidelines:
 
     def _validate_sentiment(self, result: SentimentResult, text: str) -> SentimentResult:
         """Validate sentiment result against keyword patterns"""
-
         try:
             text_lower = text.lower()
 
@@ -254,7 +248,6 @@ Guidelines:
 
     def _get_fallback_sentiment(self, text: str) -> SentimentResult:
         """Generate fallback sentiment when analysis fails"""
-
         # Simple keyword-based fallback
         text_lower = text.lower() if text else ""
 
@@ -286,7 +279,6 @@ Guidelines:
         source_weights: dict[str, float] | None = None,
     ) -> SentimentResult:
         """Aggregate multiple sentiment results with optional source weighting"""
-
         if not sentiment_results:
             return self._get_fallback_sentiment("")
 
@@ -345,7 +337,6 @@ Guidelines:
 
     def get_performance_metrics(self) -> dict[str, Any]:
         """Get performance metrics for the sentiment analyzer"""
-
         return {
             "model": self.model,
             "analysis_count": self.analysis_count,
@@ -364,7 +355,6 @@ class ComparativeAnalyzer:
 
     async def compare_approaches(self, text: str) -> dict[str, Any]:
         """Compare OpenAI vs traditional keyword-based sentiment"""
-
         # OpenAI analysis
         openai_result = await self.openai_analyzer.analyze_text(text)
 
@@ -393,7 +383,6 @@ class ComparativeAnalyzer:
 
     def _traditional_sentiment(self, text: str) -> dict[str, Any]:
         """Traditional keyword-based sentiment analysis"""
-
         text_lower = text.lower()
 
         positive_words = ["good", "great", "excellent", "positive", "buy", "bullish", "up", "gain"]
