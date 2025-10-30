@@ -1,5 +1,4 @@
-"""
-OpenAI-Only Data Orchestrator
+"""OpenAI-Only Data Orchestrator
 Streamlined architecture using only OpenAI web search + OptionsProfitCalculator
 Eliminates JigsawStack and complex scraping dependencies
 """
@@ -114,7 +113,6 @@ class OptionsProfitCalculatorAPI:
 
     def _analyze_options_chain(self, raw_data: dict[str, Any], symbol: str) -> dict[str, Any]:
         """Comprehensive analysis of options chain data"""
-
         options_data = raw_data.get("options", {})
         analysis = {
             "symbol": symbol,
@@ -263,7 +261,6 @@ class OpenAIMarketIntelligence:
 
     async def get_comprehensive_intelligence(self, symbol: str) -> MarketIntelligence:
         """Get comprehensive market intelligence for a symbol"""
-
         try:
             logger.info(f"Starting comprehensive intelligence gathering for {symbol}")
 
@@ -304,7 +301,6 @@ class OpenAIMarketIntelligence:
 
     async def _get_options_intelligence(self, symbol: str) -> dict[str, Any]:
         """Get comprehensive options intelligence"""
-
         try:
             # Get real options data
             async with self.options_api as api:
@@ -369,7 +365,6 @@ class OpenAIMarketIntelligence:
 
     async def _get_news_intelligence(self, symbol: str) -> dict[str, Any]:
         """Get news intelligence using OpenAI web search"""
-
         prompt = f"""
         Search for the latest financial news about {symbol} from the past 24 hours.
         
@@ -415,7 +410,6 @@ class OpenAIMarketIntelligence:
 
     async def _get_social_intelligence(self, symbol: str) -> dict[str, Any]:
         """Get social sentiment intelligence using OpenAI web search"""
-
         prompt = f"""
         Search social media and forums for sentiment about {symbol}:
         
@@ -461,7 +455,6 @@ class OpenAIMarketIntelligence:
 
     async def _get_technical_intelligence(self, symbol: str) -> dict[str, Any]:
         """Get technical analysis intelligence"""
-
         try:
             # Get real technical data
             technical_data = await self.alpaca_client.get_technical_indicators(symbol)
@@ -521,7 +514,6 @@ class OpenAIMarketIntelligence:
 
     async def _get_market_outlook(self, symbol: str) -> dict[str, Any]:
         """Get comprehensive market outlook using web search"""
-
         prompt = f"""
         Provide comprehensive market outlook for {symbol}:
         
