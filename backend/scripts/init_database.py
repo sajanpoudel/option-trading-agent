@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Neural Options Oracle++ Database Initialization Script
+"""Neural Options Oracle++ Database Initialization Script
 
 This script creates all the required tables, enums, functions, and views
 in the Supabase database as per our DATABASE_SCHEMA.md specification.
@@ -491,7 +490,6 @@ async def execute_sql_script(script: str, description: str) -> bool:
 
 async def init_database():
     """Initialize the complete database schema"""
-
     logger.info("🗄️ Starting Database Initialization")
     logger.info("=" * 60)
 
@@ -546,7 +544,6 @@ async def init_database():
 
 async def verify_database():
     """Verify database setup by testing core operations"""
-
     logger.info("🔍 Verifying Database Setup")
 
     try:
@@ -603,7 +600,6 @@ async def verify_database():
 
 async def main():
     """Main database initialization function"""
-
     print("🧠 Neural Options Oracle++ Database Setup")
     print("=" * 60)
 
