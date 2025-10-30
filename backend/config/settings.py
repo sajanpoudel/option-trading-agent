@@ -1,5 +1,4 @@
-"""
-Neural Options Oracle++ Configuration Settings
+"""Neural Options Oracle++ Configuration Settings
 """
 
 import os
