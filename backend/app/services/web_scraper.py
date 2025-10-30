@@ -1,5 +1,4 @@
-"""
-Web Scraper Service for Neural Options Oracle++
+"""Web Scraper Service for Neural Options Oracle++
 Provides trending stock data from various sources
 """
 
