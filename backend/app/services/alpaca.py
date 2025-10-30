@@ -1,5 +1,4 @@
-"""
-Alpaca Market Data Client
+"""Alpaca Market Data Client
 Real-time and historical market data integration
 """
 
@@ -134,7 +133,6 @@ class AlpacaMarketDataClient:
         self, symbol: str, period: str = "1y", interval: str = "1d"
     ) -> pd.DataFrame:
         """Get historical price data"""
-
         try:
             # Map periods to Alpaca timeframes
             timeframe_map = {
@@ -186,7 +184,6 @@ class AlpacaMarketDataClient:
 
     async def get_technical_indicators(self, symbol: str) -> dict[str, Any]:
         """Calculate technical indicators using professional stock-indicators library"""
-
         try:
             # Get historical data
             df = await self.get_historical_data(
@@ -216,7 +213,6 @@ class AlpacaMarketDataClient:
 
     async def _get_basic_indicators(self, symbol: str) -> dict[str, Any]:
         """Fallback to basic indicator calculation"""
-
         try:
             df = await self.get_historical_data(symbol, period="3mo", interval="1d")
             if df.empty:
@@ -260,7 +256,6 @@ class AlpacaMarketDataClient:
 
     async def get_options_data(self, symbol: str) -> dict[str, Any]:
         """Get options chain data (using yfinance)"""
-
         try:
             ticker = yf.Ticker(symbol)
 
