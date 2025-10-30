@@ -1,5 +1,4 @@
-"""
-Neural Options Oracle++ Backend
+"""Neural Options Oracle++ Backend
 Main entry point for the FastAPI application
 """
 
