@@ -619,19 +619,18 @@ class IntelligentOrchestrator:
                 )
 
                 return {"buy_analysis": buy_result, "timestamp": datetime.now().isoformat()}
-            else:
-                # Fallback buy analysis
-                return {
-                    "buy_analysis": {
-                        "recommendations": [],
-                        "execution_plan": {
-                            "status": "no_agent",
-                            "message": "Buy agent not available",
-                        },
-                        "confidence": 0.0,
+            # Fallback buy analysis
+            return {
+                "buy_analysis": {
+                    "recommendations": [],
+                    "execution_plan": {
+                        "status": "no_agent",
+                        "message": "Buy agent not available",
                     },
-                    "timestamp": datetime.now().isoformat(),
-                }
+                    "confidence": 0.0,
+                },
+                "timestamp": datetime.now().isoformat(),
+            }
 
         except Exception as e:
             logger.error(f"Buy agent error: {e}")
@@ -1045,21 +1044,20 @@ class IntelligentOrchestrator:
         """Generate contextual AI response based on analysis"""
         if primary_type == "technical_analysis":
             return self._generate_technical_response(symbol, analysis_result)
-        elif primary_type == "sentiment_analysis":
+        if primary_type == "sentiment_analysis":
             return self._generate_sentiment_response(symbol, analysis_result)
-        elif primary_type == "trading_signals":
+        if primary_type == "trading_signals":
             return self._generate_trading_response(symbol, analysis_result)
-        elif primary_type == "education":
+        if primary_type == "education":
             education_content = analysis_result.get("education_agent", {}).get(
                 "educational_content", {}
             )
             return education_content.get(
                 "explanation", f"Educational analysis for {symbol} completed."
             )
-        elif primary_type == "multi_stock_analysis":
+        if primary_type == "multi_stock_analysis":
             return self._generate_multi_stock_response(analysis_result)
-        else:
-            return self._generate_comprehensive_response(symbol, analysis_result)
+        return self._generate_comprehensive_response(symbol, analysis_result)
 
     def _generate_technical_response(self, symbol: str, analysis_result: dict) -> str:
         """Generate technical analysis response"""
