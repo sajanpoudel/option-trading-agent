@@ -1,5 +1,4 @@
-"""
-Neural Options Oracle++ Database Configuration and Manager
+"""Neural Options Oracle++ Database Configuration and Manager
 """
 
 import asyncio
@@ -61,7 +60,6 @@ class SupabaseManager:
         risk_profile: str = "moderate",
     ) -> str:
         """Create a new browser session (no authentication)"""
-
         session_token = str(uuid.uuid4())
 
         session_data = {
@@ -85,7 +83,6 @@ class SupabaseManager:
 
     async def get_session(self, session_token: str) -> dict | None:
         """Get browser session data"""
-
         try:
             result = (
                 self.client.table("browser_sessions")
@@ -110,7 +107,6 @@ class SupabaseManager:
 
     async def update_session_activity(self, session_token: str) -> bool:
         """Update session last accessed time"""
-
         try:
             result = (
                 self.client.table("browser_sessions")
@@ -154,7 +150,6 @@ class SupabaseManager:
 
     async def save_trading_signal(self, signal_data: dict) -> str | None:
         """Save trading signal to database"""
-
         signal_record = {
             "symbol": signal_data["symbol"],
             "signal_type": signal_data.get("signal_type", "hybrid"),
@@ -186,7 +181,6 @@ class SupabaseManager:
         self, symbol: str = None, limit: int = 10, include_expired: bool = False
     ) -> list[dict]:
         """Get trading signals with optional filtering"""
-
         try:
             query = self.client.table("trading_signals").select("*")
 
@@ -211,7 +205,6 @@ class SupabaseManager:
 
     async def create_position(self, position_data: dict) -> str | None:
         """Create new trading position"""
-
         position_record = {
             "signal_id": position_data.get("signal_id"),
             "symbol": position_data["symbol"],
@@ -244,7 +237,6 @@ class SupabaseManager:
 
     async def update_position_pnl(self, position_id: str, current_price: float) -> dict | None:
         """Update position P&L in real-time"""
-
         try:
             # Get current position
             position_result = (
@@ -292,7 +284,6 @@ class SupabaseManager:
 
     async def get_open_positions(self) -> list[dict]:
         """Get all open positions"""
-
         try:
             result = (
                 self.client.table("positions")
@@ -314,7 +305,6 @@ class SupabaseManager:
 
     async def save_educational_content(self, content_data: dict) -> str | None:
         """Save educational content"""
-
         content_record = {
             "content_id": content_data["content_id"],
             "title": content_data["title"],
@@ -342,7 +332,6 @@ class SupabaseManager:
         self, topic: str = None, difficulty: str = None, content_type: str = None, limit: int = 20
     ) -> list[dict]:
         """Get educational content with filtering"""
-
         try:
             query = self.client.table("educational_content").select("*").eq("is_active", True)
 
@@ -370,7 +359,6 @@ class SupabaseManager:
 
     async def get_system_analytics(self) -> dict[str, Any]:
         """Get system-wide analytics"""
-
         try:
             # Get portfolio summary using the view
             portfolio_result = self.client.table("system_portfolio_summary").select("*").execute()
@@ -567,7 +555,6 @@ class SupabaseManager:
 
     async def get_system_config(self, key: str) -> Any | None:
         """Get system configuration value"""
-
         try:
             result = (
                 self.client.table("system_config")
@@ -586,7 +573,6 @@ class SupabaseManager:
 
     async def set_system_config(self, key: str, value: Any, description: str = None) -> bool:
         """Set system configuration value"""
-
         try:
             config_data = {
                 "config_key": key,
