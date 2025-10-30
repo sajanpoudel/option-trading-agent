@@ -1,5 +1,4 @@
-"""
-Neural Options Oracle++ Logging Configuration
+"""Neural Options Oracle++ Logging Configuration
 """
 
 import sys
@@ -12,7 +11,6 @@ from backend.config.settings import settings
 
 def setup_logging() -> None:
     """Setup application logging"""
-
     # Remove default logger
     logger.remove()
 
