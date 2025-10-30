@@ -228,12 +228,11 @@ class OptionsOracleOrchestrator:
             # Fallback scenario detection based on available data
             if tech_data.get("volatility", {}).get("current", 0) > 30:
                 return "high_volatility"
-            elif sentiment_data.get("aggregate_score", 0) > 0.7:
+            if sentiment_data.get("aggregate_score", 0) > 0.7:
                 return "strong_uptrend"
-            elif sentiment_data.get("aggregate_score", 0) < -0.7:
+            if sentiment_data.get("aggregate_score", 0) < -0.7:
                 return "strong_downtrend"
-            else:
-                return "range_bound"
+            return "range_bound"
 
         except Exception as e:
             logger.warning(f"Scenario detection failed: {e}")
