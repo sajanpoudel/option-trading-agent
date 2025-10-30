@@ -1,5 +1,4 @@
-"""
-Market Data Manager
+"""Market Data Manager
 Centralized market data coordination and caching with OpenAI intelligence
 """
 
@@ -38,7 +37,6 @@ class MarketDataManager:
 
     async def get_comprehensive_data(self, symbol: str) -> dict[str, Any]:
         """Get all market data for a symbol"""
-
         try:
             logger.info(f"Fetching comprehensive market data for {symbol}")
 
@@ -122,7 +120,6 @@ class MarketDataManager:
 
     async def get_comprehensive_ai_analysis(self, symbol: str) -> dict[str, Any]:
         """Get comprehensive AI-powered analysis with real options data"""
-
         try:
             logger.info(f"Starting comprehensive AI analysis for {symbol}")
 
@@ -168,7 +165,6 @@ class MarketDataManager:
 
     async def get_multiple_quotes(self, symbols: list[str]) -> dict[str, dict[str, Any]]:
         """Get quotes for multiple symbols"""
-
         try:
             tasks = [self.alpaca_client.get_current_quote(symbol) for symbol in symbols]
             results = await asyncio.gather(*tasks, return_exceptions=True)
@@ -189,7 +185,6 @@ class MarketDataManager:
 
     async def _get_market_conditions(self) -> dict[str, Any]:
         """Get overall market conditions"""
-
         try:
             # Get SPY for market direction (VIX not available in Alpaca)
             spy_data = await self.alpaca_client.get_technical_indicators("SPY")
@@ -215,7 +210,6 @@ class MarketDataManager:
 
     def _determine_market_trend(self, spy_data: dict) -> str:
         """Determine overall market trend from SPY data"""
-
         try:
             current_price = spy_data.get("current_price", 400)
             ma20 = spy_data.get("ma20", 400)
@@ -233,7 +227,6 @@ class MarketDataManager:
 
     def _determine_volatility_regime(self, vix_level: float) -> str:
         """Determine volatility regime based on VIX"""
-
         if vix_level < 15:
             return "low"
         elif vix_level > 25:
@@ -243,7 +236,6 @@ class MarketDataManager:
 
     async def _get_cached_data(self, symbol: str) -> dict[str, Any] | None:
         """Get cached market data"""
-
         try:
             # Query database cache
             result = await asyncio.create_task(
@@ -270,7 +262,6 @@ class MarketDataManager:
 
     async def _cache_data(self, symbol: str, data: dict[str, Any]) -> None:
         """Cache market data"""
-
         try:
             # Convert data to JSON-serializable format
             serializable_data = self._make_json_serializable(data)
@@ -316,7 +307,6 @@ class MarketDataManager:
 
     async def _get_cached_ai_analysis(self, symbol: str) -> dict[str, Any] | None:
         """Get cached AI analysis"""
-
         try:
             # Query database cache for AI analysis (longer TTL: 15 minutes)
             result = await asyncio.create_task(
@@ -345,7 +335,6 @@ class MarketDataManager:
 
     async def _cache_ai_analysis(self, symbol: str, analysis: dict[str, Any]) -> None:
         """Cache AI analysis"""
-
         try:
             cache_record = {
                 "symbol": symbol,
@@ -368,7 +357,6 @@ class MarketDataManager:
 
     def _get_fallback_ai_analysis(self, symbol: str) -> dict[str, Any]:
         """Fallback AI analysis when intelligence fails"""
-
         return {
             "symbol": symbol,
             "timestamp": datetime.now().isoformat(),
@@ -387,7 +375,6 @@ class MarketDataManager:
 
     def _get_fallback_comprehensive_data(self, symbol: str) -> dict[str, Any]:
         """Fallback comprehensive data"""
-
         return {
             "symbol": symbol,
             "timestamp": datetime.now().isoformat(),
