@@ -424,20 +424,16 @@ class DecisionEngine:
         if direction in ["STRONG_BUY", "BUY"]:
             if scenario in ["high_volatility", "breakout"]:
                 return "long_call_spread"
-            else:
-                return "long_call"
+            return "long_call"
 
-        elif direction in ["STRONG_SELL", "SELL"]:
+        if direction in ["STRONG_SELL", "SELL"]:
             if scenario in ["high_volatility", "breakout"]:
                 return "long_put_spread"
-            else:
-                return "long_put"
-        else:
-            # Neutral strategies
-            if scenario == "range_bound":
-                return "iron_condor"
-            else:
-                return "straddle"
+            return "long_put"
+        # Neutral strategies
+        if scenario == "range_bound":
+            return "iron_condor"
+        return "straddle"
 
     def _generate_reasoning(self, agent_results: dict, score: float) -> str:
         """Generate human-readable reasoning for the decision"""
