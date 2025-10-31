@@ -339,10 +339,9 @@ class LightGBMFlowPredictor:
 
         if combined_score > 0.7:
             return "high"
-        elif combined_score > 0.4:
+        if combined_score > 0.4:
             return "medium"
-        else:
-            return "low"
+        return "low"
 
     def _calculate_avg_days_to_expiry(self, flow_data: dict) -> float:
         """Calculate average days to expiry for the options chain"""
