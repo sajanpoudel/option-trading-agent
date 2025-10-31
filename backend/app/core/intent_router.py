@@ -320,16 +320,15 @@ You can call multiple tools if needed.
 
                 return response_data
 
-            else:
-                # No tools needed - direct response
-                return {
-                    "response": message.content,
-                    "intent": "GENERAL_CHAT",
-                    "tools_called": [],
-                    "confidence": 0.7,
-                    "formatted": True,
-                    "timestamp": datetime.now().isoformat(),
-                }
+            # No tools needed - direct response
+            return {
+                "response": message.content,
+                "intent": "GENERAL_CHAT",
+                "tools_called": [],
+                "confidence": 0.7,
+                "formatted": True,
+                "timestamp": datetime.now().isoformat(),
+            }
 
         except Exception as e:
             logger.error(f"AI routing failed: {e}")
@@ -345,22 +344,21 @@ You can call multiple tools if needed.
         try:
             if function_name == "analyze_stock":
                 return await self._analyze_stock(arguments)
-            elif function_name == "explain_concept":
+            if function_name == "explain_concept":
                 return await self._explain_concept(arguments)
-            elif function_name == "get_market_trends":
+            if function_name == "get_market_trends":
                 return await self._get_market_trends(arguments)
-            elif function_name == "portfolio_analysis":
+            if function_name == "portfolio_analysis":
                 return await self._portfolio_analysis(arguments)
-            elif function_name == "generate_quiz":
+            if function_name == "generate_quiz":
                 return await self._generate_quiz(arguments)
-            elif function_name == "casual_response":
+            if function_name == "casual_response":
                 return await self._casual_response(arguments)
-            elif function_name == "buy_option":
+            if function_name == "buy_option":
                 return await self._buy_option(arguments)
-            elif function_name == "buy_multiple_options":
+            if function_name == "buy_multiple_options":
                 return await self._buy_multiple_options(arguments)
-            else:
-                return {"error": f"Unknown tool: {function_name}"}
+            return {"error": f"Unknown tool: {function_name}"}
 
         except Exception as e:
             logger.error(f"Tool execution failed for {function_name}: {e}")
@@ -611,20 +609,19 @@ Make the response human-readable and engaging!
 
         if "analyze_stock" in tool_names:
             return "STOCK_ANALYSIS"
-        elif "buy_option" in tool_names:
+        if "buy_option" in tool_names:
             return "OPTIONS_BUYING"
-        elif "buy_multiple_options" in tool_names:
+        if "buy_multiple_options" in tool_names:
             return "PORTFOLIO_BUYING"
-        elif "explain_concept" in tool_names:
+        if "explain_concept" in tool_names:
             return "OPTIONS_EDUCATION"
-        elif "get_market_trends" in tool_names:
+        if "get_market_trends" in tool_names:
             return "MARKET_TRENDS"
-        elif "portfolio_analysis" in tool_names:
+        if "portfolio_analysis" in tool_names:
             return "PORTFOLIO_MANAGEMENT"
-        elif "generate_quiz" in tool_names:
+        if "generate_quiz" in tool_names:
             return "QUIZ_LEARNING"
-        else:
-            return "GENERAL_CHAT"
+        return "GENERAL_CHAT"
 
     async def _fallback_response(self, user_message: str) -> dict[str, Any]:
         """Fallback response when AI routing fails"""
