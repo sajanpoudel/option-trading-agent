@@ -236,8 +236,7 @@ async def update_system_config(
                 "value": value,
                 "message": "Configuration updated successfully",
             }
-        else:
-            raise HTTPException(status_code=500, detail="Failed to update configuration")
+        raise HTTPException(status_code=500, detail="Failed to update configuration")
 
     except Exception as e:
         logger.error(f"Failed to update system config: {e}")
