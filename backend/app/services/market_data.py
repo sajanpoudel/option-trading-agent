@@ -217,10 +217,9 @@ class MarketDataManager:
 
             if current_price > ma20 > ma50:
                 return "bullish"
-            elif current_price < ma20 < ma50:
+            if current_price < ma20 < ma50:
                 return "bearish"
-            else:
-                return "neutral"
+            return "neutral"
 
         except Exception:
             return "neutral"
@@ -229,10 +228,9 @@ class MarketDataManager:
         """Determine volatility regime based on VIX"""
         if vix_level < 15:
             return "low"
-        elif vix_level > 25:
+        if vix_level > 25:
             return "high"
-        else:
-            return "medium"
+        return "medium"
 
     async def _get_cached_data(self, symbol: str) -> dict[str, Any] | None:
         """Get cached market data"""
@@ -294,16 +292,15 @@ class MarketDataManager:
 
         if isinstance(data, dict):
             return {key: self._make_json_serializable(value) for key, value in data.items()}
-        elif isinstance(data, list):
+        if isinstance(data, list):
             return [self._make_json_serializable(item) for item in data]
-        elif isinstance(data, (pd.Timestamp, datetime)):
+        if isinstance(data, (pd.Timestamp, datetime)):
             return data.isoformat()
-        elif isinstance(data, Decimal):
+        if isinstance(data, Decimal):
             return float(data)
-        elif isinstance(data, pd.DataFrame):
+        if isinstance(data, pd.DataFrame):
             return data.to_dict("records")
-        else:
-            return data
+        return data
 
     async def _get_cached_ai_analysis(self, symbol: str) -> dict[str, Any] | None:
         """Get cached AI analysis"""
