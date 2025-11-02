@@ -271,10 +271,9 @@ class ProphetVolatilityPredictor:
             # Classify trend
             if slope > 0.5:
                 return "increasing"
-            elif slope < -0.5:
+            if slope < -0.5:
                 return "decreasing"
-            else:
-                return "stable"
+            return "stable"
 
         except Exception:
             return "stable"
@@ -315,10 +314,9 @@ class ProphetVolatilityPredictor:
         """Classify predicted volatility into market regime"""
         if predicted_vol <= self.vol_regimes["low_vol"]:
             return "low_vol"
-        elif predicted_vol <= self.vol_regimes["medium_vol"]:
+        if predicted_vol <= self.vol_regimes["medium_vol"]:
             return "medium_vol"
-        else:
-            return "high_vol"
+        return "high_vol"
 
     def _calculate_forecast_accuracy(
         self, symbol: str, forecast: pd.DataFrame, actual: pd.DataFrame
