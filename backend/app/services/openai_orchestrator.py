@@ -103,9 +103,8 @@ class OptionsProfitCalculatorAPI:
                 if response.status == 200:
                     data = await response.json()
                     return data
-                else:
-                    logger.error(f"Options API error: {response.status}")
-                    return {}
+                logger.error(f"Options API error: {response.status}")
+                return {}
 
         except Exception as e:
             logger.error(f"Error fetching options data: {e}")
