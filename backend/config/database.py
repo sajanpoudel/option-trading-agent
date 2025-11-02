@@ -97,9 +97,8 @@ class SupabaseManager:
             if result.data:
                 logger.debug(f"Session retrieved: {session_token}")
                 return result.data
-            else:
-                logger.warning(f"Session not found or expired: {session_token}")
-                return None
+            logger.warning(f"Session not found or expired: {session_token}")
+            return None
 
         except Exception as e:
             logger.error(f"Failed to get session {session_token}: {e}")
