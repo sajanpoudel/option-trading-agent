@@ -159,7 +159,7 @@ OUTPUT FORMAT (JSON):
         }
 
     async def generate_explanation(
-        self, symbol: str, signal: dict[str, Any], agent_results: dict[str, Any]
+        self, symbol: str, signal: dict[str, Any], agent_results: dict[str, Any],
     ) -> dict[str, Any]:
         """Generate educational explanation for trading decision"""
         try:
@@ -191,7 +191,7 @@ Create educational content that explains WHY this decision was made and what the
             ]
 
             response = await self._make_completion(
-                messages, temperature=0.6, response_schema=self._get_response_schema()
+                messages, temperature=0.6, response_schema=self._get_response_schema(),
             )
             explanation = self._parse_json_response(response["content"])
 
