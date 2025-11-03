@@ -107,11 +107,11 @@ class BaseAgent(ABC):
                                 "id": tool_call.id,
                                 "function": tool_call.function.name,
                                 "arguments": json.loads(tool_call.function.arguments),
-                            }
+                            },
                         )
                     except json.JSONDecodeError:
                         logger.warning(
-                            f"Failed to parse tool call arguments: {tool_call.function.arguments}"
+                            f"Failed to parse tool call arguments: {tool_call.function.arguments}",
                         )
 
             return {
