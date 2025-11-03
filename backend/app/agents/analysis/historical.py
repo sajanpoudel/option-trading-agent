@@ -169,7 +169,7 @@ Provide comprehensive pattern analysis.
             ]
 
             response = await self._make_completion(
-                messages, temperature=0.4, response_schema=self._get_response_schema()
+                messages, temperature=0.4, response_schema=self._get_response_schema(),
             )
             analysis = self._parse_json_response(response["content"])
 
@@ -194,7 +194,7 @@ Provide comprehensive pattern analysis.
             "trend_direction": random.choice(["uptrend", "downtrend", "sideways"]),
             "trend_days": random.randint(5, 60),
             "chart_pattern": random.choice(
-                ["flag", "wedge", "triangle", "head_shoulders", "double_bottom"]
+                ["flag", "wedge", "triangle", "head_shoulders", "double_bottom"],
             ),
             "vol_regime": random.choice(["low", "medium", "high"]),
             "month_avg": random.uniform(-3, 3),
