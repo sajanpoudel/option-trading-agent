@@ -173,12 +173,12 @@ OUTPUT FORMAT (JSON):
         }
 
     async def recommend_strikes(
-        self, signal: dict[str, Any], user_risk_profile: dict[str, Any]
+        self, signal: dict[str, Any], user_risk_profile: dict[str, Any],
     ) -> list[dict[str, Any]]:
         """Recommend option strikes based on signal and risk profile"""
         try:
             logger.info(
-                f"Generating strike recommendations for {signal.get('direction', 'UNKNOWN')}"
+                f"Generating strike recommendations for {signal.get('direction', 'UNKNOWN')}",
             )
 
             # Mock current market data
@@ -216,7 +216,7 @@ Recommend 3-5 appropriate strikes with full risk analysis.
             ]
 
             response = await self._make_completion(
-                messages, temperature=0.3, response_schema=self._get_response_schema()
+                messages, temperature=0.3, response_schema=self._get_response_schema(),
             )
             analysis = self._parse_json_response(response["content"])
 
@@ -286,7 +286,7 @@ Recommend 3-5 appropriate strikes with full risk analysis.
         for opt in chain[:10]:  # Limit to first 10 for brevity
             formatted.append(
                 f"{opt['strike']:.0f} {opt['type']}: "
-                f"${opt['premium']:.2f} (δ={opt['delta']:.2f}, IV={opt['iv']:.1%})"
+                f"${opt['premium']:.2f} (δ={opt['delta']:.2f}, IV={opt['iv']:.1%})",
             )
 
         return "\n".join(formatted)
@@ -313,11 +313,11 @@ Recommend 3-5 appropriate strikes with full risk analysis.
                     "strike": safe_float(rec.get("strike"), 150.0),
                     "option_type": rec.get("option_type", "call"),
                     "expiration": rec.get(
-                        "expiration", (datetime.now() + timedelta(days=30)).strftime("%Y-%m-%d")
+                        "expiration", (datetime.now() + timedelta(days=30)).strftime("%Y-%m-%d"),
                     ),
                     "delta": max(-1.0, min(1.0, safe_float(rec.get("delta"), 0.5))),
                     "probability_profit": max(
-                        0.0, min(1.0, safe_float(rec.get("probability_profit"), 0.5))
+                        0.0, min(1.0, safe_float(rec.get("probability_profit"), 0.5)),
                     ),
                     "max_loss": abs(safe_float(rec.get("max_loss"), 500.0)),
                     "max_gain": abs(safe_float(rec.get("max_gain"), 1000.0)),
@@ -358,5 +358,5 @@ Recommend 3-5 appropriate strikes with full risk analysis.
                 "premium": 5.0,
                 "contracts": 1,
                 "note": "Fallback recommendation",
-            }
+            },
         ]
