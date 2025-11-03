@@ -302,7 +302,7 @@ Please provide a comprehensive technical analysis with scenario detection and we
 
             # Get analysis from GPT-4 with structured outputs
             response = await self._make_completion(
-                messages, temperature=0.3, response_schema=self._get_response_schema()
+                messages, temperature=0.3, response_schema=self._get_response_schema(),
             )
 
             # Parse the response
@@ -312,7 +312,7 @@ Please provide a comprehensive technical analysis with scenario detection and we
             analysis = self._validate_analysis(analysis, symbol, tech_data)
 
             logger.info(
-                f"Technical analysis completed for {symbol}: {analysis.get('scenario', 'unknown')} scenario"
+                f"Technical analysis completed for {symbol}: {analysis.get('scenario', 'unknown')} scenario",
             )
             return analysis
 
