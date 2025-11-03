@@ -536,10 +536,9 @@ async def init_database():
     if success_count == len(INIT_SQL_SCRIPTS):
         logger.info("✅ All database components initialized successfully")
         return True
-    else:
-        logger.warning(f"⚠️ {len(INIT_SQL_SCRIPTS) - success_count} scripts had issues")
-        logger.info("💡 You may need to run some SQL manually in Supabase dashboard")
-        return True  # Return True anyway as core functionality will work
+    logger.warning(f"⚠️ {len(INIT_SQL_SCRIPTS) - success_count} scripts had issues")
+    logger.info("💡 You may need to run some SQL manually in Supabase dashboard")
+    return True  # Return True anyway as core functionality will work
 
 
 async def verify_database():
