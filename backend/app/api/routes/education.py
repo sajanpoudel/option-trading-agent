@@ -21,10 +21,10 @@ class ContentRequest(BaseModel):
 
     topic: str | None = Field(None, description="Topic filter")
     difficulty: str | None = Field(
-        None, description="Difficulty level: beginner, intermediate, advanced"
+        None, description="Difficulty level: beginner, intermediate, advanced",
     )
     content_type: str | None = Field(
-        None, description="Content type: lesson, quiz, interactive, video"
+        None, description="Content type: lesson, quiz, interactive, video",
     )
 
 
@@ -99,7 +99,7 @@ async def get_educational_content(
     try:
         # Get content from database
         content_list = await db_manager.get_educational_content(
-            topic=topic, difficulty=difficulty, content_type=content_type, limit=limit
+            topic=topic, difficulty=difficulty, content_type=content_type, limit=limit,
         )
 
         # If no content in database, return mock content
@@ -125,7 +125,7 @@ async def get_educational_content(
                             {
                                 "scenario": "Buying a call option on AAPL",
                                 "explanation": "If you think AAPL will go up, you can buy a call option.",
-                            }
+                            },
                         ],
                     },
                     "prerequisites": [],
@@ -198,7 +198,7 @@ async def get_educational_content(
 
 @router.get("/content/{content_id}")
 async def get_content_by_id(
-    content_id: str, session: dict = Depends(get_current_session)
+    content_id: str, session: dict = Depends(get_current_session),
 ) -> ContentResponse:
     """Get specific educational content by ID"""
     try:
@@ -223,7 +223,7 @@ async def get_content_by_id(
                     {
                         "scenario": "High delta call option",
                         "explanation": "A call with 0.7 delta will gain $0.70 for every $1 stock increase",
-                    }
+                    },
                 ],
             },
             "prerequisites": ["options_basics_001"],
@@ -244,7 +244,7 @@ async def get_content_by_id(
 
 @router.post("/quiz")
 async def generate_quiz(
-    quiz_request: QuizRequest, session: dict = Depends(get_current_session)
+    quiz_request: QuizRequest, session: dict = Depends(get_current_session),
 ) -> QuizResponse:
     """Generate adaptive quiz based on topic and difficulty"""
     try:
