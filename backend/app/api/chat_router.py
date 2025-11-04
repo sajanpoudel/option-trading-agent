@@ -120,8 +120,8 @@ Would you like to execute this trade?"""
                                     "type": "buy",
                                     "recommendation": best_rec,
                                     "requiresConfirmation": True,
-                                }
-                            ]
+                                },
+                            ],
                         }
 
         # Generate suggestions based on intent and tools used
@@ -216,7 +216,7 @@ def _generate_ai_suggestions(intent: str, symbol: str | None, tools_called: list
                 f"Options strategies for {symbol}",
                 f"Risk assessment for {symbol}",
                 f"Compare {symbol} to sector",
-            ]
+            ],
         )
     elif intent == "OPTIONS_EDUCATION":
         base_suggestions.extend(
@@ -225,7 +225,7 @@ def _generate_ai_suggestions(intent: str, symbol: str | None, tools_called: list
                 "Explain call options",
                 "How do puts work?",
                 "Options Greeks overview",
-            ]
+            ],
         )
     elif intent == "MARKET_TRENDS":
         base_suggestions.extend(
@@ -234,7 +234,7 @@ def _generate_ai_suggestions(intent: str, symbol: str | None, tools_called: list
                 "Top gainers today",
                 "Options flow analysis",
                 "Market sentiment overview",
-            ]
+            ],
         )
     else:
         base_suggestions.extend(
@@ -243,7 +243,7 @@ def _generate_ai_suggestions(intent: str, symbol: str | None, tools_called: list
                 "What are options?",
                 "Show trending stocks",
                 "Portfolio overview",
-            ]
+            ],
         )
 
     return base_suggestions[:4]  # Return max 4 suggestions
