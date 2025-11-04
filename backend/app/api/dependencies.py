@@ -20,7 +20,7 @@ request_timestamps = defaultdict(lambda: defaultdict(list))
 
 
 async def get_current_session(
-    x_session_token: str | None = Header(None), session_token: str | None = None
+    x_session_token: str | None = Header(None), session_token: str | None = None,
 ) -> dict[str, Any]:
     """Get current browser session (dependency)"""
     token = x_session_token or session_token
@@ -78,7 +78,7 @@ def rate_limiter(max_requests: int = 60, time_window: int = 60):
             if len(request_timestamps[client_ip]) >= max_requests:
                 logger.warning(f"Rate limit exceeded for IP: {client_ip}")
                 raise HTTPException(
-                    status_code=429, detail="Rate limit exceeded. Please try again later."
+                    status_code=429, detail="Rate limit exceeded. Please try again later.",
                 )
 
             # Add current request
