@@ -35,7 +35,7 @@ async def lifespan(app: FastAPI):
     db_health = await db_manager.health_check()
     if db_health["status"] != "healthy":
         logger.warning(
-            f"Database connection failed (app will run with limited functionality): {db_health}"
+            f"Database connection failed (app will run with limited functionality): {db_health}",
         )
     else:
         logger.info("Database connection established")
@@ -209,7 +209,7 @@ async def create_session(request: Request, risk_profile: str = "moderate") -> di
 
     # Create session
     session_token = await db_manager.create_browser_session(
-        ip_address=client_ip, user_agent=user_agent, risk_profile=risk_profile
+        ip_address=client_ip, user_agent=user_agent, risk_profile=risk_profile,
     )
 
     if not session_token:
@@ -282,7 +282,7 @@ async def send_chat_message(message_data: ChatMessage):
         }
 
         orchestration_result = await orchestrator.process_user_query(
-            message_data.message, user_context
+            message_data.message, user_context,
         )
 
         # Extract information for chat response
@@ -430,13 +430,13 @@ async def get_hot_stocks():
                 # Sanity check - if change is too large, log warning but don't zero it out
                 if abs(change_percent) > 20:
                     logger.warning(
-                        f"Large change detected for {symbol}: {change_percent:.1f}% - verify data"
+                        f"Large change detected for {symbol}: {change_percent:.1f}% - verify data",
                     )
 
                 # Only zero out if change is completely unreasonable (>50%)
                 if abs(change_percent) > 50:
                     logger.warning(
-                        f"Extreme change detected for {symbol}: {change_percent:.1f}% - using 0%"
+                        f"Extreme change detected for {symbol}: {change_percent:.1f}% - using 0%",
                     )
                     change = 0
                     change_percent = 0
@@ -594,7 +594,7 @@ async def get_technical_indicators(symbol: str):
         # Get technical analysis
         user_context = {"selectedStock": symbol}
         result = await orchestrator.process_user_query(
-            f"technical analysis indicators for {symbol}", user_context
+            f"technical analysis indicators for {symbol}", user_context,
         )
 
         # Extract technical data
@@ -631,7 +631,7 @@ async def get_trading_signals(symbol: str):
         }
 
         analysis_result = await orchestrator.process_user_query(
-            f"trading signals for {symbol}", user_context
+            f"trading signals for {symbol}", user_context,
         )
 
         # Extract trading signals from analysis
@@ -801,7 +801,7 @@ async def execute_options_purchase(request: dict[str, Any]):
 
         else:
             return JSONResponse(
-                status_code=400, content={"error": f"Unknown purchase type: {purchase_type}"}
+                status_code=400, content={"error": f"Unknown purchase type: {purchase_type}"},
             )
 
         # Log successful execution
@@ -815,7 +815,7 @@ async def execute_options_purchase(request: dict[str, Any]):
     except Exception as e:
         logger.error(f"❌ Options execution error: {e}")
         return JSONResponse(
-            status_code=500, content={"error": f"Execution failed: {e!s}", "status": "failed"}
+            status_code=500, content={"error": f"Execution failed: {e!s}", "status": "failed"},
         )
 
 
