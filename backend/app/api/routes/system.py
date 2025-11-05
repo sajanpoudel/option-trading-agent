@@ -190,7 +190,7 @@ async def get_system_analytics(session: dict = Depends(get_current_session)) -> 
 
 @router.get("/config")
 async def get_system_config(
-    key: str = None, session: dict = Depends(get_current_session)
+    key: str = None, session: dict = Depends(get_current_session),
 ) -> dict[str, Any]:
     """Get system configuration"""
     try:
@@ -222,7 +222,7 @@ async def get_system_config(
 
 @router.post("/config")
 async def update_system_config(
-    key: str, value: Any, description: str = None, session: dict = Depends(get_current_session)
+    key: str, value: Any, description: str = None, session: dict = Depends(get_current_session),
 ) -> dict[str, Any]:
     """Update system configuration"""
     try:
@@ -245,7 +245,7 @@ async def update_system_config(
 
 @router.get("/metrics")
 async def get_system_metrics(
-    metric_type: str = "all", session: dict = Depends(get_current_session)
+    metric_type: str = "all", session: dict = Depends(get_current_session),
 ) -> dict[str, Any]:
     """Get detailed system metrics"""
     try:
@@ -264,10 +264,10 @@ async def get_system_metrics(
             metrics["business"] = {
                 "total_analyses_today": analytics.get("signals_last_24h", 0),
                 "active_positions": analytics.get("portfolio_summary", {}).get(
-                    "total_positions", 0
+                    "total_positions", 0,
                 ),
                 "total_portfolio_value": analytics.get("portfolio_summary", {}).get(
-                    "total_value", 0
+                    "total_value", 0,
                 ),
                 "session_count": analytics.get("active_sessions", 0),
             }
@@ -349,7 +349,7 @@ async def get_system_logs(
 
 @router.post("/maintenance")
 async def trigger_maintenance_task(
-    task_type: str, session: dict = Depends(get_current_session)
+    task_type: str, session: dict = Depends(get_current_session),
 ) -> dict[str, Any]:
     """Trigger system maintenance tasks"""
     try:
