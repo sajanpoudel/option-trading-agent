@@ -31,7 +31,7 @@ class BatchTasks:
     @staticmethod
     @delayed
     def calculate_historical_features(
-        symbol: str, start_date: datetime, end_date: datetime
+        symbol: str, start_date: datetime, end_date: datetime,
     ) -> dict[str, Any]:
         """Calculate historical technical features for a symbol
 
@@ -109,7 +109,7 @@ class BatchTasks:
 
     @staticmethod
     def batch_process_symbols(
-        symbols: list[str], task_type: str = "features"
+        symbols: list[str], task_type: str = "features",
     ) -> list[dict[str, Any]]:
         """Process multiple symbols in parallel using Dask
 
@@ -167,7 +167,7 @@ class BatchTasks:
 
     @staticmethod
     def window_aggregation(
-        df: pd.DataFrame, window: str = "1H", agg_cols: list[str] = None
+        df: pd.DataFrame, window: str = "1H", agg_cols: list[str] = None,
     ) -> pd.DataFrame:
         """Perform time-window aggregation on streaming data
 
