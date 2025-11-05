@@ -86,7 +86,7 @@ class RiskBasedStrikeSelector:
         }
 
     def select_strikes(
-        self, signal: dict, symbol: str, user_profile: dict
+        self, signal: dict, symbol: str, user_profile: dict,
     ) -> list[StrikeRecommendation]:
         """Select optimal strikes based on risk profile and signal"""
         try:
@@ -98,21 +98,21 @@ class RiskBasedStrikeSelector:
             # Generate sample recommendations based on signal
             if signal["direction"] in ["BUY", "STRONG_BUY"]:
                 recommendations.extend(
-                    self._generate_call_recommendations(symbol, profile_params, signal["score"])
+                    self._generate_call_recommendations(symbol, profile_params, signal["score"]),
                 )
             elif signal["direction"] in ["SELL", "STRONG_SELL"]:
                 recommendations.extend(
-                    self._generate_put_recommendations(symbol, profile_params, abs(signal["score"]))
+                    self._generate_put_recommendations(symbol, profile_params, abs(signal["score"])),
                 )
             else:
                 # Neutral strategies for HOLD
                 recommendations.extend(
-                    self._generate_neutral_recommendations(symbol, profile_params)
+                    self._generate_neutral_recommendations(symbol, profile_params),
                 )
 
             # Sort by risk-adjusted return
             recommendations.sort(
-                key=lambda x: x.potential_return / max(x.risk_score, 0.1), reverse=True
+                key=lambda x: x.potential_return / max(x.risk_score, 0.1), reverse=True,
             )
 
             return recommendations[:5]  # Top 5 recommendations
@@ -122,7 +122,7 @@ class RiskBasedStrikeSelector:
             return []
 
     def _generate_call_recommendations(
-        self, symbol: str, profile: dict, score: float
+        self, symbol: str, profile: dict, score: float,
     ) -> list[StrikeRecommendation]:
         """Generate call option recommendations"""
         base_price = 150.0  # Example current price
@@ -131,7 +131,7 @@ class RiskBasedStrikeSelector:
         recommendations = []
 
         for i, delta_target in enumerate(
-            [delta_min + 0.1, (delta_min + delta_max) / 2, delta_max - 0.1]
+            [delta_min + 0.1, (delta_min + delta_max) / 2, delta_max - 0.1],
         ):
             strike = base_price * (1 + (0.5 - delta_target) * 0.1)  # Approximate strike from delta
 
@@ -153,7 +153,7 @@ class RiskBasedStrikeSelector:
         return recommendations
 
     def _generate_put_recommendations(
-        self, symbol: str, profile: dict, score: float
+        self, symbol: str, profile: dict, score: float,
     ) -> list[StrikeRecommendation]:
         """Generate put option recommendations"""
         base_price = 150.0
@@ -182,7 +182,7 @@ class RiskBasedStrikeSelector:
         return recommendations
 
     def _generate_neutral_recommendations(
-        self, symbol: str, profile: dict
+        self, symbol: str, profile: dict,
     ) -> list[StrikeRecommendation]:
         """Generate neutral strategy recommendations"""
         base_price = 150.0
@@ -248,12 +248,12 @@ class DecisionEngine:
 
             # Step 5: Select risk-appropriate strikes
             strike_recommendations = self.strike_selector.select_strikes(
-                signal, symbol, user_risk_profile
+                signal, symbol, user_risk_profile,
             )
 
             # Step 6: Calculate overall confidence
             confidence = self._calculate_overall_confidence(
-                agent_results, ensemble_signal, adjusted_weights
+                agent_results, ensemble_signal, adjusted_weights,
             )
 
             result = {
@@ -269,7 +269,7 @@ class DecisionEngine:
             }
 
             logger.info(
-                f"Decision processed for {symbol}: {signal['direction']} ({confidence:.3f} confidence)"
+                f"Decision processed for {symbol}: {signal['direction']} ({confidence:.3f} confidence)",
             )
 
             return result
@@ -340,7 +340,7 @@ class DecisionEngine:
                     "sentiment": self._sentiment_to_numeric(sentiment_score),
                     "flow": self._sentiment_to_numeric(flow_score),
                     "history": float(history_score),
-                }
+                },
             )
 
             # Calculate weighted sum
@@ -408,7 +408,7 @@ class DecisionEngine:
 
         # Determine options strategy
         options_strategy = self._select_options_strategy(
-            direction, agent_results.get("technical", {}).get("scenario", "normal")
+            direction, agent_results.get("technical", {}).get("scenario", "normal"),
         )
 
         return {
@@ -454,7 +454,7 @@ class DecisionEngine:
         return reasoning
 
     def _calculate_overall_confidence(
-        self, agent_results: dict, ensemble_signal, weights: ScenarioWeights
+        self, agent_results: dict, ensemble_signal, weights: ScenarioWeights,
     ) -> float:
         """Calculate overall confidence in the decision"""
         try:
