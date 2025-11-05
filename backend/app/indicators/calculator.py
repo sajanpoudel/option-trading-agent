@@ -34,7 +34,7 @@ class TechnicalIndicatorsCalculator:
         self.cache = {}
 
     def calculate_comprehensive_indicators(
-        self, df: pd.DataFrame, symbol: str = None
+        self, df: pd.DataFrame, symbol: str = None,
     ) -> dict[str, Any]:
         """Calculate comprehensive technical indicators using professional library"""
         try:
@@ -77,7 +77,7 @@ class TechnicalIndicatorsCalculator:
                     "volume": int(df[volume_col].iloc[-1]) if volume_col in df.columns else 1000000,
                     "high_52w": float(df[high_col].max()),
                     "low_52w": float(df[low_col].min()),
-                }
+                },
             )
 
             # 2. MOVING AVERAGES (Multiple types)
@@ -112,7 +112,7 @@ class TechnicalIndicatorsCalculator:
             indicators_data = self._convert_decimals_to_float(indicators_data)
 
             logger.info(
-                f"Professional indicators calculated successfully: {len(indicators_data)} metrics"
+                f"Professional indicators calculated successfully: {len(indicators_data)} metrics",
             )
             return indicators_data
 
@@ -151,7 +151,7 @@ class TechnicalIndicatorsCalculator:
                         cols[key] = None  # Volume is optional
                     else:
                         raise ValueError(
-                            f"Required column for {key} not found in {list(df.columns)}"
+                            f"Required column for {key} not found in {list(df.columns)}",
                         )
 
             quotes = []
@@ -223,7 +223,7 @@ class TechnicalIndicatorsCalculator:
                     "ma50": quotes[-1].close,
                     "ma200": quotes[-1].close,
                     "vwap": quotes[-1].close,
-                }
+                },
             )
 
         return ma_data
@@ -261,7 +261,7 @@ class TechnicalIndicatorsCalculator:
         except Exception as e:
             logger.warning(f"Oscillators calculation failed: {e}")
             oscillators.update(
-                {"rsi": 50.0, "stoch_k": 50.0, "stoch_d": 50.0, "williams_r": -50.0, "cci": 0.0}
+                {"rsi": 50.0, "stoch_k": 50.0, "stoch_d": 50.0, "williams_r": -50.0, "cci": 0.0},
             )
 
         return oscillators
@@ -281,7 +281,7 @@ class TechnicalIndicatorsCalculator:
                             "macd": float(latest_macd.macd or 0),
                             "macd_signal": float(latest_macd.signal or 0),
                             "macd_histogram": float(latest_macd.histogram or 0),
-                        }
+                        },
                     )
 
             # ADX (Average Directional Index)
@@ -294,7 +294,7 @@ class TechnicalIndicatorsCalculator:
                             "adx": float(latest_adx.adx or 20),
                             "pdi": float(latest_adx.pdi or 20),
                             "mdi": float(latest_adx.mdi or 20),
-                        }
+                        },
                     )
 
             # Aroon Indicator
@@ -307,7 +307,7 @@ class TechnicalIndicatorsCalculator:
                             "aroon_up": float(latest_aroon.aroon_up or 50),
                             "aroon_down": float(latest_aroon.aroon_down or 50),
                             "aroon_oscillator": float(latest_aroon.oscillator or 0),
-                        }
+                        },
                     )
 
             # Supertrend
@@ -315,7 +315,7 @@ class TechnicalIndicatorsCalculator:
                 supertrend_results = indicators.get_super_trend(quotes, 10, 3.0)
                 if supertrend_results:
                     trend_data["supertrend"] = float(
-                        supertrend_results[-1].super_trend or quotes[-1].close
+                        supertrend_results[-1].super_trend or quotes[-1].close,
                     )
                     trend_data["supertrend_signal"] = (
                         "bullish"
@@ -333,13 +333,13 @@ class TechnicalIndicatorsCalculator:
                     "adx": 20.0,
                     "aroon_up": 50.0,
                     "aroon_down": 50.0,
-                }
+                },
             )
 
         return trend_data
 
     def _calculate_volatility_indicators(
-        self, quotes: list[Quote], df: pd.DataFrame
+        self, quotes: list[Quote], df: pd.DataFrame,
     ) -> dict[str, Any]:
         """Calculate volatility-based indicators"""
         # Define column names for consistency
@@ -366,11 +366,11 @@ class TechnicalIndicatorsCalculator:
                             "bb_lower": lower_band,
                             "bb_width": width,
                             "bb_position": float(
-                                (current_close - lower_band) / (upper_band - lower_band)
+                                (current_close - lower_band) / (upper_band - lower_band),
                             )
                             if upper_band != lower_band
                             else 0.5,
-                        }
+                        },
                     )
 
             # Average True Range (ATR)
@@ -390,7 +390,7 @@ class TechnicalIndicatorsCalculator:
                             "keltner_upper": float(latest_keltner.upper_band or current_close + 5),
                             "keltner_middle": float(latest_keltner.center_line or current_close),
                             "keltner_lower": float(latest_keltner.lower_band or current_close - 5),
-                        }
+                        },
                     )
 
             # Historical Volatility
@@ -420,7 +420,7 @@ class TechnicalIndicatorsCalculator:
                     "bb_position": 0.5,
                     "atr": 1.0,
                     "volatility": 25.0,
-                }
+                },
             )
 
         return vol_data
@@ -457,7 +457,7 @@ class TechnicalIndicatorsCalculator:
                         "current_volume": recent_volume,
                         "avg_volume": avg_volume,
                         "volume_ratio": recent_volume / avg_volume if avg_volume > 0 else 1.0,
-                    }
+                    },
                 )
 
         except Exception as e:
@@ -470,7 +470,7 @@ class TechnicalIndicatorsCalculator:
                     "current_volume": quotes[-1].volume,
                     "avg_volume": quotes[-1].volume,
                     "volume_ratio": 1.0,
-                }
+                },
             )
 
         return volume_data
@@ -487,7 +487,7 @@ class TechnicalIndicatorsCalculator:
                     for window_size in [3, 5, 7]:
                         try:
                             pivot_results = indicators.get_pivot_points(
-                                quotes, window_size=window_size
+                                quotes, window_size=window_size,
                             )
                             if pivot_results and len(pivot_results) > 0:
                                 latest_pivot = pivot_results[-1]
@@ -496,30 +496,30 @@ class TechnicalIndicatorsCalculator:
                                     {
                                         "pivot_point": float(
                                             getattr(latest_pivot, "pp", quotes[-1].close)
-                                            or quotes[-1].close
+                                            or quotes[-1].close,
                                         ),
                                         "resistance_1": float(
                                             getattr(latest_pivot, "r1", quotes[-1].close + 5)
-                                            or quotes[-1].close + 5
+                                            or quotes[-1].close + 5,
                                         ),
                                         "resistance_2": float(
                                             getattr(latest_pivot, "r2", quotes[-1].close + 10)
-                                            or quotes[-1].close + 10
+                                            or quotes[-1].close + 10,
                                         ),
                                         "support_1": float(
                                             getattr(latest_pivot, "s1", quotes[-1].close - 5)
-                                            or quotes[-1].close - 5
+                                            or quotes[-1].close - 5,
                                         ),
                                         "support_2": float(
                                             getattr(latest_pivot, "s2", quotes[-1].close - 10)
-                                            or quotes[-1].close - 10
+                                            or quotes[-1].close - 10,
                                         ),
-                                    }
+                                    },
                                 )
                                 break  # Success, exit the loop
                         except Exception as window_error:
                             logger.debug(
-                                f"Pivot points failed with window_size={window_size}: {window_error}"
+                                f"Pivot points failed with window_size={window_size}: {window_error}",
                             )
                             continue
                 except Exception as pivot_error:
@@ -534,7 +534,7 @@ class TechnicalIndicatorsCalculator:
                 {
                     "resistance": max(highs) if highs else quotes[-1].close + 5,
                     "support": min(lows) if lows else quotes[-1].close - 5,
-                }
+                },
             )
 
         except Exception as e:
@@ -544,7 +544,7 @@ class TechnicalIndicatorsCalculator:
                     "resistance": quotes[-1].close + 5,
                     "support": quotes[-1].close - 5,
                     "pivot_point": quotes[-1].close,
-                }
+                },
             )
 
         return sr_data
@@ -571,7 +571,7 @@ class TechnicalIndicatorsCalculator:
                             "recent_fractal_bear": any(
                                 f.fractal_bear for f in fractal_results[-5:]
                             ),
-                        }
+                        },
                     )
 
             # Trend analysis
@@ -587,13 +587,13 @@ class TechnicalIndicatorsCalculator:
                         else "down"
                         if trend_slope < 0
                         else "sideways",
-                    }
+                    },
                 )
 
         except Exception as e:
             logger.warning(f"Pattern recognition failed: {e}")
             patterns.update(
-                {"fractal_count": 0, "trend_direction": "sideways", "trend_strength": 0.0}
+                {"fractal_count": 0, "trend_direction": "sideways", "trend_strength": 0.0},
             )
 
         return patterns
@@ -668,7 +668,7 @@ class TechnicalIndicatorsCalculator:
                 high[1:] - low[1:],
                 np.abs(high[1:] - close[:-1]),
                 np.abs(low[1:] - close[:-1]),
-            ]
+            ],
         )
 
     def _calculate_basic_indicators(self, df: pd.DataFrame, symbol: str = None) -> dict[str, Any]:
@@ -684,7 +684,7 @@ class TechnicalIndicatorsCalculator:
                             "High": "high",
                             "Low": "low",
                             "Volume": "volume",
-                        }
+                        },
                     )
                 else:
                     return self._get_fallback_indicators()
