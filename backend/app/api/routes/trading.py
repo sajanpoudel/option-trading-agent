@@ -99,7 +99,7 @@ async def trading_info() -> dict[str, Any]:
 @router.post("/execute")
 @rate_limiter(max_requests=20, time_window=60)
 async def execute_paper_trade(
-    trade_request: PaperTradeRequest, session: dict = Depends(get_current_session)
+    trade_request: PaperTradeRequest, session: dict = Depends(get_current_session),
 ) -> TradeResponse:
     """Execute paper trade"""
     symbol = trade_request.symbol.upper()
@@ -177,7 +177,7 @@ async def execute_paper_trade(
 
 @router.get("/positions")
 async def get_positions(
-    symbol: str | None = None, status: str = "open", session: dict = Depends(get_current_session)
+    symbol: str | None = None, status: str = "open", session: dict = Depends(get_current_session),
 ) -> list[PositionResponse]:
     """Get current positions"""
     try:
@@ -212,7 +212,7 @@ async def get_positions(
 
 @router.get("/positions/{position_id}")
 async def get_position_details(
-    position_id: str, session: dict = Depends(get_current_session)
+    position_id: str, session: dict = Depends(get_current_session),
 ) -> dict[str, Any]:
     """Get detailed position information"""
     try:
@@ -247,7 +247,7 @@ async def get_position_details(
 @router.post("/positions/{position_id}/close")
 @rate_limiter(max_requests=20, time_window=60)
 async def close_position(
-    position_id: str, session: dict = Depends(get_current_session)
+    position_id: str, session: dict = Depends(get_current_session),
 ) -> dict[str, Any]:
     """Close a position"""
     try:
@@ -331,7 +331,7 @@ async def get_portfolio_summary(session: dict = Depends(get_current_session)) ->
 
 @router.get("/portfolio/performance")
 async def get_portfolio_performance(
-    period: str = "1m", session: dict = Depends(get_current_session)
+    period: str = "1m", session: dict = Depends(get_current_session),
 ) -> dict[str, Any]:
     """Get portfolio performance metrics"""
     try:
@@ -364,7 +364,7 @@ async def get_portfolio_performance(
 @router.post("/analyze-buy")
 @rate_limiter(max_requests=10, time_window=60)
 async def analyze_buy_opportunity(
-    request: BuyAnalysisRequest, session: dict = Depends(get_current_session)
+    request: BuyAnalysisRequest, session: dict = Depends(get_current_session),
 ) -> dict[str, Any]:
     """Analyze buy opportunity using AI agents"""
     symbol = request.symbol.upper()
@@ -415,7 +415,7 @@ async def analyze_buy_opportunity(
 @router.post("/execute-recommendation")
 @rate_limiter(max_requests=5, time_window=60)
 async def execute_trade_recommendation(
-    request: TradeExecutionRequest, session: dict = Depends(get_current_session)
+    request: TradeExecutionRequest, session: dict = Depends(get_current_session),
 ) -> TradeResponse:
     """Execute a trade based on AI recommendation"""
     symbol = request.symbol.upper()
@@ -474,7 +474,7 @@ async def execute_trade_recommendation(
 
 @router.get("/buy-recommendations/{symbol}")
 async def get_buy_recommendations(
-    symbol: str, session: dict = Depends(get_current_session)
+    symbol: str, session: dict = Depends(get_current_session),
 ) -> dict[str, Any]:
     """Get buy recommendations for a symbol"""
     symbol = symbol.upper()
