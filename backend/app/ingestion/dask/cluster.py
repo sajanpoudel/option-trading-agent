@@ -54,7 +54,7 @@ class DaskClusterManager:
                 f"Connected to Dask cluster: "
                 f"{cluster_info['workers']} workers, "
                 f"{cluster_info['cores']} cores, "
-                f"{cluster_info['memory']}"
+                f"{cluster_info['memory']}",
             )
 
         except Exception as e:
