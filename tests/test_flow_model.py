@@ -147,3 +147,10 @@ def test_balanced_flow_is_neutral(predictor):
     prediction = predictor._rule_based_prediction({"put_call_ratio": 1.0}, {})
     assert prediction.flow_sentiment == "neutral"
     assert prediction.confidence == 0.5
+
+
+def test_confidence_is_capped_at_point_eight(predictor):
+    features = {"put_call_ratio": 0.5, "volume_ratio": 5, "call_volume_pct": 0.9, "large_trade_count": 3, "iv_rank": 10}
+    prediction = predictor._rule_based_prediction(features, {})
+    assert prediction.flow_sentiment == "bullish"
+    assert prediction.confidence == pytest.approx(0.8)
