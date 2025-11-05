@@ -96,7 +96,7 @@ class OptionsFlowEvent:
 
     @staticmethod
     def create(
-        symbol: str, option_type: str, strike: float, expiry: str, **kwargs
+        symbol: str, option_type: str, strike: float, expiry: str, **kwargs,
     ) -> dict[str, Any]:
         return {
             "timestamp": datetime.utcnow().isoformat(),
