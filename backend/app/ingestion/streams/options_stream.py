@@ -64,7 +64,7 @@ class OptionsFlowStream:
                     for event in flow_events:
                         # Publish to Kafka
                         await kafka_producer.publish(
-                            topic=KafkaTopics.OPTIONS_FLOW, event=event, key=symbol
+                            topic=KafkaTopics.OPTIONS_FLOW, event=event, key=symbol,
                         )
                         self._flow_count += 1
 
