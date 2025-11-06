@@ -90,7 +90,7 @@ class OpenAISentimentAnalyzer:
                     ],
                     temperature=0.1,
                     max_tokens=1000,
-                )
+                ),
             )
 
             result = self._parse_sentiment_response(response.choices[0].message.content, text)
@@ -100,7 +100,7 @@ class OpenAISentimentAnalyzer:
 
             self.analysis_count += 1
             logger.info(
-                f"Sentiment analyzed: {validated_result.category} ({validated_result.score:.2f})"
+                f"Sentiment analyzed: {validated_result.category} ({validated_result.score:.2f})",
             )
 
             return validated_result
@@ -110,7 +110,7 @@ class OpenAISentimentAnalyzer:
             return self._get_fallback_sentiment(text)
 
     async def analyze_multiple_texts(
-        self, texts: list[dict[str, str]]
+        self, texts: list[dict[str, str]],
     ) -> dict[str, SentimentResult]:
         """Analyze sentiment for multiple texts with different contexts"""
         try:
@@ -121,7 +121,7 @@ class OpenAISentimentAnalyzer:
                 source = item.get("source", "unknown")
 
                 task = asyncio.create_task(
-                    self.analyze_text(text, context), name=f"sentiment_{source}"
+                    self.analyze_text(text, context), name=f"sentiment_{source}",
                 )
                 tasks.append((source, task))
 
