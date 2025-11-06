@@ -103,7 +103,7 @@ class EnsembleDecisionModel:
             ]
 
             sentiment_score, flow_score, volatility_score, technical_score = await asyncio.gather(
-                *component_tasks, return_exceptions=True
+                *component_tasks, return_exceptions=True,
             )
 
             # Handle any exceptions in component predictions
@@ -122,7 +122,7 @@ class EnsembleDecisionModel:
 
             # Calculate overall confidence
             confidence = self._calculate_ensemble_confidence(
-                component_scores, adjusted_weights, market_regime
+                component_scores, adjusted_weights, market_regime,
             )
 
             # Generate trading direction and strength
@@ -133,17 +133,17 @@ class EnsembleDecisionModel:
 
             # Assess overall risk
             risk_assessment = self._assess_ensemble_risk(
-                component_scores, volatility_forecast, market_regime
+                component_scores, volatility_forecast, market_regime,
             )
 
             # Generate key insights
             key_insights = self._generate_insights(
-                component_scores, adjusted_weights, market_regime, volatility_forecast
+                component_scores, adjusted_weights, market_regime, volatility_forecast,
             )
 
             # Recommend strategies
             recommended_strategies = self._recommend_strategies(
-                direction, strength, volatility_forecast, risk_assessment
+                direction, strength, volatility_forecast, risk_assessment,
             )
 
             # Create ensemble signal
@@ -165,7 +165,7 @@ class EnsembleDecisionModel:
 
             processing_time = (datetime.now() - start_time).total_seconds()
             logger.info(
-                f"Ensemble signal generated for {symbol}: {direction} ({confidence:.2f} confidence) in {processing_time:.2f}s"
+                f"Ensemble signal generated for {symbol}: {direction} ({confidence:.2f} confidence) in {processing_time:.2f}s",
             )
 
             return signal
@@ -231,7 +231,7 @@ class EnsembleDecisionModel:
                             "text": article.get("title", "") + " " + article.get("summary", ""),
                             "context": "financial_news",
                             "source": "news",
-                        }
+                        },
                     )
 
             # Social sentiment
@@ -242,7 +242,7 @@ class EnsembleDecisionModel:
                             "text": post.get("text", ""),
                             "context": "social_media",
                             "source": "social",
-                        }
+                        },
                     )
 
             if not text_items:
@@ -254,7 +254,7 @@ class EnsembleDecisionModel:
             # Aggregate with source weights
             source_weights = {"news": 0.6, "social": 0.4}
             aggregate_result = await self.sentiment_analyzer.aggregate_sentiments(
-                sentiment_results, source_weights
+                sentiment_results, source_weights,
             )
 
             return aggregate_result.score
@@ -300,7 +300,7 @@ class EnsembleDecisionModel:
 
             # Get volatility forecast
             vol_forecast = await self.volatility_predictor.predict_volatility(
-                symbol, price_df, horizon_days=30
+                symbol, price_df, horizon_days=30,
             )
 
             # Convert volatility trend to score
@@ -397,7 +397,7 @@ class EnsembleDecisionModel:
         return weights
 
     def _calculate_ensemble_score(
-        self, scores: dict[str, float], weights: dict[str, float]
+        self, scores: dict[str, float], weights: dict[str, float],
     ) -> float:
         """Calculate weighted ensemble score"""
         weighted_score = 0.0
@@ -416,7 +416,7 @@ class EnsembleDecisionModel:
         return np.clip(weighted_score, -1.0, 1.0)
 
     def _calculate_ensemble_confidence(
-        self, scores: dict[str, float], weights: dict[str, float], market_regime: str
+        self, scores: dict[str, float], weights: dict[str, float], market_regime: str,
     ) -> float:
         """Calculate overall ensemble confidence"""
         # Base confidence from score magnitude
@@ -477,7 +477,7 @@ class EnsembleDecisionModel:
         return direction, strength
 
     async def _get_detailed_volatility_forecast(
-        self, symbol: str, market_data: dict[str, Any]
+        self, symbol: str, market_data: dict[str, Any],
     ) -> dict[str, Any]:
         """Get detailed volatility forecast information"""
         try:
@@ -501,7 +501,7 @@ class EnsembleDecisionModel:
             return {"status": "error", "message": str(e)}
 
     def _assess_ensemble_risk(
-        self, scores: dict[str, float], volatility_forecast: dict[str, Any], market_regime: str
+        self, scores: dict[str, float], volatility_forecast: dict[str, Any], market_regime: str,
     ) -> dict[str, Any]:
         """Assess overall risk of the ensemble signal"""
         risk_factors = []
