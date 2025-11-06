@@ -73,7 +73,7 @@ class IngestionManager:
         logger.info(
             f"Ingestion Layer started successfully "
             f"(Kafka: {ingestion_settings.kafka_enabled}, "
-            f"Dask: {ingestion_settings.dask_enabled})"
+            f"Dask: {ingestion_settings.dask_enabled})",
         )
 
     async def stop(self):
@@ -127,7 +127,7 @@ class IngestionManager:
             self._latest_flows[symbol].append(event)
             self._latest_flows[symbol] = self._latest_flows[symbol][-100:]  # Keep last 100
             logger.debug(
-                f"Processed options flow: {symbol} {event.get('option_type')} ${event.get('strike')}"
+                f"Processed options flow: {symbol} {event.get('option_type')} ${event.get('strike')}",
             )
 
     async def _handle_sentiment(self, event: dict[str, Any]):
@@ -137,7 +137,7 @@ class IngestionManager:
             # Store latest sentiment
             self._latest_sentiment[symbol] = event
             logger.debug(
-                f"Processed sentiment: {symbol} score={event.get('sentiment_score', 0):.2f}"
+                f"Processed sentiment: {symbol} score={event.get('sentiment_score', 0):.2f}",
             )
 
     async def _start_streams(self):
@@ -159,7 +159,7 @@ class IngestionManager:
     # ===== BATCH LAYER (Dask) =====
 
     async def run_batch_job(
-        self, job_type: str, symbols: list[str], **kwargs
+        self, job_type: str, symbols: list[str], **kwargs,
     ) -> list[dict[str, Any]]:
         """Run a batch processing job on Dask cluster
 
@@ -178,7 +178,7 @@ class IngestionManager:
 
         try:
             results = await dask_cluster.submit_async(
-                BatchTasks.batch_process_symbols, symbols, job_type
+                BatchTasks.batch_process_symbols, symbols, job_type,
             )
             return results or []
 
