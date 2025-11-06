@@ -64,7 +64,7 @@ class SentimentStream:
                     for event in sentiment_events:
                         # Publish to Kafka
                         await kafka_producer.publish(
-                            topic=KafkaTopics.SENTIMENT, event=event, key=symbol
+                            topic=KafkaTopics.SENTIMENT, event=event, key=symbol,
                         )
                         self._event_count += 1
 
@@ -115,7 +115,7 @@ Return ONLY a JSON object with this exact structure (no markdown, no explanation
     "summary": "<brief 1-sentence summary>",
     "source": "<news|twitter|reddit|financial_blog>"
 }}""",
-                        }
+                        },
                     ],
                     temperature=0.3,
                 ),
@@ -146,7 +146,7 @@ Return ONLY a JSON object with this exact structure (no markdown, no explanation
             events.append(event)
 
             logger.info(
-                f"Got sentiment for {symbol}: {sentiment_data.get('sentiment_score', 0):.2f}"
+                f"Got sentiment for {symbol}: {sentiment_data.get('sentiment_score', 0):.2f}",
             )
 
         except json.JSONDecodeError as e:
