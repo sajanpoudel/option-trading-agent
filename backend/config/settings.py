@@ -136,7 +136,7 @@ class Settings(BaseSettings):
     def external_data(self) -> ExternalDataSettings:
         """Get external data settings"""
         return ExternalDataSettings(
-            stocktwits_access_token=self.stocktwits_access_token, news_api_key=self.news_api_key
+            stocktwits_access_token=self.stocktwits_access_token, news_api_key=self.news_api_key,
         )
 
     @property
