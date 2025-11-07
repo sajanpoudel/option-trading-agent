@@ -8,10 +8,10 @@ from .education import EducationAgent
 from .risk import RiskManagementAgent
 
 __all__ = [
-    'TechnicalAnalysisAgent',
-    'SentimentAnalysisAgent',
-    'OptionsFlowAgent',
-    'HistoricalPatternAgent',
-    'EducationAgent',
-    'RiskManagementAgent',
+    "TechnicalAnalysisAgent",
+    "SentimentAnalysisAgent",
+    "OptionsFlowAgent",
+    "HistoricalPatternAgent",
+    "EducationAgent",
+    "RiskManagementAgent",
 ]
