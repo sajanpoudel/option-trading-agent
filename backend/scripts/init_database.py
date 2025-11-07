@@ -530,7 +530,7 @@ async def init_database():
 
     logger.info("=" * 60)
     logger.info(
-        f"🎉 Database initialization completed: {success_count}/{len(INIT_SQL_SCRIPTS)} scripts successful"
+        f"🎉 Database initialization completed: {success_count}/{len(INIT_SQL_SCRIPTS)} scripts successful",
     )
 
     if success_count == len(INIT_SQL_SCRIPTS):
@@ -550,7 +550,7 @@ async def verify_database():
 
         # 1. Test session creation
         session_token = await db_manager.create_browser_session(
-            ip_address="127.0.0.1", user_agent="test-setup"
+            ip_address="127.0.0.1", user_agent="test-setup",
         )
 
         if session_token:
