@@ -177,7 +177,7 @@ class SupabaseManager:
             return None
 
     async def get_trading_signals(
-        self, symbol: str = None, limit: int = 10, include_expired: bool = False
+        self, symbol: str = None, limit: int = 10, include_expired: bool = False,
     ) -> list[dict]:
         """Get trading signals with optional filtering"""
         try:
@@ -328,7 +328,7 @@ class SupabaseManager:
             return None
 
     async def get_educational_content(
-        self, topic: str = None, difficulty: str = None, content_type: str = None, limit: int = 20
+        self, topic: str = None, difficulty: str = None, content_type: str = None, limit: int = 20,
     ) -> list[dict]:
         """Get educational content with filtering"""
         try:
@@ -345,7 +345,7 @@ class SupabaseManager:
 
             result = query.execute()
             logger.debug(
-                f"Retrieved {len(result.data) if result.data else 0} educational content items"
+                f"Retrieved {len(result.data) if result.data else 0} educational content items",
             )
             return result.data or []
         except Exception as e:
@@ -462,7 +462,7 @@ class SupabaseManager:
                 result = self.client.table("browser_sessions").insert(session_data).execute()
                 # Delete the test record
                 self.client.table("browser_sessions").delete().eq(
-                    "session_token", "test_init"
+                    "session_token", "test_init",
                 ).execute()
                 logger.info("✅ browser_sessions table verified/created")
             except Exception as e:
@@ -545,7 +545,7 @@ class SupabaseManager:
     async def create_session(self, session_data: dict) -> str:
         """Create session - alias for create_browser_session"""
         return await self.create_browser_session(
-            risk_profile=session_data.get("risk_profile", "moderate")
+            risk_profile=session_data.get("risk_profile", "moderate"),
         )
 
     # ========================
