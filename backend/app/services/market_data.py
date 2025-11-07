@@ -155,7 +155,7 @@ class MarketDataManager:
             await self._cache_ai_analysis(symbol, comprehensive_analysis)
 
             logger.info(
-                f"Comprehensive AI analysis completed for {symbol} with {intelligence.confidence_score:.1%} confidence"
+                f"Comprehensive AI analysis completed for {symbol} with {intelligence.confidence_score:.1%} confidence",
             )
             return comprehensive_analysis
 
@@ -242,13 +242,13 @@ class MarketDataManager:
                     .select("*")
                     .eq("symbol", symbol)
                     .single()
-                    .execute
-                )
+                    .execute,
+                ),
             )
 
             if result.data:
                 cache_time = datetime.fromisoformat(
-                    result.data["last_updated"].replace("Z", "+00:00")
+                    result.data["last_updated"].replace("Z", "+00:00"),
                 )
                 if datetime.now(cache_time.tzinfo) - cache_time < timedelta(seconds=self.cache_ttl):
                     return result.data["price_data"]
@@ -275,8 +275,8 @@ class MarketDataManager:
             # Upsert to database
             await asyncio.create_task(
                 asyncio.to_thread(
-                    db_manager.client.table("market_data_cache").upsert(cache_record).execute
-                )
+                    db_manager.client.table("market_data_cache").upsert(cache_record).execute,
+                ),
             )
 
             logger.debug(f"Data cached for {symbol}")
@@ -312,16 +312,16 @@ class MarketDataManager:
                     .select("*")
                     .eq("symbol", symbol)
                     .single()
-                    .execute
-                )
+                    .execute,
+                ),
             )
 
             if result.data:
                 cache_time = datetime.fromisoformat(
-                    result.data["last_updated"].replace("Z", "+00:00")
+                    result.data["last_updated"].replace("Z", "+00:00"),
                 )
                 if datetime.now(cache_time.tzinfo) - cache_time < timedelta(
-                    seconds=900
+                    seconds=900,
                 ):  # 15 minutes
                     return result.data["analysis_data"]
 
@@ -343,8 +343,8 @@ class MarketDataManager:
             # Upsert to database
             await asyncio.create_task(
                 asyncio.to_thread(
-                    db_manager.client.table("ai_analysis_cache").upsert(cache_record).execute
-                )
+                    db_manager.client.table("ai_analysis_cache").upsert(cache_record).execute,
+                ),
             )
 
             logger.debug(f"AI analysis cached for {symbol}")
