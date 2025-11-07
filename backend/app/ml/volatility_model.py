@@ -77,7 +77,7 @@ class ProphetVolatilityPredictor:
             logger.info("Prophet Volatility Predictor initialized")
 
     async def predict_volatility(
-        self, symbol: str, historical_data: pd.DataFrame, horizon_days: int = 30
+        self, symbol: str, historical_data: pd.DataFrame, horizon_days: int = 30,
     ) -> VolatilityForecast:
         """Predict volatility for given symbol and horizon"""
         try:
@@ -152,7 +152,7 @@ class ProphetVolatilityPredictor:
             self._store_forecast_history(symbol, result)
 
             logger.info(
-                f"Volatility forecast for {symbol}: {predicted_vol:.1f}% ({volatility_trend})"
+                f"Volatility forecast for {symbol}: {predicted_vol:.1f}% ({volatility_trend})",
             )
             return result
 
@@ -179,7 +179,7 @@ class ProphetVolatilityPredictor:
                 df["gk_vol"] = (
                     np.sqrt(
                         252
-                        * (0.5 * (df["log_hl"] ** 2) - (2 * np.log(2) - 1) * (df["log_co"] ** 2))
+                        * (0.5 * (df["log_hl"] ** 2) - (2 * np.log(2) - 1) * (df["log_co"] ** 2)),
                     )
                     * 100
                 )
@@ -192,7 +192,7 @@ class ProphetVolatilityPredictor:
                 {
                     "ds": df.index,
                     "y": df[volatility_col].rolling(window=5).mean(),  # 5-day smoothing
-                }
+                },
             )
 
             # Remove NaN values
@@ -221,7 +221,7 @@ class ProphetVolatilityPredictor:
 
             # Add custom seasonalities
             model.add_seasonality(
-                name="monthly", period=30.5, fourier_order=5, mode="multiplicative"
+                name="monthly", period=30.5, fourier_order=5, mode="multiplicative",
             )
 
             # Add market hours seasonality
@@ -319,7 +319,7 @@ class ProphetVolatilityPredictor:
         return "high_vol"
 
     def _calculate_forecast_accuracy(
-        self, symbol: str, forecast: pd.DataFrame, actual: pd.DataFrame
+        self, symbol: str, forecast: pd.DataFrame, actual: pd.DataFrame,
     ) -> float:
         """Calculate forecast accuracy using historical performance"""
         try:
@@ -352,7 +352,7 @@ class ProphetVolatilityPredictor:
             return 0.7
 
     def _identify_volatility_drivers(
-        self, forecast: pd.DataFrame, historical_data: pd.DataFrame
+        self, forecast: pd.DataFrame, historical_data: pd.DataFrame,
     ) -> list[str]:
         """Identify key drivers of volatility forecast"""
         drivers = []
@@ -421,7 +421,7 @@ class ProphetVolatilityPredictor:
             logger.warning(f"Failed to store forecast history: {e}")
 
     def _statistical_prediction(
-        self, symbol: str, df: pd.DataFrame, horizon_days: int
+        self, symbol: str, df: pd.DataFrame, horizon_days: int,
     ) -> VolatilityForecast:
         """Statistical fallback when Prophet is not available or data is insufficient"""
         try:
@@ -479,7 +479,7 @@ class ProphetVolatilityPredictor:
             return self._fallback_prediction(symbol, df, horizon_days)
 
     def _fallback_prediction(
-        self, symbol: str, df: pd.DataFrame, horizon_days: int
+        self, symbol: str, df: pd.DataFrame, horizon_days: int,
     ) -> VolatilityForecast:
         """Ultimate fallback prediction"""
         try:
@@ -531,7 +531,7 @@ class ProphetVolatilityPredictor:
             )
 
     async def batch_predict(
-        self, symbols: list[str], market_data: dict[str, pd.DataFrame]
+        self, symbols: list[str], market_data: dict[str, pd.DataFrame],
     ) -> dict[str, VolatilityForecast]:
         """Predict volatility for multiple symbols"""
         try:
