@@ -22,15 +22,15 @@ from .orchestrator import OptionsOracleOrchestrator
 from .base import BaseAgent
 
 __all__ = [
-    'TechnicalAnalysisAgent',
-    'SentimentAnalysisAgent',
-    'OptionsFlowAgent',
-    'HistoricalPatternAgent',
-    'EducationAgent',
-    'RiskManagementAgent',
-    'BuyAgent',
-    'MultiStockAnalysisAgent',
-    'MultiOptionsBuyAgent',
-    'OptionsOracleOrchestrator',
-    'BaseAgent',
+    "TechnicalAnalysisAgent",
+    "SentimentAnalysisAgent",
+    "OptionsFlowAgent",
+    "HistoricalPatternAgent",
+    "EducationAgent",
+    "RiskManagementAgent",
+    "BuyAgent",
+    "MultiStockAnalysisAgent",
+    "MultiOptionsBuyAgent",
+    "OptionsOracleOrchestrator",
+    "BaseAgent",
 ]
