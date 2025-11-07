@@ -62,7 +62,7 @@ class OptionsProfitCalculatorAPI:
         self.session = aiohttp.ClientSession(
             timeout=aiohttp.ClientTimeout(total=10),
             headers={
-                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
+                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
             },
         )
         return self
@@ -85,7 +85,7 @@ class OptionsProfitCalculatorAPI:
             analysis = self._analyze_options_chain(raw_data, symbol)
 
             logger.info(
-                f"Retrieved comprehensive options data for {symbol}: {analysis['total_contracts']} contracts across {len(analysis['expirations'])} expirations"
+                f"Retrieved comprehensive options data for {symbol}: {analysis['total_contracts']} contracts across {len(analysis['expirations'])} expirations",
             )
 
             return analysis
@@ -174,7 +174,7 @@ class OptionsProfitCalculatorAPI:
                                 "volume": volume,
                                 "open_interest": oi,
                                 "reason": "high_volume" if volume > 1000 else "volume_vs_oi",
-                            }
+                            },
                         )
 
             # Analyze puts
@@ -212,7 +212,7 @@ class OptionsProfitCalculatorAPI:
                                 "volume": volume,
                                 "open_interest": oi,
                                 "reason": "high_volume" if volume > 1000 else "volume_vs_oi",
-                            }
+                            },
                         )
 
             # Add to main analysis
@@ -234,7 +234,7 @@ class OptionsProfitCalculatorAPI:
         total_volume = analysis["total_call_volume"] + analysis["total_put_volume"]
         analysis["total_contracts"] = total_volume
         analysis["put_call_ratio"] = analysis["total_put_volume"] / max(
-            analysis["total_call_volume"], 1
+            analysis["total_call_volume"], 1,
         )
 
         # Identify key strikes (highest volume/OI)
@@ -580,7 +580,7 @@ class OpenAIMarketIntelligence:
         formatted = []
         for strike in strikes:
             formatted.append(
-                f"${strike['strike']:.0f} {strike['type'].upper()}: Vol={strike['volume']:,}, OI={strike['open_interest']:,}"
+                f"${strike['strike']:.0f} {strike['type'].upper()}: Vol={strike['volume']:,}, OI={strike['open_interest']:,}",
             )
 
         return "\n".join(formatted)
