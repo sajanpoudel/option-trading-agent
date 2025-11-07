@@ -133,5 +133,5 @@ def log_api_access(
 ) -> None:
     """Log API access"""
     logger.bind(API_ACCESS=True).info(
-        f"{method} {path} {status_code} {response_time:.3f}s UA: {user_agent} IP: {ip_address}"
+        f"{method} {path} {status_code} {response_time:.3f}s UA: {user_agent} IP: {ip_address}",
     )
