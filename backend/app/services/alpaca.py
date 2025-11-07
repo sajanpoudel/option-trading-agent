@@ -30,7 +30,7 @@ class AlpacaMarketDataClient:
 
     def __init__(self):
         self.alpaca_data_client = StockHistoricalDataClient(
-            api_key=settings.alpaca_api_key, secret_key=settings.alpaca_secret_key
+            api_key=settings.alpaca_api_key, secret_key=settings.alpaca_secret_key,
         )
         self.alpaca_trading_client = TradingClient(
             api_key=settings.alpaca_api_key,
@@ -57,7 +57,7 @@ class AlpacaMarketDataClient:
                     volume = int(info.get("volume", 0))
                     yf_price = float(info.get("currentPrice", info.get("regularMarketPrice", 0)))
                     previous_close = float(
-                        info.get("previousClose", info.get("regularMarketPreviousClose", yf_price))
+                        info.get("previousClose", info.get("regularMarketPreviousClose", yf_price)),
                     )
                     yf_change = float(info.get("regularMarketChange", 0))
                     yf_change_percent = float(info.get("regularMarketChangePercent", 0))
@@ -107,7 +107,7 @@ class AlpacaMarketDataClient:
             # Get change data from yfinance
             current_price = float(info.get("currentPrice", info.get("regularMarketPrice", 0)))
             previous_close = float(
-                info.get("previousClose", info.get("regularMarketPreviousClose", current_price))
+                info.get("previousClose", info.get("regularMarketPreviousClose", current_price)),
             )
             change = float(info.get("regularMarketChange", current_price - previous_close))
             change_percent = float(info.get("regularMarketChangePercent", 0))
@@ -130,7 +130,7 @@ class AlpacaMarketDataClient:
             return self._get_fallback_quote(symbol)
 
     async def get_historical_data(
-        self, symbol: str, period: str = "1y", interval: str = "1d"
+        self, symbol: str, period: str = "1y", interval: str = "1d",
     ) -> pd.DataFrame:
         """Get historical price data"""
         try:
@@ -158,7 +158,7 @@ class AlpacaMarketDataClient:
 
             # Try Alpaca first
             request = StockBarsRequest(
-                symbol_or_symbols=symbol, timeframe=timeframe, start=start_date, end=datetime.now()
+                symbol_or_symbols=symbol, timeframe=timeframe, start=start_date, end=datetime.now(),
             )
 
             bars = self.alpaca_data_client.get_stock_bars(request)
@@ -187,7 +187,7 @@ class AlpacaMarketDataClient:
         try:
             # Get historical data
             df = await self.get_historical_data(
-                symbol, period="1y", interval="1d"
+                symbol, period="1y", interval="1d",
             )  # More data for better indicators
 
             if df.empty:
@@ -199,7 +199,7 @@ class AlpacaMarketDataClient:
             indicators = technical_calculator.calculate_comprehensive_indicators(df, symbol)
 
             logger.info(
-                f"Professional technical indicators calculated for {symbol}: {indicators.get('data_points', 0)} bars"
+                f"Professional technical indicators calculated for {symbol}: {indicators.get('data_points', 0)} bars",
             )
             return indicators
 
@@ -302,7 +302,7 @@ class AlpacaMarketDataClient:
                                 else 0,
                                 "implied_volatility": float(call.get("impliedVolatility", 0.25)),
                                 "in_the_money": call.get("inTheMoney", False),
-                            }
+                            },
                         )
 
                     # Process put options
@@ -325,7 +325,7 @@ class AlpacaMarketDataClient:
                                 else 0,
                                 "implied_volatility": float(put.get("impliedVolatility", 0.25)),
                                 "in_the_money": put.get("inTheMoney", False),
-                            }
+                            },
                         )
 
                     # Update summary
@@ -341,7 +341,7 @@ class AlpacaMarketDataClient:
 
             # Calculate put/call ratio
             put_call_ratio = summary_data["total_put_volume"] / max(
-                summary_data["total_call_volume"], 1
+                summary_data["total_call_volume"], 1,
             )
 
             return {
