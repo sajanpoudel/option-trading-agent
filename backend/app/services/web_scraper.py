@@ -74,7 +74,7 @@ class WebScraperAgent:
                             else "Neutral",
                             "sentiment_score": 0.6,
                             "trending": True,
-                        }
+                        },
                     )
                 except Exception as e:
                     logger.debug(f"Failed to get data for {symbol}: {e}")
