@@ -169,7 +169,9 @@ Provide comprehensive pattern analysis.
             ]
 
             response = await self._make_completion(
-                messages, temperature=0.4, response_schema=self._get_response_schema(),
+                messages,
+                temperature=0.4,
+                response_schema=self._get_response_schema(),
             )
             analysis = self._parse_json_response(response["content"])
 
