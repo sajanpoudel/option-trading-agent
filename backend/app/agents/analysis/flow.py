@@ -175,7 +175,9 @@ Provide comprehensive flow analysis with this REAL options data.
             # Note: In production, this would use Gemini API
             # For now, using OpenAI as fallback
             response = await self._make_completion(
-                messages, temperature=0.3, response_schema=self._get_response_schema(),
+                messages,
+                temperature=0.3,
+                response_schema=self._get_response_schema(),
             )
             analysis = self._parse_json_response(response["content"])
 
