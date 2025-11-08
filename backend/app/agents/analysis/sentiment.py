@@ -159,7 +159,8 @@ OUTPUT FORMAT (JSON):
             ]
 
             news_data, stocktwits_data, psychology_data = await asyncio.gather(
-                *tasks, return_exceptions=True,
+                *tasks,
+                return_exceptions=True,
             )
 
             return {
@@ -325,7 +326,10 @@ OUTPUT FORMAT (JSON):
             return {}
 
     async def _analyze_sentiment_with_gpt(
-        self, sentiment_data: dict[str, Any], symbol: str, current_date: str,
+        self,
+        sentiment_data: dict[str, Any],
+        symbol: str,
+        current_date: str,
     ) -> dict[str, Any]:
         """Analyze collected sentiment data with GPT"""
         try:
