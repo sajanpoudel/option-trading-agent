@@ -24,10 +24,11 @@ class MultiOptionsBuyAgent:
         self.single_buy_agent = OptionsBuyAgent(self.openai_client)
 
     async def analyze_best_options_portfolio(
-        self, total_budget: float, user_preferences: dict[str, Any] = None,
+        self,
+        total_budget: float,
+        user_preferences: dict[str, Any] = None,
     ) -> dict[str, Any]:
-        """Analyze hot stocks and create optimized options portfolio within budget
-        """
+        """Analyze hot stocks and create optimized options portfolio within budget"""
         try:
             logger.info(f"🔥 Analyzing best options portfolio with ${total_budget} budget")
 
@@ -61,12 +62,15 @@ class MultiOptionsBuyAgent:
 
                 # Allocate portion of budget for individual analysis
                 individual_budget = min(
-                    total_budget * 0.5, total_budget / 3,
+                    total_budget * 0.5,
+                    total_budget / 3,
                 )  # Max 50% or 1/3 of budget per stock
 
                 try:
                     opportunity = await self.single_buy_agent.analyze_option_opportunity(
-                        symbol, individual_budget, user_preferences or {},
+                        symbol,
+                        individual_budget,
+                        user_preferences or {},
                     )
 
                     if "error" not in opportunity:
@@ -82,7 +86,9 @@ class MultiOptionsBuyAgent:
 
             # Use AI to create optimized portfolio
             portfolio_analysis = await self._create_optimized_portfolio(
-                stock_opportunities, total_budget, user_preferences or {},
+                stock_opportunities,
+                total_budget,
+                user_preferences or {},
             )
 
             return portfolio_analysis
@@ -237,7 +243,9 @@ class MultiOptionsBuyAgent:
             }
 
     async def execute_portfolio_purchase(
-        self, portfolio: dict[str, Any], confirmed: bool = False,
+        self,
+        portfolio: dict[str, Any],
+        confirmed: bool = False,
     ) -> dict[str, Any]:
         """Execute the entire options portfolio if confirmed"""
         if not confirmed:
@@ -315,7 +323,8 @@ multi_options_agent = MultiOptionsBuyAgent()
 
 
 async def analyze_multi_options_buy(
-    budget: float, preferences: dict[str, Any] = None,
+    budget: float,
+    preferences: dict[str, Any] = None,
 ) -> dict[str, Any]:
     """Main function to analyze multi-options portfolio"""
     if preferences is None:
@@ -329,7 +338,8 @@ async def analyze_multi_options_buy(
 
 
 async def execute_multi_options_buy(
-    portfolio: dict[str, Any], confirmed: bool = False,
+    portfolio: dict[str, Any],
+    confirmed: bool = False,
 ) -> dict[str, Any]:
     """Main function to execute options portfolio"""
     return await multi_options_agent.execute_portfolio_purchase(portfolio, confirmed)
