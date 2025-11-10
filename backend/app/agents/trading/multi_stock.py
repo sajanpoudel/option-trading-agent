@@ -79,8 +79,7 @@ Always provide comprehensive analysis with clear reasoning for your recommendati
 """
 
     async def analyze(self, query: str, context: dict[str, Any] = None) -> dict[str, Any]:
-        """Analyze multiple stocks and select the best option based on budget
-        """
+        """Analyze multiple stocks and select the best option based on budget"""
         logger.info(f"🔍 Starting multi-stock analysis for query: {query}")
 
         try:
@@ -274,7 +273,8 @@ If no budget is specified, default to $1000.
 
                             # Use OpenAI to select best stocks from hot stocks based on query
                             selected_stocks = await self._select_stocks_from_hot_list(
-                                query, hot_symbols,
+                                query,
+                                hot_symbols,
                             )
                             return selected_stocks[:12]  # Limit to 12 stocks
 
@@ -327,7 +327,9 @@ Respond with a JSON array of stock symbols:
             return []  # No fallback - return empty list
 
     async def _analyze_individual_stock(
-        self, symbol: str, budget_info: dict[str, Any],
+        self,
+        symbol: str,
+        budget_info: dict[str, Any],
     ) -> StockAnalysis | None:
         """Analyze an individual stock using real APIs and agents"""
         try:
@@ -415,7 +417,9 @@ Respond with a JSON array of stock symbols:
             return None
 
     async def _get_real_analysis_scores(
-        self, symbol: str, market_data: dict[str, Any],
+        self,
+        symbol: str,
+        market_data: dict[str, Any],
     ) -> dict[str, float] | None:
         """Get real analysis scores using our existing agents"""
         try:
@@ -464,7 +468,10 @@ Respond with a JSON array of stock symbols:
             return None
 
     async def _run_technical_analysis(
-        self, agent, symbol: str, market_data: dict[str, Any],
+        self,
+        agent,
+        symbol: str,
+        market_data: dict[str, Any],
     ) -> float:
         """Run technical analysis and extract score"""
         try:
@@ -477,7 +484,10 @@ Respond with a JSON array of stock symbols:
             return 0.5
 
     async def _run_sentiment_analysis(
-        self, agent, symbol: str, market_data: dict[str, Any],
+        self,
+        agent,
+        symbol: str,
+        market_data: dict[str, Any],
     ) -> float:
         """Run sentiment analysis and extract score"""
         try:
@@ -490,7 +500,10 @@ Respond with a JSON array of stock symbols:
             return 0.5
 
     async def _run_options_flow_analysis(
-        self, agent, symbol: str, market_data: dict[str, Any],
+        self,
+        agent,
+        symbol: str,
+        market_data: dict[str, Any],
     ) -> float:
         """Run options flow analysis and extract score"""
         try:
@@ -503,7 +516,10 @@ Respond with a JSON array of stock symbols:
             return 0.5
 
     async def _run_historical_analysis(
-        self, agent, symbol: str, market_data: dict[str, Any],
+        self,
+        agent,
+        symbol: str,
+        market_data: dict[str, Any],
     ) -> float:
         """Run historical analysis and extract score"""
         try:
@@ -527,7 +543,9 @@ Respond with a JSON array of stock symbols:
             return 0.5
 
     def _calculate_potential_return(
-        self, market_data: dict[str, Any], analysis_scores: dict[str, float],
+        self,
+        market_data: dict[str, Any],
+        analysis_scores: dict[str, float],
     ) -> float:
         """Calculate potential return based on technical indicators and analysis"""
         try:
@@ -568,7 +586,9 @@ Respond with a JSON array of stock symbols:
             return 0.0
 
     def _select_best_stock(
-        self, analyses: list[StockAnalysis], budget_info: dict[str, Any],
+        self,
+        analyses: list[StockAnalysis],
+        budget_info: dict[str, Any],
     ) -> StockAnalysis | None:
         """Select the best stock based on analysis results"""
         if not analyses:
@@ -587,7 +607,9 @@ Respond with a JSON array of stock symbols:
         return budget_fit_analyses[0]
 
     def _create_execution_plan(
-        self, recommendation: StockAnalysis | None, budget_info: dict[str, Any],
+        self,
+        recommendation: StockAnalysis | None,
+        budget_info: dict[str, Any],
     ) -> dict[str, Any]:
         """Create execution plan for the best recommendation"""
         if not recommendation:
@@ -622,7 +644,9 @@ Respond with a JSON array of stock symbols:
         }
 
     def _assess_portfolio_risk(
-        self, analyses: list[StockAnalysis], recommendation: StockAnalysis | None,
+        self,
+        analyses: list[StockAnalysis],
+        recommendation: StockAnalysis | None,
     ) -> dict[str, Any]:
         """Assess portfolio risk for the recommendation"""
         if not recommendation:
