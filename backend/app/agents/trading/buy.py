@@ -123,12 +123,18 @@ class BuyAgent(BaseAgent):
 
             # Generate buy recommendations
             recommendations = await self._generate_buy_recommendations(
-                symbol, decision_signal, user_risk_profile, market_data, strike_recommendations,
+                symbol,
+                decision_signal,
+                user_risk_profile,
+                market_data,
+                strike_recommendations,
             )
 
             # Create execution plan
             execution_plan = await self._create_execution_plan(
-                symbol, recommendations, user_risk_profile,
+                symbol,
+                recommendations,
+                user_risk_profile,
             )
 
             return {
@@ -214,7 +220,8 @@ class BuyAgent(BaseAgent):
 
             # Filter and rank recommendations
             recommendations = self._filter_and_rank_recommendations(
-                recommendations, user_risk_profile,
+                recommendations,
+                user_risk_profile,
             )
 
             logger.info(f"Generated {len(recommendations)} buy recommendations for {symbol}")
@@ -254,7 +261,8 @@ class BuyAgent(BaseAgent):
                             option_type="call",
                             strike_price=strike_rec.get("strike", current_price * 1.02),
                             expiration_date=strike_rec.get(
-                                "expiration", self._get_next_expiration(),
+                                "expiration",
+                                self._get_next_expiration(),
                             ),
                             entry_price=strike_rec.get("entry_price", 5.0),
                             confidence=confidence,
@@ -319,7 +327,8 @@ class BuyAgent(BaseAgent):
                             option_type="put",
                             strike_price=strike_rec.get("strike", current_price * 0.98),
                             expiration_date=strike_rec.get(
-                                "expiration", self._get_next_expiration(),
+                                "expiration",
+                                self._get_next_expiration(),
                             ),
                             entry_price=strike_rec.get("entry_price", 4.0),
                             confidence=confidence,
@@ -381,7 +390,9 @@ class BuyAgent(BaseAgent):
         return next_friday.strftime("%Y-%m-%d")
 
     def _filter_and_rank_recommendations(
-        self, recommendations: list[PositionRecommendation], user_risk_profile: dict[str, Any],
+        self,
+        recommendations: list[PositionRecommendation],
+        user_risk_profile: dict[str, Any],
     ) -> list[PositionRecommendation]:
         """Filter and rank recommendations based on risk profile"""
         # Filter by risk tolerance
@@ -463,7 +474,9 @@ class BuyAgent(BaseAgent):
         return execution_plan
 
     def _assess_trade_risk(
-        self, recommendations: list[PositionRecommendation], user_risk_profile: dict[str, Any],
+        self,
+        recommendations: list[PositionRecommendation],
+        user_risk_profile: dict[str, Any],
     ) -> dict[str, Any]:
         """Assess overall risk of the trade recommendations"""
         if not recommendations:
@@ -494,7 +507,9 @@ class BuyAgent(BaseAgent):
         }
 
     def _generate_risk_warnings(
-        self, recommendations: list[PositionRecommendation], user_risk_profile: dict[str, Any],
+        self,
+        recommendations: list[PositionRecommendation],
+        user_risk_profile: dict[str, Any],
     ) -> list[str]:
         """Generate risk warnings for the recommendations"""
         warnings = []
@@ -517,7 +532,8 @@ class BuyAgent(BaseAgent):
         return warnings
 
     def _calculate_execution_confidence(
-        self, recommendations: list[PositionRecommendation],
+        self,
+        recommendations: list[PositionRecommendation],
     ) -> float:
         """Calculate overall confidence in the execution plan"""
         if not recommendations:
@@ -535,7 +551,10 @@ class BuyAgent(BaseAgent):
         return total_confidence / total_weight if total_weight > 0 else 0.0
 
     async def execute_trade(
-        self, symbol: str, recommendation: PositionRecommendation, user_risk_profile: dict[str, Any],
+        self,
+        symbol: str,
+        recommendation: PositionRecommendation,
+        user_risk_profile: dict[str, Any],
     ) -> TradeExecution:
         """Execute a trade based on recommendation"""
         try:
@@ -577,7 +596,9 @@ class BuyAgent(BaseAgent):
             )
 
     async def _validate_trade(
-        self, recommendation: PositionRecommendation, user_risk_profile: dict[str, Any],
+        self,
+        recommendation: PositionRecommendation,
+        user_risk_profile: dict[str, Any],
     ) -> dict[str, Any]:
         """Validate trade before execution"""
         # Check risk limits
@@ -599,7 +620,9 @@ class BuyAgent(BaseAgent):
         return {"valid": True, "reason": "Trade validated successfully"}
 
     async def _execute_paper_trade(
-        self, symbol: str, recommendation: PositionRecommendation,
+        self,
+        symbol: str,
+        recommendation: PositionRecommendation,
     ) -> TradeExecution:
         """Execute paper trade using Alpaca API"""
         try:
@@ -704,7 +727,10 @@ class BuyAgent(BaseAgent):
             return execution
 
     async def analyze_option_opportunity(
-        self, symbol: str, budget: float, user_query: str = "",
+        self,
+        symbol: str,
+        budget: float,
+        user_query: str = "",
     ) -> dict[str, Any]:
         """Analyze option opportunity based on user's buy request with budget"""
         try:
@@ -733,7 +759,10 @@ class BuyAgent(BaseAgent):
 
             # Generate options recommendations based on budget and AI analysis
             recommendations = await self._generate_budget_based_recommendations(
-                symbol, budget, current_price, formatted_request,
+                symbol,
+                budget,
+                current_price,
+                formatted_request,
             )
 
             return {
@@ -750,7 +779,10 @@ class BuyAgent(BaseAgent):
             return {"symbol": symbol, "budget": budget, "error": str(e), "recommendations": []}
 
     async def _format_user_buy_request(
-        self, symbol: str, budget: float, user_query: str,
+        self,
+        symbol: str,
+        budget: float,
+        user_query: str,
     ) -> dict[str, Any]:
         """Use OpenAI to format user buy request into proper options parameters"""
         try:
@@ -832,7 +864,11 @@ class BuyAgent(BaseAgent):
             return None
 
     async def _generate_budget_based_recommendations(
-        self, symbol: str, budget: float, current_price: float, formatted_request: dict[str, Any],
+        self,
+        symbol: str,
+        budget: float,
+        current_price: float,
+        formatted_request: dict[str, Any],
     ) -> list[dict[str, Any]]:
         """Generate options recommendations based on budget constraints"""
         try:
@@ -865,7 +901,10 @@ class BuyAgent(BaseAgent):
             for i, strike in enumerate(strike_prices):
                 # Estimate option price (simplified)
                 estimated_option_price = self._estimate_option_price(
-                    current_price, strike, expiration_weeks, option_type,
+                    current_price,
+                    strike,
+                    expiration_weeks,
+                    option_type,
                 )
 
                 # Calculate max contracts based on budget
@@ -875,7 +914,10 @@ class BuyAgent(BaseAgent):
                 if contracts > 0:
                     # Format option symbol for Alpaca API
                     option_symbol = self._format_alpaca_option_symbol(
-                        symbol, expiration_date, option_type, strike,
+                        symbol,
+                        expiration_date,
+                        option_type,
+                        strike,
                     )
 
                     total_cost = contracts * estimated_option_price * 100
@@ -905,7 +947,8 @@ class BuyAgent(BaseAgent):
                             "max_loss": round(total_cost, 2),
                         },
                         "reasoning": formatted_request.get(
-                            "reasoning", "AI-generated recommendation",
+                            "reasoning",
+                            "AI-generated recommendation",
                         ),
                     }
 
@@ -934,7 +977,11 @@ class BuyAgent(BaseAgent):
         return friday.strftime("%Y-%m-%d")
 
     def _estimate_option_price(
-        self, stock_price: float, strike: float, weeks: int, option_type: str,
+        self,
+        stock_price: float,
+        strike: float,
+        weeks: int,
+        option_type: str,
     ) -> float:
         """Estimate option price (simplified Black-Scholes approximation)"""
         try:
@@ -955,7 +1002,11 @@ class BuyAgent(BaseAgent):
             return 2.0  # Default fallback
 
     def _format_alpaca_option_symbol(
-        self, underlying: str, expiration: str, option_type: str, strike: float,
+        self,
+        underlying: str,
+        expiration: str,
+        option_type: str,
+        strike: float,
     ) -> str:
         """Format option symbol for Alpaca API: AAPL240119C00190000"""
         try:
@@ -1075,7 +1126,9 @@ async def execute_option_buy(analysis: dict[str, Any], confirmed: bool = False) 
 
 
 async def analyze_option_buy(
-    symbol: str, budget: float, preferences: dict[str, Any] = None,
+    symbol: str,
+    budget: float,
+    preferences: dict[str, Any] = None,
 ) -> dict[str, Any]:
     """Analyze option buy opportunity for a symbol"""
     try:
