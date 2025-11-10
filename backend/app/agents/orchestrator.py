@@ -77,7 +77,10 @@ class OptionsOracleOrchestrator:
             return False
 
     async def analyze_stock(
-        self, symbol: str, user_risk_profile: dict, analysis_type: str = "full",
+        self,
+        symbol: str,
+        user_risk_profile: dict,
+        analysis_type: str = "full",
     ) -> dict[str, Any]:
         """Complete stock analysis using all agents"""
         if not self.initialized:
@@ -92,7 +95,8 @@ class OptionsOracleOrchestrator:
             for agent_name in ["technical", "sentiment", "flow", "history"]:
                 if agent_name in self.agents:
                     task = asyncio.create_task(
-                        self.agents[agent_name].analyze(symbol), name=f"{agent_name}_analysis",
+                        self.agents[agent_name].analyze(symbol),
+                        name=f"{agent_name}_analysis",
                     )
                     agent_tasks.append((agent_name, task))
 
@@ -116,17 +120,23 @@ class OptionsOracleOrchestrator:
 
             # Step 4: Generate trading signal
             signal = await self._generate_trading_signal(
-                symbol, decision_score, agent_results, scenario,
+                symbol,
+                decision_score,
+                agent_results,
+                scenario,
             )
 
             # Step 5: Get strike recommendations from risk agent
             strike_recommendations = await self.agents["risk"].recommend_strikes(
-                signal, user_risk_profile,
+                signal,
+                user_risk_profile,
             )
 
             # Step 6: Generate educational content
             educational_content = await self.agents["education"].generate_explanation(
-                symbol, signal, agent_results,
+                symbol,
+                signal,
+                agent_results,
             )
 
             # Calculate analysis duration
@@ -161,7 +171,10 @@ class OptionsOracleOrchestrator:
             raise
 
     async def execute_buy_request(
-        self, symbol: str, user_risk_profile: dict, user_query: str = None,
+        self,
+        symbol: str,
+        user_risk_profile: dict,
+        user_query: str = None,
     ) -> dict[str, Any]:
         """Execute buy request using buy agent"""
         if not self.initialized:
@@ -317,7 +330,11 @@ class OptionsOracleOrchestrator:
         return weighted_score
 
     async def _generate_trading_signal(
-        self, symbol: str, decision_score: float, agent_results: dict, scenario: str,
+        self,
+        symbol: str,
+        decision_score: float,
+        agent_results: dict,
+        scenario: str,
     ) -> dict[str, Any]:
         """Generate trading signal from decision score"""
         # Signal thresholds
