@@ -5,7 +5,7 @@ from .multi_stock import MultiStockAnalysisAgent
 from .multi_options import MultiOptionsBuyAgent
 
 __all__ = [
-    'BuyAgent',
-    'MultiStockAnalysisAgent',
-    'MultiOptionsBuyAgent',
+    "BuyAgent",
+    "MultiStockAnalysisAgent",
+    "MultiOptionsBuyAgent",
 ]
