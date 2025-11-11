@@ -1,5 +1,4 @@
-"""Neural Options Oracle++ Analysis API Routes
-"""
+"""Neural Options Oracle++ Analysis API Routes"""
 
 import asyncio
 import time
@@ -23,7 +22,8 @@ class AnalysisRequest(BaseModel):
     symbol: str = Field(..., description="Stock symbol to analyze", example="AAPL")
     risk_profile: str | None = Field("moderate", description="Risk profile override")
     analysis_type: str | None = Field(
-        "full", description="Analysis type: full, quick, technical_only",
+        "full",
+        description="Analysis type: full, quick, technical_only",
     )
 
 
@@ -183,7 +183,8 @@ async def analyze_stock(
 @router.get("/quick/{symbol}")
 @rate_limiter(max_requests=60, time_window=60)
 async def quick_analysis(
-    symbol: str, session: dict = Depends(get_current_session),
+    symbol: str,
+    session: dict = Depends(get_current_session),
 ) -> QuickAnalysisResponse:
     """Quick analysis for rapid decision making"""
     symbol = symbol.upper()
@@ -214,12 +215,15 @@ async def quick_analysis(
 
 @router.get("/history")
 async def get_analysis_history(
-    limit: int = 10, symbol: str | None = None, session: dict = Depends(get_current_session),
+    limit: int = 10,
+    symbol: str | None = None,
+    session: dict = Depends(get_current_session),
 ) -> list[dict[str, Any]]:
     """Get analysis history"""
     try:
         signals = await db_manager.get_trading_signals(
-            symbol=symbol.upper() if symbol else None, limit=limit,
+            symbol=symbol.upper() if symbol else None,
+            limit=limit,
         )
 
         return signals
@@ -246,7 +250,8 @@ async def get_supported_symbols() -> dict[str, Any]:
 
 @router.get("/status/{analysis_id}")
 async def get_analysis_status(
-    analysis_id: str, session: dict = Depends(get_current_session),
+    analysis_id: str,
+    session: dict = Depends(get_current_session),
 ) -> dict[str, Any]:
     """Get analysis status by ID"""
     try:
@@ -269,7 +274,9 @@ async def get_analysis_status(
 
 # Background tasks
 async def generate_educational_content(
-    symbol: str, signal: dict[str, Any], risk_profile: str,
+    symbol: str,
+    signal: dict[str, Any],
+    risk_profile: str,
 ) -> None:
     """Generate educational content in background"""
     try:
