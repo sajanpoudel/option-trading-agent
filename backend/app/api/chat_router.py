@@ -1,5 +1,4 @@
-"""Chat Router API - Intelligent text routing for user queries
-"""
+"""Chat Router API - Intelligent text routing for user queries"""
 
 import asyncio
 from datetime import datetime
@@ -41,8 +40,7 @@ class ChatResponse(BaseModel):
 
 @router.post("/message", response_model=ChatResponse)
 async def send_chat_message(message_data: ChatMessage):
-    """Send chat message and get intelligent response using AI-powered routing with tool calling
-    """
+    """Send chat message and get intelligent response using AI-powered routing with tool calling"""
     try:
         logger.info(f"💬 Processing chat message: '{message_data.message}'")
 
@@ -185,8 +183,7 @@ Would you like to execute this trade?"""
 
 @router.get("/intent/{text}")
 async def analyze_intent(text: str):
-    """Return the intent the AI router detects for a piece of text
-    """
+    """Return the intent the AI router detects for a piece of text"""
     try:
         result = await route_with_ai(text)
 
