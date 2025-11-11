@@ -242,7 +242,9 @@ class IntelligentOrchestrator:
         logger.info("Intelligent Orchestrator initialized")
 
     async def process_user_query(
-        self, query: str, user_context: dict[str, Any] | None = None,
+        self,
+        query: str,
+        user_context: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         """Main entry point: Process user query and orchestrate appropriate agents
         Returns complete analysis with all visualization data
@@ -272,12 +274,19 @@ class IntelligentOrchestrator:
 
         # Execute agent orchestration
         analysis_result = await self._orchestrate_agents(
-            symbol, query, agents_to_trigger, user_risk_profile, user_context,
+            symbol,
+            query,
+            agents_to_trigger,
+            user_risk_profile,
+            user_context,
         )
 
         # Generate response based on query type
         response = await self._generate_intelligent_response(
-            query, symbol, query_scores, analysis_result,
+            query,
+            symbol,
+            query_scores,
+            analysis_result,
         )
 
         logger.info(f"✅ Query processing complete for {symbol}")
@@ -405,7 +414,8 @@ class IntelligentOrchestrator:
             if "decision_engine" in agents_to_trigger:
                 logger.info("🎯 Running decision engine")
                 decision_result = await self.decision_engine.process_stock(
-                    symbol, user_risk_profile,
+                    symbol,
+                    user_risk_profile,
                 )
                 results["decision_engine"] = decision_result
 
@@ -434,7 +444,8 @@ class IntelligentOrchestrator:
 
             # Generate comprehensive technical indicators for charts
             results["technical_indicators"] = await self._generate_technical_indicators(
-                symbol, market_data,
+                symbol,
+                market_data,
             )
 
             # Generate chart data
@@ -455,7 +466,8 @@ class IntelligentOrchestrator:
         try:
             # Get technical indicators
             indicators = self.technical_calculator.calculate_comprehensive_indicators(
-                market_data.get("data", pd.DataFrame()), symbol,
+                market_data.get("data", pd.DataFrame()),
+                symbol,
             )
 
             # Run technical agent analysis if available
@@ -551,7 +563,10 @@ class IntelligentOrchestrator:
             return {"error": str(e)}
 
     async def _run_education_agent(
-        self, query: str, symbol: str, all_results: dict,
+        self,
+        query: str,
+        symbol: str,
+        all_results: dict,
     ) -> dict[str, Any]:
         """Run education agent with context from other agents"""
         logger.info(f"🎓 Running education agent for query: {query}")
@@ -576,7 +591,10 @@ class IntelligentOrchestrator:
             return {"error": str(e)}
 
     async def _run_risk_agent(
-        self, symbol: str, all_results: dict, user_risk_profile: dict,
+        self,
+        symbol: str,
+        all_results: dict,
+        user_risk_profile: dict,
     ) -> dict[str, Any]:
         """Run risk assessment agent"""
         logger.info(f"🛡️ Running risk agent for {symbol}")
@@ -595,7 +613,10 @@ class IntelligentOrchestrator:
             return {"error": str(e)}
 
     async def _run_buy_agent(
-        self, symbol: str, all_results: dict, user_risk_profile: dict,
+        self,
+        symbol: str,
+        all_results: dict,
+        user_risk_profile: dict,
     ) -> dict[str, Any]:
         """Run buy agent for trade execution"""
         logger.info(f"🎯 Running buy agent for {symbol}")
@@ -637,7 +658,9 @@ class IntelligentOrchestrator:
             return {"error": str(e)}
 
     async def _run_multi_stock_agent(
-        self, query: str, user_context: dict[str, Any],
+        self,
+        query: str,
+        user_context: dict[str, Any],
     ) -> dict[str, Any]:
         """Run multi-stock analysis agent"""
         logger.info(f"🔍 Running multi-stock analysis for query: {query}")
@@ -672,14 +695,17 @@ class IntelligentOrchestrator:
             }
 
     async def _generate_technical_indicators(
-        self, symbol: str, market_data: dict,
+        self,
+        symbol: str,
+        market_data: dict,
     ) -> dict[str, Any]:
         """Generate complete technical indicators for frontend charts"""
         logger.info(f"📊 Generating technical indicators for {symbol}")
 
         try:
             indicators = self.technical_calculator.calculate_comprehensive_indicators(
-                market_data.get("data", pd.DataFrame()), symbol,
+                market_data.get("data", pd.DataFrame()),
+                symbol,
             )
 
             # Format for frontend consumption - indicators is a flat dict with direct values
@@ -814,12 +840,16 @@ class IntelligentOrchestrator:
 
         # Generate contextual AI response text
         response["ai_response"] = await self._generate_contextual_response(
-            query, symbol, primary_type, analysis_result,
+            query,
+            symbol,
+            primary_type,
+            analysis_result,
         )
 
         # Add suggested actions
         response["suggested_actions"] = self._generate_suggested_actions(
-            primary_type, analysis_result,
+            primary_type,
+            analysis_result,
         )
 
         return response
@@ -857,7 +887,8 @@ class IntelligentOrchestrator:
                     "confidence": int(technical.get("analysis", {}).get("confidence", 0.5) * 100),
                     "indicators": self._extract_technical_indicators(technical),
                     "reasoning": technical.get("analysis", {}).get(
-                        "reasoning", "Technical analysis completed",
+                        "reasoning",
+                        "Technical analysis completed",
                     ),
                 },
             )
@@ -869,7 +900,8 @@ class IntelligentOrchestrator:
                 {
                     "name": "Sentiment",
                     "scenario": sentiment.get("sentiment_analysis", {}).get(
-                        "overall_sentiment", "Neutral",
+                        "overall_sentiment",
+                        "Neutral",
                     ),
                     "score": int(
                         sentiment.get("sentiment_analysis", {}).get("confidence", 0.5) * 100,
@@ -881,7 +913,8 @@ class IntelligentOrchestrator:
                     ),
                     "indicators": self._extract_sentiment_indicators(sentiment),
                     "reasoning": sentiment.get("sentiment_analysis", {}).get(
-                        "reasoning", "Sentiment analysis completed",
+                        "reasoning",
+                        "Sentiment analysis completed",
                     ),
                 },
             )
@@ -899,7 +932,8 @@ class IntelligentOrchestrator:
                     "confidence": int(flow.get("flow_analysis", {}).get("confidence", 0.5) * 100),
                     "indicators": self._extract_flow_indicators(flow),
                     "reasoning": flow.get("flow_analysis", {}).get(
-                        "reasoning", "Options flow analysis completed",
+                        "reasoning",
+                        "Options flow analysis completed",
                     ),
                 },
             )
@@ -911,7 +945,8 @@ class IntelligentOrchestrator:
                 {
                     "name": "History",
                     "scenario": history.get("historical_analysis", {}).get(
-                        "pattern_type", "Normal",
+                        "pattern_type",
+                        "Normal",
                     ),
                     "score": int(
                         history.get("historical_analysis", {}).get("pattern_strength", 0.5) * 100,
@@ -923,7 +958,8 @@ class IntelligentOrchestrator:
                     ),
                     "indicators": self._extract_history_indicators(history),
                     "reasoning": history.get("historical_analysis", {}).get(
-                        "reasoning", "Historical analysis completed",
+                        "reasoning",
+                        "Historical analysis completed",
                     ),
                 },
             )
@@ -1039,7 +1075,11 @@ class IntelligentOrchestrator:
         ]
 
     async def _generate_contextual_response(
-        self, query: str, symbol: str, primary_type: str, analysis_result: dict[str, Any],
+        self,
+        query: str,
+        symbol: str,
+        primary_type: str,
+        analysis_result: dict[str, Any],
     ) -> str:
         """Generate contextual AI response based on analysis"""
         if primary_type == "technical_analysis":
@@ -1050,10 +1090,12 @@ class IntelligentOrchestrator:
             return self._generate_trading_response(symbol, analysis_result)
         if primary_type == "education":
             education_content = analysis_result.get("education_agent", {}).get(
-                "educational_content", {},
+                "educational_content",
+                {},
             )
             return education_content.get(
-                "explanation", f"Educational analysis for {symbol} completed.",
+                "explanation",
+                f"Educational analysis for {symbol} completed.",
             )
         if primary_type == "multi_stock_analysis":
             return self._generate_multi_stock_response(analysis_result)
