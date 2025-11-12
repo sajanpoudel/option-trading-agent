@@ -1,5 +1,4 @@
-"""Neural Options Oracle++ Portfolio API Routes
-"""
+"""Neural Options Oracle++ Portfolio API Routes"""
 
 import time
 from typing import Any, Dict, List, Optional
@@ -121,7 +120,8 @@ async def get_portfolio_summary(session: dict = Depends(get_current_session)) ->
 
 @router.get("/positions")
 async def get_portfolio_positions(
-    include_closed: bool = False, session: dict = Depends(get_current_session),
+    include_closed: bool = False,
+    session: dict = Depends(get_current_session),
 ) -> list[dict[str, Any]]:
     """Get all portfolio positions"""
     try:
@@ -239,7 +239,8 @@ async def get_risk_metrics(session: dict = Depends(get_current_session)) -> Risk
 
 @router.get("/performance")
 async def get_portfolio_performance(
-    period: str = "1M", session: dict = Depends(get_current_session),
+    period: str = "1M",
+    session: dict = Depends(get_current_session),
 ) -> dict[str, Any]:
     """Get portfolio performance analytics"""
     try:
@@ -360,7 +361,8 @@ async def get_portfolio_alerts(
 
 @router.post("/rebalance")
 async def suggest_rebalancing(
-    target_allocation: dict[str, float], session: dict = Depends(get_current_session),
+    target_allocation: dict[str, float],
+    session: dict = Depends(get_current_session),
 ) -> dict[str, Any]:
     """Suggest portfolio rebalancing actions"""
     try:
