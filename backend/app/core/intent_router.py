@@ -222,7 +222,9 @@ class AIIntentRouter:
         logger.info("AI Intent Router initialized with tool calling capabilities")
 
     async def route_and_process(
-        self, user_message: str, context: dict[str, Any] = None,
+        self,
+        user_message: str,
+        context: dict[str, Any] = None,
     ) -> dict[str, Any]:
         """Use OpenAI to determine intent and call appropriate tools
         Returns formatted response ready for user display
@@ -294,7 +296,9 @@ You can call multiple tools if needed.
 
                 # Step 3: Let OpenAI format the final response
                 final_response = await self._format_final_response(
-                    user_message, message, tool_results,
+                    user_message,
+                    message,
+                    tool_results,
                 )
 
                 # Extract symbol from tool results if available
@@ -538,7 +542,10 @@ You can call multiple tools if needed.
             return {"tool": "buy_multiple_options", "error": str(e), "success": False}
 
     async def _format_final_response(
-        self, user_message: str, ai_message, tool_results: list[dict],
+        self,
+        user_message: str,
+        ai_message,
+        tool_results: list[dict],
     ) -> str:
         """Let OpenAI format the final human-readable response"""
         try:
@@ -641,6 +648,5 @@ ai_intent_router = AIIntentRouter()
 
 
 async def route_with_ai(message: str, context: dict[str, Any] = None) -> dict[str, Any]:
-    """Main function to route messages using AI with tool calling
-    """
+    """Main function to route messages using AI with tool calling"""
     return await ai_intent_router.route_and_process(message, context or {})
