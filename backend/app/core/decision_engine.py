@@ -86,7 +86,10 @@ class RiskBasedStrikeSelector:
         }
 
     def select_strikes(
-        self, signal: dict, symbol: str, user_profile: dict,
+        self,
+        signal: dict,
+        symbol: str,
+        user_profile: dict,
     ) -> list[StrikeRecommendation]:
         """Select optimal strikes based on risk profile and signal"""
         try:
@@ -102,7 +105,9 @@ class RiskBasedStrikeSelector:
                 )
             elif signal["direction"] in ["SELL", "STRONG_SELL"]:
                 recommendations.extend(
-                    self._generate_put_recommendations(symbol, profile_params, abs(signal["score"])),
+                    self._generate_put_recommendations(
+                        symbol, profile_params, abs(signal["score"])
+                    ),
                 )
             else:
                 # Neutral strategies for HOLD
@@ -112,7 +117,8 @@ class RiskBasedStrikeSelector:
 
             # Sort by risk-adjusted return
             recommendations.sort(
-                key=lambda x: x.potential_return / max(x.risk_score, 0.1), reverse=True,
+                key=lambda x: x.potential_return / max(x.risk_score, 0.1),
+                reverse=True,
             )
 
             return recommendations[:5]  # Top 5 recommendations
@@ -122,7 +128,10 @@ class RiskBasedStrikeSelector:
             return []
 
     def _generate_call_recommendations(
-        self, symbol: str, profile: dict, score: float,
+        self,
+        symbol: str,
+        profile: dict,
+        score: float,
     ) -> list[StrikeRecommendation]:
         """Generate call option recommendations"""
         base_price = 150.0  # Example current price
@@ -153,7 +162,10 @@ class RiskBasedStrikeSelector:
         return recommendations
 
     def _generate_put_recommendations(
-        self, symbol: str, profile: dict, score: float,
+        self,
+        symbol: str,
+        profile: dict,
+        score: float,
     ) -> list[StrikeRecommendation]:
         """Generate put option recommendations"""
         base_price = 150.0
@@ -182,7 +194,9 @@ class RiskBasedStrikeSelector:
         return recommendations
 
     def _generate_neutral_recommendations(
-        self, symbol: str, profile: dict,
+        self,
+        symbol: str,
+        profile: dict,
     ) -> list[StrikeRecommendation]:
         """Generate neutral strategy recommendations"""
         base_price = 150.0
@@ -248,12 +262,16 @@ class DecisionEngine:
 
             # Step 5: Select risk-appropriate strikes
             strike_recommendations = self.strike_selector.select_strikes(
-                signal, symbol, user_risk_profile,
+                signal,
+                symbol,
+                user_risk_profile,
             )
 
             # Step 6: Calculate overall confidence
             confidence = self._calculate_overall_confidence(
-                agent_results, ensemble_signal, adjusted_weights,
+                agent_results,
+                ensemble_signal,
+                adjusted_weights,
             )
 
             result = {
@@ -408,7 +426,8 @@ class DecisionEngine:
 
         # Determine options strategy
         options_strategy = self._select_options_strategy(
-            direction, agent_results.get("technical", {}).get("scenario", "normal"),
+            direction,
+            agent_results.get("technical", {}).get("scenario", "normal"),
         )
 
         return {
@@ -454,7 +473,10 @@ class DecisionEngine:
         return reasoning
 
     def _calculate_overall_confidence(
-        self, agent_results: dict, ensemble_signal, weights: ScenarioWeights,
+        self,
+        agent_results: dict,
+        ensemble_signal,
+        weights: ScenarioWeights,
     ) -> float:
         """Calculate overall confidence in the decision"""
         try:
