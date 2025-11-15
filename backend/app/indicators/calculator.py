@@ -34,7 +34,9 @@ class TechnicalIndicatorsCalculator:
         self.cache = {}
 
     def calculate_comprehensive_indicators(
-        self, df: pd.DataFrame, symbol: str = None,
+        self,
+        df: pd.DataFrame,
+        symbol: str = None,
     ) -> dict[str, Any]:
         """Calculate comprehensive technical indicators using professional library"""
         try:
@@ -339,7 +341,9 @@ class TechnicalIndicatorsCalculator:
         return trend_data
 
     def _calculate_volatility_indicators(
-        self, quotes: list[Quote], df: pd.DataFrame,
+        self,
+        quotes: list[Quote],
+        df: pd.DataFrame,
     ) -> dict[str, Any]:
         """Calculate volatility-based indicators"""
         # Define column names for consistency
@@ -487,7 +491,8 @@ class TechnicalIndicatorsCalculator:
                     for window_size in [3, 5, 7]:
                         try:
                             pivot_results = indicators.get_pivot_points(
-                                quotes, window_size=window_size,
+                                quotes,
+                                window_size=window_size,
                             )
                             if pivot_results and len(pivot_results) > 0:
                                 latest_pivot = pivot_results[-1]
