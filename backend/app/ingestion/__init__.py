@@ -4,4 +4,4 @@ Combines real-time streaming (Kafka) with batch processing (Dask)
 
 from .manager import ingestion_manager
 
-__all__ = ['ingestion_manager']
+__all__ = ["ingestion_manager"]
