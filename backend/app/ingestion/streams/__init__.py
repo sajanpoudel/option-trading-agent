@@ -6,4 +6,4 @@ from .market_stream import MarketDataStream
 from .options_stream import OptionsFlowStream
 from .sentiment_stream import SentimentStream
 
-__all__ = ['MarketDataStream', 'OptionsFlowStream', 'SentimentStream']
+__all__ = ["MarketDataStream", "OptionsFlowStream", "SentimentStream"]
