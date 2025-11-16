@@ -71,7 +71,10 @@ class KafkaProducerManager:
                 self.is_running = False
 
     async def publish(
-        self, topic: KafkaTopics, event: dict[str, Any], key: str | None = None,
+        self,
+        topic: KafkaTopics,
+        event: dict[str, Any],
+        key: str | None = None,
     ) -> bool:
         """Publish an event to a Kafka topic
 
@@ -109,7 +112,10 @@ class KafkaProducerManager:
             return False
 
     async def publish_batch(
-        self, topic: KafkaTopics, events: list[dict[str, Any]], keys: list[str] | None = None,
+        self,
+        topic: KafkaTopics,
+        events: list[dict[str, Any]],
+        keys: list[str] | None = None,
     ) -> int:
         """Publish multiple events efficiently
 
