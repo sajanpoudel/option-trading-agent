@@ -79,7 +79,9 @@ class KafkaConsumerManager:
         logger.info(f"Kafka consumers stopped. Stats: {dict(self._stats)}")
 
     def register_handler(
-        self, topic: KafkaTopics, handler: Callable[[dict[str, Any]], Awaitable[None]],
+        self,
+        topic: KafkaTopics,
+        handler: Callable[[dict[str, Any]], Awaitable[None]],
     ):
         """Register a message handler for a topic
 
@@ -117,7 +119,10 @@ class KafkaConsumerManager:
             logger.error(f"Failed to start consumer for {topic}: {e}")
 
     async def _consume_messages(
-        self, topic: KafkaTopics, consumer: AIOKafkaConsumer, handler: Callable,
+        self,
+        topic: KafkaTopics,
+        consumer: AIOKafkaConsumer,
+        handler: Callable,
     ):
         """Background task to consume and process messages"""
         try:
