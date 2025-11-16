@@ -159,7 +159,10 @@ class IngestionManager:
     # ===== BATCH LAYER (Dask) =====
 
     async def run_batch_job(
-        self, job_type: str, symbols: list[str], **kwargs,
+        self,
+        job_type: str,
+        symbols: list[str],
+        **kwargs,
     ) -> list[dict[str, Any]]:
         """Run a batch processing job on Dask cluster
 
@@ -178,7 +181,9 @@ class IngestionManager:
 
         try:
             results = await dask_cluster.submit_async(
-                BatchTasks.batch_process_symbols, symbols, job_type,
+                BatchTasks.batch_process_symbols,
+                symbols,
+                job_type,
             )
             return results or []
 
