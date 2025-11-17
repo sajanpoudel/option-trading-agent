@@ -234,7 +234,8 @@ class OptionsProfitCalculatorAPI:
         total_volume = analysis["total_call_volume"] + analysis["total_put_volume"]
         analysis["total_contracts"] = total_volume
         analysis["put_call_ratio"] = analysis["total_put_volume"] / max(
-            analysis["total_call_volume"], 1,
+            analysis["total_call_volume"],
+            1,
         )
 
         # Identify key strikes (highest volume/OI)
