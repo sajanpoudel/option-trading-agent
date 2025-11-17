@@ -64,7 +64,9 @@ class SentimentStream:
                     for event in sentiment_events:
                         # Publish to Kafka
                         await kafka_producer.publish(
-                            topic=KafkaTopics.SENTIMENT, event=event, key=symbol,
+                            topic=KafkaTopics.SENTIMENT,
+                            event=event,
+                            key=symbol,
                         )
                         self._event_count += 1
 
