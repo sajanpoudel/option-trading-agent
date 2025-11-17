@@ -30,7 +30,8 @@ class AlpacaMarketDataClient:
 
     def __init__(self):
         self.alpaca_data_client = StockHistoricalDataClient(
-            api_key=settings.alpaca_api_key, secret_key=settings.alpaca_secret_key,
+            api_key=settings.alpaca_api_key,
+            secret_key=settings.alpaca_secret_key,
         )
         self.alpaca_trading_client = TradingClient(
             api_key=settings.alpaca_api_key,
@@ -130,7 +131,10 @@ class AlpacaMarketDataClient:
             return self._get_fallback_quote(symbol)
 
     async def get_historical_data(
-        self, symbol: str, period: str = "1y", interval: str = "1d",
+        self,
+        symbol: str,
+        period: str = "1y",
+        interval: str = "1d",
     ) -> pd.DataFrame:
         """Get historical price data"""
         try:
@@ -158,7 +162,10 @@ class AlpacaMarketDataClient:
 
             # Try Alpaca first
             request = StockBarsRequest(
-                symbol_or_symbols=symbol, timeframe=timeframe, start=start_date, end=datetime.now(),
+                symbol_or_symbols=symbol,
+                timeframe=timeframe,
+                start=start_date,
+                end=datetime.now(),
             )
 
             bars = self.alpaca_data_client.get_stock_bars(request)
@@ -187,7 +194,9 @@ class AlpacaMarketDataClient:
         try:
             # Get historical data
             df = await self.get_historical_data(
-                symbol, period="1y", interval="1d",
+                symbol,
+                period="1y",
+                interval="1d",
             )  # More data for better indicators
 
             if df.empty:
@@ -341,7 +350,8 @@ class AlpacaMarketDataClient:
 
             # Calculate put/call ratio
             put_call_ratio = summary_data["total_put_volume"] / max(
-                summary_data["total_call_volume"], 1,
+                summary_data["total_call_volume"],
+                1,
             )
 
             return {
