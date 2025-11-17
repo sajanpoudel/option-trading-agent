@@ -1,5 +1,4 @@
-"""Neural Options Oracle++ Database Configuration and Manager
-"""
+"""Neural Options Oracle++ Database Configuration and Manager"""
 
 import asyncio
 import os
@@ -177,7 +176,10 @@ class SupabaseManager:
             return None
 
     async def get_trading_signals(
-        self, symbol: str = None, limit: int = 10, include_expired: bool = False,
+        self,
+        symbol: str = None,
+        limit: int = 10,
+        include_expired: bool = False,
     ) -> list[dict]:
         """Get trading signals with optional filtering"""
         try:
@@ -328,7 +330,11 @@ class SupabaseManager:
             return None
 
     async def get_educational_content(
-        self, topic: str = None, difficulty: str = None, content_type: str = None, limit: int = 20,
+        self,
+        topic: str = None,
+        difficulty: str = None,
+        content_type: str = None,
+        limit: int = 20,
     ) -> list[dict]:
         """Get educational content with filtering"""
         try:
@@ -462,7 +468,8 @@ class SupabaseManager:
                 result = self.client.table("browser_sessions").insert(session_data).execute()
                 # Delete the test record
                 self.client.table("browser_sessions").delete().eq(
-                    "session_token", "test_init",
+                    "session_token",
+                    "test_init",
                 ).execute()
                 logger.info("✅ browser_sessions table verified/created")
             except Exception as e:
