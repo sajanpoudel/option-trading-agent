@@ -194,7 +194,8 @@ class LightGBMFlowPredictor:
             strikes = flow_data.get("strikes", [])
             features["strike_count"] = len(strikes)
             features["itm_otm_ratio"] = self._calculate_itm_otm_ratio(
-                strikes, flow_data.get("current_price", 100),
+                strikes,
+                flow_data.get("current_price", 100),
             )
 
             # Greeks-based features
@@ -447,7 +448,11 @@ class LightGBMFlowPredictor:
 
             # Split data
             X_train, X_test, y_train, y_test = train_test_split(
-                X, y, test_size=0.2, random_state=42, stratify=y,
+                X,
+                y,
+                test_size=0.2,
+                random_state=42,
+                stratify=y,
             )
 
             # Scale features
