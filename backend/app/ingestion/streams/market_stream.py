@@ -77,7 +77,9 @@ class MarketDataStream:
 
                     # Publish to Kafka
                     await kafka_producer.publish(
-                        topic=KafkaTopics.MARKET_TICKS, event=tick_event, key=symbol,
+                        topic=KafkaTopics.MARKET_TICKS,
+                        event=tick_event,
+                        key=symbol,
                     )
 
                 # Adjust interval based on market hours
@@ -120,14 +122,26 @@ class MarketDataStream:
 
             # Fallback if no data
             return MarketTickEvent.create(
-                symbol=symbol, price=0, volume=0, bid=0, ask=0, bid_size=0, ask_size=0,
+                symbol=symbol,
+                price=0,
+                volume=0,
+                bid=0,
+                ask=0,
+                bid_size=0,
+                ask_size=0,
             )
 
         except Exception as e:
             logger.error(f"Error getting real market tick for {symbol}: {e}")
             # Return zero data on error
             return MarketTickEvent.create(
-                symbol=symbol, price=0, volume=0, bid=0, ask=0, bid_size=0, ask_size=0,
+                symbol=symbol,
+                price=0,
+                volume=0,
+                bid=0,
+                ask=0,
+                bid_size=0,
+                ask_size=0,
             )
 
     def get_stats(self) -> dict:
