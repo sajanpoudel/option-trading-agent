@@ -1,5 +1,4 @@
-"""Neural Options Oracle++ Logging Configuration
-"""
+"""Neural Options Oracle++ Logging Configuration"""
 
 import sys
 from typing import Any, Dict
