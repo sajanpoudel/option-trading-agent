@@ -5,8 +5,8 @@ OpenAI Agents SDK v0.3.0 Implementation - REAL DATA ONLY
 import asyncio
 import json
 import re
-from datetime import datetime, timedelta
-from typing import Any, Dict, List
+from datetime import datetime
+from typing import Any
 
 from openai import AsyncOpenAI
 
