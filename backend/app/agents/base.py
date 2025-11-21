@@ -5,7 +5,7 @@ OpenAI Agents SDK v0.3.0 Implementation
 import json
 from abc import ABC, abstractmethod
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any
 
 from openai import OpenAI
 
