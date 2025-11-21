@@ -3,11 +3,9 @@ OpenAI Agents SDK v0.3.0 Implementation
 """
 
 import asyncio
-import json
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-import openai
 from openai import OpenAI
 
 from backend.config.database import db_manager
