@@ -5,7 +5,7 @@ Analyzes hot stocks and creates optimized options portfolio within budget
 import asyncio
 import json
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from openai import OpenAI
 
