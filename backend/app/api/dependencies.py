@@ -1,12 +1,11 @@
 """Neural Options Oracle++ API Dependencies"""
 
-import asyncio
 import time
 from collections import defaultdict
 from functools import wraps
-from typing import Any, Dict, Optional
+from typing import Any
 
-from fastapi import Header, HTTPException, Request
+from fastapi import Header, HTTPException
 
 from backend.config.database import db_manager
 from backend.config.logging import get_api_logger
