@@ -5,10 +5,8 @@ Replaces ALL mock data in frontend with real AI-generated analysis
 
 import asyncio
 import json
-import os
-import re
 from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 import pandas as pd
 from loguru import logger
