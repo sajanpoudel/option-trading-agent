@@ -5,14 +5,13 @@ Analyzes multiple stocks, compares them, and selects the best option based on bu
 import asyncio
 import json
 from dataclasses import dataclass
-from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional, Tuple
+from datetime import datetime
+from typing import Any
 
 from openai import OpenAI
 
 from backend.app.agents.base import BaseAgent
 from backend.config.logging import get_agents_logger
-from backend.config.settings import settings
 
 logger = get_agents_logger()
 
