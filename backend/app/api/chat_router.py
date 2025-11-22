@@ -1,10 +1,9 @@
 """Chat Router API - Intelligent text routing for user queries"""
 
-import asyncio
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 from backend.app.core.intent_router import route_with_ai
