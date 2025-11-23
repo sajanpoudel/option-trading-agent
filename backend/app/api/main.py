@@ -2,16 +2,16 @@
 
 import time
 from contextlib import asynccontextmanager
-from typing import Any, Dict
+from typing import Any
 
 import uvicorn
-from fastapi import Depends, FastAPI, HTTPException, Request, Response
+from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.responses import JSONResponse
 
 from backend.app.api.chat_router import router as chat_router
-from backend.app.api.dependencies import get_current_session, rate_limiter
+from backend.app.api.dependencies import get_current_session
 from backend.app.api.routes import analysis, education, portfolio, system, trading
 from backend.app.ingestion import ingestion_manager
 from backend.config.database import db_manager
@@ -248,7 +248,6 @@ app.include_router(system.router, prefix="/api/v1/system", tags=["System"])
 app.include_router(chat_router, tags=["Chat Router"])
 
 # Chat endpoint for frontend integration
-from typing import List, Optional
 
 from pydantic import BaseModel
 
