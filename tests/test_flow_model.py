@@ -154,3 +154,8 @@ def test_confidence_is_capped_at_point_eight(predictor):
     prediction = predictor._rule_based_prediction(features, {})
     assert prediction.flow_sentiment == "bullish"
     assert prediction.confidence == pytest.approx(0.8)
+
+
+def test_large_trades_are_listed_as_an_indicator(predictor):
+    prediction = predictor._rule_based_prediction({"large_trade_count": 2}, {})
+    assert "Large trades detected (2)" in prediction.key_indicators
