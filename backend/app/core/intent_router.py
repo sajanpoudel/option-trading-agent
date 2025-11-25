@@ -5,7 +5,7 @@ Uses OpenAI's tool calling to intelligently route and process user requests
 import asyncio
 import json
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from openai import OpenAI
 
@@ -420,7 +420,6 @@ You can call multiple tools if needed.
         """Get market trends"""
         try:
             # This would integrate with your hot stocks API
-            from backend.app.api.main import app  # Get trending stocks
 
             return {
                 "tool": "get_market_trends",
