@@ -3,7 +3,7 @@ Using stock-indicators library for accurate calculations
 """
 
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 import numpy as np
 import pandas as pd
