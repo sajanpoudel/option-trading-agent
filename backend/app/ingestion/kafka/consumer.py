@@ -5,7 +5,7 @@ Async consumer with configurable message handlers
 import asyncio
 import json
 from collections import defaultdict
-from typing import Any, Dict, Optional
+from typing import Any
 from collections.abc import Awaitable, Callable
 
 from loguru import logger
