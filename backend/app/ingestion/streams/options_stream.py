@@ -3,8 +3,6 @@ Monitors unusual options activity and publishes to Kafka
 """
 
 import asyncio
-from datetime import datetime, timedelta
-from typing import Optional, Set
 
 from loguru import logger
 
