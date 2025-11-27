@@ -159,3 +159,8 @@ def test_confidence_is_capped_at_point_eight(predictor):
 def test_large_trades_are_listed_as_an_indicator(predictor):
     prediction = predictor._rule_based_prediction({"large_trade_count": 2}, {})
     assert "Large trades detected (2)" in prediction.key_indicators
+
+
+def test_at_most_five_indicators_are_returned(predictor):
+    features = {"put_call_ratio": 0.5, "volume_ratio": 5, "iv_rank": 10, "large_trade_count": 3}
+    assert len(predictor._rule_based_prediction(features, {}).key_indicators) <= 5
