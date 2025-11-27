@@ -4,8 +4,7 @@ High-performance async producer with batching and compression
 
 import asyncio
 import json
-from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any
 
 from loguru import logger
 
