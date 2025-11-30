@@ -164,3 +164,10 @@ def test_large_trades_are_listed_as_an_indicator(predictor):
 def test_at_most_five_indicators_are_returned(predictor):
     features = {"put_call_ratio": 0.5, "volume_ratio": 5, "iv_rank": 10, "large_trade_count": 3}
     assert len(predictor._rule_based_prediction(features, {}).key_indicators) <= 5
+
+
+def test_fallback_prediction_is_cautious(predictor):
+    prediction = predictor._fallback_prediction({})
+    assert prediction.flow_sentiment == "neutral"
+    assert prediction.confidence == 0.3
+    assert prediction.key_indicators == ["fallback_analysis"]
