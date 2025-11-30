@@ -3,10 +3,9 @@ Advanced time series forecasting for implied volatility and market volatility pr
 """
 
 import asyncio
-import json
 from dataclasses import dataclass
-from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional, Tuple
+from datetime import datetime
+from typing import Any
 
 import numpy as np
 import pandas as pd
@@ -20,10 +19,8 @@ except ImportError:
     PROPHET_AVAILABLE = False
     Prophet = None
 
-from sklearn.metrics import mean_absolute_error, mean_squared_error
 
 from backend.config.logging import get_data_logger
-from backend.config.settings import settings
 
 logger = get_data_logger()
 
