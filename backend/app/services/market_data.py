@@ -3,9 +3,8 @@ Centralized market data coordination and caching with OpenAI intelligence
 """
 
 import asyncio
-import json
 from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from backend.config.database import db_manager
 from backend.config.logging import get_data_logger
