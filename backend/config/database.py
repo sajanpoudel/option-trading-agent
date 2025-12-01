@@ -1,10 +1,8 @@
 """Neural Options Oracle++ Database Configuration and Manager"""
 
-import asyncio
-import os
 import uuid
 from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from supabase import Client, create_client
 
