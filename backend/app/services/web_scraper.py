@@ -2,9 +2,7 @@
 Provides trending stock data from various sources
 """
 
-import asyncio
-from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from backend.config.logging import get_agents_logger
 
