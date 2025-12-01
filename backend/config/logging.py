@@ -1,7 +1,6 @@
 """Neural Options Oracle++ Logging Configuration"""
 
 import sys
-from typing import Any, Dict
 
 from loguru import logger
 
