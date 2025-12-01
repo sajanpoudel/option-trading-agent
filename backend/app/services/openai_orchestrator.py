@@ -5,11 +5,10 @@ Eliminates JigsawStack and complex scraping dependencies
 
 import asyncio
 import json
-import logging
 import re
 from dataclasses import dataclass
-from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional
+from datetime import datetime
+from typing import Any
 
 import aiohttp
 from openai import AsyncOpenAI
