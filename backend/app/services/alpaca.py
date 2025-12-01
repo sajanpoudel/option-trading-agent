@@ -2,17 +2,14 @@
 Real-time and historical market data integration
 """
 
-import asyncio
 from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-import numpy as np
 import pandas as pd
 import requests_cache
 import yfinance as yf
 from alpaca.data.historical import StockHistoricalDataClient
-from alpaca.data.models import Bar, Quote, Trade
-from alpaca.data.requests import StockBarsRequest, StockLatestQuoteRequest, StockQuotesRequest
+from alpaca.data.requests import StockBarsRequest, StockLatestQuoteRequest
 from alpaca.data.timeframe import TimeFrame
 from alpaca.trading.client import TradingClient
 
