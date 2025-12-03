@@ -171,3 +171,7 @@ def test_fallback_prediction_is_cautious(predictor):
     assert prediction.flow_sentiment == "neutral"
     assert prediction.confidence == 0.3
     assert prediction.key_indicators == ["fallback_analysis"]
+
+
+def test_key_indicators_describe_high_volume(predictor):
+    assert predictor._identify_key_indicators({"volume_ratio": 2.5}) == ["High volume (2.5x normal)"]
