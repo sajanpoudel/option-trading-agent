@@ -14,4 +14,7 @@ for name in [
 ]:
     os.environ.setdefault(name, "test-value")
 
+# The Supabase client checks that the url looks like a url.
+os.environ["SUPABASE_URL"] = "https://example.supabase.co"
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
