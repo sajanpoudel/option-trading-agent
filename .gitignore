@@ -51,10 +51,14 @@ venv.bak/
 ehthumbs.db
 Thumbs.db
 
-# Logs
+# Logs - All log files and directories
 *.log
+*.log.*
 logs/
 server.log
+neural_oracle.log
+neural_oracle_errors.log
+api_access.log
 
 # Database
 *.db
@@ -260,3 +264,4 @@ matplotlib/
 # Model downloads
 downloaded_models/
 pretrained/
+
