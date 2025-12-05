@@ -1623,3 +1623,16 @@
 2025-12-05 03:58:06.249 | POST /api/v1/chat/message 200 73.260s UA: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Mobile Safari/537.36 IP: 192.168.65.1
 2025-12-05 03:58:28.335 | GET /api/system/health 404 0.002s UA: curl/8.14.1 IP: 127.0.0.1
 2025-12-05 03:58:30.228 | GET /api/v1/signals/AAPL 200 1.839s UA: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Mobile Safari/537.36 IP: 192.168.65.1
+2025-12-05 03:59:07.053 | POST /api/v1/chat/message 200 60.195s UA: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Mobile Safari/537.36 IP: 192.168.65.1
+2025-12-05 03:59:07.064 | GET /api/v1/signals/AAPL 200 1.751s UA: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Mobile Safari/537.36 IP: 192.168.65.1
+2025-12-05 03:59:07.082 | GET /api/system/health 404 0.044s UA: curl/8.14.1 IP: 127.0.0.1
+2025-12-05 03:59:13.938 | POST /api/v1/chat/message 200 67.201s UA: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Mobile Safari/537.36 IP: 192.168.65.1
+2025-12-05 03:59:32.010 | GET /api/v1/signals/AAPL 200 2.044s UA: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Mobile Safari/537.36 IP: 192.168.65.1
+2025-12-05 03:59:37.290 | GET /api/system/health 404 0.001s UA: curl/8.14.1 IP: 127.0.0.1
+2025-12-05 04:00:07.409 | GET /api/system/health 404 0.001s UA: curl/8.14.1 IP: 127.0.0.1
+2025-12-05 04:00:37.570 | GET /api/system/health 404 0.002s UA: curl/8.14.1 IP: 127.0.0.1
+2025-12-05 04:01:07.682 | GET /api/system/health 404 0.001s UA: curl/8.14.1 IP: 127.0.0.1
+2025-12-05 04:01:37.773 | GET /api/system/health 404 0.001s UA: curl/8.14.1 IP: 127.0.0.1
+2025-12-05 04:02:07.900 | GET /api/system/health 404 0.001s UA: curl/8.14.1 IP: 127.0.0.1
+2025-12-05 04:02:23.500 | GET /api/v1/signals/AAPL 200 1.521s UA: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Mobile Safari/537.36 IP: 192.168.65.1
+2025-12-05 04:02:30.786 | GET /api/v1/signals/AAPL 200 1.568s UA: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Mobile Safari/537.36 IP: 192.168.65.1

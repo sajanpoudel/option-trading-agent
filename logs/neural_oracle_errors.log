@@ -1390,3 +1390,15 @@
 2025-12-05 03:58:29.413 | ERROR    | backend.app.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
 2025-12-05 03:58:30.157 | ERROR    | backend.app.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
 2025-12-05 03:58:30.177 | ERROR    | app.api.main:get_trading_signals:638 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-12-05 03:59:06.463 | ERROR    | backend.app.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-12-05 03:59:07.014 | ERROR    | backend.app.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-12-05 03:59:07.026 | ERROR    | app.api.main:get_trading_signals:638 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-12-05 03:59:31.359 | ERROR    | backend.app.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-12-05 03:59:31.966 | ERROR    | backend.app.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-12-05 03:59:31.972 | ERROR    | app.api.main:get_trading_signals:638 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-12-05 04:02:22.945 | ERROR    | backend.app.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-12-05 04:02:23.485 | ERROR    | backend.app.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-12-05 04:02:23.490 | ERROR    | app.api.main:get_trading_signals:638 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-12-05 04:02:30.291 | ERROR    | backend.app.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-12-05 04:02:30.771 | ERROR    | backend.app.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-12-05 04:02:30.776 | ERROR    | app.api.main:get_trading_signals:638 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
