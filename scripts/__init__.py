@@ -1,1 +1,0 @@
-# Database scripts and utilities

@@ -760,3 +760,633 @@
 2025-09-13 07:15:58.630 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
 2025-09-13 07:15:59.431 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
 2025-09-13 07:15:59.432 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for NVDA: max() arg is an empty sequence
+2025-09-13 11:21:51.378 | ERROR    | config.database:save_educational_content:337 | Failed to save educational content: {'message': 'duplicate key value violates unique constraint "educational_content_content_id_key"', 'code': '23505', 'hint': None, 'details': 'Key (content_id)=(edu_AAPL_1757776911) already exists.'}
+2025-09-13 11:22:56.915 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:22:57.751 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:22:57.752 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:22:58.590 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:22:59.362 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:22:59.365 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:23:30.026 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:23:30.840 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:23:30.841 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:24:30.648 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:24:31.413 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:24:31.413 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:24:32.118 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:24:32.903 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:24:32.903 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:24:33.808 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:24:34.553 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:24:34.553 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:25:00.495 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:25:01.134 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:25:01.134 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:25:31.028 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:25:31.859 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:25:31.859 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:26:17.821 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:26:18.448 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:26:18.449 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:26:22.575 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:26:23.349 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:26:23.349 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:26:51.758 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:26:52.574 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:26:52.574 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:27:21.763 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:27:22.788 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:27:22.789 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:28:16.010 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:28:16.846 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:28:16.846 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:29:16.097 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:29:16.932 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:29:16.932 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:30:15.713 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:30:17.477 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:30:17.477 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:30:30.705 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:30:31.428 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:30:31.429 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:30:56.293 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:30:57.146 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:30:57.147 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:31:22.177 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:31:22.891 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:31:22.891 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:31:51.650 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:31:52.193 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:31:52.194 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:33:15.786 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:33:16.744 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:33:16.745 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:33:54.774 | ERROR    | config.database:save_educational_content:337 | Failed to save educational content: {'message': 'duplicate key value violates unique constraint "educational_content_content_id_key"', 'code': '23505', 'hint': None, 'details': 'Key (content_id)=(edu_AAPL_1757777634) already exists.'}
+2025-09-13 11:34:10.211 | ERROR    | src.api.main:get_hot_stocks:507 | Error processing DJT: '>' not supported between instances of 'NoneType' and 'int'
+2025-09-13 11:34:12.107 | ERROR    | src.api.main:get_hot_stocks:507 | Error processing SPY: '>' not supported between instances of 'NoneType' and 'int'
+2025-09-13 11:34:14.177 | ERROR    | src.api.main:get_hot_stocks:507 | Error processing Unknown: '>' not supported between instances of 'NoneType' and 'int'
+2025-09-13 11:34:16.018 | ERROR    | src.api.main:get_hot_stocks:507 | Error processing GME: '>' not supported between instances of 'NoneType' and 'int'
+2025-09-13 11:34:17.758 | ERROR    | src.api.main:get_hot_stocks:507 | Error processing TSLA: '>' not supported between instances of 'NoneType' and 'int'
+2025-09-13 11:34:18.382 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:34:19.023 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:34:19.023 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:34:19.754 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:34:20.371 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:34:20.371 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:34:58.367 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:34:59.056 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:34:59.058 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:35:18.906 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:35:19.644 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:35:19.645 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:35:49.039 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:35:49.854 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:35:49.855 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:36:18.758 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:36:19.496 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:36:19.497 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:36:48.535 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:36:49.262 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:36:49.263 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:37:22.632 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:37:23.304 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:37:23.310 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:38:21.013 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:38:21.876 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:38:21.877 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:38:22.846 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:38:23.560 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:38:23.561 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:38:48.892 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:38:50.440 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:38:50.440 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:39:19.471 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:39:20.185 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:39:20.185 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:39:54.574 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:39:55.277 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:39:55.277 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:40:30.333 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:40:30.934 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:40:30.935 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:41:15.984 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:41:16.679 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:41:16.680 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:42:16.583 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:42:17.181 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:42:17.182 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:42:42.127 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:42:42.842 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:42:42.843 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:43:00.936 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:43:01.891 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:43:01.892 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:44:28.051 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:44:28.909 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:44:28.910 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:44:29.635 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:44:30.349 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:44:30.350 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:45:35.011 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:45:35.808 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:45:35.808 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:45:59.247 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:45:59.925 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:45:59.925 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:46:28.818 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:46:29.530 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:46:29.531 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:46:58.628 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:46:59.376 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:46:59.377 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:47:28.718 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:47:29.539 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:47:29.539 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:47:58.569 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:47:59.643 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:47:59.644 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:48:34.769 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:48:35.424 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:48:35.426 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:49:00.840 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:49:01.526 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:49:01.528 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:49:32.716 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:49:33.442 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:49:33.444 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:50:15.630 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:50:16.548 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:50:16.548 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:51:15.664 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:51:16.359 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:51:16.360 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:52:15.719 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:52:16.247 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:52:16.247 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:52:52.923 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:52:53.571 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:52:53.572 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:53:15.859 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:53:16.602 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:53:16.602 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:54:15.815 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:54:16.444 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:54:16.444 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:55:16.041 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:55:16.738 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:55:16.739 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:55:28.705 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:55:29.289 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:55:29.290 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:55:59.142 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:55:59.817 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:55:59.818 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:56:39.748 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:56:40.356 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:56:40.358 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:56:59.419 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:57:00.089 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:57:00.090 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:57:28.797 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:57:29.407 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:57:29.408 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:58:15.889 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:58:16.506 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:58:16.508 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 11:59:15.728 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:59:16.450 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 11:59:16.450 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 12:00:16.516 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 12:00:17.226 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 12:00:17.227 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 12:03:09.255 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: Connection error.
+2025-09-13 12:03:10.516 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: Connection error.
+2025-09-13 12:03:10.519 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 12:03:21.272 | ERROR    | src.agents.web_scraper_agent:_analyze_stocktwits_with_openai:201 | OpenAI web search failed: Connection error.
+2025-09-13 12:03:21.436 | ERROR    | src.data.alpaca_client:get_current_quote:125 | Failed to get quote for AAPL: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:21.643 | ERROR    | src.data.alpaca_client:get_options_data:335 | Options data retrieval failed for AAPL: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:21.715 | ERROR    | src.data.alpaca_client:get_current_quote:125 | Failed to get quote for GOOGL: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:21.735 | ERROR    | src.data.alpaca_client:get_historical_data:185 | Failed to get historical data for GOOGL: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:21.758 | ERROR    | src.data.alpaca_client:get_options_data:335 | Options data retrieval failed for GOOGL: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:21.777 | ERROR    | src.data.alpaca_client:get_historical_data:185 | Failed to get historical data for GOOGL: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:21.826 | ERROR    | src.data.alpaca_client:get_current_quote:125 | Failed to get quote for MSFT: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:21.857 | ERROR    | src.data.alpaca_client:get_options_data:335 | Options data retrieval failed for MSFT: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:21.913 | ERROR    | src.data.alpaca_client:get_current_quote:125 | Failed to get quote for TSLA: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:21.938 | ERROR    | src.data.alpaca_client:get_options_data:335 | Options data retrieval failed for TSLA: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:22.013 | ERROR    | src.data.alpaca_client:get_current_quote:125 | Failed to get quote for NVDA: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:22.042 | ERROR    | src.data.alpaca_client:get_options_data:335 | Options data retrieval failed for NVDA: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:25.109 | ERROR    | src.agents.web_scraper_agent:_analyze_stocktwits_with_openai:201 | OpenAI web search failed: Connection error.
+2025-09-13 12:03:25.120 | ERROR    | src.data.alpaca_client:get_current_quote:125 | Failed to get quote for AAPL: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:25.136 | ERROR    | src.data.alpaca_client:get_options_data:335 | Options data retrieval failed for AAPL: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:25.174 | ERROR    | src.data.alpaca_client:get_current_quote:125 | Failed to get quote for GOOGL: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:25.203 | ERROR    | src.data.alpaca_client:get_options_data:335 | Options data retrieval failed for GOOGL: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:25.239 | ERROR    | src.data.alpaca_client:get_current_quote:125 | Failed to get quote for MSFT: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:25.257 | ERROR    | src.data.alpaca_client:get_options_data:335 | Options data retrieval failed for MSFT: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:25.295 | ERROR    | src.data.alpaca_client:get_current_quote:125 | Failed to get quote for TSLA: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:25.306 | ERROR    | src.data.alpaca_client:get_options_data:335 | Options data retrieval failed for TSLA: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:25.372 | ERROR    | src.data.alpaca_client:get_current_quote:125 | Failed to get quote for NVDA: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:25.394 | ERROR    | src.data.alpaca_client:get_options_data:335 | Options data retrieval failed for NVDA: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:33.113 | ERROR    | config.database:get_system_analytics:408 | Failed to get system analytics: [Errno 8] nodename nor servname provided, or not known
+2025-09-13 12:03:33.191 | ERROR    | config.database:get_open_positions:307 | Failed to get open positions: [Errno 8] nodename nor servname provided, or not known
+2025-09-13 12:03:33.205 | ERROR    | config.database:get_open_positions:307 | Failed to get open positions: [Errno 8] nodename nor servname provided, or not known
+2025-09-13 12:03:33.210 | ERROR    | config.database:get_system_analytics:408 | Failed to get system analytics: [Errno 8] nodename nor servname provided, or not known
+2025-09-13 12:03:35.526 | ERROR    | src.agents.web_scraper_agent:_analyze_stocktwits_with_openai:201 | OpenAI web search failed: Connection error.
+2025-09-13 12:03:35.537 | ERROR    | src.data.alpaca_client:get_current_quote:125 | Failed to get quote for AAPL: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:35.546 | ERROR    | src.data.alpaca_client:get_options_data:335 | Options data retrieval failed for AAPL: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:35.577 | ERROR    | src.data.alpaca_client:get_current_quote:125 | Failed to get quote for GOOGL: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:35.594 | ERROR    | src.data.alpaca_client:get_options_data:335 | Options data retrieval failed for GOOGL: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:35.627 | ERROR    | src.data.alpaca_client:get_current_quote:125 | Failed to get quote for MSFT: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:35.641 | ERROR    | src.data.alpaca_client:get_options_data:335 | Options data retrieval failed for MSFT: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:35.675 | ERROR    | src.data.alpaca_client:get_current_quote:125 | Failed to get quote for TSLA: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:35.692 | ERROR    | src.data.alpaca_client:get_options_data:335 | Options data retrieval failed for TSLA: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:35.751 | ERROR    | src.data.alpaca_client:get_current_quote:125 | Failed to get quote for NVDA: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:35.784 | ERROR    | src.data.alpaca_client:get_options_data:335 | Options data retrieval failed for NVDA: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:38.758 | ERROR    | src.agents.web_scraper_agent:_analyze_stocktwits_with_openai:201 | OpenAI web search failed: Connection error.
+2025-09-13 12:03:38.766 | ERROR    | src.data.alpaca_client:get_current_quote:125 | Failed to get quote for AAPL: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:38.775 | ERROR    | src.data.alpaca_client:get_options_data:335 | Options data retrieval failed for AAPL: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:38.796 | ERROR    | src.data.alpaca_client:get_current_quote:125 | Failed to get quote for GOOGL: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:38.807 | ERROR    | src.data.alpaca_client:get_options_data:335 | Options data retrieval failed for GOOGL: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:38.834 | ERROR    | src.data.alpaca_client:get_current_quote:125 | Failed to get quote for MSFT: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:38.843 | ERROR    | src.data.alpaca_client:get_options_data:335 | Options data retrieval failed for MSFT: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:38.869 | ERROR    | src.data.alpaca_client:get_current_quote:125 | Failed to get quote for TSLA: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:38.879 | ERROR    | src.data.alpaca_client:get_options_data:335 | Options data retrieval failed for TSLA: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:38.903 | ERROR    | src.data.alpaca_client:get_current_quote:125 | Failed to get quote for NVDA: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:38.913 | ERROR    | src.data.alpaca_client:get_options_data:335 | Options data retrieval failed for NVDA: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:44.637 | ERROR    | config.database:get_system_analytics:408 | Failed to get system analytics: [Errno 8] nodename nor servname provided, or not known
+2025-09-13 12:03:44.642 | ERROR    | config.database:get_open_positions:307 | Failed to get open positions: [Errno 8] nodename nor servname provided, or not known
+2025-09-13 12:03:44.659 | ERROR    | config.database:get_open_positions:307 | Failed to get open positions: [Errno 8] nodename nor servname provided, or not known
+2025-09-13 12:03:44.669 | ERROR    | config.database:get_system_analytics:408 | Failed to get system analytics: [Errno 8] nodename nor servname provided, or not known
+2025-09-13 12:03:47.461 | ERROR    | src.agents.web_scraper_agent:_analyze_stocktwits_with_openai:201 | OpenAI web search failed: Connection error.
+2025-09-13 12:03:47.470 | ERROR    | src.data.alpaca_client:get_current_quote:125 | Failed to get quote for AAPL: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:47.478 | ERROR    | src.data.alpaca_client:get_options_data:335 | Options data retrieval failed for AAPL: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:47.514 | ERROR    | src.data.alpaca_client:get_current_quote:125 | Failed to get quote for GOOGL: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:47.534 | ERROR    | src.data.alpaca_client:get_options_data:335 | Options data retrieval failed for GOOGL: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:47.576 | ERROR    | src.data.alpaca_client:get_current_quote:125 | Failed to get quote for MSFT: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:47.588 | ERROR    | src.data.alpaca_client:get_options_data:335 | Options data retrieval failed for MSFT: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:47.640 | ERROR    | src.data.alpaca_client:get_current_quote:125 | Failed to get quote for TSLA: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:47.655 | ERROR    | src.data.alpaca_client:get_options_data:335 | Options data retrieval failed for TSLA: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:47.699 | ERROR    | src.data.alpaca_client:get_current_quote:125 | Failed to get quote for NVDA: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:47.721 | ERROR    | src.data.alpaca_client:get_options_data:335 | Options data retrieval failed for NVDA: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:50.598 | ERROR    | src.agents.web_scraper_agent:_analyze_stocktwits_with_openai:201 | OpenAI web search failed: Connection error.
+2025-09-13 12:03:50.632 | ERROR    | src.data.alpaca_client:get_current_quote:125 | Failed to get quote for AAPL: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:50.653 | ERROR    | src.data.alpaca_client:get_options_data:335 | Options data retrieval failed for AAPL: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:50.703 | ERROR    | src.data.alpaca_client:get_current_quote:125 | Failed to get quote for GOOGL: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:50.728 | ERROR    | src.data.alpaca_client:get_options_data:335 | Options data retrieval failed for GOOGL: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:50.791 | ERROR    | src.data.alpaca_client:get_current_quote:125 | Failed to get quote for MSFT: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:50.816 | ERROR    | src.data.alpaca_client:get_options_data:335 | Options data retrieval failed for MSFT: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:50.888 | ERROR    | src.data.alpaca_client:get_current_quote:125 | Failed to get quote for TSLA: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:50.915 | ERROR    | src.data.alpaca_client:get_options_data:335 | Options data retrieval failed for TSLA: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:50.995 | ERROR    | src.data.alpaca_client:get_current_quote:125 | Failed to get quote for NVDA: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:03:51.045 | ERROR    | src.data.alpaca_client:get_options_data:335 | Options data retrieval failed for NVDA: Failed to perform, curl: (6) Could not resolve host: query2.finance.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2025-09-13 12:05:09.017 | ERROR    | config.database:save_educational_content:337 | Failed to save educational content: {'message': 'duplicate key value violates unique constraint "educational_content_content_id_key"', 'code': '23505', 'hint': None, 'details': 'Key (content_id)=(edu_AAPL_1757779508) already exists.'}
+2025-09-13 12:05:46.861 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 12:05:47.639 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 12:05:47.640 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 12:05:48.583 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 12:05:49.339 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 12:05:49.348 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 12:06:16.935 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 12:06:17.616 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 12:06:17.617 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 12:06:50.144 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 12:06:50.922 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 12:06:50.923 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-13 14:09:31.009 | ERROR    | config.database:save_trading_signal:175 | Failed to save trading signal: {'message': 'insert or update on table "trading_signals" violates foreign key constraint "trading_signals_symbol_fkey"', 'code': '23503', 'hint': None, 'details': 'Key (symbol)=(WLDS) is not present in table "stocks".'}
+2025-09-13 14:09:53.981 | ERROR    | config.database:save_trading_signal:175 | Failed to save trading signal: {'message': 'insert or update on table "trading_signals" violates foreign key constraint "trading_signals_symbol_fkey"', 'code': '23503', 'hint': None, 'details': 'Key (symbol)=(WLDS) is not present in table "stocks".'}
+2025-09-13 14:09:54.304 | ERROR    | config.database:save_trading_signal:175 | Failed to save trading signal: {'message': 'insert or update on table "trading_signals" violates foreign key constraint "trading_signals_symbol_fkey"', 'code': '23503', 'hint': None, 'details': 'Key (symbol)=(WLDS) is not present in table "stocks".'}
+2025-09-13 14:10:58.223 | ERROR    | config.database:save_trading_signal:175 | Failed to save trading signal: {'message': 'insert or update on table "trading_signals" violates foreign key constraint "trading_signals_symbol_fkey"', 'code': '23503', 'hint': None, 'details': 'Key (symbol)=(WLDS) is not present in table "stocks".'}
+2025-09-13 14:11:20.100 | ERROR    | config.database:save_trading_signal:175 | Failed to save trading signal: {'message': 'insert or update on table "trading_signals" violates foreign key constraint "trading_signals_symbol_fkey"', 'code': '23503', 'hint': None, 'details': 'Key (symbol)=(WLDS) is not present in table "stocks".'}
+2025-09-13 14:11:20.822 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 14:11:21.639 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 14:11:21.640 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for WLDS: max() arg is an empty sequence
+2025-09-13 14:11:24.286 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 14:11:25.011 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-13 14:11:25.011 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for WLDS: max() arg is an empty sequence
+2025-09-13 14:13:14.524 | ERROR    | config.database:save_trading_signal:175 | Failed to save trading signal: {'message': 'insert or update on table "trading_signals" violates foreign key constraint "trading_signals_symbol_fkey"', 'code': '23503', 'hint': None, 'details': 'Key (symbol)=(WLDS) is not present in table "stocks".'}
+2025-09-13 14:13:27.552 | ERROR    | config.database:save_trading_signal:175 | Failed to save trading signal: {'message': 'insert or update on table "trading_signals" violates foreign key constraint "trading_signals_symbol_fkey"', 'code': '23503', 'hint': None, 'details': 'Key (symbol)=(WLDS) is not present in table "stocks".'}
+2025-09-15 09:49:05.861 | ERROR    | config.database:save_educational_content:337 | Failed to save educational content: {'message': 'duplicate key value violates unique constraint "educational_content_content_id_key"', 'code': '23505', 'hint': None, 'details': 'Key (content_id)=(edu_AAPL_1757944145) already exists.'}
+2025-09-15 09:49:29.117 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-15 09:49:30.231 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-15 09:49:30.231 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-15 09:49:30.976 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-15 09:49:31.758 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-15 09:49:31.758 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-15 09:49:55.178 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-15 09:49:56.208 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-15 09:49:56.209 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-15 09:49:57.446 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-15 09:49:58.180 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-15 09:49:58.181 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-09-15 21:39:05.504 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-15 21:39:06.299 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-15 21:39:06.300 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-15 21:39:08.168 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-15 21:39:09.643 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-15 21:39:09.644 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-15 21:39:40.466 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-15 21:39:41.359 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-15 21:39:41.359 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-15 21:40:08.557 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-15 21:40:09.135 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-15 21:40:09.136 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-15 21:41:00.526 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-15 21:41:01.246 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-15 21:41:01.246 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-15 21:41:05.767 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-15 21:41:06.522 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-15 21:41:06.525 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-15 21:44:42.417 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-15 21:44:42.941 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-15 21:44:42.942 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-15 21:44:43.829 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-15 21:44:44.410 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-15 21:44:44.412 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-15 21:45:12.534 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-15 21:45:13.223 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-15 21:45:13.223 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-15 21:45:42.338 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-15 21:45:43.197 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-15 21:45:43.197 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-15 21:46:13.026 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-15 21:46:14.087 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-15 21:46:14.088 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-15 21:47:05.710 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-15 21:47:06.409 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-15 21:47:06.411 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 13:51:19.673 | ERROR    | src.api.main:get_hot_stocks:507 | Error processing NVDA: '>' not supported between instances of 'NoneType' and 'int'
+2025-09-16 13:51:21.336 | ERROR    | src.api.main:get_hot_stocks:507 | Error processing TSLA: '>' not supported between instances of 'NoneType' and 'int'
+2025-09-16 13:51:22.980 | ERROR    | src.api.main:get_hot_stocks:507 | Error processing CCL: '>' not supported between instances of 'NoneType' and 'int'
+2025-09-16 13:51:24.392 | ERROR    | src.api.main:get_hot_stocks:507 | Error processing T: '>' not supported between instances of 'NoneType' and 'int'
+2025-09-16 13:51:26.720 | ERROR    | src.api.main:get_hot_stocks:507 | Error processing AMD: '>' not supported between instances of 'NoneType' and 'int'
+2025-09-16 13:54:43.897 | ERROR    | config.database:save_educational_content:337 | Failed to save educational content: {'message': 'duplicate key value violates unique constraint "educational_content_content_id_key"', 'code': '23505', 'hint': None, 'details': 'Key (content_id)=(edu_TSLA_1758045283) already exists.'}
+2025-09-16 13:55:45.249 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 13:55:45.950 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 13:55:45.952 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 13:55:49.415 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 13:55:50.264 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 13:55:50.264 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 13:56:30.408 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 13:56:31.124 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 13:56:31.125 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 13:56:52.245 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 13:56:53.003 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 13:56:53.004 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 13:57:15.698 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 13:57:16.360 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 13:57:16.360 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 13:57:45.266 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 13:57:46.004 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 13:57:46.006 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 13:58:15.468 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 13:58:16.294 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 13:58:16.296 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 13:58:45.459 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 13:58:46.194 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 13:58:46.196 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 13:59:15.025 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 13:59:16.680 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 13:59:16.680 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 13:59:45.072 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 13:59:45.889 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 13:59:45.890 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:00:14.872 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:00:20.111 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:00:20.114 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:00:45.865 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:00:46.613 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:00:46.613 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:01:15.575 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:01:16.425 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:01:16.426 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:02:35.445 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:02:36.226 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:02:36.227 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:02:45.844 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:02:46.735 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:02:46.735 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:05:37.746 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:05:38.814 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:05:38.815 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:06:37.604 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:06:39.254 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:06:39.254 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:07:38.474 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:07:39.129 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:07:39.130 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:08:37.453 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:08:39.100 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:08:39.101 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:09:37.893 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:09:38.675 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:09:38.675 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:10:37.797 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:10:38.722 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:10:38.723 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:11:37.669 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:11:39.986 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:11:39.987 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:12:38.315 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:12:38.959 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:12:38.960 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:12:54.088 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:12:55.433 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:12:55.434 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:13:15.367 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:13:16.231 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:13:16.231 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:13:45.412 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:13:46.441 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:13:46.442 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:14:37.689 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:14:38.898 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:14:38.899 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:15:38.033 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:15:38.916 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:15:38.918 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:16:38.910 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:16:39.684 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:16:39.686 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:17:38.067 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:17:38.788 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:17:38.789 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:18:37.904 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:18:39.314 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:18:39.315 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:19:37.770 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:19:38.502 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:19:38.505 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:20:37.694 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:20:38.860 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:20:38.861 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:21:37.552 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:21:38.515 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:21:38.515 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:22:37.908 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:22:39.254 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:22:39.255 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:23:37.704 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:23:38.387 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:23:38.387 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:24:38.147 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:24:44.372 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:24:44.373 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:25:37.436 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:25:44.297 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:25:44.298 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:26:38.322 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:26:40.907 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:26:40.908 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:27:37.444 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:27:39.170 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:27:39.170 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:28:37.748 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:28:38.504 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:28:38.504 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:29:38.976 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:29:40.199 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:29:40.200 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:30:38.282 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:30:39.196 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:30:39.197 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:31:37.672 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:31:38.746 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:31:38.746 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:32:37.644 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:32:38.911 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:32:38.912 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:33:37.366 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:33:38.355 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:33:38.356 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:34:38.043 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:34:38.763 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:34:38.764 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:35:38.020 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:35:38.766 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:35:38.767 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:36:37.943 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:36:38.865 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:36:38.865 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:37:37.690 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:37:38.966 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:37:38.966 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:38:37.406 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:38:38.508 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:38:38.509 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:39:37.270 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:39:38.240 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:39:38.240 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:40:37.891 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:40:38.944 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:40:38.944 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:41:38.371 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:41:39.224 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:41:39.225 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:42:37.868 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:42:39.797 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:42:39.797 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 14:43:37.657 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:43:38.466 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 14:43:38.466 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 15:18:47.278 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 15:18:48.248 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 15:18:48.249 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 15:19:46.543 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 15:19:47.351 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 15:19:47.351 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 15:20:46.597 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 15:20:48.188 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 15:20:48.189 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 15:21:46.231 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 15:21:47.372 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 15:21:47.373 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-16 15:21:54.458 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 15:21:55.538 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-16 15:21:55.544 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for TSLA: max() arg is an empty sequence
+2025-09-20 15:44:07.804 | ERROR    | config.database:save_trading_signal:175 | Failed to save trading signal: {'message': 'insert or update on table "trading_signals" violates foreign key constraint "trading_signals_symbol_fkey"', 'code': '23503', 'hint': None, 'details': 'Key (symbol)=(QS) is not present in table "stocks".'}
+2025-09-20 15:44:28.418 | ERROR    | config.database:save_trading_signal:175 | Failed to save trading signal: {'message': 'insert or update on table "trading_signals" violates foreign key constraint "trading_signals_symbol_fkey"', 'code': '23503', 'hint': None, 'details': 'Key (symbol)=(QS) is not present in table "stocks".'}
+2025-09-20 15:44:28.839 | ERROR    | config.database:save_trading_signal:175 | Failed to save trading signal: {'message': 'insert or update on table "trading_signals" violates foreign key constraint "trading_signals_symbol_fkey"', 'code': '23503', 'hint': None, 'details': 'Key (symbol)=(QS) is not present in table "stocks".'}
+2025-09-20 15:44:28.958 | ERROR    | config.database:save_educational_content:337 | Failed to save educational content: {'message': 'duplicate key value violates unique constraint "educational_content_content_id_key"', 'code': '23505', 'hint': None, 'details': 'Key (content_id)=(edu_QS_1758397468) already exists.'}
+2025-09-20 15:45:41.011 | ERROR    | config.database:save_trading_signal:175 | Failed to save trading signal: {'message': 'insert or update on table "trading_signals" violates foreign key constraint "trading_signals_symbol_fkey"', 'code': '23503', 'hint': None, 'details': 'Key (symbol)=(QS) is not present in table "stocks".'}
+2025-09-20 15:45:44.487 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-20 15:45:45.004 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-20 15:45:45.005 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for QS: max() arg is an empty sequence
+2025-09-20 15:45:47.998 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-20 15:45:48.530 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-20 15:45:48.531 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for QS: max() arg is an empty sequence
+2025-09-20 15:46:02.951 | ERROR    | config.database:save_trading_signal:175 | Failed to save trading signal: {'message': 'insert or update on table "trading_signals" violates foreign key constraint "trading_signals_symbol_fkey"', 'code': '23503', 'hint': None, 'details': 'Key (symbol)=(QS) is not present in table "stocks".'}
+2025-09-20 15:46:03.775 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-20 15:46:06.529 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-20 15:46:06.531 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for QS: max() arg is an empty sequence
+2025-09-20 15:46:09.421 | ERROR    | src.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-09-20 15:46:10.414 | ERROR    | src.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-09-20 15:46:10.418 | ERROR    | src.api.main:get_trading_signals:639 | ❌ Trading signals API error for QS: max() arg is an empty sequence
+2025-09-20 15:48:03.566 | ERROR    | config.database:save_trading_signal:175 | Failed to save trading signal: {'message': 'insert or update on table "trading_signals" violates foreign key constraint "trading_signals_symbol_fkey"', 'code': '23503', 'hint': None, 'details': 'Key (symbol)=(QS) is not present in table "stocks".'}
+2025-09-20 15:48:15.763 | ERROR    | config.database:save_trading_signal:175 | Failed to save trading signal: {'message': 'insert or update on table "trading_signals" violates foreign key constraint "trading_signals_symbol_fkey"', 'code': '23503', 'hint': None, 'details': 'Key (symbol)=(QS) is not present in table "stocks".'}
+2025-09-20 15:51:25.793 | ERROR    | config.database:save_trading_signal:175 | Failed to save trading signal: {'message': 'insert or update on table "trading_signals" violates foreign key constraint "trading_signals_symbol_fkey"', 'code': '23503', 'hint': None, 'details': 'Key (symbol)=(QS) is not present in table "stocks".'}
+2025-09-20 15:51:42.806 | ERROR    | config.database:save_trading_signal:175 | Failed to save trading signal: {'message': 'insert or update on table "trading_signals" violates foreign key constraint "trading_signals_symbol_fkey"', 'code': '23503', 'hint': None, 'details': 'Key (symbol)=(QS) is not present in table "stocks".'}
+2025-12-05 03:11:40.688 | ERROR    | backend.config.database:health_check:41 | Database health check failed: [Errno -2] Name or service not known
+2025-12-05 03:11:40.691 | ERROR    | app.api.main:lifespan:36 | Database connection failed: {'status': 'unhealthy', 'connection': 'failed', 'error': '[Errno -2] Name or service not known', 'timestamp': '2025-12-05T03:11:40.691704'}
+2025-12-05 03:12:37.504 | ERROR    | backend.config.database:health_check:41 | Database health check failed: [Errno -2] Name or service not known
+2025-12-05 03:16:25.828 | ERROR    | app.api.main:get_hot_stocks:522 | ❌ Hot stocks API error: No module named 'backend.app.agents.analysis.base_agent'
+2025-12-05 03:16:26.936 | ERROR    | app.api.main:get_hot_stocks:522 | ❌ Hot stocks API error: No module named 'backend.app.agents.analysis.base_agent'
+2025-12-05 03:16:29.276 | ERROR    | backend.config.database:get_system_analytics:408 | Failed to get system analytics: {'code': 'PGRST002', 'details': None, 'hint': None, 'message': 'Could not query the database for the schema cache. Retrying.'}
+2025-12-05 03:16:37.958 | ERROR    | app.api.main:get_hot_stocks:522 | ❌ Hot stocks API error: No module named 'backend.app.agents.analysis.base_agent'
+2025-12-05 03:16:38.997 | ERROR    | app.api.main:get_hot_stocks:522 | ❌ Hot stocks API error: No module named 'backend.app.agents.analysis.base_agent'
+2025-12-05 03:18:31.465 | ERROR    | app.api.main:get_hot_stocks:522 | ❌ Hot stocks API error: BuyAgent.__init__() missing 1 required positional argument: 'client'
+2025-12-05 03:18:33.086 | ERROR    | app.api.main:get_hot_stocks:522 | ❌ Hot stocks API error: BuyAgent.__init__() missing 1 required positional argument: 'client'
+2025-12-05 03:21:19.808 | ERROR    | backend.app.agents.trading.buy:_initialize_trading_clients:79 | Failed to initialize trading clients: No module named 'backend.app.services.alpaca_client'
+2025-12-05 03:21:19.977 | ERROR    | app.api.main:get_hot_stocks:522 | ❌ Hot stocks API error: No module named 'backend.app.ml.openai_sentiment_model'
+2025-12-05 03:21:21.236 | ERROR    | app.api.main:get_hot_stocks:522 | ❌ Hot stocks API error: No module named 'backend.app.ml.openai_sentiment_model'
+2025-12-05 03:30:20.930 | ERROR    | backend.app.agents.trading.buy:_initialize_trading_clients:79 | Failed to initialize trading clients: No module named 'backend.app.services.alpaca_client'
+2025-12-05 03:30:21.129 | ERROR    | app.api.main:get_hot_stocks:522 | ❌ Hot stocks API error: No module named 'backend.app.ml.lightgbm_flow_model'
+2025-12-05 03:30:22.095 | ERROR    | app.api.main:get_hot_stocks:522 | ❌ Hot stocks API error: No module named 'backend.app.ml.lightgbm_flow_model'
+2025-12-05 03:31:13.765 | ERROR    | backend.config.database:save_educational_content:337 | Failed to save educational content: {'code': '23505', 'details': 'Key (content_id)=(edu_AAPL_1764905473) already exists.', 'hint': None, 'message': 'duplicate key value violates unique constraint "educational_content_content_id_key"'}
+2025-12-05 03:31:13.863 | ERROR    | app.api.main:get_hot_stocks:522 | ❌ Hot stocks API error: No module named 'backend.app.ml.lightgbm_flow_model'
+2025-12-05 03:31:13.940 | ERROR    | app.api.main:get_hot_stocks:522 | ❌ Hot stocks API error: No module named 'backend.app.ml.lightgbm_flow_model'
+2025-12-05 03:31:14.332 | ERROR    | app.api.main:get_trading_signals:638 | ❌ Trading signals API error for AAPL: No module named 'backend.app.ml.lightgbm_flow_model'
+2025-12-05 03:31:14.410 | ERROR    | app.api.main:get_trading_signals:638 | ❌ Trading signals API error for AAPL: No module named 'backend.app.ml.lightgbm_flow_model'
+2025-12-05 03:31:14.999 | ERROR    | backend.app.agents.orchestrator:initialize:74 | Failed to initialize agent system: No module named 'backend.app.agents.technical_agent'
+2025-12-05 03:31:15.004 | ERROR    | backend.app.agents.orchestrator:initialize:74 | Failed to initialize agent system: No module named 'backend.app.agents.technical_agent'
+2025-12-05 03:31:15.014 | ERROR    | backend.app.agents.orchestrator:analyze_stock:161 | Analysis failed for AAPL: 'risk'
+2025-12-05 03:31:23.320 | ERROR    | backend.app.agents.orchestrator:initialize:74 | Failed to initialize agent system: No module named 'backend.app.agents.technical_agent'
+2025-12-05 03:31:23.352 | ERROR    | backend.app.agents.orchestrator:initialize:74 | Failed to initialize agent system: No module named 'backend.app.agents.technical_agent'
+2025-12-05 03:31:23.363 | ERROR    | backend.app.agents.orchestrator:analyze_stock:161 | Analysis failed for AAPL: 'risk'
+2025-12-05 03:31:23.878 | ERROR    | backend.app.agents.orchestrator:initialize:74 | Failed to initialize agent system: No module named 'backend.app.agents.technical_agent'
+2025-12-05 03:31:23.882 | ERROR    | backend.app.agents.orchestrator:initialize:74 | Failed to initialize agent system: No module named 'backend.app.agents.technical_agent'
+2025-12-05 03:31:23.887 | ERROR    | backend.app.agents.orchestrator:analyze_stock:161 | Analysis failed for AAPL: 'risk'
+2025-12-05 03:31:44.396 | ERROR    | app.api.main:get_trading_signals:638 | ❌ Trading signals API error for AAPL: No module named 'backend.app.ml.lightgbm_flow_model'
+2025-12-05 03:32:14.437 | ERROR    | app.api.main:get_trading_signals:638 | ❌ Trading signals API error for AAPL: No module named 'backend.app.ml.lightgbm_flow_model'
+2025-12-05 03:32:55.549 | ERROR    | backend.app.agents.trading.buy:_initialize_trading_clients:79 | Failed to initialize trading clients: No module named 'backend.app.services.alpaca_client'
+2025-12-05 03:33:06.199 | ERROR    | app.api.main:get_trading_signals:638 | ❌ Trading signals API error for AAPL: No module named 'backend.app.ml.prophet_volatility_model'
+2025-12-05 03:33:14.466 | ERROR    | app.api.main:get_trading_signals:638 | ❌ Trading signals API error for AAPL: No module named 'backend.app.ml.prophet_volatility_model'
+2025-12-05 03:34:01.322 | ERROR    | backend.app.agents.trading.buy:_initialize_trading_clients:79 | Failed to initialize trading clients: No module named 'backend.app.services.alpaca_client'
+2025-12-05 03:34:11.515 | ERROR    | app.api.main:get_trading_signals:638 | ❌ Trading signals API error for AAPL: No module named 'backend.app.services.alpaca_client'
+2025-12-05 03:34:50.581 | ERROR    | app.api.main:get_trading_signals:638 | ❌ Trading signals API error for AAPL: No module named 'backend.app.services.openai_only_orchestrator'
+2025-12-05 03:35:28.369 | ERROR    | app.api.main:get_hot_stocks:522 | ❌ Hot stocks API error: No module named 'backend.app.services.openai_only_orchestrator'
+2025-12-05 03:35:28.620 | ERROR    | app.api.main:get_trading_signals:638 | ❌ Trading signals API error for AAPL: No module named 'backend.app.services.openai_only_orchestrator'
+2025-12-05 03:35:28.736 | ERROR    | app.api.main:get_hot_stocks:522 | ❌ Hot stocks API error: No module named 'backend.app.services.openai_only_orchestrator'
+2025-12-05 03:38:02.928 | ERROR    | app.api.main:get_hot_stocks:522 | ❌ Hot stocks API error: No module named 'stock_indicators'
+2025-12-05 03:38:03.862 | ERROR    | app.api.main:get_hot_stocks:522 | ❌ Hot stocks API error: No module named 'stock_indicators'
+2025-12-05 03:52:42.919 | ERROR    | backend.app.services.market_data:get_comprehensive_data:82 | Failed to get comprehensive data for NVDA: 'open'
+2025-12-05 03:52:48.946 | ERROR    | backend.app.services.market_data:get_comprehensive_data:82 | Failed to get comprehensive data for TSLA: 'open'
+2025-12-05 03:52:48.978 | ERROR    | backend.app.services.market_data:get_comprehensive_data:82 | Failed to get comprehensive data for NVDA: 'open'
+2025-12-05 03:52:50.862 | ERROR    | backend.app.services.market_data:get_comprehensive_data:82 | Failed to get comprehensive data for AAPL: 'open'
+2025-12-05 03:52:52.765 | ERROR    | backend.app.services.market_data:get_comprehensive_data:82 | Failed to get comprehensive data for TSLA: 'open'
+2025-12-05 03:52:54.460 | ERROR    | backend.app.services.market_data:get_comprehensive_data:82 | Failed to get comprehensive data for MSFT: 'open'
+2025-12-05 03:52:55.718 | ERROR    | backend.app.services.market_data:get_comprehensive_data:82 | Failed to get comprehensive data for AAPL: 'open'
+2025-12-05 03:52:57.213 | ERROR    | backend.app.services.market_data:get_comprehensive_data:82 | Failed to get comprehensive data for GOOGL: 'open'
+2025-12-05 03:52:58.586 | ERROR    | backend.app.services.market_data:get_comprehensive_data:82 | Failed to get comprehensive data for MSFT: 'open'
+2025-12-05 03:53:00.487 | ERROR    | backend.app.services.market_data:get_comprehensive_data:82 | Failed to get comprehensive data for GOOGL: 'open'
+2025-12-05 03:56:56.232 | ERROR    | backend.config.database:save_educational_content:337 | Failed to save educational content: {'code': '23505', 'details': 'Key (content_id)=(edu_AAPL_1764907016) already exists.', 'hint': None, 'message': 'duplicate key value violates unique constraint "educational_content_content_id_key"'}
+2025-12-05 03:57:29.079 | ERROR    | backend.app.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-12-05 03:57:29.536 | ERROR    | backend.app.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-12-05 03:57:29.555 | ERROR    | app.api.main:get_trading_signals:638 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-12-05 03:57:31.605 | ERROR    | backend.app.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-12-05 03:57:32.595 | ERROR    | backend.app.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-12-05 03:57:32.605 | ERROR    | app.api.main:get_trading_signals:638 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-12-05 03:57:59.690 | ERROR    | backend.app.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-12-05 03:58:00.194 | ERROR    | backend.app.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-12-05 03:58:00.202 | ERROR    | app.api.main:get_trading_signals:638 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
+2025-12-05 03:58:29.413 | ERROR    | backend.app.api.intelligent_orchestrator:extract_stock_symbol:185 | OpenAI symbol extraction failed: object ChatCompletion can't be used in 'await' expression
+2025-12-05 03:58:30.157 | ERROR    | backend.app.api.intelligent_orchestrator:classify_query:136 | OpenAI classification failed: object ChatCompletion can't be used in 'await' expression
+2025-12-05 03:58:30.177 | ERROR    | app.api.main:get_trading_signals:638 | ❌ Trading signals API error for AAPL: max() arg is an empty sequence
