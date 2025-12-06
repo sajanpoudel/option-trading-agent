@@ -2,7 +2,7 @@
 
 AI-Powered Options Trading Platform with Lambda Architecture
 
-Complete intelligent trading system combining 9 specialized AI agents, multi-layered machine learning ensemble, real-time big data ingestion, and autonomous trading capabilities.
+Intelligent trading system combining 9 specialized AI agents, multi-layered machine learning ensemble, real-time big data ingestion, and autonomous trading capabilities.
 
 ---
 
