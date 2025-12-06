@@ -8,7 +8,7 @@ Complete intelligent trading system combining 9 specialized AI agents, multi-lay
 
 ## Demo
 
-https://github.com/user-attachments/assets/option-flow.mp4
+![Demo Video](https://github.com/sajanpoudel/option-trading-agent/blob/buy/assets/option-flow.mp4)
 
 Watch the platform in action: intelligent stock analysis, autonomous trading execution, and real-time market monitoring.
 
