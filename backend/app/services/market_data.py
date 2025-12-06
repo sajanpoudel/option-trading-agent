@@ -13,16 +13,25 @@ from backend.config.database import db_manager
 from backend.config.logging import get_data_logger
 from backend.config.settings import settings
 
+# Import ingestion layer for real-time data
+try:
+    from backend.app.ingestion import ingestion_manager
+    INGESTION_AVAILABLE = True
+except ImportError:
+    INGESTION_AVAILABLE = False
+    ingestion_manager = None
+
 logger = get_data_logger()
 
 
 class MarketDataManager:
     """Centralized market data management with AI intelligence and caching"""
-    
+
     def __init__(self):
         self.alpaca_client = AlpacaMarketDataClient()
         self.ai_intelligence = OpenAIMarketIntelligence(settings.openai_api_key)
         self.cache_ttl = 300  # 5 minutes cache
+        self.use_ingestion = INGESTION_AVAILABLE
         
     async def get_comprehensive_data(self, symbol: str) -> Dict[str, Any]:
         """Get all market data for a symbol"""
@@ -36,15 +45,33 @@ class MarketDataManager:
                 logger.info(f"Using cached data for {symbol}")
                 return cached_data
             
-            # Fetch data in parallel
+            # Try to get real-time quote from ingestion layer first
+            quote_data = None
+            if self.use_ingestion and ingestion_manager and ingestion_manager.is_streaming(symbol):
+                tick = ingestion_manager.get_latest_tick(symbol)
+                if tick:
+                    quote_data = {
+                        'price': tick.get('price', 0),
+                        'volume': tick.get('volume', 0),
+                        'bid': tick.get('bid', 0),
+                        'ask': tick.get('ask', 0),
+                        'timestamp': tick.get('timestamp')
+                    }
+                    logger.info(f"Using real-time data from ingestion layer for {symbol}")
+
+            # Fetch data in parallel (fallback to API if ingestion not available)
             tasks = [
-                self.alpaca_client.get_current_quote(symbol),
+                self.alpaca_client.get_current_quote(symbol) if not quote_data else asyncio.sleep(0),
                 self.alpaca_client.get_technical_indicators(symbol),
                 self.alpaca_client.get_options_data(symbol),
                 self.alpaca_client.get_historical_data(symbol, period="5d", interval="1d")
             ]
-            
-            quote_data, technical_data, options_data, historical_df = await asyncio.gather(*tasks)
+
+            api_quote, technical_data, options_data, historical_df = await asyncio.gather(*tasks)
+
+            # Use ingestion quote if available, otherwise use API quote
+            if not quote_data:
+                quote_data = api_quote
             
             # Convert historical DataFrame to list of dicts for JSON serialization
             historical_data = []

@@ -11,6 +11,7 @@ from backend.config.database import db_manager
 from backend.config.logging import get_api_logger
 from backend.config.settings import settings
 from backend.app.api.dependencies import get_current_session
+from backend.app.ingestion import ingestion_manager
 
 logger = get_api_logger()
 router = APIRouter()
@@ -412,3 +413,36 @@ async def trigger_maintenance_task(
     except Exception as e:
         logger.error(f"Maintenance task failed: {e}")
         raise HTTPException(status_code=500, detail="Failed to execute maintenance task")
+
+@router.get("/ingestion/status")
+async def get_ingestion_status() -> Dict[str, Any]:
+    """
+    Get Big Data Ingestion Layer status (Lambda Architecture)
+    
+    Returns status of:
+    - Kafka (Speed Layer) - producer/consumer stats  
+    - Dask (Batch Layer) - cluster info
+    - Real-time streams - market/options/sentiment
+    """
+    try:
+        status = ingestion_manager.get_status()
+        return {
+            "ingestion_layer": status,
+            "timestamp": time.time()
+        }
+    
+    except Exception as e:
+        logger.error(f"Failed to get ingestion status: {e}")
+        raise HTTPException(status_code=500, detail="Failed to get ingestion status")
+
+
+@router.get("/ingestion/health")
+async def get_ingestion_health() -> Dict[str, Any]:
+    """Get ingestion layer health check"""
+    try:
+        health = ingestion_manager.get_health()
+        return health
+    
+    except Exception as e:
+        logger.error(f"Failed to get ingestion health: {e}")
+        raise HTTPException(status_code=500, detail="Failed to get ingestion health")

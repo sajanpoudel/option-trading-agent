@@ -16,6 +16,7 @@ from backend.config.database import db_manager
 from backend.app.api.dependencies import get_current_session, rate_limiter
 from backend.app.api.routes import analysis, trading, education, portfolio, system
 from backend.app.api.chat_router import router as chat_router
+from backend.app.ingestion import ingestion_manager
 
 logger = get_api_logger()
 
@@ -23,25 +24,32 @@ logger = get_api_logger()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Application lifespan management"""
-    
+
     # Startup
     logger.info("Starting Neural Options Oracle++ API Server")
-    
+
     # Setup logging
     setup_logging()
-    
+
     # Test database connection (non-fatal - app can run without DB)
     db_health = await db_manager.health_check()
     if db_health["status"] != "healthy":
         logger.warning(f"Database connection failed (app will run with limited functionality): {db_health}")
     else:
         logger.info("Database connection established")
+
+    # Start ingestion layer (Lambda Architecture - optional)
+    await ingestion_manager.start()
+
     logger.info("Neural Options Oracle++ API Server started successfully")
-    
+
     yield
-    
+
     # Shutdown
     logger.info("Shutting down Neural Options Oracle++ API Server")
+
+    # Stop ingestion layer
+    await ingestion_manager.stop()
 
 
 # Create FastAPI application

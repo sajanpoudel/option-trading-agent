@@ -1,7 +1,5 @@
 # Neural Options Oracle++ Docker Compose Configuration
 
-version: '3.8'
-
 services:
   api:
     build: .
@@ -21,7 +19,7 @@ services:
       - .:/app
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/api/system/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -56,6 +54,71 @@ services:
   #   restart: unless-stopped
   #   networks:
   #     - neural_oracle_network
+
+  # ===== BIG DATA INGESTION LAYER (Lambda Architecture) =====
+  # Use with: docker-compose --profile ingestion up
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: neural_oracle_zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    profiles: ["ingestion"]
+    networks:
+      - neural_oracle_network
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: neural_oracle_kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    profiles: ["ingestion"]
+    networks:
+      - neural_oracle_network
+    healthcheck:
+      test: ["CMD", "kafka-broker-api-versions", "--bootstrap-server", "localhost:9092"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  dask-scheduler:
+    image: ghcr.io/dask/dask:latest
+    container_name: neural_oracle_dask_scheduler
+    command: dask scheduler
+    ports:
+      - "8786:8786"  # Scheduler port
+      - "8787:8787"  # Dashboard port
+    profiles: ["ingestion"]
+    networks:
+      - neural_oracle_network
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8787')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  dask-worker:
+    image: ghcr.io/dask/dask:latest
+    container_name: neural_oracle_dask_worker
+    command: dask worker tcp://dask-scheduler:8786 --nthreads 4 --memory-limit 2GB
+    depends_on:
+      - dask-scheduler
+    profiles: ["ingestion"]
+    networks:
+      - neural_oracle_network
+    deploy:
+      replicas: 2
 
 volumes:
   redis_data:

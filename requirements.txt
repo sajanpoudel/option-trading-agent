@@ -45,3 +45,7 @@ requests-cache>=1.2.0
 # Monitoring & Logging
 loguru==0.7.2
 psutil==5.9.6
+
+# Big Data Ingestion - Lambda Architecture (Optional)
+aiokafka>=0.10.0  # Async Kafka client for Speed Layer
+dask[distributed]>=2024.1.0  # Distributed computing for Batch Layer
