@@ -31,3 +31,8 @@ def test_normal_weights_sum_to_one(engine):
 def test_high_volatility_weights_sum_to_one(engine):
     weights = engine._adjust_weights_for_scenario("high_volatility")
     assert total(weights) == pytest.approx(1.0)
+
+
+def test_low_volatility_weights_sum_to_one(engine):
+    weights = engine._adjust_weights_for_scenario("low_volatility")
+    assert total(weights) == pytest.approx(1.0)
