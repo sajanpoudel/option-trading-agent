@@ -68,3 +68,9 @@ def test_earnings_approaching_favours_options_flow(engine):
 
 def test_unknown_scenario_keeps_the_base_weights(engine):
     assert engine._adjust_weights_for_scenario("something else") == engine.base_weights
+
+
+def test_adjusting_weights_does_not_change_the_base_weights(engine):
+    before = ScenarioWeights(**engine.base_weights.__dict__)
+    engine._adjust_weights_for_scenario("high_volatility")
+    assert engine.base_weights == before
