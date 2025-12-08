@@ -51,3 +51,11 @@ def test_strong_trend_weights_sum_to_one(engine):
 def test_range_bound_weights_sum_to_one(engine):
     weights = engine._adjust_weights_for_scenario("range_bound")
     assert total(weights) == pytest.approx(1.0)
+
+
+def test_high_volatility_favours_technical_and_flow(engine):
+    base = engine.base_weights
+    weights = engine._adjust_weights_for_scenario("high_volatility")
+    assert weights.technical > base.technical
+    assert weights.flow > base.flow
+    assert weights.sentiment < base.sentiment
