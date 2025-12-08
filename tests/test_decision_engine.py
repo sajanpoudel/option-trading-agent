@@ -64,3 +64,7 @@ def test_high_volatility_favours_technical_and_flow(engine):
 def test_earnings_approaching_favours_options_flow(engine):
     weights = engine._adjust_weights_for_scenario("earnings_approaching")
     assert weights.flow == max(weights.technical, weights.sentiment, weights.flow, weights.history) or weights.flow > engine.base_weights.flow
+
+
+def test_unknown_scenario_keeps_the_base_weights(engine):
+    assert engine._adjust_weights_for_scenario("something else") == engine.base_weights
