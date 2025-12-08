@@ -41,3 +41,8 @@ def test_low_volatility_weights_sum_to_one(engine):
 def test_earnings_approaching_weights_sum_to_one(engine):
     weights = engine._adjust_weights_for_scenario("earnings_approaching")
     assert total(weights) == pytest.approx(1.0)
+
+
+def test_strong_trend_weights_sum_to_one(engine):
+    weights = engine._adjust_weights_for_scenario("strong_trend")
+    assert total(weights) == pytest.approx(1.0)
