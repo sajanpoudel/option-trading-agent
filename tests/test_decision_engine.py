@@ -101,3 +101,7 @@ def test_unknown_sentiment_is_neutral(engine):
 def test_scores_are_clamped_to_plus_minus_one(engine):
     scores = engine._normalize_scores({"a": 5, "b": -3, "c": 0.4})
     assert scores == {"a": 1.0, "b": -1.0, "c": 0.4}
+
+
+def test_empty_agent_results_give_a_neutral_decision(engine):
+    assert engine._calculate_weighted_decision({}, engine.base_weights) == 0.0
