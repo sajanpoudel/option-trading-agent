@@ -96,3 +96,8 @@ def test_numeric_sentiment_passes_through(engine):
 def test_unknown_sentiment_is_neutral(engine):
     assert engine._sentiment_to_numeric("confused") == 0.0
     assert engine._sentiment_to_numeric(None) == 0.0
+
+
+def test_scores_are_clamped_to_plus_minus_one(engine):
+    scores = engine._normalize_scores({"a": 5, "b": -3, "c": 0.4})
+    assert scores == {"a": 1.0, "b": -1.0, "c": 0.4}
