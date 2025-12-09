@@ -82,3 +82,7 @@ def test_adjusting_weights_does_not_change_the_base_weights(engine):
 )
 def test_sentiment_labels_map_to_numbers(engine, value, expected):
     assert engine._sentiment_to_numeric(value) == expected
+
+
+def test_sentiment_labels_ignore_case(engine):
+    assert engine._sentiment_to_numeric("BULLISH") == 0.5
