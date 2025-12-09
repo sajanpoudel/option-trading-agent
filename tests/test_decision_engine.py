@@ -86,3 +86,8 @@ def test_sentiment_labels_map_to_numbers(engine, value, expected):
 
 def test_sentiment_labels_ignore_case(engine):
     assert engine._sentiment_to_numeric("BULLISH") == 0.5
+
+
+def test_numeric_sentiment_passes_through(engine):
+    assert engine._sentiment_to_numeric(0.25) == 0.25
+    assert engine._sentiment_to_numeric(1) == 1.0
