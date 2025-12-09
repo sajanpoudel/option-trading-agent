@@ -74,3 +74,11 @@ def test_adjusting_weights_does_not_change_the_base_weights(engine):
     before = ScenarioWeights(**engine.base_weights.__dict__)
     engine._adjust_weights_for_scenario("high_volatility")
     assert engine.base_weights == before
+
+
+@pytest.mark.parametrize(
+    "value, expected",
+    [("very_bearish", -1.0), ("bearish", -0.5), ("neutral", 0.0), ("bullish", 0.5), ("very_bullish", 1.0)],
+)
+def test_sentiment_labels_map_to_numbers(engine, value, expected):
+    assert engine._sentiment_to_numeric(value) == expected
