@@ -91,3 +91,8 @@ def test_sentiment_labels_ignore_case(engine):
 def test_numeric_sentiment_passes_through(engine):
     assert engine._sentiment_to_numeric(0.25) == 0.25
     assert engine._sentiment_to_numeric(1) == 1.0
+
+
+def test_unknown_sentiment_is_neutral(engine):
+    assert engine._sentiment_to_numeric("confused") == 0.0
+    assert engine._sentiment_to_numeric(None) == 0.0
