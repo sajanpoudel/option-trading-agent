@@ -121,3 +121,7 @@ def test_weighted_decision_uses_each_agent_score(engine):
 def test_a_broken_score_falls_back_to_zero(engine):
     results = {"technical": {"weighted_score": "not a number"}}
     assert engine._calculate_weighted_decision(results, engine.base_weights) == 0.0
+
+
+def test_detector_maps_strong_uptrend_to_strong_trend():
+    assert ScenarioDetector().detect({"scenario": "strong_uptrend"}) == "strong_trend"
