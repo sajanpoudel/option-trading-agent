@@ -105,3 +105,14 @@ def test_scores_are_clamped_to_plus_minus_one(engine):
 
 def test_empty_agent_results_give_a_neutral_decision(engine):
     assert engine._calculate_weighted_decision({}, engine.base_weights) == 0.0
+
+
+def test_weighted_decision_uses_each_agent_score(engine):
+    results = {
+        "technical": {"weighted_score": 1.0},
+        "sentiment": {"overall_sentiment": "bullish"},
+        "flow": {"flow_sentiment": "bearish"},
+        "history": {"pattern_strength": 0.5},
+    }
+    expected = 1.0 * 0.60 + 0.5 * 0.10 + -0.5 * 0.10 + 0.5 * 0.20
+    assert engine._calculate_weighted_decision(results, engine.base_weights) == pytest.approx(expected)
