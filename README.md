@@ -341,7 +341,7 @@ PyTorch Deep Q-Network:
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/option-trading-agent.git
+git clone https://github.com/sajanpoudel/option-trading-agent.git
 cd option-trading-agent
 ```
 
