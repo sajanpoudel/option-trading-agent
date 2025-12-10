@@ -116,3 +116,8 @@ def test_weighted_decision_uses_each_agent_score(engine):
     }
     expected = 1.0 * 0.60 + 0.5 * 0.10 + -0.5 * 0.10 + 0.5 * 0.20
     assert engine._calculate_weighted_decision(results, engine.base_weights) == pytest.approx(expected)
+
+
+def test_a_broken_score_falls_back_to_zero(engine):
+    results = {"technical": {"weighted_score": "not a number"}}
+    assert engine._calculate_weighted_decision(results, engine.base_weights) == 0.0
