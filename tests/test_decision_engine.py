@@ -125,3 +125,7 @@ def test_a_broken_score_falls_back_to_zero(engine):
 
 def test_detector_maps_strong_uptrend_to_strong_trend():
     assert ScenarioDetector().detect({"scenario": "strong_uptrend"}) == "strong_trend"
+
+
+def test_detector_maps_strong_downtrend_to_strong_trend():
+    assert ScenarioDetector().detect({"scenario": "strong_downtrend"}) == "strong_trend"
