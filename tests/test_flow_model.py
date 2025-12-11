@@ -175,3 +175,8 @@ def test_fallback_prediction_is_cautious(predictor):
 
 def test_key_indicators_describe_high_volume(predictor):
     assert predictor._identify_key_indicators({"volume_ratio": 2.5}) == ["High volume (2.5x normal)"]
+
+
+def test_key_indicators_describe_put_call_extremes(predictor):
+    assert predictor._identify_key_indicators({"put_call_ratio": 1.8}) == ["High P/C ratio (1.80)"]
+    assert predictor._identify_key_indicators({"put_call_ratio": 0.5}) == ["Low P/C ratio (0.50)"]
