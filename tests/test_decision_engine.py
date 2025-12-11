@@ -145,3 +145,7 @@ def test_detector_maps_potential_reversal_to_normal():
 
 def test_detector_maps_unheard_of_to_normal():
     assert ScenarioDetector().detect({"scenario": "unheard_of"}) == "normal"
+
+
+def test_detector_defaults_to_normal_without_data():
+    assert ScenarioDetector().detect({}) == "normal"
