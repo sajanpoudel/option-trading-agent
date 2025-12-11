@@ -141,3 +141,7 @@ def test_detector_maps_breakout_to_high_volatility():
 
 def test_detector_maps_potential_reversal_to_normal():
     assert ScenarioDetector().detect({"scenario": "potential_reversal"}) == "normal"
+
+
+def test_detector_maps_unheard_of_to_normal():
+    assert ScenarioDetector().detect({"scenario": "unheard_of"}) == "normal"
