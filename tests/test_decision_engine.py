@@ -149,3 +149,7 @@ def test_detector_maps_unheard_of_to_normal():
 
 def test_detector_defaults_to_normal_without_data():
     assert ScenarioDetector().detect({}) == "normal"
+
+
+def test_detector_survives_bad_input():
+    assert ScenarioDetector().detect(None) == "normal"
