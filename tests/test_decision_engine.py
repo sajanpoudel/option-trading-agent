@@ -129,3 +129,7 @@ def test_detector_maps_strong_uptrend_to_strong_trend():
 
 def test_detector_maps_strong_downtrend_to_strong_trend():
     assert ScenarioDetector().detect({"scenario": "strong_downtrend"}) == "strong_trend"
+
+
+def test_detector_maps_range_bound_to_range_bound():
+    assert ScenarioDetector().detect({"scenario": "range_bound"}) == "range_bound"
