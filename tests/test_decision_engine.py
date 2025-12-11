@@ -137,3 +137,7 @@ def test_detector_maps_range_bound_to_range_bound():
 
 def test_detector_maps_breakout_to_high_volatility():
     assert ScenarioDetector().detect({"scenario": "breakout"}) == "high_volatility"
+
+
+def test_detector_maps_potential_reversal_to_normal():
+    assert ScenarioDetector().detect({"scenario": "potential_reversal"}) == "normal"
