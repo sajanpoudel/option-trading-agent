@@ -153,3 +153,8 @@ def test_detector_defaults_to_normal_without_data():
 
 def test_detector_survives_bad_input():
     assert ScenarioDetector().detect(None) == "normal"
+
+
+def test_signal_direction_for_a_score_of_0_8(engine):
+    signal = engine._generate_signal(0.8, SimpleNamespace(final_score=0.8), {})
+    assert signal["direction"] == "STRONG_BUY"
