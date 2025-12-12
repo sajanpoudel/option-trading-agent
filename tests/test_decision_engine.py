@@ -163,3 +163,8 @@ def test_signal_direction_for_a_score_of_0_8(engine):
 def test_signal_direction_for_a_score_of_0_45(engine):
     signal = engine._generate_signal(0.45, SimpleNamespace(final_score=0.45), {})
     assert signal["direction"] == "BUY"
+
+
+def test_signal_direction_for_a_score_of_0_0(engine):
+    signal = engine._generate_signal(0.0, SimpleNamespace(final_score=0.0), {})
+    assert signal["direction"] == "HOLD"
