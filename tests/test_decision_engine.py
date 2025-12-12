@@ -173,3 +173,8 @@ def test_signal_direction_for_a_score_of_0_0(engine):
 def test_signal_direction_for_a_score_of_minus_0_45(engine):
     signal = engine._generate_signal(-0.45, SimpleNamespace(final_score=-0.45), {})
     assert signal["direction"] == "SELL"
+
+
+def test_signal_direction_for_a_score_of_minus_0_8(engine):
+    signal = engine._generate_signal(-0.8, SimpleNamespace(final_score=-0.8), {})
+    assert signal["direction"] == "STRONG_SELL"
