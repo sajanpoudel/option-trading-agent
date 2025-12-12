@@ -184,3 +184,9 @@ def test_signal_averages_the_decision_and_the_ensemble(engine):
     signal = engine._generate_signal(0.8, SimpleNamespace(final_score=0.2), {})
     assert signal["score"] == pytest.approx(0.5)
     assert signal["direction"] == "BUY"
+
+
+def test_signal_thresholds_are_inclusive(engine):
+    assert engine._generate_signal(0.3, SimpleNamespace(final_score=0.3), {})["direction"] == "BUY"
+    assert engine._generate_signal(0.6, SimpleNamespace(final_score=0.6), {})["direction"] == "STRONG_BUY"
+    assert engine._generate_signal(-0.3, SimpleNamespace(final_score=-0.3), {})["direction"] == "SELL"
