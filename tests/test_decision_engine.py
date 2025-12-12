@@ -206,3 +206,10 @@ def test_signal_thresholds_are_inclusive(engine):
 )
 def test_options_strategy_choice(engine, direction, scenario, expected):
     assert engine._select_options_strategy(direction, scenario) == expected
+
+
+def test_reasoning_mentions_the_score_and_scenario(engine):
+    text = engine._generate_reasoning({"technical": {"scenario": "breakout"}}, 0.42)
+    assert "0.420" in text
+    assert "breakout" in text
+    assert "upward momentum" in text
