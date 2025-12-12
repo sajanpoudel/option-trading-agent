@@ -225,3 +225,7 @@ def test_the_signal_carries_a_strategy_and_reasoning(engine):
     assert signal["strategy_type"] == "moderate_bullish"
     assert signal["options_strategy"] == "long_call"
     assert signal["reasoning"].startswith("Decision score")
+
+
+def bullish_signal(score=0.7):
+    return {"direction": "BUY", "score": score}
