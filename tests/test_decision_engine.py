@@ -218,3 +218,10 @@ def test_reasoning_mentions_the_score_and_scenario(engine):
 def test_reasoning_describes_bearish_and_mixed_scores(engine):
     assert "downward pressure" in engine._generate_reasoning({}, -0.5)
     assert "Mixed signals" in engine._generate_reasoning({}, 0.0)
+
+
+def test_the_signal_carries_a_strategy_and_reasoning(engine):
+    signal = engine._generate_signal(0.5, SimpleNamespace(final_score=0.5), {"technical": {"scenario": "normal"}})
+    assert signal["strategy_type"] == "moderate_bullish"
+    assert signal["options_strategy"] == "long_call"
+    assert signal["reasoning"].startswith("Decision score")
