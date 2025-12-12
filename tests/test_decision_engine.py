@@ -213,3 +213,8 @@ def test_reasoning_mentions_the_score_and_scenario(engine):
     assert "0.420" in text
     assert "breakout" in text
     assert "upward momentum" in text
+
+
+def test_reasoning_describes_bearish_and_mixed_scores(engine):
+    assert "downward pressure" in engine._generate_reasoning({}, -0.5)
+    assert "Mixed signals" in engine._generate_reasoning({}, 0.0)
