@@ -190,3 +190,19 @@ def test_signal_thresholds_are_inclusive(engine):
     assert engine._generate_signal(0.3, SimpleNamespace(final_score=0.3), {})["direction"] == "BUY"
     assert engine._generate_signal(0.6, SimpleNamespace(final_score=0.6), {})["direction"] == "STRONG_BUY"
     assert engine._generate_signal(-0.3, SimpleNamespace(final_score=-0.3), {})["direction"] == "SELL"
+
+
+@pytest.mark.parametrize(
+    "direction, scenario, expected",
+    [
+        ("BUY", "normal", "long_call"),
+        ("STRONG_BUY", "high_volatility", "long_call_spread"),
+        ("BUY", "breakout", "long_call_spread"),
+        ("SELL", "normal", "long_put"),
+        ("STRONG_SELL", "breakout", "long_put_spread"),
+        ("HOLD", "range_bound", "iron_condor"),
+        ("HOLD", "normal", "straddle"),
+    ],
+)
+def test_options_strategy_choice(engine, direction, scenario, expected):
+    assert engine._select_options_strategy(direction, scenario) == expected
