@@ -247,3 +247,8 @@ def test_a_hold_signal_gives_an_iron_condor():
     signal = {"direction": "HOLD", "score": 0.0}
     recs = RiskBasedStrikeSelector().select_strikes(signal, "AAPL", {"risk_level": "moderate"})
     assert [r.option_type for r in recs] == ["iron_condor"]
+
+
+def test_conservative_profile_caps_the_loss_at_2_percent():
+    recs = RiskBasedStrikeSelector().select_strikes(bullish_signal(), "AAPL", {"risk_level": "conservative"})
+    assert all(r.max_loss == 0.02 for r in recs)
