@@ -229,3 +229,9 @@ def test_the_signal_carries_a_strategy_and_reasoning(engine):
 
 def bullish_signal(score=0.7):
     return {"direction": "BUY", "score": score}
+
+
+def test_a_buy_signal_gives_calls():
+    recs = RiskBasedStrikeSelector().select_strikes(bullish_signal(), "AAPL", {"risk_level": "moderate"})
+    assert recs
+    assert {r.option_type for r in recs} == {"call"}
