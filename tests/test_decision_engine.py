@@ -235,3 +235,9 @@ def test_a_buy_signal_gives_calls():
     recs = RiskBasedStrikeSelector().select_strikes(bullish_signal(), "AAPL", {"risk_level": "moderate"})
     assert recs
     assert {r.option_type for r in recs} == {"call"}
+
+
+def test_a_sell_signal_gives_puts():
+    signal = {"direction": "SELL", "score": -0.7}
+    recs = RiskBasedStrikeSelector().select_strikes(signal, "AAPL", {"risk_level": "moderate"})
+    assert {r.option_type for r in recs} == {"put"}
