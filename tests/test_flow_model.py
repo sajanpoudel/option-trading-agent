@@ -180,3 +180,8 @@ def test_key_indicators_describe_high_volume(predictor):
 def test_key_indicators_describe_put_call_extremes(predictor):
     assert predictor._identify_key_indicators({"put_call_ratio": 1.8}) == ["High P/C ratio (1.80)"]
     assert predictor._identify_key_indicators({"put_call_ratio": 0.5}) == ["Low P/C ratio (0.50)"]
+
+
+def test_key_indicators_describe_iv_rank_extremes(predictor):
+    assert predictor._identify_key_indicators({"iv_rank": 90}) == ["High IV rank (90%)"]
+    assert predictor._identify_key_indicators({"iv_rank": 10}) == ["Low IV rank (10%)"]
