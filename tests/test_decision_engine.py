@@ -268,3 +268,9 @@ def test_call_deltas_stay_inside_the_profile_range():
     recs = RiskBasedStrikeSelector().select_strikes(bullish_signal(), "AAPL", {"risk_level": "conservative"})
     low, high = 0.15, 0.35
     assert all(low <= r.delta <= high for r in recs)
+
+
+def test_recommendations_are_sorted_by_risk_adjusted_return():
+    recs = RiskBasedStrikeSelector().select_strikes(bullish_signal(), "AAPL", {"risk_level": "moderate"})
+    ratios = [r.potential_return / max(r.risk_score, 0.1) for r in recs]
+    assert ratios == sorted(ratios, reverse=True)
