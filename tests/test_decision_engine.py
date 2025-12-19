@@ -262,3 +262,9 @@ def test_moderate_profile_caps_the_loss_at_5_percent():
 def test_aggressive_profile_caps_the_loss_at_10_percent():
     recs = RiskBasedStrikeSelector().select_strikes(bullish_signal(), "AAPL", {"risk_level": "aggressive"})
     assert all(r.max_loss == 0.1 for r in recs)
+
+
+def test_call_deltas_stay_inside_the_profile_range():
+    recs = RiskBasedStrikeSelector().select_strikes(bullish_signal(), "AAPL", {"risk_level": "conservative"})
+    low, high = 0.15, 0.35
+    assert all(low <= r.delta <= high for r in recs)
