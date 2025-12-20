@@ -285,3 +285,9 @@ def test_an_unknown_risk_level_does_not_wipe_out_the_result():
     recs = RiskBasedStrikeSelector().select_strikes(bullish_signal(), "AAPL", {"risk_level": "reckless"})
     assert recs
     assert all(r.max_loss == 0.05 for r in recs)
+
+
+def test_the_fallback_decision_is_a_hold(engine):
+    result = engine._fallback_decision("AAPL", {"risk_level": "moderate"})
+    assert result["symbol"] == "AAPL"
+    assert result["signal"]["direction"] == "HOLD"
