@@ -279,3 +279,9 @@ def test_recommendations_are_sorted_by_risk_adjusted_return():
 def test_a_missing_risk_level_defaults_to_moderate():
     recs = RiskBasedStrikeSelector().select_strikes(bullish_signal(), "AAPL", {})
     assert all(r.max_loss == 0.05 for r in recs)
+
+
+def test_an_unknown_risk_level_does_not_wipe_out_the_result():
+    recs = RiskBasedStrikeSelector().select_strikes(bullish_signal(), "AAPL", {"risk_level": "reckless"})
+    assert recs
+    assert all(r.max_loss == 0.05 for r in recs)
