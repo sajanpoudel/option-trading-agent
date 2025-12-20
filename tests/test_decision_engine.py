@@ -274,3 +274,8 @@ def test_recommendations_are_sorted_by_risk_adjusted_return():
     recs = RiskBasedStrikeSelector().select_strikes(bullish_signal(), "AAPL", {"risk_level": "moderate"})
     ratios = [r.potential_return / max(r.risk_score, 0.1) for r in recs]
     assert ratios == sorted(ratios, reverse=True)
+
+
+def test_a_missing_risk_level_defaults_to_moderate():
+    recs = RiskBasedStrikeSelector().select_strikes(bullish_signal(), "AAPL", {})
+    assert all(r.max_loss == 0.05 for r in recs)
