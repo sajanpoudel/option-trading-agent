@@ -91,7 +91,7 @@ class RiskBasedStrikeSelector:
         """Select optimal strikes based on risk profile and signal"""
         try:
             risk_level = user_profile.get("risk_level", "moderate")
-            profile_params = self.risk_profiles[risk_level]
+            profile_params = self.risk_profiles.get(risk_level, self.risk_profiles["moderate"])
 
             recommendations = []
 
