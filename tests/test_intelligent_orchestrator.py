@@ -31,3 +31,8 @@ def classifier_with(content=None, error=None):
 
 def run(coro):
     return asyncio.run(coro)
+
+
+def test_classify_returns_the_scores_from_the_reply():
+    classifier, _ = classifier_with(json.dumps({"technical_analysis": 0.9, "education": 0.4}))
+    assert run(classifier.classify_query("show me RSI")) == {"technical_analysis": 0.9, "education": 0.4}
