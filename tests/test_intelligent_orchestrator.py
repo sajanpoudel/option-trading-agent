@@ -75,3 +75,9 @@ def test_extract_symbol_uppercases_the_reply():
 def test_extract_symbol_returns_none_for_none():
     classifier, _ = classifier_with("NONE")
     assert run(classifier.extract_stock_symbol("how is the market")) is None
+
+
+@pytest.mark.parametrize("reply", ["A", "TOOLONG"])
+def test_extract_symbol_rejects_implausible_lengths(reply):
+    classifier, _ = classifier_with(reply)
+    assert run(classifier.extract_stock_symbol("x")) is None
