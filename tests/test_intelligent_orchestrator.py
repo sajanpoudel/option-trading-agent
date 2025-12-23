@@ -70,3 +70,8 @@ def test_classify_sends_the_query_and_the_agent_list():
 def test_extract_symbol_uppercases_the_reply():
     classifier, _ = classifier_with(" aapl \n")
     assert run(classifier.extract_stock_symbol("analyze apple")) == "AAPL"
+
+
+def test_extract_symbol_returns_none_for_none():
+    classifier, _ = classifier_with("NONE")
+    assert run(classifier.extract_stock_symbol("how is the market")) is None
