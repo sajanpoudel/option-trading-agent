@@ -51,3 +51,8 @@ def test_classify_turns_string_scores_into_floats():
 def test_classify_returns_nothing_for_invalid_json():
     classifier, _ = classifier_with("this is not json")
     assert run(classifier.classify_query("x")) == {}
+
+
+def test_classify_returns_nothing_when_the_api_fails():
+    classifier, _ = classifier_with(error=RuntimeError("network down"))
+    assert run(classifier.classify_query("x")) == {}
