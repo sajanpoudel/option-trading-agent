@@ -36,3 +36,8 @@ def run(coro):
 def test_classify_returns_the_scores_from_the_reply():
     classifier, _ = classifier_with(json.dumps({"technical_analysis": 0.9, "education": 0.4}))
     assert run(classifier.classify_query("show me RSI")) == {"technical_analysis": 0.9, "education": 0.4}
+
+
+def test_classify_clamps_scores_to_the_zero_one_range():
+    classifier, _ = classifier_with(json.dumps({"technical_analysis": 3, "education": -2}))
+    assert run(classifier.classify_query("x")) == {"technical_analysis": 1.0, "education": 0.0}
