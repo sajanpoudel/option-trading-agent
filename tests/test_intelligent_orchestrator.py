@@ -46,3 +46,8 @@ def test_classify_clamps_scores_to_the_zero_one_range():
 def test_classify_turns_string_scores_into_floats():
     classifier, _ = classifier_with(json.dumps({"options_flow": "0.75"}))
     assert run(classifier.classify_query("x")) == {"options_flow": 0.75}
+
+
+def test_classify_returns_nothing_for_invalid_json():
+    classifier, _ = classifier_with("this is not json")
+    assert run(classifier.classify_query("x")) == {}
