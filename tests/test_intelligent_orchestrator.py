@@ -56,3 +56,12 @@ def test_classify_returns_nothing_for_invalid_json():
 def test_classify_returns_nothing_when_the_api_fails():
     classifier, _ = classifier_with(error=RuntimeError("network down"))
     assert run(classifier.classify_query("x")) == {}
+
+
+def test_classify_sends_the_query_and_the_agent_list():
+    classifier, completions = classifier_with("{}")
+    run(classifier.classify_query("analyze AAPL"))
+    prompt = completions.calls[0]["messages"][1]["content"]
+    assert "analyze AAPL" in prompt
+    assert "technical_analysis" in prompt
+    assert completions.calls[0]["temperature"] == 0.1
