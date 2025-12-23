@@ -65,3 +65,8 @@ def test_classify_sends_the_query_and_the_agent_list():
     assert "analyze AAPL" in prompt
     assert "technical_analysis" in prompt
     assert completions.calls[0]["temperature"] == 0.1
+
+
+def test_extract_symbol_uppercases_the_reply():
+    classifier, _ = classifier_with(" aapl \n")
+    assert run(classifier.extract_stock_symbol("analyze apple")) == "AAPL"
