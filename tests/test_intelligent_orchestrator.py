@@ -104,3 +104,7 @@ def test_a_comprehensive_request_runs_the_four_core_agents():
 
 def test_a_targeted_request_runs_only_that_agent():
     assert pick_agents({"technical_analysis": 0.9, "sentiment_analysis": 0.1}) == ["technical"]
+
+
+def test_scores_at_the_threshold_do_not_trigger_an_agent():
+    assert pick_agents({"education": 0.3, "technical_analysis": 0.31}) == ["technical"]
