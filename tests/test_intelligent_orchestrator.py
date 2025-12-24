@@ -117,3 +117,7 @@ def test_education_and_risk_are_added_on_top_of_analysis():
 
 def test_trade_execution_adds_the_buy_agent():
     assert "buy_agent" in pick_agents({"trade_execution": 0.9, "technical_analysis": 0.8})
+
+
+def test_trading_signals_add_the_decision_engine():
+    assert "decision_engine" in pick_agents({"trading_signals": 0.9})
