@@ -90,3 +90,8 @@ def test_extract_symbol_without_a_client_returns_none():
 def test_extract_symbol_returns_none_when_the_api_fails():
     classifier, _ = classifier_with(error=RuntimeError("boom"))
     assert run(classifier.extract_stock_symbol("x")) is None
+
+
+def pick_agents(scores):
+    # _determine_agents_to_trigger does not use self, so a bare call is enough.
+    return IntelligentOrchestrator._determine_agents_to_trigger(None, scores)
