@@ -185,3 +185,10 @@ def test_key_indicators_describe_put_call_extremes(predictor):
 def test_key_indicators_describe_iv_rank_extremes(predictor):
     assert predictor._identify_key_indicators({"iv_rank": 90}) == ["High IV rank (90%)"]
     assert predictor._identify_key_indicators({"iv_rank": 10}) == ["Low IV rank (10%)"]
+
+
+def test_prepare_features_keeps_the_first_feature_order(predictor):
+    predictor.feature_names = []
+    vector = predictor._prepare_features({"a": 1.0, "b": 2.0})
+    assert list(vector) == [1.0, 2.0]
+    assert list(predictor._prepare_features({"b": 5.0, "a": 4.0})) == [4.0, 5.0]
