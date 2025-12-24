@@ -95,3 +95,8 @@ def test_extract_symbol_returns_none_when_the_api_fails():
 def pick_agents(scores):
     # _determine_agents_to_trigger does not use self, so a bare call is enough.
     return IntelligentOrchestrator._determine_agents_to_trigger(None, scores)
+
+
+def test_a_comprehensive_request_runs_the_four_core_agents():
+    scores = {"technical_analysis": 0.9, "sentiment_analysis": 0.9, "options_flow": 0.9, "historical_analysis": 0.9}
+    assert pick_agents(scores) == ["technical", "sentiment", "flow", "history"]
