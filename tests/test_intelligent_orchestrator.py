@@ -113,3 +113,7 @@ def test_scores_at_the_threshold_do_not_trigger_an_agent():
 def test_education_and_risk_are_added_on_top_of_analysis():
     scores = {"technical_analysis": 0.8, "education": 0.8, "risk_assessment": 0.8}
     assert pick_agents(scores) == ["technical", "education", "risk"]
+
+
+def test_trade_execution_adds_the_buy_agent():
+    assert "buy_agent" in pick_agents({"trade_execution": 0.9, "technical_analysis": 0.8})
