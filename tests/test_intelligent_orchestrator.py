@@ -85,3 +85,8 @@ def test_extract_symbol_rejects_implausible_lengths(reply):
 
 def test_extract_symbol_without_a_client_returns_none():
     assert run(QueryClassifier(None).extract_stock_symbol("analyze AAPL")) is None
+
+
+def test_extract_symbol_returns_none_when_the_api_fails():
+    classifier, _ = classifier_with(error=RuntimeError("boom"))
+    assert run(classifier.extract_stock_symbol("x")) is None
