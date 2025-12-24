@@ -121,3 +121,7 @@ def test_trade_execution_adds_the_buy_agent():
 
 def test_trading_signals_add_the_decision_engine():
     assert "decision_engine" in pick_agents({"trading_signals": 0.9})
+
+
+def test_multi_stock_requests_add_the_multi_stock_agent():
+    assert "multi_stock" in pick_agents({"multi_stock_analysis": 0.9})
