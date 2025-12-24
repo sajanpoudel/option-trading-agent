@@ -108,3 +108,8 @@ def test_a_targeted_request_runs_only_that_agent():
 
 def test_scores_at_the_threshold_do_not_trigger_an_agent():
     assert pick_agents({"education": 0.3, "technical_analysis": 0.31}) == ["technical"]
+
+
+def test_education_and_risk_are_added_on_top_of_analysis():
+    scores = {"technical_analysis": 0.8, "education": 0.8, "risk_assessment": 0.8}
+    assert pick_agents(scores) == ["technical", "education", "risk"]
