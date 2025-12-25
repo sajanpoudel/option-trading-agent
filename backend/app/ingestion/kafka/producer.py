@@ -2,6 +2,8 @@
 High-performance async producer with batching and compression
 """
 
+from __future__ import annotations
+
 import asyncio
 import json
 from typing import Any
