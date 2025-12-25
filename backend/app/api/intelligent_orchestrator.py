@@ -348,7 +348,7 @@ class IntelligentOrchestrator:
             logger.info("🎯 Multi-stock analysis detected - will analyze multiple stocks")
 
         # For general queries with no clear intent, default to comprehensive analysis
-        if not agents_to_trigger and max(query_scores.values()) < threshold:
+        if not agents_to_trigger and max(query_scores.values(), default=0.0) < threshold:
             agents_to_trigger = ["technical", "sentiment", "flow", "history"]
             logger.info("🔄 No clear intent detected - defaulting to comprehensive analysis")
 
