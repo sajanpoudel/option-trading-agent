@@ -125,3 +125,7 @@ def test_trading_signals_add_the_decision_engine():
 
 def test_multi_stock_requests_add_the_multi_stock_agent():
     assert "multi_stock" in pick_agents({"multi_stock_analysis": 0.9})
+
+
+def test_low_scores_fall_back_to_a_comprehensive_analysis():
+    assert pick_agents({"education": 0.1}) == ["technical", "sentiment", "flow", "history"]
