@@ -18,3 +18,7 @@ def test_base_weights_sum_to_one(model):
 
 def test_high_vol_regime_weights_sum_to_one(model):
     assert sum(model._adjust_weights_for_regime("high_vol").values()) == pytest.approx(1.0)
+
+
+def test_low_vol_regime_weights_sum_to_one(model):
+    assert sum(model._adjust_weights_for_regime("low_vol").values()) == pytest.approx(1.0)
