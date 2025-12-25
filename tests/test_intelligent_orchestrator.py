@@ -129,3 +129,7 @@ def test_multi_stock_requests_add_the_multi_stock_agent():
 
 def test_low_scores_fall_back_to_a_comprehensive_analysis():
     assert pick_agents({"education": 0.1}) == ["technical", "sentiment", "flow", "history"]
+
+
+def test_an_empty_classification_falls_back_to_a_comprehensive_analysis():
+    assert pick_agents({}) == ["technical", "sentiment", "flow", "history"]
