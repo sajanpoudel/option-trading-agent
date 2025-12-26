@@ -54,3 +54,9 @@ def test_fomc_week_shifts_weight_from_technical_to_volatility(model):
     weights = model._adjust_weights_for_regime("fomc_week")
     assert weights["volatility"] > model.base_weights["volatility"]
     assert weights["technical"] < model.base_weights["technical"]
+
+
+def test_safe_score_clips_to_the_valid_range(model):
+    assert model._safe_score(5, 0.0) == 1.0
+    assert model._safe_score(-5, 0.0) == -1.0
+    assert model._safe_score(0.25, 0.0) == 0.25
