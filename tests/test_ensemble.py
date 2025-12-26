@@ -42,3 +42,9 @@ def test_unknown_regime_weights_sum_to_one(model):
 
 def test_normal_regime_keeps_the_base_weights(model):
     assert model._adjust_weights_for_regime("normal") == pytest.approx(model.base_weights)
+
+
+def test_adjusting_weights_does_not_change_the_base_weights(model):
+    before = dict(model.base_weights)
+    model._adjust_weights_for_regime("fomc_week")
+    assert model.base_weights == before
