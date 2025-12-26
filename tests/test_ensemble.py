@@ -60,3 +60,9 @@ def test_safe_score_clips_to_the_valid_range(model):
     assert model._safe_score(5, 0.0) == 1.0
     assert model._safe_score(-5, 0.0) == -1.0
     assert model._safe_score(0.25, 0.0) == 0.25
+
+
+def test_safe_score_uses_the_default_for_exceptions_and_other_types(model):
+    assert model._safe_score(RuntimeError("model failed"), 0.1) == 0.1
+    assert model._safe_score("0.5", 0.2) == 0.2
+    assert model._safe_score(None, -0.3) == -0.3
