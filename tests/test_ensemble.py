@@ -72,3 +72,8 @@ def test_ensemble_score_is_the_weighted_average(model):
     scores = {"sentiment": 1.0, "flow": 0.0}
     weights = {"sentiment": 0.2, "flow": 0.3}
     assert model._calculate_ensemble_score(scores, weights) == pytest.approx(0.4)
+
+
+def test_ensemble_score_ignores_components_without_a_weight(model):
+    scores = {"sentiment": 1.0, "mystery": -1.0}
+    assert model._calculate_ensemble_score(scores, {"sentiment": 0.5}) == pytest.approx(1.0)
