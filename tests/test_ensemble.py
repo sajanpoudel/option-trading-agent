@@ -38,3 +38,7 @@ def test_normal_regime_weights_sum_to_one(model):
 
 def test_unknown_regime_weights_sum_to_one(model):
     assert sum(model._adjust_weights_for_regime("unknown").values()) == pytest.approx(1.0)
+
+
+def test_normal_regime_keeps_the_base_weights(model):
+    assert model._adjust_weights_for_regime("normal") == pytest.approx(model.base_weights)
