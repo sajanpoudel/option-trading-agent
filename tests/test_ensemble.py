@@ -66,3 +66,9 @@ def test_safe_score_uses_the_default_for_exceptions_and_other_types(model):
     assert model._safe_score(RuntimeError("model failed"), 0.1) == 0.1
     assert model._safe_score("0.5", 0.2) == 0.2
     assert model._safe_score(None, -0.3) == -0.3
+
+
+def test_ensemble_score_is_the_weighted_average(model):
+    scores = {"sentiment": 1.0, "flow": 0.0}
+    weights = {"sentiment": 0.2, "flow": 0.3}
+    assert model._calculate_ensemble_score(scores, weights) == pytest.approx(0.4)
