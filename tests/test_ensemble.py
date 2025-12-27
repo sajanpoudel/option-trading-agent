@@ -88,3 +88,10 @@ def test_confidence_is_higher_when_models_agree(model):
     agree = model._calculate_ensemble_confidence({"a": 0.6, "b": 0.6, "c": 0.6}, weights, "normal")
     split = model._calculate_ensemble_confidence({"a": 0.6, "b": -0.6, "c": 0.0}, weights, "normal")
     assert agree > split
+
+
+def test_fomc_week_lowers_the_confidence(model):
+    scores = {"a": 0.5, "b": 0.5}
+    normal = model._calculate_ensemble_confidence(scores, model.base_weights, "normal")
+    fomc = model._calculate_ensemble_confidence(scores, model.base_weights, "fomc_week")
+    assert fomc < normal
