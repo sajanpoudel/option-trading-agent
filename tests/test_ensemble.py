@@ -126,3 +126,8 @@ def test_a_score_of_0_0_is_hold(model):
 def test_a_score_of_minus_0_4_is_sell(model):
     direction, _ = model._determine_direction_and_strength(-0.4, 0.5)
     assert direction == "SELL"
+
+
+def test_a_score_of_minus_0_7_is_strong_sell(model):
+    direction, _ = model._determine_direction_and_strength(-0.7, 0.5)
+    assert direction == "STRONG_SELL"
