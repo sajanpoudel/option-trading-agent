@@ -95,3 +95,9 @@ def test_fomc_week_lowers_the_confidence(model):
     normal = model._calculate_ensemble_confidence(scores, model.base_weights, "normal")
     fomc = model._calculate_ensemble_confidence(scores, model.base_weights, "fomc_week")
     assert fomc < normal
+
+
+def test_confidence_stays_between_zero_and_one(model):
+    for scores in ({"a": 1.0, "b": 1.0}, {"a": 0.0, "b": 0.0}, {"a": -1.0, "b": 1.0}):
+        value = model._calculate_ensemble_confidence(scores, model.base_weights, "low_vol")
+        assert 0.0 <= value <= 1.0
