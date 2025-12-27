@@ -81,3 +81,10 @@ def test_ensemble_score_ignores_components_without_a_weight(model):
 
 def test_ensemble_score_with_no_weights_is_zero(model):
     assert model._calculate_ensemble_score({"sentiment": 1.0}, {}) == 0.0
+
+
+def test_confidence_is_higher_when_models_agree(model):
+    weights = model.base_weights
+    agree = model._calculate_ensemble_confidence({"a": 0.6, "b": 0.6, "c": 0.6}, weights, "normal")
+    split = model._calculate_ensemble_confidence({"a": 0.6, "b": -0.6, "c": 0.0}, weights, "normal")
+    assert agree > split
