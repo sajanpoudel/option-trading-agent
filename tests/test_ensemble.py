@@ -101,3 +101,8 @@ def test_confidence_stays_between_zero_and_one(model):
     for scores in ({"a": 1.0, "b": 1.0}, {"a": 0.0, "b": 0.0}, {"a": -1.0, "b": 1.0}):
         value = model._calculate_ensemble_confidence(scores, model.base_weights, "low_vol")
         assert 0.0 <= value <= 1.0
+
+
+def test_a_single_model_gets_a_middling_agreement(model):
+    value = model._calculate_ensemble_confidence({"a": 0.0}, model.base_weights, "normal")
+    assert value == pytest.approx(0.3)
