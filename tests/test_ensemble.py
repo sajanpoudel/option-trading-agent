@@ -138,3 +138,11 @@ def test_direction_thresholds_are_inclusive(model):
     assert model._determine_direction_and_strength(0.30, 0.5)[0] == "BUY"
     assert model._determine_direction_and_strength(-0.30, 0.5)[0] == "SELL"
     assert model._determine_direction_and_strength(-0.65, 0.5)[0] == "STRONG_SELL"
+
+
+@pytest.mark.parametrize(
+    "score, confidence, strength",
+    [(0.9, 0.9, "strong"), (0.5, 0.5, "moderate"), (0.1, 0.1, "weak")],
+)
+def test_strength_follows_score_and_confidence(model, score, confidence, strength):
+    assert model._determine_direction_and_strength(score, confidence)[1] == strength
