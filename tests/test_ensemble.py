@@ -146,3 +146,7 @@ def test_direction_thresholds_are_inclusive(model):
 )
 def test_strength_follows_score_and_confidence(model, score, confidence, strength):
     assert model._determine_direction_and_strength(score, confidence)[1] == strength
+
+
+def test_strength_uses_the_size_of_a_negative_score(model):
+    assert model._determine_direction_and_strength(-0.9, 0.9)[1] == "strong"
