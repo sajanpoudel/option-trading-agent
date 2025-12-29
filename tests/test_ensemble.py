@@ -157,3 +157,9 @@ def test_risk_is_low_for_agreeing_models_in_a_normal_market(model):
     result = model._assess_ensemble_risk(scores, {}, "normal")
     assert result["risk_level"] == "low"
     assert result["risk_factors"] == []
+
+
+def test_disagreement_adds_a_risk_factor(model):
+    scores = {"a": 1.0, "b": -1.0, "c": 1.0, "d": -1.0}
+    result = model._assess_ensemble_risk(scores, {}, "normal")
+    assert "High disagreement between models" in result["risk_factors"]
