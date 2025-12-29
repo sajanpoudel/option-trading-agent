@@ -150,3 +150,10 @@ def test_strength_follows_score_and_confidence(model, score, confidence, strengt
 
 def test_strength_uses_the_size_of_a_negative_score(model):
     assert model._determine_direction_and_strength(-0.9, 0.9)[1] == "strong"
+
+
+def test_risk_is_low_for_agreeing_models_in_a_normal_market(model):
+    scores = {"a": 0.5, "b": 0.5, "c": 0.4, "d": 0.5}
+    result = model._assess_ensemble_risk(scores, {}, "normal")
+    assert result["risk_level"] == "low"
+    assert result["risk_factors"] == []
