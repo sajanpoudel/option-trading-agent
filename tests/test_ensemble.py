@@ -201,3 +201,9 @@ def test_insights_report_a_changing_volatility_trend(model):
     scores = {"sentiment": 0.1, "flow": 0.1, "volatility": 0.1, "technical": 0.1}
     insights = model._generate_insights(scores, model.base_weights, "normal", {"trend": "rising"})
     assert "Volatility expected to be rising" in insights
+
+
+def test_insights_warn_about_missing_data(model):
+    scores = {"sentiment": 0.0, "flow": 0.5, "volatility": 0.5, "technical": 0.5}
+    insights = model._generate_insights(scores, model.base_weights, "normal", {})
+    assert "Limited data for: sentiment" in insights
