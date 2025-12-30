@@ -175,3 +175,11 @@ def test_missing_data_adds_a_data_quality_risk(model):
     scores = {"a": 0.0, "b": 0.0, "c": 0.0, "d": 0.4}
     result = model._assess_ensemble_risk(scores, {}, "normal")
     assert "Low data quality or model failures" in result["risk_factors"]
+
+
+def test_stacked_risks_become_high_risk_and_reduce_sizing(model):
+    scores = {"a": 1.0, "b": -1.0, "c": 0.0, "d": 0.0}
+    result = model._assess_ensemble_risk(scores, {"regime": "high_vol"}, "high_vol")
+    assert result["risk_level"] == "high"
+    assert result["recommendation"] == "Reduce position size"
+    assert result["risk_score"] <= 1.0
