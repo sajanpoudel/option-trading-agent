@@ -183,3 +183,9 @@ def test_stacked_risks_become_high_risk_and_reduce_sizing(model):
     assert result["risk_level"] == "high"
     assert result["recommendation"] == "Reduce position size"
     assert result["risk_score"] <= 1.0
+
+
+def test_insights_name_the_dominant_component(model):
+    scores = {"sentiment": 0.0, "flow": 0.8, "volatility": 0.0, "technical": 0.1}
+    insights = model._generate_insights(scores, model.base_weights, "normal", {})
+    assert "Primary driver: flow analysis (bullish)" in insights
