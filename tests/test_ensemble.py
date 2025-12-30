@@ -195,3 +195,9 @@ def test_insights_mention_the_market_regime(model):
     scores = {"sentiment": 0.1, "flow": 0.1, "volatility": 0.1, "technical": 0.1}
     insights = model._generate_insights(scores, model.base_weights, "fomc_week", {})
     assert "Operating in fomc week market regime" in insights
+
+
+def test_insights_report_a_changing_volatility_trend(model):
+    scores = {"sentiment": 0.1, "flow": 0.1, "volatility": 0.1, "technical": 0.1}
+    insights = model._generate_insights(scores, model.base_weights, "normal", {"trend": "rising"})
+    assert "Volatility expected to be rising" in insights
