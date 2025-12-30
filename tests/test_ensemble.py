@@ -189,3 +189,9 @@ def test_insights_name_the_dominant_component(model):
     scores = {"sentiment": 0.0, "flow": 0.8, "volatility": 0.0, "technical": 0.1}
     insights = model._generate_insights(scores, model.base_weights, "normal", {})
     assert "Primary driver: flow analysis (bullish)" in insights
+
+
+def test_insights_mention_the_market_regime(model):
+    scores = {"sentiment": 0.1, "flow": 0.1, "volatility": 0.1, "technical": 0.1}
+    insights = model._generate_insights(scores, model.base_weights, "fomc_week", {})
+    assert "Operating in fomc week market regime" in insights
