@@ -163,3 +163,9 @@ def test_disagreement_adds_a_risk_factor(model):
     scores = {"a": 1.0, "b": -1.0, "c": 1.0, "d": -1.0}
     result = model._assess_ensemble_risk(scores, {}, "normal")
     assert "High disagreement between models" in result["risk_factors"]
+
+
+def test_risky_regimes_add_a_risk_factor(model):
+    scores = {"a": 0.5, "b": 0.5}
+    result = model._assess_ensemble_risk(scores, {}, "fomc_week")
+    assert any("fomc_week" in factor for factor in result["risk_factors"])
