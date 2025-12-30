@@ -169,3 +169,9 @@ def test_risky_regimes_add_a_risk_factor(model):
     scores = {"a": 0.5, "b": 0.5}
     result = model._assess_ensemble_risk(scores, {}, "fomc_week")
     assert any("fomc_week" in factor for factor in result["risk_factors"])
+
+
+def test_missing_data_adds_a_data_quality_risk(model):
+    scores = {"a": 0.0, "b": 0.0, "c": 0.0, "d": 0.4}
+    result = model._assess_ensemble_risk(scores, {}, "normal")
+    assert "Low data quality or model failures" in result["risk_factors"]
