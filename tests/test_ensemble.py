@@ -218,3 +218,8 @@ def test_at_most_five_insights_are_returned(model):
 def test_bullish_signals_in_low_volatility_suggest_long_calls(model):
     strategies = model._recommend_strategies("BUY", "strong", {"regime": "low_vol"}, RISK_LOW)
     assert strategies[0].startswith("Long calls")
+
+
+def test_bullish_signals_in_high_volatility_sell_premium(model):
+    strategies = model._recommend_strategies("STRONG_BUY", "strong", {"regime": "high_vol"}, RISK_LOW)
+    assert "Cash-secured puts" in strategies
