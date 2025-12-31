@@ -207,3 +207,9 @@ def test_insights_warn_about_missing_data(model):
     scores = {"sentiment": 0.0, "flow": 0.5, "volatility": 0.5, "technical": 0.5}
     insights = model._generate_insights(scores, model.base_weights, "normal", {})
     assert "Limited data for: sentiment" in insights
+
+
+def test_at_most_five_insights_are_returned(model):
+    scores = {"sentiment": 0.0, "flow": 0.9, "volatility": -0.9, "technical": 0.0}
+    insights = model._generate_insights(scores, model.base_weights, "high_vol", {"trend": "rising"})
+    assert len(insights) <= 5
