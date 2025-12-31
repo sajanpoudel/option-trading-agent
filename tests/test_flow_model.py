@@ -192,3 +192,8 @@ def test_prepare_features_keeps_the_first_feature_order(predictor):
     vector = predictor._prepare_features({"a": 1.0, "b": 2.0})
     assert list(vector) == [1.0, 2.0]
     assert list(predictor._prepare_features({"b": 5.0, "a": 4.0})) == [4.0, 5.0]
+
+
+def test_prepare_features_fills_missing_values_with_zero(predictor):
+    predictor.feature_names = ["a", "b"]
+    assert list(predictor._prepare_features({"a": 3.0})) == [3.0, 0.0]
