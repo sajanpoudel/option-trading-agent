@@ -228,3 +228,8 @@ def test_bullish_signals_in_high_volatility_sell_premium(model):
 def test_bearish_signals_default_to_puts(model):
     strategies = model._recommend_strategies("SELL", "weak", {}, RISK_LOW)
     assert strategies[:2] == ["Long puts", "Put debit spreads"]
+
+
+def test_hold_signals_in_high_volatility_suggest_iron_condors(model):
+    strategies = model._recommend_strategies("HOLD", "weak", {"regime": "high_vol"}, RISK_LOW)
+    assert strategies[0] == "Iron condors"
