@@ -213,3 +213,8 @@ def test_at_most_five_insights_are_returned(model):
     scores = {"sentiment": 0.0, "flow": 0.9, "volatility": -0.9, "technical": 0.0}
     insights = model._generate_insights(scores, model.base_weights, "high_vol", {"trend": "rising"})
     assert len(insights) <= 5
+
+
+def test_bullish_signals_in_low_volatility_suggest_long_calls(model):
+    strategies = model._recommend_strategies("BUY", "strong", {"regime": "low_vol"}, RISK_LOW)
+    assert strategies[0].startswith("Long calls")
