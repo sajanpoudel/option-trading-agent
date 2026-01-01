@@ -233,3 +233,10 @@ def test_bearish_signals_default_to_puts(model):
 def test_hold_signals_in_high_volatility_suggest_iron_condors(model):
     strategies = model._recommend_strategies("HOLD", "weak", {"regime": "high_vol"}, RISK_LOW)
     assert strategies[0] == "Iron condors"
+
+
+def test_high_risk_keeps_only_defined_risk_strategies(model):
+    strategies = model._recommend_strategies("BUY", "strong", {}, RISK_HIGH)
+    assert "Long calls" not in strategies
+    assert "Call debit spreads" in strategies
+    assert strategies[-1] == "Consider smaller position sizes"
