@@ -244,3 +244,11 @@ def test_high_risk_keeps_only_defined_risk_strategies(model):
 
 def test_no_more_than_four_strategies_are_returned(model):
     assert len(model._recommend_strategies("BUY", "strong", {}, RISK_LOW)) <= 4
+
+
+def test_the_fallback_signal_is_a_cautious_hold(model):
+    signal = model._fallback_signal("AAPL")
+    assert signal.symbol == "AAPL"
+    assert signal.direction == "HOLD"
+    assert signal.final_score == 0.0
+    assert signal.risk_assessment["risk_level"] == "high"
