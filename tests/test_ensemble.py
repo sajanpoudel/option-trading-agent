@@ -240,3 +240,7 @@ def test_high_risk_keeps_only_defined_risk_strategies(model):
     assert "Long calls" not in strategies
     assert "Call debit spreads" in strategies
     assert strategies[-1] == "Consider smaller position sizes"
+
+
+def test_no_more_than_four_strategies_are_returned(model):
+    assert len(model._recommend_strategies("BUY", "strong", {}, RISK_LOW)) <= 4
